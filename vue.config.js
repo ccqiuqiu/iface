@@ -27,7 +27,6 @@ module.exports = {
       .set('@common', resolve('src/module/common/view'))
       .set('@js', resolve('src/assets/js'))
       .set('@base', resolve('src/baseComponent/base'))
-    console.log(config.resolve.alias)
   },
   devServer: {
     port: 9088,
