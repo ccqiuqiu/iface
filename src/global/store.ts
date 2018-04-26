@@ -2,13 +2,19 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { MutationTree, ActionTree, ModuleTree, ActionContext } from 'vuex'
 import common from '../modules/common/vuex'
+import VuexPersistence from 'vuex-persist'
+const vuexPersist = new VuexPersistence({
+  strictMode: true,
+  storage: localStorage,
+})
 
 Vue.use(Vuex)
 
-const state: State = {
+const state: Store.State = {
   common: {},
 }
 const mutations: MutationTree<any> = {
+  RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION,
 }
 
 const actions: ActionTree<any, any> = {
@@ -23,4 +29,5 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules,
+  plugins: [vuexPersist.plugin],
 })

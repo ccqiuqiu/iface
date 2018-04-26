@@ -2,15 +2,20 @@
 <template>
   <div>
     <cc-icon name="component"></cc-icon>
-    <el-button>默认按钮</el-button>
+    <el-button>默认按钮{{aaa}}</el-button>
   </div>
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
+  import {Component} from 'vue-property-decorator'
+  import {mixins} from 'vue-class-component'
+  import BaseVue from '@base/BaseVue'
 
   @Component
-  export default class Home extends Vue {
+  export default class Home extends mixins(BaseVue) {
+    private mounted() {
+      console.log(this.aaa)
+    }
   }
 </script>
 

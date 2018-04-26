@@ -13,12 +13,18 @@ const axiosInstance: AxiosInstance = axios.create({
 })
 // 注册请求拦截器
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
+  // 加公共请求参数
+  config.headers.token = localStorage.getItem('token') || ''
   return config
 })
 
 // 注册响应拦截器
 axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> => {
-  return Promise.resolve(response.data)
+  if (response.data.success) {
+    return Promise.resolve(response.data.data)
+  } else {
+    return Promise.reject(response.data.error)
+  }
 }, (error: any): Promise<any> => {
   return Promise.reject(error)
 })

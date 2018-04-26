@@ -4,8 +4,28 @@
 // mock的写法参照 http://mockjs.com
 
 import Mock from 'mockjs'
+
+const common = (error) => {
+  const obj = {
+    success: !error,
+    systemTime: new Date().getTime() + ''
+  }
+  if (error) {
+    obj.error = error
+    obj.data = {}
+  }
+  return obj
+}
+
+// 登录
+Mock.mock(new RegExp('/login'), option => {
+  const user = JSON.parse(option.body)
+  if (user.name === 'admin') {
+  }
+})
+
 Mock.mock(new RegExp('/getMenu'), {
-  'menus': [{
+  data: [{
     'id': '1',
     'name': '系统管理',
     'icon|1': ['el-icon-location', 'el-icon-menu', 'el-icon-setting', 'el-icon-document'],
@@ -20,5 +40,6 @@ Mock.mock(new RegExp('/getMenu'), {
     'name': 'demo示例',
     'icon|1': ['el-icon-location', 'el-icon-menu', 'el-icon-setting', 'el-icon-document'],
     'url': '/demo'
-  }]
+  }],
+  ...common()
 })

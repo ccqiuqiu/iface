@@ -10,14 +10,18 @@
 #app{
   height: 100vh;
 
-  .content-view{
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+  .app-view{
+    height: 100%;
 
     .main-view{
-      position: absolute;
-      width: 100%;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      .content-view{
+        position: absolute;
+        width: 100%;
+      }
     }
   }
 }

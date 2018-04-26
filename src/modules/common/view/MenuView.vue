@@ -28,7 +28,7 @@
 
   @Component
   export default class MenuView extends Vue {
-    @State((state: State) => state.common.menus) private menus!: string
+    @State((state: Store.State) => state.common.menus) private menus!: string
     @Action private getMenu!: () => void
 
     private created() {

@@ -16,9 +16,12 @@
       "webpack-env"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@g/*": ["src/global/*"],
+      "@bc/*": ["src/baseComponent/*"],
+      "@common/*": ["src/module/common/view/*"],
+      "@js/*": ["src/assets/js/*"],
+      "@base/*": ["src/baseComponent/base/*"],
+      "@/*": ["src/*"]
     },
     "lib": [
       "dom",

@@ -20,6 +20,14 @@ module.exports = {
       .options({
         symbolId: 'icon-[name]'
       })
+    // 设置一些别名
+    config.resolve.alias
+      .set('@g', resolve('src/global'))
+      .set('@bc', resolve('src/baseComponent'))
+      .set('@common', resolve('src/module/common/view'))
+      .set('@js', resolve('src/assets/js'))
+      .set('@base', resolve('src/baseComponent/base'))
+    console.log(config.resolve.alias)
   },
   devServer: {
     port: 9088,

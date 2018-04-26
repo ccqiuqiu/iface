@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './global/router'
+import router from '@g/router'
 import store from './global/store'
-// import './global/registerServiceWorker
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'flex.css'
 import './assets/css/base.less'
+import './assets/icons/icon'
 
 Vue.use(ElementUI)
-
-import './assets/icons/icon'
 
 if (process.env.VUE_APP_MOCK) {
   /* tslint:disable */
