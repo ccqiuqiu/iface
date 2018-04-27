@@ -5,6 +5,7 @@
   ],
   // 所有规则参考 https://palantir.github.io/tslint/rules/
   "rules": {
+    "no-debugger": false,
     "no-console": [false], // 允许使用console方法
     "no-shadowed-variable": false,
     "semicolon": [true, "never"], // 结尾不用分号

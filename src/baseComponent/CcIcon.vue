@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="svgClass" :style="styleObj" aria-hidden="true" @click="$emit('click')">
     <use :xlink:href="iconName"></use>
   </svg>
 </template>
@@ -12,12 +12,21 @@
   export default class CcIcon extends Vue {
     @Prop({required: true}) private name!: string
     @Prop() private className!: string
+    @Prop() private rotate!: number
+    @Prop({ default: 24 }) private size!: number
 
     get svgClass() {
       return ('svg-icon ' + (this.className || '')).trim()
     }
     get iconName() {
       return `#icon-${this.name}`
+    }
+
+    get styleObj() {
+      return {
+        transform: `rotate(${this.rotate}deg)`,
+        fontSize: `${this.size}px`,
+      }
     }
   }
 </script>

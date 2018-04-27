@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2017/8/4.
  */
-
+@import './vars';
 *{
   padding: 0;
   margin: 0;
@@ -23,5 +23,69 @@
         width: 100%;
       }
     }
+  }
+  .svg-icon{
+    transition: all 0.3s;
+  }
+}
+
+// 生成从2-100，步进为2的间距样式
+.generate-space(100);
+.generate-space(@n, @i: 0) when (@i =< @n) {
+  .generate-space(@n, (@i + 2));
+  .f-@{i} {
+    font-size: @i / @rem;
+  }
+  .m-@{i} {
+    margin-left: @i / @rem;
+    margin-right: @i / @rem;
+    margin-top: @i / @rem;
+    margin-bottom: @i / @rem;
+  }
+  .m-v-@{i} {
+    margin-top: @i / @rem;
+    margin-bottom: @i / @rem;
+  }
+  .m-h-@{i} {
+    margin-left: @i / @rem;
+    margin-right: @i / @rem;
+  }
+  .m-t-@{i} {
+    margin-top: @i / @rem;
+  }
+  .m-b-@{i} {
+    margin-bottom: @i / @rem;
+  }
+  .m-l-@{i} {
+    margin-left: @i / @rem;
+  }
+  .m-r-@{i} {
+    margin-right: @i / @rem;
+  }
+  .p-@{i} {
+    padding-left: @i / @rem;
+    padding-right: @i / @rem;
+    padding-top: @i / @rem;
+    padding-bottom: @i / @rem;
+  }
+  .p-v-@{i} {
+    padding-top: @i / @rem;
+    padding-bottom: @i / @rem;
+  }
+  .p-h-@{i} {
+    padding-left: @i / @rem;
+    padding-right: @i / @rem;
+  }
+  .p-t-@{i} {
+    padding-top: @i / @rem;
+  }
+  .p-b-@{i} {
+    padding-bottom: @i / @rem;
+  }
+  .p-l-@{i} {
+    padding-left: @i / @rem;
+  }
+  .p-r-@{i} {
+    padding-right: @i / @rem;
   }
 }

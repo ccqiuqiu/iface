@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
@@ -19,7 +20,7 @@
       "@g/*": ["src/global/*"],
       "@bc/*": ["src/baseComponent/*"],
       "@common/*": ["src/module/common/view/*"],
-      "@js/*": ["src/assets/js/*"],
+      "@utils/*": ["src/assets/utils/*"],
       "@base/*": ["src/baseComponent/base/*"],
       "@/*": ["src/*"]
     },

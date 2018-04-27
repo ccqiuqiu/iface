@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/4/26.-->
 <template>
   <div flex="dir:top">
-    <header-view flex-box="0"/>
+    <header-view flex-box="0" v-if="false"/>
     <div flex="box:first" flex-box="1">
       <menu-view/>
       <div flex="dir:top">
@@ -25,7 +25,7 @@
   @Component({
     components: {HeaderView, MenuView, NavView, TabsView},
   })
-  export default class App extends Vue {
+  export default class MainLayout extends Vue {
   }
 </script>
 <style lang="less">

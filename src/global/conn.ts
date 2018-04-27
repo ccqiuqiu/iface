@@ -1,6 +1,8 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
+import router from '@g/router'
+
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 // 创建一个axios实例
 const axiosInstance: AxiosInstance = axios.create({
@@ -23,10 +25,13 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
   if (response.data.success) {
     return Promise.resolve(response.data.data)
   } else {
-    return Promise.reject(response.data.error)
+    if (response.data.code === 401) {
+      router.push('/login')
+    }
+    return Promise.reject(response.data.message)
   }
 }, (error: any): Promise<any> => {
-  return Promise.reject(error)
+  return Promise.reject(error.message)
 })
 
 export default axiosInstance

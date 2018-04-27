@@ -9,5 +9,6 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 }
 
 export default {
-  getMenu: (params: any = {}, config: any = {}) => request('post', '/getMenu', params, config),
+  getMenu: (params: any = {}, config: any = {}) => request('post', '/v1/getMenu', params, config),
+  login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
 }

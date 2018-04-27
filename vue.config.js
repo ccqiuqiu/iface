@@ -25,7 +25,7 @@ module.exports = {
       .set('@g', resolve('src/global'))
       .set('@bc', resolve('src/baseComponent'))
       .set('@common', resolve('src/module/common/view'))
-      .set('@js', resolve('src/assets/js'))
+      .set('@utils', resolve('src/assets/utils'))
       .set('@base', resolve('src/baseComponent/base'))
   },
   devServer: {

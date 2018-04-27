@@ -3,10 +3,18 @@ import api from '../../global/api'
 
 const state: Store.CommonState = {
   menus: [],
+  menuExpand: true,
+  nav: undefined,
 }
 const mutations: MutationTree<any> = {
   updateUser(state: Store.CommonState, menus: Store.Menu[]): void {
     state.menus = menus
+  },
+  toggleMenu(state: Store.CommonState): void {
+    state.menuExpand = !state.menuExpand
+  },
+  updateNav(state: Store.CommonState, menu: Store.Menu): void {
+    state.nav = menu
   },
 }
 
