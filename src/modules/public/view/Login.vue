@@ -28,9 +28,9 @@
 
   @Component
   export default class Login extends BaseVue {
-    @Action('login') private loginAction: (user: Store.User) => Promise<any>
+    @Action('login') private loginAction: (user: User) => Promise<any>
 
-    private user: Store.User = {
+    private user: User = {
       userName: 'cc',
       password: '123456',
     }

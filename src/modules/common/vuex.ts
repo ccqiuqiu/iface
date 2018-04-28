@@ -1,25 +1,25 @@
 import { MutationTree, ActionTree, ActionContext } from 'vuex'
 import api from '../../global/api'
 
-const state: Store.CommonState = {
+const state: CommonState = {
   menus: [],
   menuExpand: true,
-  nav: undefined,
+  nav: [],
 }
 const mutations: MutationTree<any> = {
-  updateUser(state: Store.CommonState, menus: Store.Menu[]): void {
+  updateUser(state: CommonState, menus: Menu[]): void {
     state.menus = menus
   },
-  toggleMenu(state: Store.CommonState): void {
+  toggleMenu(state: CommonState): void {
     state.menuExpand = !state.menuExpand
   },
-  updateNav(state: Store.CommonState, menu: Store.Menu): void {
-    state.nav = menu
+  updateNav(state: CommonState, menus: Menu[]): void {
+    state.nav = menus
   },
 }
 
 const actions: ActionTree<any, any> = {
-  async getMenu(context: ActionContext<Store.CommonState, Store.State>): Promise<any> {
+  async getMenu(context: ActionContext<CommonState, State>): Promise<any> {
     const {data} = await api.getMenu()
     if (data) {
       context.commit('updateUser', data)

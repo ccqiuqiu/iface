@@ -11,7 +11,7 @@ const vuexPersist = new VuexPersistence({
 
 Vue.use(Vuex)
 
-const state: Store.State = {
+const state: State = {
   common: {},
   publicM: {},
 }

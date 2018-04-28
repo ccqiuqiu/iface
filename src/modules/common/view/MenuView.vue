@@ -26,24 +26,34 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Watch} from 'vue-property-decorator'
+  import {Component, Watch} from 'vue-property-decorator'
   import { State, Action, Mutation} from 'vuex-class'
+  import BaseVue from '../../../baseComponent/base/BaseVue'
 
   @Component
-  export default class MenuView extends Vue {
-    @State((state: Store.State) => state.common.menus) private menus: any[]
-    @State((state: Store.State) => state.common.menuExpand) private menuExpand: string
+  export default class MenuView extends BaseVue {
+    @State((state: State) => state.common.menus) private menus: any[]
+    @State((state: State) => state.common.menuExpand) private menuExpand: string
     @Action('getMenu') private getMenuAction: () => void
-    @Mutation('updateNav') private updateNavMutation: (menu: Store.Menu) => void
+    @Mutation('updateNav') private updateNavMutation: (menu: Menu[]) => void
 
     private activeMenu: string = ''
     private activeMenuIndexPath: string[] = []
 
+    get flatMenu() {
+      return this.utils.flatObject(this.menus)
+    }
+
     @Watch('activeMenuIndexPath')
     private activeMenuIndexPathChange(val: string[]) {
-      const id: string = val[0]
-      const menu: Store.Menu = this.menus.find((m: Store.Menu) => m.id === id)
-      this.updateNavMutation(menu)
+      // todo 修改一下这个方法，点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
+      // 并且把这个数组整体放到一个对象，用于tabs显示
+      // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
+      // 数据结构类似 {1_1: [{一级菜单}, {二级菜单}], 2_1: []...}
+      const menus: Menu[] = val.map((id: string) => {
+        return this.flatMenu.find((m: Menu) => m.id === id)
+      })
+      this.updateNavMutation(menus)
     }
 
     private selectMenu(index: string, indexPath: string[]): void {
