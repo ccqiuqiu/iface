@@ -3,9 +3,10 @@
  */
 import { Message } from 'element-ui'
 
-export type MessageType = 'success' | 'warning' | 'info' | 'error'
+import {EnumMessageType} from '@utils/constant'
+import {MessageType} from '@/typings/vue'
 
 // 消息框简单封装
-export const message = (message: string, type: MessageType = 'success') => {
+export const message = (message: string, type: MessageType = EnumMessageType.SUCCESS) => {
   Message({message, type})
 }

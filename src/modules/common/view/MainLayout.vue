@@ -28,6 +28,6 @@
   export default class MainLayout extends Vue {
   }
 </script>
-<style lang="less">
+<style lang="scss" scoped>
 </style>
 

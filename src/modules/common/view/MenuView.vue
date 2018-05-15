@@ -5,7 +5,7 @@
       background-color="#545c64"
       text-color="#fff"
       router
-      :default-active="activeMenu"
+      :default-active="selectedTab"
       :collapse="!menuExpand"
       @select="selectMenu"
       active-text-color="#ffd04b">
@@ -26,34 +26,50 @@
 </template>
 
 <script lang="ts">
-  import {Component, Watch} from 'vue-property-decorator'
+  import {Component, Watch, Vue} from 'vue-property-decorator'
   import { State, Action, Mutation} from 'vuex-class'
-  import BaseVue from '../../../baseComponent/base/BaseVue'
 
   @Component
-  export default class MenuView extends BaseVue {
+  export default class MenuView extends Vue {
     @State((state: State) => state.common.menus) private menus: any[]
     @State((state: State) => state.common.menuExpand) private menuExpand: string
+    @State((state: State) => state.common.menuTabs) private menuTabs: any[]
+    @State((state: State) => state.common.selectedTab) private selectedTab: string
     @Action('getMenu') private getMenuAction: () => void
-    @Mutation('updateNav') private updateNavMutation: (menu: Menu[]) => void
+    @Mutation('updateTabs') private updateTabsMutation: (params: {key: string, menus: Menu[]}) => void
+    @Mutation('updateSelectedTab') private updateSelectedTabMutation: (key: string) => void
 
-    private activeMenu: string = ''
     private activeMenuIndexPath: string[] = []
 
     get flatMenu() {
-      return this.utils.flatObject(this.menus)
+      return this.$utils.flatObject(this.menus)
+    }
+    get activeMenu(): string {
+      return this.selectedTab
+    }
+    set activeMenu(val) {
+      this.updateSelectedTabMutation(val)
     }
 
-    @Watch('activeMenuIndexPath')
-    private activeMenuIndexPathChange(val: string[]) {
-      // todo 修改一下这个方法，点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
-      // 并且把这个数组整体放到一个对象，用于tabs显示
+    @Watch('activeMenu')
+    private activeMenuChange() {
+      if (this.selectedTab === '0') {
+        return
+      }
+      // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
+      // 并且把这个数组整体放到一个数组，用于tabs显示
       // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
-      // 数据结构类似 {1_1: [{一级菜单}, {二级菜单}], 2_1: []...}
+      // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
+      // const key: string = val.join('_')
+      const val = this.activeMenuIndexPath
       const menus: Menu[] = val.map((id: string) => {
         return this.flatMenu.find((m: Menu) => m.id === id)
       })
-      this.updateNavMutation(menus)
+      // 如果menuTabs不存在，表示是新开一个标签
+      const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
+      if (!item) {
+        this.updateTabsMutation({key: this.selectedTab, menus})
+      }
     }
 
     private selectMenu(index: string, indexPath: string[]): void {
@@ -66,7 +82,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .left-menu:not(.el-menu--collapse) {
     width: 200px;
   }

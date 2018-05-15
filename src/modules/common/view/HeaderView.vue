@@ -12,5 +12,5 @@
   export default class HeaderView extends Vue {}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 </style>

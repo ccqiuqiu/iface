@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.3.6",
+    "circular-json": "^0.5.4",
+    "element-ui": "^2.3.7",
     "flex.css": "^1.1.7",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
-    "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.0",
     "vuex-persist": "^1.1.6"
@@ -26,28 +26,22 @@
     "@types/jest": "^22.0.1",
     "@types/mockjs": "^1.0.0",
     "@types/webpack-env": "^1.13.6",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.7",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.7",
-    "@vue/cli-plugin-unit-jest": "^3.0.0-beta.7",
-    "@vue/cli-service": "^3.0.0-beta.7",
+    "@vue/cli-plugin-babel": "^3.0.0-beta.10",
+    "@vue/cli-plugin-typescript": "^3.0.0-beta.10",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-beta.10",
+    "@vue/cli-service": "^3.0.0-beta.10",
     "@vue/test-utils": "^1.0.0-beta.10",
     "babel-core": "^7.0.0-0",
-    "less": "^2.7.3",
-    "less-loader": "^4.0.5",
-    "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^6.0.6",
     "svg-sprite-loader": "^3.7.3",
     "ts-jest": "^22.0.1",
     "vue-template-compiler": "^2.5.13"
   },
   "babel": {
     "presets": [
-      [
-        "@vue/app",
-        {
-          "decoratorsLegacy": true
-        }
-      ]
+      "@vue/app"
     ]
   },
   "postcss": {
@@ -71,6 +65,7 @@
     ],
     "transform": {
       "^.+\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
       "^.+\\.tsx?$": "ts-jest"
     },
     "moduleNameMapper": {
@@ -78,19 +73,9 @@
     },
     "snapshotSerializers": [
       "jest-serializer-vue"
-    ]
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "vue-cli-service lint",
-      "git add"
     ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
+    "testMatch": [
+      "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
     ]
   }
 }

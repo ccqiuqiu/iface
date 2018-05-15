@@ -22,12 +22,12 @@
 </template>
 
 <script lang="ts">
-  import {Component} from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
   import { State, Action } from 'vuex-class'
-  import BaseVue from '../../../baseComponent/base/BaseVue'
+  import {EnumMessageType} from '@utils/constant'
 
   @Component
-  export default class Login extends BaseVue {
+  export default class Login extends Vue {
     @Action('login') private loginAction: (user: User) => Promise<any>
 
     private user: User = {
@@ -37,17 +37,20 @@
 
     private async login() {
       const {err} = await this.loginAction(this.user)
-      if (!err) {
-        this.utils.message('登录成功')
+      if (err) {
+        this.$utils.message(err, EnumMessageType.ERROR)
+      } else {
+        this.$utils.message('登录成功')
         this.$router.push('/')
       }
     }
   }
+
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   @import "../../../assets/css/vars";
   .login{
-    background-color: @bg0;
+    background-color: $bg0;
   }
 </style>

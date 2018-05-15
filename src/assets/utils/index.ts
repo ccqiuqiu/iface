@@ -1,14 +1,16 @@
 /**
  * Created by 熊超超 on 2018/4/27.
  */
-import {MessageType} from '@utils/uiUtils'
 
-export * from './uiUtils'
-export * from './utils'
+import * as uiUtils from './uiUtils'
+import * as utils from './utils'
+// import {EnumMessageType} from '@utils/constant'
+import * as $c from './constant'
 
-// 定义Utils接口， 所有的工具类最好在这个接口定义一下
-export interface Utils {
-  message: (message: string, type?: MessageType) => void,
-  flatObject: <T extends TT>(source: T[], children?: string) => T[],
-  [propName: string]: any
+export default {
+  install(Vue: any, $i18n: any): void {
+    Vue.prototype.$utils = {...utils, ...uiUtils}
+    Vue.prototype.$c = $c
+    // Vue.prototype.$enumMessageType = EnumMessageType
+  },
 }

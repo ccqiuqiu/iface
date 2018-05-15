@@ -18,10 +18,8 @@ const common = (error) => {
 }
 
 // 登录
-Mock.mock(new RegExp('/login'), option => {
-  const user = JSON.parse(option.body)
-  if (user.name === 'admin') {
-  }
+Mock.mock(new RegExp('/login'), {
+  ...common()
 })
 
 Mock.mock(new RegExp('/getMenu'), {

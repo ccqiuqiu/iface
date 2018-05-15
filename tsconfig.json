@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -8,13 +8,13 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false, // 
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "node",
       "jest",
-      "webpack-env"
+      "webpack-env" // 
     ],
     "paths": {
       "@g/*": ["src/global/*"],
@@ -34,8 +34,10 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

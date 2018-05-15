@@ -3,10 +3,10 @@ import App from './App.vue'
 import router from '@g/router'
 import store from '@g/store'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 import 'flex.css'
-import './assets/css/base.less'
+import './assets/css/base.scss'
 import './assets/icons/icon'
+import utils from '@utils/index'
 
 Vue.use(ElementUI)
 
@@ -16,7 +16,7 @@ if (process.env.VUE_APP_MOCK) {
 }
 
 Vue.config.productionTip = false
-
+Vue.use(utils)
 new Vue({
   router,
   store,
