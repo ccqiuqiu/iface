@@ -2,13 +2,10 @@
 <template>
   <el-menu
       class="left-menu"
-      background-color="#545c64"
-      text-color="#fff"
       router
       :default-active="selectedTab"
       :collapse="!menuExpand"
-      @select="selectMenu"
-      active-text-color="#ffd04b">
+      @select="selectMenu">
     <template v-for="menu in menus">
       <el-submenu :index="menu.id" v-if="menu.children">
         <template slot="title">
@@ -83,7 +80,30 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../../assets/css/vars";
   .left-menu:not(.el-menu--collapse) {
     width: 200px;
+  }
+  .left-menu /deep/{
+    background-color: mix($--color-black, $--color-primary, 80%);
+
+    .el-submenu__title, .el-menu-item{
+      color: white;
+    }
+    .is-active{
+      color: $--color-primary;
+    }
+    .el-menu{
+      background-color: mix($--color-black, $--color-primary, 60%);
+      .el-menu-item:focus{
+        background-color: inherit;
+      }
+    }
+    .el-menu-item:focus{
+      background-color: inherit;
+    }
+    .el-submenu__title:hover, .el-menu-item:hover{
+      background-color: mix($--color-black, $--color-primary, 70%);
+    }
   }
 </style>

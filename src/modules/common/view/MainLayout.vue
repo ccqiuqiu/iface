@@ -3,7 +3,7 @@
   <div flex="dir:top">
     <header-view flex-box="0" v-if="false"/>
     <div flex="box:first" flex-box="1">
-      <menu-view/>
+      <div flex=""><menu-view/></div>
       <div flex="dir:top">
         <nav-view flex-box="0"></nav-view>
         <tabs-view flex-box="0"></tabs-view>
