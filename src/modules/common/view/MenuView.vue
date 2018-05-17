@@ -7,14 +7,14 @@
       :collapse="!menuExpand"
       @select="selectMenu">
     <template v-for="menu in menus">
-      <el-submenu :index="menu.id" v-if="menu.children">
+      <el-submenu :index="menu.id" v-if="menu.children" :key="menu.id">
         <template slot="title">
           <i :class="menu.icon"></i>
           <span slot="title">{{menu.name}}</span>
         </template>
         <el-menu-item v-for="menu2 in menu.children" :index="menu2.id" :key="menu2.id" :route="{path: menu2.url}">{{menu2.name}}</el-menu-item>
       </el-submenu>
-      <el-menu-item :index="menu.id" v-else :route="{path: menu.url}">
+      <el-menu-item :index="menu.id" v-else :route="{path: menu.url}" :key="menu.id">
         <i :class="menu.icon"></i>
         <span slot="title">{{menu.name}}</span>
       </el-menu-item>
