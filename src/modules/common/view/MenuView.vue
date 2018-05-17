@@ -1,7 +1,6 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <el-menu
-      class="left-menu"
+  <el-menu class="left-menu"
       router
       :default-active="selectedTab"
       :collapse="!menuExpand"
@@ -79,22 +78,22 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less">
   @import "../../../assets/css/vars";
-  .left-menu:not(.el-menu--collapse) {
+  .left-menu.el-menu:not(.el-menu--collapse) {
     width: 200px;
   }
-  .left-menu /deep/{
-    background-color: mix($--color-black, $--color-primary, 80%);
+  .left-menu.el-menu{
+    background-color: mix(@color-black, @color-primary, 80%);
 
     .el-submenu__title, .el-menu-item{
-      color: white;
+      color: @color-white;
     }
     .is-active{
-      color: $--color-primary;
+      color: @color-primary;
     }
     .el-menu{
-      background-color: mix($--color-black, $--color-primary, 60%);
+      background-color: mix(@color-black, @color-primary, 60%);
       .el-menu-item:focus{
         background-color: inherit;
       }
@@ -103,7 +102,7 @@
       background-color: inherit;
     }
     .el-submenu__title:hover, .el-menu-item:hover{
-      background-color: mix($--color-black, $--color-primary, 70%);
+      background-color: mix(@color-black, @color-primary, 70%);
     }
   }
 </style>

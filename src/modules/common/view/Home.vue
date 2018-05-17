@@ -3,7 +3,7 @@
   <div>
     <cc-icon name="component"></cc-icon>
     <el-button>默认按钮</el-button>
-    <cc-table :rows="rows" :columns="columns"></cc-table>
+     <cc-table :rows="rows" :columns="columns"></cc-table>
   </div>
 </template>
 
@@ -27,5 +27,5 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 </style>

@@ -32,9 +32,10 @@
     "@vue/cli-service": "^3.0.0-beta.10",
     "@vue/test-utils": "^1.0.0-beta.10",
     "babel-core": "^7.0.0-0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
-    "node-sass": "^4.9.0",
-    "sass-loader": "^6.0.6",
     "svg-sprite-loader": "^3.7.3",
     "ts-jest": "^22.0.1",
     "vue-template-compiler": "^2.5.13"
@@ -76,6 +77,16 @@
     ],
     "testMatch": [
       "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
+    ]
+  },
+  "lint-staged": {
+    "*.ts": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
     ]
   }
 }

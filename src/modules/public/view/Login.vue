@@ -48,9 +48,9 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
   @import "../../../assets/css/vars";
   .login{
-    background-color: $bg0;
+    background-color: @bg0;
   }
 </style>

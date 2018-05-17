@@ -62,7 +62,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
   .el-tabs--border-card{
     border-left: 0;
     border-right: 0;
