@@ -12,22 +12,36 @@
         </div>
       </div>
     </div>
+    <cc-dialog></cc-dialog>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import HeaderView from '../../common/view/HeaderView.vue'
   import MenuView from '../../common/view/MenuView.vue'
   import NavView from '../../common/view/NavView.vue'
   import TabsView from '../../common/view/TabsView.vue'
+  import CcDialog from '../../../baseComponent/CcDialog.vue'
+  import {Action} from 'vuex-class'
 
   @Component({
-    components: {HeaderView, MenuView, NavView, TabsView},
+    components: {HeaderView, MenuView, NavView, TabsView, CcDialog},
   })
   export default class MainLayout extends Vue {
+    @Action('getAuth') private getAuth: () => Promise<ActionReturn>
+
+    /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
+    @Watch('$route')
+    private routerChange(val: any) {
+      this.$utils.toTab(val.path)
+    }
+
+    private created() {
+      this.getAuth()
+    }
   }
 </script>
-<style lang="less">
+<style lang="scss">
 </style>
 

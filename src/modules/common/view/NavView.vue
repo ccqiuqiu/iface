@@ -1,38 +1,58 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <div flex="cross:center" class="p-10 bs-card">
-    <cc-icon name="menu" :rotate="menuExpand? 0 : 90" @click="toggleMenu"/>
+  <div flex="cross:center box:justify" class="nav p-h-10">
+    <cc-icon name="menu" :rotate="menuExpand? 0 : 90" @click="toggleMenu" class="cp"/>
     <el-breadcrumb separator="/" class="m-l-10">
       <el-breadcrumb-item v-for="menu in nav" :key="menu.id">{{menu.name}}</el-breadcrumb-item>
     </el-breadcrumb>
+    <div flex="cross:center">
+      <cc-icon name="user" size="18" class="m-r-5"/>
+      <span>cc</span>
+      <span class="m-h-5">|</span>
+      <span>管理员</span>
+      <cc-icon name="logout" size="18" class="m-l-16 cp" @click="logout"/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import {State, Mutation} from 'vuex-class'
+  import {State, Mutation, Getter} from 'vuex-class'
 
   @Component
   export default class NavView extends Vue {
     @State((state: State) => state.common.menuExpand) private menuExpand: string
     @State((state: State) => state.common.menuTabs) private menuTabs: any[]
     @State((state: State) => state.common.selectedTab) private selectedTab: any
-    @Mutation('toggleMenu') private toggleMenuMutation: () => void
+    @Getter private nav: Menu[]
+    @Mutation private toggleMenu: () => void
+    @Mutation('clearStore') private clearStore: () => void
 
-    private toggleMenu() {
-      this.toggleMenuMutation()
-    }
-
-    get nav() {
-      const item: any = this.menuTabs.find((item: any) => item.key === this.selectedTab)
-      if (item) {
-        return item.menus
-      }
-      return [{name: '首页'}]
+    private logout(): void {
+      this.$utils.remove('token')
+      // 清除store里面缓存的数据
+      this.clearStore()
+      this.$router.push('/login')
     }
   }
 
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+  @import "../../../assets/css/vars";
+  .nav{
+    background-color: $color-primary;
+    height: 50px;
+    color: $color-white;
+
+    /deep/ .el-breadcrumb{
+      font-size: 12px;
+      .el-breadcrumb__inner{
+        color: $color-white;
+      }
+      .el-breadcrumb__item:last-child .el-breadcrumb__inner{
+        color: rgba($color-white, 0.6);
+      }
+    }
+  }
 </style>

@@ -23,12 +23,12 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import { State, Action } from 'vuex-class'
-  import {EnumMessageType} from '@utils/constant'
+  import { State, Action, Mutation } from 'vuex-class'
 
   @Component
   export default class Login extends Vue {
-    @Action('login') private loginAction: (user: User) => Promise<any>
+    @Action('login') private loginAction: (user: User) => Promise<ActionReturn>
+    @Mutation('clearStore') private clearStore: () => void
 
     private user: User = {
       userName: 'cc',
@@ -36,11 +36,14 @@
     }
 
     private async login() {
-      const {err} = await this.loginAction(this.user)
-      if (err) {
-        this.$utils.message(err, EnumMessageType.ERROR)
+      const {error, data} = await this.loginAction(this.user)
+      if (error) {
+        this.$utils.message(error.message, false)
       } else {
         this.$utils.message('登录成功')
+        this.$utils.set('token', data.token)
+        // 清除store里面缓存的数据
+        this.clearStore()
         this.$router.push('/')
       }
     }
@@ -48,9 +51,9 @@
 
 </script>
 
-<style lang="less" scoped>
-  @import "../../../assets/css/vars";
+<style lang="scss" scoped>
+  @import "../../../assets/css/vars.scss";
   .login{
-    background-color: @bg0;
+    background-color: $bg0;
   }
 </style>

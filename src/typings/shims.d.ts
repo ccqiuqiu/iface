@@ -6,18 +6,12 @@ declare module '*.vue' {
 declare interface TT {
   [index: string]: any,
 }
-/* tslint:disable */
-declare namespace JSX {
-  interface IntrinsicElements {
-    [elemName: string]: any
-  }
-}
 declare interface TableColumn {
   type?: string, // 对应列的类型。如果设置了 selection 则显示多选框；如果设置了 index 则显示该行的索引（从 1 开始计算）；如果设置了 expand 则显示为一个可展开的按钮
   index?: any, // 如果设置了 type=index，可以通过传递 index 属性来自定义索引
   columnKey?: string, // column 的 key，如果需要使用 filter-change 事件，则需要此属性标识是哪个 column 的筛选条件
-  label: string, // 显示的标题
-  prop: string, // 对应列内容的字段名，也可以使用 property 属性
+  label?: string, // 显示的标题
+  prop?: string, // 对应列内容的字段名，也可以使用 property 属性
   width?: string, // 对应列的宽度
   minWidth?: string, // 对应列的最小宽度，与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列
   fixed?: string|boolean, // 列是否固定在左侧或者右侧，true 表示固定在左侧

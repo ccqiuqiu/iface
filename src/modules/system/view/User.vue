@@ -1,0 +1,83 @@
+<!--Created by 熊超超 on 2018/5/18.-->
+<template>
+  <el-card shadow="never" class="p">
+    <div slot="header" flex="cross:center">
+      <span flex-box="1">用户列表</span>
+      <cc-button v-auth="['addUser']" size="small" type="primary" icon="add" text="添加" @click="onAdd"/>
+      <cc-button size="small" type="primary" icon="edit" text="修改" @click="onEdit"/>
+      <cc-button size="small" type="primary" icon="delete" text="删除" @click="onDel"/>
+    </div>
+    <cc-table :data="users"
+              :columns="columns"
+              highlight-current-row row-key="id"
+              :selected-rows.sync="selectedRows"
+              :current-row.sync="currentRow"></cc-table>
+
+  </el-card>
+</template>
+
+<script lang="tsx">
+  import {Component, Vue} from 'vue-property-decorator'
+  import {Action} from 'vuex-class'
+  import EditUser from './EditUser.vue'
+
+  @Component({components: {EditUser}})
+  export default class Users extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    @Action private userList: () => Promise<ActionReturn>
+    @Action private delUser: (id: number) => Promise<ActionReturn>
+    /* data */
+    private columns: TableColumn[] = [
+      {prop: 'id', label: '编号'},
+      {prop: 'userName', label: '名称'},
+      {prop: 'sex', label: '性别',
+        formatter: (row: any, column: any, cellValue: number) => {
+          return this.$c.SexK[cellValue]
+        },
+      },
+      {prop: 'tel', label: '电话'},
+      {prop: 'status', label: '状态',
+        renderCell: (h: any, row: any) => <el-tag size='small' type={row.status === this.$c.StatusV.禁用 ? 'info' : ''}>{this.$c.StatusK[row.status]}</el-tag>,
+      },
+    ]
+    private users: User[] = []
+    private selectedRows: User[] = []
+    private currentRow: User = {}
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    private created() {
+      this.load()
+    }
+    /*vue-method*/
+    private async load() {
+      const {data}: any = await this.userList()
+      if (data) {
+        this.users = data
+        // this.selectedRows = [this.users[0]]
+        // this.currentRow = this.users[0]
+      }
+    }
+    private onAdd(edit: boolean) {
+      const user = edit ? {...this.currentRow} : undefined
+      this.$utils.dialog(`${edit ? '修改' : '新增'}用户`, (h: any) => <EditUser user={user} onRefresh={this.load}></EditUser>)
+    }
+    private onEdit() {
+      this.onAdd(true)
+    }
+    private async onDel() {
+      const re = await this.$utils.confirm('确定要删除此用户吗？')
+      if (re) {
+        const{error} = await this.delUser(this.currentRow.id as number)
+        if (!error) {
+          this.$utils.message('删除成功')
+          this.load()
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+</style>

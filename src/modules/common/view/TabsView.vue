@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab">
+  <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
     <el-tab-pane
         :key="item.name"
         v-for="item in tabs"
@@ -19,50 +19,38 @@
   export default class TabsView extends Vue {
     @State((state: State) => state.common.menuTabs) private menuTabs: any
     @State((state: State) => state.common.selectedTab) private selectedTab: any
-    @Mutation('updateSelectedTab') private updateSelectedTabMutation: (key: string) => void
-    @Mutation('removeTab') private removeTabMutation: (key: string) => void
+    @Mutation private updateSelectedTab: (key: string) => void
+    @Mutation private removeTab: (key: string) => void
 
     get activeTab() {
       return this.selectedTab
-   }
-   set activeTab(val) {
-     this.updateSelectedTabMutation(val)
-   }
-
+    }
+    set activeTab(val) {
+      this.updateSelectedTab(val)
+    }
     get tabs() {
       const menus = this.menuTabs.map((o: any) => {
         const menu: Menu = o.menus[o.menus.length - 1]
         return {
           title: menu.name,
           name: o.key,
+          noClose: menu.noClose,
         }
       })
-      menus.unshift({title: '首页', name: '0', noClose: true})
+      // menus.unshift({title: '首页', name: '0', noClose: true})
       return menus
     }
-
-    private removeTab(targetName: string) {
-      this.removeTabMutation(targetName)
-
-      // const tabs = this.editableTabs
-      // let activeName = this.activeTab
-      // if (activeName === targetName) {
-      //   tabs.forEach((tab, index) => {
-      //     if (tab.name === targetName) {
-      //       const nextTab: any = tabs[index + 1] || tabs[index - 1]
-      //       if (nextTab) {
-      //         activeName = nextTab.name
-      //       }
-      //     }
-      //   })
-      // }
-      // this.activeTab = activeName
-      // this.editableTabs = tabs.filter((tab: any) => tab.name !== targetName)
+    private clickTab(tab: any) {
+      const item = this.menuTabs.find((item: any) => item.key === tab.name)
+      if (item) {
+        const menu = item.menus[item.menus.length - 1]
+        this.$router.push(menu.url)
+      }
     }
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .el-tabs--border-card{
     border-left: 0;
     border-right: 0;

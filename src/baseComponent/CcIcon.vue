@@ -11,9 +11,9 @@
   @Component
   export default class CcIcon extends Vue {
     @Prop({required: true}) private name!: string
-    @Prop() private className!: string
-    @Prop() private rotate!: number
-    @Prop({ default: 24 }) private size!: number
+    @Prop(String) private className!: string
+    @Prop(Number) private rotate!: number
+    @Prop({type: [String, Number], default: 24 }) private size!: number
 
     get svgClass() {
       return ('svg-icon ' + (this.className || '')).trim()
@@ -31,7 +31,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .svg-icon {
     width: 1em;
     height: 1em;

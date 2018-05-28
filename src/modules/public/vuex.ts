@@ -7,7 +7,7 @@ const mutations: MutationTree<any> = {
 }
 
 const actions: ActionTree<any, any> = {
-   login(context: ActionContext<CommonState, State>, user: User): Promise<any> {
+  login(context: ActionContext<CommonState, State>, user: User): Promise<any> {
      return api.login(user)
   },
 }

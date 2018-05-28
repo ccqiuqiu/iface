@@ -1,29 +1,35 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <el-menu class="left-menu"
-      router
-      :default-active="selectedTab"
-      :collapse="!menuExpand"
-      @select="selectMenu">
-    <template v-for="menu in menus">
-      <el-submenu :index="menu.id" v-if="menu.children" :key="menu.id">
-        <template slot="title">
-          <i :class="menu.icon"></i>
-          <span slot="title">{{menu.name}}</span>
-        </template>
-        <el-menu-item v-for="menu2 in menu.children" :index="menu2.id" :key="menu2.id" :route="{path: menu2.url}">{{menu2.name}}</el-menu-item>
-      </el-submenu>
-      <el-menu-item :index="menu.id" v-else :route="{path: menu.url}" :key="menu.id">
-        <i :class="menu.icon"></i>
-        <span slot="title">{{menu.name}}</span>
-      </el-menu-item>
-    </template>
-  </el-menu>
+  <div class="left" flex="dir:top">
+    <div class="logo" flex-box="0" flex="cross:center main:center">
+      <span v-if="menuExpand">logo</span>
+      <span v-else>logo2</span>
+    </div>
+    <el-menu :default-active="selectedTab"
+         :collapse="!menuExpand"
+         @select="selectMenu" flex-box="1">
+      <template v-for="menu in menus">
+        <el-submenu :index="menu.id" v-if="menu.children" :key="menu.id">
+          <template slot="title">
+            <cc-icon :name="menu.icon" size="18"></cc-icon>
+            <span slot="title" class="m-l-5">{{menu.name}}</span>
+          </template>
+          <el-menu-item v-for="menu2 in menu.children" :index="menu2.id" :key="menu2.id" :route="{path: menu2.url}">
+            {{menu2.name}}
+          </el-menu-item>
+        </el-submenu>
+        <el-menu-item :index="menu.id" v-else :route="{path: menu.url}" :key="menu.id">
+          <cc-icon :name="menu.icon" size="18"></cc-icon>
+          <span slot="title" class="m-l-5">{{menu.name}}</span>
+        </el-menu-item>
+      </template>
+    </el-menu>
+  </div>
 </template>
 
 <script lang="ts">
   import {Component, Watch, Vue} from 'vue-property-decorator'
-  import { State, Action, Mutation} from 'vuex-class'
+  import { State, Action, Mutation, Getter} from 'vuex-class'
 
   @Component
   export default class MenuView extends Vue {
@@ -31,27 +37,29 @@
     @State((state: State) => state.common.menuExpand) private menuExpand: string
     @State((state: State) => state.common.menuTabs) private menuTabs: any[]
     @State((state: State) => state.common.selectedTab) private selectedTab: string
-    @Action('getMenu') private getMenuAction: () => void
-    @Mutation('updateTabs') private updateTabsMutation: (params: {key: string, menus: Menu[]}) => void
-    @Mutation('updateSelectedTab') private updateSelectedTabMutation: (key: string) => void
+    @Getter private nav: Menu[]
+    @Getter private flatMenu: Menu[]
+    @Action private getMenu: () => void
+    @Mutation private updateTabs: (params: {key: string, menus: Menu[]}) => void
+    @Mutation private updateSelectedTab: (key: string) => void
 
     private activeMenuIndexPath: string[] = []
 
-    get flatMenu() {
-      return this.$utils.flatObject(this.menus)
-    }
+    // get flatMenu() {
+    //   return this.$utils.flatObject(this.menus)
+    // }
     get activeMenu(): string {
       return this.selectedTab
     }
     set activeMenu(val) {
-      this.updateSelectedTabMutation(val)
+      this.updateSelectedTab(val)
     }
 
     @Watch('activeMenu')
     private activeMenuChange() {
-      if (this.selectedTab === '0') {
-        return
-      }
+      // if (this.selectedTab === '0') {
+      //   return
+      // }
       // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
       // 并且把这个数组整体放到一个数组，用于tabs显示
       // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
@@ -59,50 +67,81 @@
       // const key: string = val.join('_')
       const val = this.activeMenuIndexPath
       const menus: Menu[] = val.map((id: string) => {
-        return this.flatMenu.find((m: Menu) => m.id === id)
+        return this.flatMenu.find((m: Menu) => m.id === id) as Menu
       })
       // 如果menuTabs不存在，表示是新开一个标签
       const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
       if (!item) {
-        this.updateTabsMutation({key: this.selectedTab, menus})
+        this.updateTabs({key: this.selectedTab, menus})
       }
     }
-
-    private selectMenu(index: string, indexPath: string[]): void {
-      this.activeMenu = index
-      this.activeMenuIndexPath = indexPath
+    // nav是选择的菜单数组，当这个值变化的时候，说明当前选择的菜单被改变了
+    // 那调整URL
+    // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
+    @Watch('nav')
+    private privateNavChange(val: Menu[]) {
+      this.$router.push(val[val.length - 1].url)
     }
-    private created(): void {
-      this.getMenuAction()
+    // 菜单选择事的回调
+    private selectMenu(index: string, indexPath: string[]): void {
+      this.activeMenuIndexPath = indexPath
+      this.activeMenu = index
     }
   }
 </script>
 
-<style lang="less">
-  @import "../../../assets/css/vars";
-  .left-menu.el-menu:not(.el-menu--collapse) {
-    width: 200px;
-  }
-  .left-menu.el-menu{
-    background-color: mix(@color-black, @color-primary, 80%);
-
-    .el-submenu__title, .el-menu-item{
-      color: @color-white;
+<style lang="scss" scoped>
+  @import "../../../assets/css/vars.scss";
+  $color-menu-bg: mix($color-black, $color-primary, 76%);
+  .left{
+    .logo{
+      height: 50px;
+      color: $color-white;
+      background-color: mix($color-black, $color-primary, 10%);
     }
-    .is-active{
-      color: @color-primary;
+  }
+  .left /deep/ {
+    .el-menu:not(.el-menu--collapse) {
+      width: 200px;
     }
     .el-menu{
-      background-color: mix(@color-black, @color-primary, 60%);
-      .el-menu-item:focus{
+      border-right: 0;
+      background-color: $color-menu-bg;
+    }
+    .el-submenu__title, .el-menu-item{
+      color: rgba($color-white, 0.6);
+    }
+    .el-submenu__title:hover, .el-menu-item:hover, .el-menu-item:focus{
+      background-color: mix($color-black, $color-menu-bg, 15%);
+      color: $color-white;
+    }
+
+    .el-menu--inline{
+      background-color: mix($color-white, $color-menu-bg, 5%);
+      .el-submenu__title, .el-menu-item{
+        color: rgba($color-white, 0.4);
+      }
+      .el-submenu__title:hover, .el-menu-item:hover, .el-menu-item:focus{
         background-color: inherit;
+        color: $color-white;
+      }
+
+      .is-active{
+        color: $color-white;
       }
     }
-    .el-menu-item:focus{
-      background-color: inherit;
+
+    .el-menu-item{
+      height: 44px;
+      line-height: 44px;
     }
-    .el-submenu__title:hover, .el-menu-item:hover{
-      background-color: mix(@color-black, @color-primary, 70%);
+    .el-submenu .el-menu-item{
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .svg-icon {
+      margin-bottom: -2px;
     }
   }
 </style>

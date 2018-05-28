@@ -8,13 +8,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "strictPropertyInitialization": false, // 
+    "strictPropertyInitialization": false, //
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "node",
-      "jest",
-      "webpack-env" // 
+      "webpack-env" //
     ],
     "paths": {
       "@g/*": ["src/global/*"],

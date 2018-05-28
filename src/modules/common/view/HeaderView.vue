@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div flex="cross:center">
-    header
+  <div flex="cross:center" class="header">
+    <div class="logo">logo</div>
   </div>
 </template>
 
@@ -12,5 +12,16 @@
   export default class HeaderView extends Vue {}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+  @import "../../../assets/css/vars";
+  .header{
+    background-color: $color-primary;
+    color: $color-white;
+    height: 50px;
+
+    .logo{
+      width: 200px;
+      background-color: mix($color-black, $color-primary, 10%);
+    }
+  }
 </style>
