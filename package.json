@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve --open",
-    "mock": "vue-cli-service serve --mode mock --open",
-    "build": "vue-cli-service build"
+    "dev": "vue-cli-service serve",
+    "mock": "vue-cli-service serve --mode mock",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "circular-json": "^0.5.4",
     "echarts": "^4.1.0",
-    "element-ui": "^2.3.7",
+    "element-ui": "^2.3.9",
     "flex.css": "^1.1.7",
     "register-service-worker": "^1.0.0",
     "v-charts": "^1.16.19",
@@ -27,12 +28,13 @@
   "devDependencies": {
     "@types/mockjs": "^1.0.0",
     "@types/webpack-env": "^1.13.6",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.11",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.11",
-    "@vue/cli-service": "^3.0.0-beta.11",
+    "@vue/cli-plugin-babel": "^3.0.0-beta.14",
+    "@vue/cli-plugin-typescript": "^3.0.0-beta.14",
+    "@vue/cli-service": "^3.0.0-beta.14",
+    "ajv": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
-    "sass-loader": "^6.0.7",
+    "sass-loader": "^7.0.1",
     "svg-sprite-loader": "^3.7.3",
     "vue-template-compiler": "^2.5.16"
   },

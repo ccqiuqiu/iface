@@ -11,8 +11,8 @@
     "strictPropertyInitialization": false, //
     "sourceMap": true,
     "baseUrl": ".",
+    "typeRoots" : ["./src/typings"],
     "types": [
-      "./src/typings",
       "node",
       "webpack-env" //
     ],
@@ -25,7 +25,10 @@
       "@/*": ["src/*"]
     },
     "lib": [
+      "es2015",
       "dom",
+      "dom.iterable",
+      "scripthost",
       "es5",
       "es6",
       "es7",

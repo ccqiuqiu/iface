@@ -16,12 +16,12 @@ Vue.use(regComponents)
 
 if (process.env.VUE_APP_MOCK) {
   /* tslint:disable:no-var-requires */
-  require('./mock/index.js')
+  require('./mock/index')
 }
 
 Vue.config.productionTip = false
 Vue.use(utils)
-new Vue({
+export default new Vue({
   router,
   store,
   render: (h) => h(App),

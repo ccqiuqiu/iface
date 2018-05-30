@@ -65,13 +65,19 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     border-top: 3px solid $color-info;
   }
 
-  // 弹窗的表单样式
-  .el-dialog__body .el-form{
+  // 表单样式
+  .el-form{
     display: flex;
     flex-wrap: wrap;
 
     .el-form-item {
-      flex: 1 1 50%;
+      flex: 0 1 50%;
+    }
+    .el-form-item[type="daterange"] {
+      flex: 0 1 100%;
+    }
+    .el-select, .el-range-editor{
+      width: 100%;
     }
     .action{
       width: 100%;

@@ -38,9 +38,9 @@ declare interface TableColumn {
 }
 
 // 粗暴的使用没有.d.ts文件的第三方库，后期应该扩展
-declare module 'v-charts/lib/line' {
-  const VeLine: any
-  export default VeLine
+declare module 'v-charts/*' {
+  const vChart: any
+  export default vChart
 }
 declare module 'vue-progressbar' {
   const obj: any

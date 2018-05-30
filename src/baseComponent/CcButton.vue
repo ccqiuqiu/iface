@@ -2,7 +2,7 @@
 <template>
   <el-button v-bind="$attrs" @click.native="$emit('click')" :size="size">
     <span flex="cross:center">
-      <cc-icon v-bind="$attrs" :name="icon" :size="iconSize" class="m-r-6"/>
+      <cc-icon v-if="icon" v-bind="$attrs" :name="icon" :size="iconSize" class="m-r-6"/>
       <span>{{text}}</span>
     </span>
   </el-button>
@@ -13,8 +13,6 @@
   @Component
   export default class CcButton extends Vue {
     @Prop({required: true}) private text!: string
-    @Prop() private icon!: string
-    @Prop() private size!: string
 
     get iconSize() {
       if (this.size === 'medium') {

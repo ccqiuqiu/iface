@@ -2,9 +2,10 @@
  * Created by 熊超超 on 2018/4/20.
  */
 import router from '@g/router'
-import store from './store'
+// import store from './store'
 import * as uiUtils from '@utils/uiUtils'
 import lsUtils from '@utils/lsUtils'
+import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 // 创建一个axios实例
@@ -31,7 +32,8 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
     config.data = data
   }
   if (config.headers._loading) {
-    store.commit('showLoading', _loading)
+    app.$Progress.start()
+    // store.commit('showLoading', _loading)
   }
   return config
 })
@@ -40,10 +42,13 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
 axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
   const {_loading, _hideGlobalError} = response.config.headers
-  if (_loading) {
-    store.commit('hideLoading')
-  }
+  // if (_loading) {
+  //   store.commit('hideLoading')
+  // }
   if (response.data.success) {
+    if (_loading) {
+      app.$Progress.finish()
+    }
     // mock环境模拟登录过期
     if (process.env.VUE_APP_MOCK && !lsUtils.get('token')) {
       uiUtils.message('登录过期，请重新登录', 'error')
@@ -51,6 +56,9 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     }
     return Promise.resolve(response.data.data)
   } else {
+    if (_loading) {
+      app.$Progress.fail()
+    }
     if (response.data.error.code === 401) {
       router.push('/login')
     }
@@ -61,6 +69,12 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     return Promise.reject(response.data.error)
   }
 }, (error: any): Promise<any> => {
+  // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
+  const {_loading, _hideGlobalError} = error.response.config.headers
+  if (_loading) {
+    // store.commit('hideLoading')
+    app.$Progress.fail()
+  }
   uiUtils.message('服务端异常', 'error')
   return Promise.reject({code: error.response.status, message: error.response.data})
 })
