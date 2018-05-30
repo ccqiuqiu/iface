@@ -20,27 +20,26 @@ const common = (message) => {
 // 登录
 Mock.mock(new RegExp('/login'), option => {
   const user = JSON.parse(option.body)
-  return {
-    data: {
-      token: '123'
-    },
-    ...common((user.userName === 'cc' && user.password === '123456') ? false : '登录失败')
-  }
-})
-
-Mock.mock(new RegExp('/getAuth'), option => {
-  const data = {
+  const success = user.userName === 'admin' && user.password === '123456' || user.userName === 'test' && user.password === '123456'
+  // 权限
+  const auth = {
     menus: [{
       'id': '2',
       'name': '图表示例',
       'icon': 'add',
-      'url': '/demo'
+      'url': '/demo',
+      'children': [{
+        'id': '21',
+        'icon': 'user',
+        'name': '折线图',
+        'url': '/chart/line',
+      }]
     }],
     resources: []
   }
-  const body = JSON.parse(option.body)
-  if (body.token === '123') {
-    data.menus.unshift(...[{
+  if (user.userName === 'admin') {
+    user.roles = '管理员'
+    auth.menus.unshift(...[{
       'id': '1',
       'name': '系统管理',
       'icon': 'menu',
@@ -52,19 +51,27 @@ Mock.mock(new RegExp('/getAuth'), option => {
         'url': '/system/user',
       }]
     }])
+  } else {
+    user.roles = '普通用户'
   }
   return {
-    data,...common()
+    data: {
+      user: user,
+      auth: auth,
+      token: 'klsJGFLKjlslgsakldjflaksjldjslkrh835498sdf=4etgsdk'
+    },
+    ...common(success ? '' : '登录失败')
   }
 })
 
-// Mock.mock(new RegExp('/system/userList'), {
-//   'data|10': [{
-//     'id|+1': 1,
-//     'userName': '用户1',
-//     'tel': '124555222',
-//     'sex|1': [0, 1],
-//     'status|1': [0, 1]
-//   }],
-//   ...common()
-// })
+// 用户列表
+Mock.mock(new RegExp('/system/userList'), {
+  'data|10': [{
+    'id|+1': 1,
+    'userName': '用户1',
+    'tel': '124555222',
+    'sex|1': [0, 1],
+    'status|1': [0, 1]
+  }],
+  ...common()
+})

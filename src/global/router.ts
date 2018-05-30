@@ -4,7 +4,7 @@ import common from '../modules/common/router'
 import publicRouter from '../modules/public/router'
 import MainLayout from '../modules/common/view/MainLayout.vue'
 import system from '../modules/system/router'
-import lsUtils from '@utils/lsUtils'
+import demo from '../modules/demo/router'
 
 Vue.use(Router)
 
@@ -17,6 +17,7 @@ const router = new Router({
       children: [
         ...common,
         ...system,
+        ...demo,
       ],
     },
     {

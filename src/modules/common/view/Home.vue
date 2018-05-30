@@ -11,6 +11,13 @@
 
   @Component
   export default class Home extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    /*vue-data*/
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
   }
 </script>
 

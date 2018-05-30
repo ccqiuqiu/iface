@@ -7,9 +7,9 @@
     </el-breadcrumb>
     <div flex="cross:center">
       <cc-icon name="user" size="18" class="m-r-5"/>
-      <span>cc</span>
+      <span>{{user.userName}}</span>
       <span class="m-h-5">|</span>
-      <span>管理员</span>
+      <span>{{user.roles}}</span>
       <cc-icon name="logout" size="18" class="m-l-16 cp" @click="logout"/>
     </div>
   </div>
@@ -21,13 +21,21 @@
 
   @Component
   export default class NavView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
     @State((state: State) => state.common.menuExpand) private menuExpand: string
     @State((state: State) => state.common.menuTabs) private menuTabs: any[]
     @State((state: State) => state.common.selectedTab) private selectedTab: any
+    @State((state: State) => state.common.user) private user: User
     @Getter private nav: Menu[]
     @Mutation private toggleMenu: () => void
     @Mutation('clearStore') private clearStore: () => void
-
+    /*vue-data*/
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 退出登录
     private logout(): void {
       this.$utils.remove('token')
       // 清除store里面缓存的数据

@@ -51,6 +51,7 @@
       this.load()
     }
     /*vue-method*/
+    // 获取列表数据
     private async load() {
       const {data}: any = await this.userList()
       if (data) {
@@ -59,13 +60,16 @@
         // this.currentRow = this.users[0]
       }
     }
+    // 点击添加按钮
     private onAdd(edit: boolean) {
       const user = edit ? {...this.currentRow} : undefined
       this.$utils.dialog(`${edit ? '修改' : '新增'}用户`, (h: any) => <EditUser user={user} onRefresh={this.load}></EditUser>)
     }
+    // 点击编辑按钮
     private onEdit() {
       this.onAdd(true)
     }
+    // 点击删除按钮
     private async onDel() {
       const re = await this.$utils.confirm('确定要删除此用户吗？')
       if (re) {

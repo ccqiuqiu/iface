@@ -9,7 +9,15 @@
   import { Component, Vue } from 'vue-property-decorator'
 
   @Component
-  export default class HeaderView extends Vue {}
+  export default class HeaderView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    /*vue-data*/
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
+  }
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,6 @@
     <el-card class="card">
       <div slot="header" flex="cross:center box:last">
         <span>用户登录</span>
-        <el-button type="text">注册</el-button>
       </div>
       <el-form label-width="60px" class="m-h-20">
         <el-form-item label="用户名">
@@ -27,23 +26,32 @@
 
   @Component
   export default class Login extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
     @Action('login') private loginAction: (user: User) => Promise<ActionReturn>
     @Mutation('clearStore') private clearStore: () => void
-
+    @Mutation('updateUser') private updateUser: (data: any) => void
+    /*vue-data*/
     private user: User = {
-      userName: 'cc',
+      userName: 'admin',
       password: '123456',
     }
-
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 用户登录
     private async login() {
       const {error, data} = await this.loginAction(this.user)
       if (error) {
         this.$utils.message(error.message, false)
       } else {
         this.$utils.message('登录成功')
-        this.$utils.set('token', data.token)
         // 清除store里面缓存的数据
         this.clearStore()
+        // 设置新的数据
+        this.$utils.set('token', data.token)
+        this.updateUser(data)
         this.$router.push('/')
       }
     }

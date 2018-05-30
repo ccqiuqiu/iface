@@ -3,7 +3,6 @@
  */
 import 'vue'
 import {ElMessageBox, ElMessageBoxOptions, MessageBoxData} from 'element-ui/types/message-box'
-import index from "@utils/index";
 
 declare module 'vue/types/vue' {
   interface Vue {

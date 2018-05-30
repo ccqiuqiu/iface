@@ -17,11 +17,14 @@
 
   @Component
   export default class TabsView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
     @State((state: State) => state.common.menuTabs) private menuTabs: any
     @State((state: State) => state.common.selectedTab) private selectedTab: any
     @Mutation private updateSelectedTab: (key: string) => void
     @Mutation private removeTab: (key: string) => void
-
+    /*vue-data*/
+    /*vue-compute*/
     get activeTab() {
       return this.selectedTab
     }
@@ -40,6 +43,10 @@
       // menus.unshift({title: '首页', name: '0', noClose: true})
       return menus
     }
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 点击tab的时候，要跳转相应的url
     private clickTab(tab: any) {
       const item = this.menuTabs.find((item: any) => item.key === tab.name)
       if (item) {

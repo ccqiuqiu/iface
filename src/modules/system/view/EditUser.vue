@@ -44,6 +44,7 @@
     /* vue-watch */
     /* vue-lifecycle */
     /* vue-method */
+    // 保存用户
     private async save() {
       const {error} = await this.saveUser(this.user)
       if (!error) {

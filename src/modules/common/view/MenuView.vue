@@ -2,8 +2,8 @@
 <template>
   <div class="left" flex="dir:top">
     <div class="logo" flex-box="0" flex="cross:center main:center">
-      <span v-if="menuExpand">logo</span>
-      <span v-else>logo2</span>
+      <span v-if="menuExpand" class="f-24">iFace-Admin</span>
+      <span v-else class="f-18">iFace</span>
     </div>
     <el-menu :default-active="selectedTab"
          :collapse="!menuExpand"
@@ -33,6 +33,8 @@
 
   @Component
   export default class MenuView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
     @State((state: State) => state.common.menus) private menus: any[]
     @State((state: State) => state.common.menuExpand) private menuExpand: string
     @State((state: State) => state.common.menuTabs) private menuTabs: any[]
@@ -42,19 +44,16 @@
     @Action private getMenu: () => void
     @Mutation private updateTabs: (params: {key: string, menus: Menu[]}) => void
     @Mutation private updateSelectedTab: (key: string) => void
-
+    /*vue-data*/
     private activeMenuIndexPath: string[] = []
-
-    // get flatMenu() {
-    //   return this.$utils.flatObject(this.menus)
-    // }
     get activeMenu(): string {
       return this.selectedTab
     }
+    /*vue-compute*/
     set activeMenu(val) {
       this.updateSelectedTab(val)
     }
-
+    /*vue-watch*/
     @Watch('activeMenu')
     private activeMenuChange() {
       // if (this.selectedTab === '0') {
@@ -80,9 +79,13 @@
     // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
     @Watch('nav')
     private privateNavChange(val: Menu[]) {
-      this.$router.push(val[val.length - 1].url)
+      if (val.length) {
+        this.$router.push(val[val.length - 1].url)
+      }
     }
-    // 菜单选择事的回调
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 菜单选择的回调
     private selectMenu(index: string, indexPath: string[]): void {
       this.activeMenuIndexPath = indexPath
       this.activeMenu = index

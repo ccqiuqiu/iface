@@ -1,6 +1,7 @@
 <!--Created by 熊超超 on 2018/4/26.-->
 <template>
   <div flex="dir:top">
+    <vue-progress-bar></vue-progress-bar>
     <header-view flex-box="0" v-if="false"/>
     <div flex="box:first" flex-box="1">
       <div flex=""><menu-view/></div>
@@ -23,23 +24,23 @@
   import NavView from '../../common/view/NavView.vue'
   import TabsView from '../../common/view/TabsView.vue'
   import CcDialog from '../../../baseComponent/CcDialog.vue'
-  import {Action} from 'vuex-class'
 
   @Component({
     components: {HeaderView, MenuView, NavView, TabsView, CcDialog},
   })
   export default class MainLayout extends Vue {
-    @Action('getAuth') private getAuth: () => Promise<ActionReturn>
-
+    /*vue-props*/
+    /*vue-vuex*/
+    /*vue-data*/
+    /*vue-compute*/
+    /*vue-watch*/
     /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
     @Watch('$route')
     private routerChange(val: any) {
       this.$utils.toTab(val.path)
     }
-
-    private created() {
-      this.getAuth()
-    }
+    /*vue-lifecycle*/
+    /*vue-method*/
   }
 </script>
 <style lang="scss">

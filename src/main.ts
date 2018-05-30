@@ -7,14 +7,12 @@ import 'flex.css'
 import './assets/css/base.scss'
 import './assets/icons/icon'
 import utils from '@utils/index'
+import regComponents from '@g/regComponents'
 
 Vue.use(ElementUI, {size: 'small'})
 
 // 注册一些全局组件
-import CcTable from './baseComponent/CcTable.vue'
-import CcButton from './baseComponent/CcButton.vue'
-Vue.component('cc-table', CcTable)
-Vue.component('cc-button', CcButton)
+Vue.use(regComponents)
 
 if (process.env.VUE_APP_MOCK) {
   /* tslint:disable:no-var-requires */

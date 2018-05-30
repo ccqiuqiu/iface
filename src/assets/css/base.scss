@@ -106,7 +106,7 @@ input::-moz-focus-inner {
       position: relative;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 16px;
+      padding: 6px 16px;
 
       .content-view{
         margin-bottom: 16px;
@@ -166,5 +166,11 @@ input::-moz-focus-inner {
   }
   .p-r-#{$i} {
     padding-right: #{$i}px;
+  }
+}
+@for $i from 5 through 25{
+  $j: 2*$i;
+  .f-#{$j} {
+    font-size: #{$j}px;
   }
 }

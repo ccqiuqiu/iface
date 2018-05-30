@@ -11,6 +11,7 @@ interface State {
   common: CommonState,
   publicM: PublicState,
   system: SystemState,
+  loading: boolean,
 }
 
 // 各个module的state
@@ -19,6 +20,7 @@ declare interface CommonState extends IndexEd {
   menus?: Menu[],
   menuExpand?: boolean,
   selectedTab?: string,
+  user?: User,
 }
 // public 模块
 /* tslint:disable:no-empty-interface */
