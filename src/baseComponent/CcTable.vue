@@ -1,7 +1,9 @@
 <!--Created by 熊超超 on 2018/5/5.-->
 <template>
-  <el-table ref="table" :data="data" v-bind="$attrs"
+  <el-table ref="table" :data="rows" v-bind="$attrs"
             v-on="$listeners"
+            :row-key="rowKey"
+            :highlight-current-row="!multi"
             @current-change="currentChange"
             @selection-change="selectionChange">
     <template v-for="(column, index) in columns">
@@ -21,14 +23,18 @@
   @Component({components: {CcRender}})
   export default class CcTable extends Vue {
     /*vue-prop*/
-    @Prop() private data: any[]
+    @Prop() private rows: any[]
+    @Prop({default: 'id'}) private rowKey: string
     @Prop() private columns: TableColumn[]
     @Prop() private selectedRows: any[] // 选中的行的数组
     @Prop() private currentRow: any  // 当前行
     /*vue-data*/
     private mSelectedRows: any[] = this.selectedRows
     private mCurrentRow: any = this.currentRow
-
+    /*vue-computed*/
+    get multi() {
+      return !!this.columns.find((c: TableColumn) => c.type === 'selection')
+    }
     /**
      * 结合selectionChange方法，实现selectedRows双向绑定
      */

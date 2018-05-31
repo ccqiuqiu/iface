@@ -21,7 +21,6 @@
       "@bc/*": ["src/baseComponent/*"],
       "@common/*": ["src/module/common/view/*"],
       "@utils/*": ["src/assets/utils/*"],
-      "@base/*": ["src/baseComponent/base/*"],
       "@/*": ["src/*"]
     },
     "lib": [

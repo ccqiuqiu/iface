@@ -3,13 +3,12 @@
   <el-card shadow="never" class="p">
     <div slot="header" flex="cross:center">
       <span flex-box="1">用户列表</span>
-      <cc-button v-auth="['addUser']" size="small" type="primary" icon="add" text="添加" @click="onAdd"/>
-      <cc-button size="small" type="primary" icon="edit" text="修改" @click="onEdit"/>
-      <cc-button size="small" type="primary" icon="delete" text="删除" @click="onDel"/>
+      <cc-button v-auth="['addUser']" icon="add" text="添加" @click="onAdd"/>
+      <cc-button icon="edit" text="修改" @click="onEdit"/>
+      <cc-button icon="delete" text="删除" @click="onDel"/>
     </div>
-    <cc-table :data="users"
+    <cc-table :rows="users"
               :columns="columns"
-              highlight-current-row row-key="id"
               :selected-rows.sync="selectedRows"
               :current-row.sync="currentRow"></cc-table>
 

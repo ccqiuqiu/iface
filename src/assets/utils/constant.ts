@@ -14,6 +14,25 @@ export const SexV = {
 }
 export const SexK: IndexEd = reverse(SexV)
 
+export enum FormItemType {
+  text = 'text',
+  select = 'select',
+  date = 'date',
+  time = 'time',
+  daterange = 'daterange',
+  timerange = 'timerange',
+  switch = 'switch',
+  checkbox = 'checkbox',
+  checkboxbutton = 'checkboxbutton',
+  radio = 'radio',
+  radiobutton = 'radiobutton',
+  datetime = 'datetime',
+  timeselect = 'timeselect',
+  cascader = 'cascader',
+  number = 'number',
+  slider = 'slider',
+  rate = 'rate',
+}
 // 反转对象的key-value
 function reverse(source: any): any {
   const re: IndexEd = {}

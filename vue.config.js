@@ -26,7 +26,6 @@ module.exports = {
       .set('@bc', resolve('src/baseComponent'))
       .set('@common', resolve('src/module/common/view'))
       .set('@utils', resolve('src/assets/utils'))
-      .set('@base', resolve('src/baseComponent/base'))
   },
   devServer: {
     port: 9088,

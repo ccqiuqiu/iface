@@ -37,6 +37,29 @@ declare interface TableColumn {
   renderCell?: (h: any, row: any, index: number, column: TableColumn, store: any) => any
 }
 
+declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox' | 'checkboxbutton'
+        | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider' | 'rate' | 'table'
+declare type BtnAction = 'add' | 'update' | 'reset'
+declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
+declare interface FormObject {
+  model: any,
+  items: FormItem[],
+  btns: FormBtn[],
+}
+declare interface FormItem {
+  label: string,
+  field: string,
+  type: FormItemType
+  props?: any,
+  options?: any,
+}
+declare interface FormBtn {
+  action: BtnAction,
+  type?: BtnType,
+  text?: string,
+  icon?: string,
+  url?: string,
+}
 // 粗暴的使用没有.d.ts文件的第三方库，后期应该扩展
 declare module 'v-charts/*' {
   const vChart: any

@@ -70,7 +70,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
         children: [
           {
             id: '31',
-            name: '基本表单',
+            name: '表单示例',
             icon: 'form',
             url: '/form/form',
           },

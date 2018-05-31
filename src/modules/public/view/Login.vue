@@ -5,7 +5,7 @@
       <div slot="header" flex="cross:center box:last">
         <span>用户登录</span>
       </div>
-      <el-form label-width="60px" class="m-h-20">
+      <el-form label-width="60px" class="m-h-20 single-line">
         <el-form-item label="用户名">
           <el-input type="text" v-model="user.userName"></el-input>
         </el-form-item>
@@ -44,7 +44,7 @@
     private async login() {
       const {error, data} = await this.loginAction(this.user)
       if (error) {
-        this.$utils.message(error.message, false)
+        this.$utils.message(error.message, 'error')
       } else {
         this.$utils.message('登录成功')
         // 清除store里面缓存的数据

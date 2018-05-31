@@ -70,20 +70,46 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     display: flex;
     flex-wrap: wrap;
 
-    .el-form-item {
+    .el-form-item{
       flex: 0 1 50%;
     }
-    .el-form-item[type="daterange"] {
+    .el-form-item[type="daterange"],
+    .el-form-item[type="checkbox"], .el-form-item[type="checkboxbutton"],
+    .el-form-item[type="radio"], .el-form-item[type="radiobutton"] {
       flex: 0 1 100%;
     }
-    .el-select, .el-range-editor{
+    .el-select, .el-range-editor, .el-date-editor, .el-cascader{
       width: 100%;
+    }
+    .el-form-item[type="slider"] .el-form-item__content > div{
+      margin: 0 10px;
+      .el-slider__runway{
+        margin: 13px 0;
+      }
+    }
+    .el-rate{
+      height: 32px;
+      display: flex;
+      align-items: center;
     }
     .action{
       width: 100%;
       display: flex;
-      justify-content: flex-end;
       margin: 20px 0 -10px;
+      justify-content: center;
+    }
+    .el-checkbox{
+      margin-right: 30px;
+      margin-left: 0;
+    }
+  }
+  .el-form.single-line{
+    display: block;
+  }
+  // 弹窗的表单调整一下样式
+  .el-dialog .el-form{
+    .action{
+      justify-content: flex-end;
     }
   }
 

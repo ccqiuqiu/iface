@@ -2,7 +2,6 @@
  * Created by 熊超超 on 2018/4/27.
  */
 import store from '@g/store'
-import router from '@g/router'
 import { Message, MessageBox } from 'element-ui'
 import Vue, {CreateElement} from 'vue'
 const h: CreateElement = new Vue().$createElement
