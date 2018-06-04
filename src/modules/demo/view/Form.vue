@@ -40,7 +40,10 @@
         slider: 30,
         switch: true,
         rate: 3,
-        table: [1],
+        table: 1,
+        tree: 11,
+        table2: [1],
+        tree2: [11],
       },
       items: [
         {
@@ -246,9 +249,32 @@
           type: 'rate',
         },
         {
-          label: '表格',
+          label: '表格-单选',
           field: 'table',
           type: 'table',
+          props: {
+            valueField: 'id',
+            textField: 'userName',
+          },
+          options: {
+            columns: [
+              {prop: 'id', label: '编号'},
+              {prop: 'userName', label: '名称'},
+            ],
+            rows: [
+              {id: 1, userName: '用户1'},
+              {id: 2, userName: '用户2'},
+            ],
+          },
+        },
+        {
+          label: '表格-多选',
+          field: 'table2',
+          type: 'table',
+          props: {
+            valueField: 'id',
+            textField: 'userName',
+          },
           options: {
             columns: [
               {type: 'selection'},
@@ -261,16 +287,110 @@
             ],
           },
         },
+        {
+          label: '树-单选',
+          field: 'tree',
+          type: 'tree',
+          options: [
+            {
+              label: '一级1',
+              id: 1,
+              children: [
+                {
+                  label: '二级1-1',
+                  id: 11,
+                },
+              ],
+            },
+            {
+              label: '二级2',
+              id: 2,
+              children: [
+                {
+                  label: '二级2-1',
+                  id: 21,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: '树-多选',
+          field: 'tree2',
+          type: 'tree',
+          props: {showCheckbox: true},
+          options: [
+            {
+              label: '一级1',
+              id: 1,
+              children: [
+                {
+                  label: '二级1-1',
+                  id: 11,
+                },
+              ],
+            },
+            {
+              label: '二级2',
+              id: 2,
+              children: [
+                {
+                  label: '二级2-1',
+                  id: 21,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: '弹出框',
+          field: 'dialog',
+          type: 'dialog',
+          dialog: {
+            form: {
+              model: {},
+              props: {
+                type: 'search',
+              },
+              items: [
+                {
+                  label: '文本框',
+                  field: 'name',
+                  type: 'text',
+                },
+                {
+                  label: '文本框2',
+                  field: 'name2',
+                  type: 'text',
+                },
+              ],
+              btns: [
+                {
+                  action: 'search',
+                  url: '',
+                },
+              ],
+            },
+            table: {
+              columns: [
+                {prop: 'id', label: '编号'},
+                {prop: 'userName', label: '名称'},
+              ],
+              rows: [
+                {id: 1, userName: '用户1'},
+                {id: 2, userName: '用户2'},
+              ],
+            },
+          },
+        },
       ],
       btns: [
         {
           action: 'add',
-          text: '保存',
           url: '',
         },
         {
           action: 'reset',
-          text: '重置',
           url: '',
         },
       ],

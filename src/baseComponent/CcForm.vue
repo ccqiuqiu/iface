@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/5/30.-->
 <template>
-  <el-form ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="formProps">
+  <el-form ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="data.props && data.props.type === 'search'">
     <el-form-item v-bind="itemProps(item)" v-for="(item, index) in data.items" :key="item.id || index">
       <!--选择框-->
       <el-select v-model="data.model[item.field]" v-bind="item.props" v-if="item.type === 'select'">
@@ -44,10 +44,12 @@
       <el-slider v-model="data.model[item.field]" v-bind="item.props" v-else-if="item.type === 'slider'"></el-slider>
       <!--评分-->
       <el-rate v-model="data.model[item.field]" v-bind="item.props" v-else-if="item.type === 'rate'"></el-rate>
-      <!--popover-->
-      <cc-input-popover v-model="data.model[item.field]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'table'"></cc-input-popover>
-      <!--弹出model-->
-      <cc-input-model v-model="data.model[item.field]" v-bind="item.props" v-else-if="item.type === 'model'"></cc-input-model>
+      <!--popover-table-->
+      <cc-input-table v-model="data.model[item.field]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'table'"></cc-input-table>
+      <!--popover-tree-->
+      <cc-input-tree v-model="data.model[item.field]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'tree'"></cc-input-tree>
+      <!--弹出dialog-->
+      <cc-input-dialog :title="item.label" v-model="data.model[item.field]" v-bind="item.props" :dialog="item.dialog" v-else-if="item.type === 'dialog'"></cc-input-dialog>
       <!--input-->
       <el-input v-model="data.model[item.field]" v-bind="item.props" :type="item.type" v-else></el-input>
     </el-form-item>
@@ -60,7 +62,9 @@
 
 <script lang="ts">
   import { Component, Vue, Prop} from 'vue-property-decorator'
-  import CcInputPopover from './CcInputPopover.vue'
+  import CcInputTable from './CcInputTable.vue'
+  import CcInputTree from './CcInputTree.vue'
+  import CcInputDialog from './CcInputDialog.vue'
 
   // 按钮的动作map，在用户简单传入action的时候，设置默认的text等属性
   const btnActionMap: any = {
@@ -77,9 +81,13 @@
      icon: 'reset',
      type: '',
     },
+    search: {
+      text: '搜索',
+      icon: 'search',
+    },
   }
 
-  @Component({components: {CcInputPopover}})
+  @Component({components: {CcInputTable, CcInputTree, CcInputDialog}})
   export default class CcForm extends Vue {
     /*vue-props*/
     @Prop({required: true, type: Object}) private data: any
@@ -87,11 +95,6 @@
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     /*vue-compute*/
-    // 过滤form的props
-    get formProps() {
-      const {items, btns, ...props} = this.data
-      return props
-    }
     // 处理按钮数组
     get btns() {
       return this.data.btns.map((btn: FormBtn) => {
@@ -106,7 +109,7 @@
     /*vue-method*/
     // 过滤form-item的props
     private itemProps(item: FormItem) {
-      const {options, props, ...itemProps} = item
+      const {options, props, dialog, ...itemProps} = item
       return itemProps
     }
     private datePickerFarmatter(item: FormItem) {

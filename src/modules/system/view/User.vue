@@ -1,18 +1,25 @@
 <!--Created by 熊超超 on 2018/5/18.-->
 <template>
-  <el-card shadow="never" class="p">
-    <div slot="header" flex="cross:center">
-      <span flex-box="1">用户列表</span>
-      <cc-button v-auth="['addUser']" icon="add" text="添加" @click="onAdd"/>
-      <cc-button icon="edit" text="修改" @click="onEdit"/>
-      <cc-button icon="delete" text="删除" @click="onDel"/>
-    </div>
-    <cc-table :rows="users"
-              :columns="columns"
-              :selected-rows.sync="selectedRows"
-              :current-row.sync="currentRow"></cc-table>
+  <div>
+    <el-card shadow="never" class="p">
+      <div slot="header" flex="cross:center">
+        <span flex-box="1">用户列表</span>
+        <cc-button v-auth="['addUser']" icon="add" text="添加" @click="onAdd"/>
+        <cc-button icon="edit" text="修改" @click="onEdit"/>
+        <cc-button icon="delete" text="删除" @click="onDel"/>
+      </div>
+      <cc-table :rows="users"
+                :columns="columns"
+                :selected-rows.sync="selectedRows"
+                :current-row.sync="currentRow"></cc-table>
 
-  </el-card>
+      <el-pagination class="m-t-16 a-c"
+                     background
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="1000">
+      </el-pagination>
+    </el-card>
+  </div>
 </template>
 
 <script lang="tsx">

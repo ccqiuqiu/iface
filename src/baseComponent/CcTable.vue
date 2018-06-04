@@ -4,8 +4,10 @@
             v-on="$listeners"
             :row-key="rowKey"
             :highlight-current-row="!multi"
-            @current-change="currentChange"
-            @selection-change="selectionChange">
+            @select="select"
+            @select-all="select"
+            @row-click="rowClick"
+            @current-change="currentChange">
     <template v-for="(column, index) in columns">
       <el-table-column v-if="column.renderCell" v-bind="column">
         <template slot-scope="scope">
@@ -29,8 +31,6 @@
     @Prop() private selectedRows: any[] // 选中的行的数组
     @Prop() private currentRow: any  // 当前行
     /*vue-data*/
-    private mSelectedRows: any[] = this.selectedRows
-    private mCurrentRow: any = this.currentRow
     /*vue-computed*/
     get multi() {
       return !!this.columns.find((c: TableColumn) => c.type === 'selection')
@@ -40,6 +40,7 @@
      */
     @Watch('selectedRows')
     private watchSelectedRows(val: any[], old: any[]) {
+      (this.$refs.table as Vue).clearSelection()
       if (val) {
         this.$nextTick(() => val.forEach((row: any) => {
           (this.$refs.table as Vue).toggleRowSelection(row, true)
@@ -53,15 +54,26 @@
     private watchCurrentRow(val: any, old: any) {
       if (val) {
         this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(val), 0))
+      } else {
+        this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(), 0))
       }
     }
-    private selectionChange(rows: any[]) {
-      this.mSelectedRows = rows
+    private currentChange(row: any) {
+      this.$emit('update:currentRow', row)
+    }
+    private select(rows: any[], row: any) {
       this.$emit('update:selectedRows', rows)
     }
-    private currentChange(row: any) {
-      this.mCurrentRow = row
-      this.$emit('update:currentRow', row)
+    // 多选的时候，让点击行的时候，也能选中和取消选中行
+    private rowClick(row: any) {
+      if (this.multi) {
+        const index = this.selectedRows.findIndex((item: any) => item[this.rowKey] === row[this.rowKey])
+        if (index >= 0) {
+          this.selectedRows.splice(index, 1)
+        } else {
+          this.selectedRows.push(row)
+        }
+      }
     }
   }
 </script>

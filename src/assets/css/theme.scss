@@ -106,16 +106,61 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-form.single-line{
     display: block;
   }
-  // 弹窗的表单调整一下样式
-  .el-dialog .el-form{
+
+  .el-form.el-form--inline{
+    .el-form-item{
+      margin-right: 16px;
+      margin-bottom: 10px;
+      flex: none;
+    }
+    .el-form-item__label{
+      padding-right: 10px;
+      width: inherit !important;
+    }
+    .el-input{
+      width: 120px;
+    }
     .action{
+      height: 32px;
+      width: inherit;
+      flex: none;
+      margin: 0 0 18px;
+      justify-content: center;
+
+      .el-button{
+        padding: 9px;
+      }
+    }
+  }
+  // 弹窗的表单调整一下样式
+  .el-dialog{
+    .div{
+      padding: 0 10px;
+      border-radius: 0;
+      border: 0;
+      border-bottom: 1px solid $--input-border-color;
+    }
+    .el-card{
+      border: 0;
+      padding: 0;
+      border-radius: 0;
+
+      .el-card__body{
+        padding: 0;
+      }
+    }
+    .action{
+      display: flex;
+      margin: 20px 0 -10px;
       justify-content: flex-end;
     }
   }
 
   /*自定义样式*/
-  .bs-card{
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+  .div{
+    background-color: $color-white;
+    border: 1px solid $--card-border-color;
+    border-radius: 4px;
   }
   .tip{
     padding: 10px;

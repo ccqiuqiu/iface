@@ -38,24 +38,35 @@ declare interface TableColumn {
 }
 
 declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox' | 'checkboxbutton'
-        | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider' | 'rate' | 'table'
-declare type BtnAction = 'add' | 'update' | 'reset'
+        | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider' | 'rate' | 'table' | 'tree' | 'dialog'
+declare type BtnAction = 'add' | 'update' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {
-  model: any,
-  items: FormItem[],
-  btns: FormBtn[],
+  model: any, // 表单绑定的对象
+  props?: any, // 表单的属性
+  items: FormItem[], // 表单项
+  btns: FormBtn[], // 操作按钮
 }
 declare interface FormItem {
   label: string,
   field: string,
   type: FormItemType
-  props?: any,
-  options?: any,
+  props?: any, // 表单项属性，对应element相应的组件的属性
+  options?: {
+    columns: TableColumn[],
+    rows: string| any[],
+  } | string | any[], // 选项值，类似单选组、下拉选择组件的可选值
+  dialog?: {  // 用于类型为dialog的表单项
+    form: FormObject,
+    table: {
+      columns: TableColumn[],
+      rows: string| any[],
+    },
+  }
 }
 declare interface FormBtn {
   action: BtnAction,
-  type?: BtnType,
+  type?: BtnType, // 按钮颜色
   text?: string,
   icon?: string,
   url?: string,
