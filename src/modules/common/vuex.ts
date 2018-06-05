@@ -1,5 +1,6 @@
 import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
 import * as utils from '@utils/utils'
+import api from '@g/api'
 
 const state: CommonState = {
   menus: [], // 左侧菜单
@@ -79,6 +80,14 @@ const mutations: MutationTree<any> = {
 
 
 const actions: ActionTree<any, any> = {
+  // 获取crud的json数据
+  getCrud(context: ActionContext<SystemState, State>, id: number): Promise<ActionReturn> {
+    return api.getCrud(id)
+  },
+  // 表单的按钮事件，主要是搜索和保存
+  formAction(context: ActionContext<SystemState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
+    return api.formAction(params.url, params.params)
+  },
 }
 
 export default {state, getters, mutations, actions}

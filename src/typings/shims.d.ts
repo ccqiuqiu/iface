@@ -34,12 +34,14 @@ declare interface TableColumn {
   filterMultiple?: boolean,
   filterMethod?: (value: any, row: any, column: TableColumn) => any,
   filteredValue?: any[],
-  renderCell?: (h: any, row: any, index: number, column: TableColumn, store: any) => any
+  renderCell?: (h: any, row: any, index: number, column: TableColumn, store: any) => any // jsx渲染
+  renderFun?: string // jsx渲染的方法名
+  formatFun?: string, // 格式化的方法
 }
 
 declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox' | 'checkboxbutton'
         | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider' | 'rate' | 'table' | 'tree' | 'dialog'
-declare type BtnAction = 'add' | 'update' | 'reset' | 'search'
+declare type BtnAction = 'save' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {
   model: any, // 表单绑定的对象
@@ -56,13 +58,7 @@ declare interface FormItem {
     columns: TableColumn[],
     rows: string| any[],
   } | string | any[], // 选项值，类似单选组、下拉选择组件的可选值
-  dialog?: {  // 用于类型为dialog的表单项
-    form: FormObject,
-    table: {
-      columns: TableColumn[],
-      rows: string| any[],
-    },
-  }
+  dialog?: CURDObject  // 用于类型为dialog的表单项
 }
 declare interface FormBtn {
   action: BtnAction,
@@ -70,6 +66,14 @@ declare interface FormBtn {
   text?: string,
   icon?: string,
   url?: string,
+}
+declare interface CURDObject {
+  title?: string,
+  form?: FormObject,
+  table?: {
+    columns: TableColumn[],
+    rows: string| any[],
+  },
 }
 // 粗暴的使用没有.d.ts文件的第三方库，后期应该扩展
 declare module 'v-charts/*' {

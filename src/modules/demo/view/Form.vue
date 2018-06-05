@@ -386,7 +386,7 @@
       ],
       btns: [
         {
-          action: 'add',
+          action: 'save',
           url: '',
         },
         {

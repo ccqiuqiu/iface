@@ -28,9 +28,9 @@
   "devDependencies": {
     "@types/mockjs": "^1.0.0",
     "@types/webpack-env": "^1.13.6",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.14",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.14",
-    "@vue/cli-service": "^3.0.0-beta.14",
+    "@vue/cli-plugin-babel": "^3.0.0-beta.15",
+    "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
+    "@vue/cli-service": "^3.0.0-beta.15",
     "ajv": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",

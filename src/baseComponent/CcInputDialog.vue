@@ -23,11 +23,22 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
+    // 显示弹窗
     private show() {
-      this.$utils.dialog(this.title, (h: any) => <cc-crud data={this.dialog}>dddd</cc-crud>)
+      this.$utils.dialog(this.title, (h: any) => <div>
+        <cc-crud data={this.dialog} type='dialog'></cc-crud>
+        <div class='action'>
+          <el-button type='primary' onClick={this.select}>选择</el-button>
+        </div>
+      </div>)
     }
+    // 删除标签
     private delTag(item: any) {
       return null
+    }
+    // 点击选择按钮
+    private select() {
+      this.$utils.hideDialog()
     }
   }
 </script>

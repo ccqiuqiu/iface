@@ -27,7 +27,7 @@
   import {Action} from 'vuex-class'
   import EditUser from './EditUser.vue'
 
-  @Component({components: {EditUser}})
+  @Component
   export default class Users extends Vue {
     /*vue-props*/
     /*vue-vuex*/
@@ -61,7 +61,7 @@
     private async load() {
       const {data}: any = await this.userList()
       if (data) {
-        this.users = data
+        this.users = data.list
         // this.selectedRows = [this.users[0]]
         // this.currentRow = this.users[0]
       }

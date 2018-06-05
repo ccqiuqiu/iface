@@ -23,3 +23,8 @@ function flatObject_do<T extends TT>(source: T[], children: string, re: T[]): vo
     }
   })
 }
+
+// 日期判断
+export const isDate = (obj: any) => Object.prototype.toString.call(obj) === '[object Date]'
+// 空对象判断
+export const isEmptyObject = (obj = {}) => Object.keys(obj).length <= 0

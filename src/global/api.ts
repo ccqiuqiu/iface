@@ -24,5 +24,9 @@ export default {
   // 保存用户（新增或删除）
   saveUser: (params: any = {}, config: any = {}) => request('post', '/v1/system/saveUser', params, config),
   // 删除用户
-  delUser: (params: any = {}, config: any = {}) => request('post', '/v1/system/delUser/' + params, config),
+  delUser: (id: number, config: any = {}) => request('post', '/v1/system/delUser/' + id, config),
+  // 获取CRUD的json
+  getCrud: (id: number, config: any = {}) => request('post', '/v1/system/getCrud/' + id, config),
+  // 表单按钮的统一方法
+  formAction: (url: string, params: any, config: any = {}) => request('post', url, params, config),
 }

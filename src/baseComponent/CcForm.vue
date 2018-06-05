@@ -68,13 +68,9 @@
 
   // 按钮的动作map，在用户简单传入action的时候，设置默认的text等属性
   const btnActionMap: any = {
-    add: {
+    save: {
      text: '保存',
-     icon: 'add',
-    },
-    update: {
-     text: '更新',
-     icon: 'edit',
+     icon: 'save',
     },
     reset: {
      text: '重置',
@@ -106,6 +102,9 @@
     }
     /*vue-watch*/
     /*vue-lifecycle*/
+    private created() {
+      // 如果控件的options为url说明要通过查询获得选项，那么先查询
+    }
     /*vue-method*/
     // 过滤form-item的props
     private itemProps(item: FormItem) {
@@ -125,7 +124,7 @@
         (this.$refs as Vue).form.resetFields()
         this.data.model = {...this.defaultModel}
       } else {
-        console.log(btn.url)
+        this.$emit(btn.action, btn.url)
       }
     }
   }
