@@ -44,6 +44,7 @@ declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 
 declare type BtnAction = 'save' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {
+  name?: string, // 对象名，没有配置url的情况下，根据name生成相应的url
   model: any, // 表单绑定的对象
   props?: any, // 表单的属性
   items: FormItem[], // 表单项
@@ -51,7 +52,7 @@ declare interface FormObject {
 }
 declare interface FormItem {
   label: string,
-  field: string,
+  prop: string,
   type: FormItemType
   props?: any, // 表单项属性，对应element相应的组件的属性
   options?: {
@@ -68,12 +69,17 @@ declare interface FormBtn {
   url?: string,
 }
 declare interface CURDObject {
+  name?: string, // 对象名，没有配置url的情况下，根据name生成相应的url
   title?: string,
-  form?: FormObject,
+  searchForm?: FormObject,
+  editForm?: FormObject,
   table?: {
+    props?: any,
     columns: TableColumn[],
     rows: string| any[],
   },
+  editNeedQuery?: boolean, // 编辑的时候，是否要先查询，如果是，会使用getUrl去查询对象
+  getUrl?: '',  // 获取数据详情的url
 }
 // 粗暴的使用没有.d.ts文件的第三方库，后期应该扩展
 declare module 'v-charts/*' {

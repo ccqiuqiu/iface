@@ -48,12 +48,12 @@
       items: [
         {
           label: '文本框',
-          field: 'name',
+          prop: 'name',
           type: 'text',
         },
         {
           label: '选择框',
-          field: 'area',
+          prop: 'area',
           type: 'select',
           options: [
             {
@@ -68,7 +68,7 @@
         },
         {
           label: '选择框-多选',
-          field: 'area2',
+          prop: 'area2',
           type: 'select',
           props: {multiple: true},
           options: [
@@ -84,13 +84,13 @@
         },
         {
           label: '日期范围',
-          field: 'daterange',
+          prop: 'daterange',
           type: 'daterange',
           props: {rangeSeparator: '至'},
         },
         {
           label: '多选',
-          field: 'type',
+          prop: 'type',
           type: 'checkbox',
           options: [
             {
@@ -113,7 +113,7 @@
         },
         {
           label: '多选-按钮',
-          field: 'type',
+          prop: 'type',
           type: 'checkboxbutton',
           options: [
             {
@@ -136,7 +136,7 @@
         },
         {
           label: '单选',
-          field: 'resource',
+          prop: 'resource',
           type: 'radio',
           options: [
             {
@@ -151,7 +151,7 @@
         },
         {
           label: '单选-按钮',
-          field: 'resource',
+          prop: 'resource',
           type: 'radiobutton',
           options: [
             {
@@ -166,32 +166,32 @@
         },
         {
           label: '日期',
-          field: 'date',
+          prop: 'date',
           type: 'date',
         },
         {
           label: '日期时间',
-          field: 'datetime',
+          prop: 'datetime',
           type: 'datetime',
         },
         {
           label: '时间选择',
-          field: 'timeselect',
+          prop: 'timeselect',
           type: 'timeselect',
         },
         {
           label: '时间面板',
-          field: 'time',
+          prop: 'time',
           type: 'time',
         },
         {
           label: '时间范围',
-          field: 'timerange',
+          prop: 'timerange',
           type: 'timerange',
         },
         {
           label: '级联选择',
-          field: 'cascader',
+          prop: 'cascader',
           type: 'cascader',
           options: [
             {
@@ -230,27 +230,27 @@
         },
         {
           label: '计数器',
-          field: 'number',
+          prop: 'number',
           type: 'number',
         },
         {
           label: '滑块',
-          field: 'slider',
+          prop: 'slider',
           type: 'slider',
         },
         {
           label: '开关',
-          field: 'switch',
+          prop: 'switch',
           type: 'switch',
         },
         {
           label: '评分',
-          field: 'rate',
+          prop: 'rate',
           type: 'rate',
         },
         {
           label: '表格-单选',
-          field: 'table',
+          prop: 'table',
           type: 'table',
           props: {
             valueField: 'id',
@@ -269,7 +269,7 @@
         },
         {
           label: '表格-多选',
-          field: 'table2',
+          prop: 'table2',
           type: 'table',
           props: {
             valueField: 'id',
@@ -289,7 +289,7 @@
         },
         {
           label: '树-单选',
-          field: 'tree',
+          prop: 'tree',
           type: 'tree',
           options: [
             {
@@ -316,7 +316,7 @@
         },
         {
           label: '树-多选',
-          field: 'tree2',
+          prop: 'tree2',
           type: 'tree',
           props: {showCheckbox: true},
           options: [
@@ -344,10 +344,10 @@
         },
         {
           label: '弹出框',
-          field: 'dialog',
+          prop: 'dialog',
           type: 'dialog',
           dialog: {
-            form: {
+            searchForm: {
               model: {},
               props: {
                 type: 'search',
@@ -355,12 +355,12 @@
               items: [
                 {
                   label: '文本框',
-                  field: 'name',
+                  prop: 'name',
                   type: 'text',
                 },
                 {
                   label: '文本框2',
-                  field: 'name2',
+                  prop: 'name2',
                   type: 'text',
                 },
               ],

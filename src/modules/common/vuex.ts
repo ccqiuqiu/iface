@@ -10,6 +10,7 @@ const state: CommonState = {
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
   user: {},
+  optionsCache: {},
 }
 const getters: GetterTree<any, any> = {
   // 面包屑导航对象
@@ -81,12 +82,29 @@ const mutations: MutationTree<any> = {
 
 const actions: ActionTree<any, any> = {
   // 获取crud的json数据
-  getCrud(context: ActionContext<SystemState, State>, id: number): Promise<ActionReturn> {
+  getCrud(context: ActionContext<CommonState, State>, id: number): Promise<ActionReturn> {
     return api.getCrud(id)
   },
   // 表单的按钮事件，主要是搜索和保存
-  formAction(context: ActionContext<SystemState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
+  formAction(context: ActionContext<CommonState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
     return api.formAction(params.url, params.params)
+  },
+  // 获取表单控件的选择项，下拉、单选、多选等
+  async getOptions(context: ActionContext<CommonState, State>, url: string): Promise<any> {
+    if (context.state.optionsCache[url]) {
+      return context.state.optionsCache[url]
+    } else {
+      const {data} = await api.getOptions(url)
+      if (data) {
+        // 缓存
+        context.state.optionsCache[url] = data
+        return data
+      }
+      return null
+    }
+  },
+  getById(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
+    return api.getById(url)
   },
 }
 

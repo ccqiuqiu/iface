@@ -5,6 +5,29 @@
 
 import Mock from 'mockjs'
 
+const optinonMaps: any = {
+  status: [
+    {
+      label: '启用',
+      value: 1,
+    },
+    {
+      label: '禁用',
+      value: 0,
+    },
+  ],
+  sex: [
+    {
+      label: '男',
+      value: 1,
+    },
+    {
+      label: '女',
+      value: 0,
+    },
+  ],
+}
+
 const common = (message?: any) => {
   const obj: any = {
     success: !message,
@@ -113,12 +136,12 @@ Mock.mock(new RegExp('/login'), (option: any) => {
 })
 
 // 用户列表
-Mock.mock(new RegExp('/system/userList'), {
+Mock.mock(new RegExp('/system/searchUser'), {
   data: {
     'total': 108,
     'list|10': [{
       'id|+1': 1,
-      'userName': '用户1',
+      'userName': '用户@id',
       'tel': '124555222',
       'sex|1': [0, 1],
       'status|1': [0, 1],
@@ -130,27 +153,50 @@ Mock.mock(new RegExp('/system/userList'), {
 Mock.mock(new RegExp('/system/getCrud'), {
   data: {
     title: '用户管理',
-    form: {
+    name: 'User',
+    searchForm: {
       model: {},
       props: {
         type: 'search',
       },
       items: [
         {
-          label: '文本框',
-          field: 'name',
+          label: '姓名',
+          prop: 'userName',
           type: 'text',
         },
         {
-          label: '文本框2',
-          field: 'name2',
-          type: 'text',
+          label: '状态',
+          prop: 'status',
+          type: 'select',
+          options: 'status',
         },
       ],
-      btns: [
+    },
+    editForm: {
+      model: {},
+      items: [
         {
-          action: 'search',
-          url: '/v1/system/userList',
+          label: '姓名',
+          prop: 'userName',
+          type: 'text',
+        },
+        {
+          label: '性别',
+          prop: 'sex',
+          type: 'select',
+          options: 'sex',
+        },
+        {
+          label: '电话',
+          prop: 'tel',
+          type: 'text',
+        },
+        {
+          label: '状态',
+          prop: 'status',
+          type: 'select',
+          options: 'status',
         },
       ],
     },
@@ -164,6 +210,24 @@ Mock.mock(new RegExp('/system/getCrud'), {
       ],
       rows: [],
     },
+    editNeedQuery: true,
   },
   ...common(),
+})
+// 获取选择类型表单组件的选项
+Mock.mock(new RegExp('/system/getOptions'), (option: any) => {
+  const type = option.url.substring(option.url.indexOf('?query=') + 7)
+  return {
+    data: optinonMaps[type],
+    ...common(),
+  }
+})
+//
+Mock.mock(new RegExp('/system/saveUser'), (option: any) => {
+  const user = JSON.parse(option.body)
+  console.log(user)
+  return {
+    data: {},
+    ...common(),
+  }
 })

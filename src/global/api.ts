@@ -3,6 +3,8 @@
  */
 import conn from './conn'
 
+const formBaseUrl = '/v1/system/'
+
 /**
  * 所有请求的通用方法，此方法才会调用axios的方法
  * @param {string} method
@@ -17,16 +19,20 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 }
 
 export default {
+  // 获取CRUD的json
+  getCrud: (id: number, config: any = {}) => request('post', formBaseUrl + 'getCrud/' + id, config),
+  // 表单按钮的统一方法
+  formAction: (url: string, params: any, config: any = {}) => request('post', formBaseUrl + url, params, config),
+  // 查询表单options
+  getOptions: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
+  // 通过id查询数据
+  getById: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
   // 用户列表
-  userList: (params: any = {}, config: any = {}) => request('post', '/v1/system/userList', params, config),
+  userList: (params: any = {}, config: any = {}) => request('post', '/v1/system/searchUser', params, config),
   // 保存用户（新增或删除）
   saveUser: (params: any = {}, config: any = {}) => request('post', '/v1/system/saveUser', params, config),
   // 删除用户
   delUser: (id: number, config: any = {}) => request('post', '/v1/system/delUser/' + id, config),
-  // 获取CRUD的json
-  getCrud: (id: number, config: any = {}) => request('post', '/v1/system/getCrud/' + id, config),
-  // 表单按钮的统一方法
-  formAction: (url: string, params: any, config: any = {}) => request('post', url, params, config),
 }
