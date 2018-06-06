@@ -93,6 +93,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
       align-items: center;
     }
     .action{
+      margin-top: 10px;
       width: 100%;
       display: flex;
       justify-content: center;
@@ -134,7 +135,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   // 弹窗的表单调整一下样式
   .el-dialog{
     .el-dialog__body{
-      padding: 16px 20px;
+      padding: 10px 20px;
     }
     .div{
       padding: 0 10px;

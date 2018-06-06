@@ -9,7 +9,10 @@
         <cc-button icon="edit" text="修改" @click="onEdit"/>
         <cc-button icon="delete" text="删除" @click="onDel"/>
       </div>
-      <cc-table v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"  :current-row.sync="currentRow">
+      <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
+                :row-key="rowKey"
+                :selected-rows.sync="selectedRows"
+                :current-row.sync="currentRow">
       </cc-table>
       <el-pagination class="m-t-16 a-c" background
                      @current-change="pageNumChange" @size-change="pageSizeChange"
@@ -20,26 +23,28 @@
 </template>
 
 <script lang="tsx">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import CrudUtils from '@utils/CrudUtils.tsx'
 
   @Component
   export default class CcCrud extends Vue {
     /*vue-props*/
-    @Prop()
-    private data: any
-    @Prop({default: 'crud'})
-    private type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
+    @Prop() private data: any
+    @Prop({default: 'crud'}) private type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
+    @Prop({type: [Array, Object]}) private value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
     /*vue-vuex*/
     @Action('formAction')
     private formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    @Action('requestUrl')
+    private requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     private total: number = 0 // 总条数
     private loading: boolean = false
     private pageNum: number = 1  // 当前页
     private pageSize: number = 10 // 每页显示条数
     private defaultModel: any = {...this.editForm.model} // 保存一份原始数据的拷贝，用于新增的时候清空model
+    private selectedRows: any[] = []
     private currentRow: any = null
     /*vue-compute*/
     get searchForm() {
@@ -47,23 +52,11 @@
       return this.data.searchForm
     }
     get editForm() {
-      this.data.editForm.name = this.data.editForm.name || this.data.name
-      return this.data.editForm
-    }
-    // 查询类表单的查询url，一般在action=search的按钮上面配置
-    get searchUrl(): string {
-      return 'search' + this.data.name
-    }
-    get getUrl(): string {
-      if (this.data.editNeedQuery && this.currentRow) {
-        const rowKey = this.data.table.props && this.data.table.props.rowKey || 'id'
-        return 'get' + this.data.name + '/' + this.currentRow[rowKey]
+      if (this.type === 'crud') {
+        this.data.editForm.name = this.data.editForm.name || this.data.name
+        return this.data.editForm
       }
-      return ''
-    }
-    // 分页组件的样式
-    get layout() {
-      return this.type === 'crud' ? 'total, sizes, prev, pager, next, jumper' : 'prev, pager, next'
+      return {}
     }
     // 处理一些特殊的列，主要是传递formatFun或者renderFun的列，一般用于后端返回的json
     // 因为formatter和renderCell必须是function，而后端只能返回字符串，
@@ -79,13 +72,61 @@
       })
       return this.data.table.columns
     }
+    get rowKey() {
+      return this.data.table.props && this.data.table.props.rowKey || 'id'
+    }
+    get multi() {
+      return !!this.data.table.columns.find((c: TableColumn) => c.type === 'selection')
+    }
+    // 查询类表单的查询url，一般在action=search的按钮上面配置
+    get searchUrl(): string {
+      return 'search' + this.data.name
+    }
+    get getUrl(): string {
+      if (this.data.editNeedQuery && this.currentRow) {
+        return 'get' + this.data.name + '/' + this.currentRow[this.rowKey]
+      }
+      return ''
+    }
+    get delUrl(): string {
+      if (this.currentRow) {
+        return 'del' + this.data.name + '/' + this.currentRow[this.rowKey]
+      }
+      return ''
+    }
+    // 分页组件的样式
+    get layout() {
+      return this.type === 'crud' ? 'total, sizes, prev, pager, next, jumper' : 'prev, pager, next'
+    }
     /*vue-watch*/
+    @Watch('currentRow')
+    private currentRowChange(val: any) {
+      if (!this.multi && val) {
+        this.$emit('input', val)
+      }
+    }
+    @Watch('selectedRows')
+    private selectedRowsChange(val: any) {
+      if (this.multi) {
+        this.$emit('input', val)
+      }
+    }
     /*vue-lifecycle*/
     private created() {
+      this.init()
       // 搜索表单，默认立即执行搜索按钮
       this.getData()
     }
     /*vue-method*/
+    private init() {
+      if (this.value) {
+        if (this.multi) {
+          this.selectedRows = this.value
+        } else {
+          this.currentRow = this.value
+        }
+      }
+    }
     // 查询数据
     private async getData() {
       if (this.searchUrl) {
@@ -96,6 +137,18 @@
         if (data) {
           this.data.table.rows = data.list
           this.total = data.total
+          if (this.value) {
+            if (this.multi) {
+              this.selectedRows.forEach((row: any, index: number) => {
+                const newRow = data.list.find((row2: any) => row[this.rowKey] === row2[this.rowKey])
+                if (newRow) {
+                  this.selectedRows.splice(index, 1, newRow)
+                }
+              })
+            } else {
+              this.currentRow = data.list.find((row: any) => row[this.rowKey] === this.currentRow[this.rowKey])
+            }
+          }
         }
       }
     }
@@ -122,7 +175,7 @@
     // 点击编辑按钮
     private onEdit() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'error')
+        this.$utils.message('请选择一行', 'warning')
         return
       }
       this.onAdd(true)
@@ -130,15 +183,17 @@
     // 点击删除按钮
     private async onDel() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'error')
+        this.$utils.message('请选择一行', 'warning')
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
-        const{error} = await this.delUser(this.currentRow.id as number)
+        this.loading = true
+        const{error} = await this.requestUrl(this.delUrl)
+        this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
-          this.load()
+          this.getData()
         }
       }
     }

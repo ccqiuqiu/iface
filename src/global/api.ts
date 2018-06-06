@@ -25,8 +25,8 @@ export default {
   formAction: (url: string, params: any, config: any = {}) => request('post', formBaseUrl + url, params, config),
   // 查询表单options
   getOptions: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
-  // 通过id查询数据
-  getById: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
+  // 通过id查询数据，或者删除
+  requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
   // 用户列表

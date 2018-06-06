@@ -75,6 +75,12 @@
         }
       }
     }
+    //
+    private toggleRowSelection(rows: any[]) {
+      rows.forEach((row: any) => {
+        (this.$refs.table as Vue).toggleRowSelection(row, true)
+      })
+    }
   }
 </script>
 

@@ -27,7 +27,7 @@
       if (this.dialog.options && this.dialog.options.width) {
         return this.dialog.options.width
       } else {
-        return this.inside ? '50%' : '60%'
+        return this.inside ? '60%' : '70%'
       }
     }
     /*vue-data*/

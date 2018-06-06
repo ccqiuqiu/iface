@@ -50,6 +50,8 @@
       <cc-input-tree v-model="data.model[item.prop]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'tree'"></cc-input-tree>
       <!--弹出dialog-->
       <cc-input-dialog :title="item.label" v-model="data.model[item.prop]" v-bind="item.props" :dialog="item.dialog" v-else-if="item.type === 'dialog'"></cc-input-dialog>
+      <!--icon-->
+      <cc-input-icon v-model="data.model[item.prop]" v-bind="item.props" v-else-if="item.type === 'icon'"></cc-input-icon>
       <!--input-->
       <el-input v-model="data.model[item.prop]" v-bind="item.props" :type="item.type" v-else></el-input>
     </el-form-item>
@@ -65,6 +67,7 @@
   import CcInputTable from './CcInputTable.vue'
   import CcInputTree from './CcInputTree.vue'
   import CcInputDialog from './CcInputDialog.vue'
+  import CcInputIcon from './CcInputIcon.vue'
   import {Action} from 'vuex-class'
 
   // 按钮的动作map，在用户简单传入action的时候，设置默认的text等属性
@@ -87,7 +90,7 @@
     },
   }
 
-  @Component({components: {CcInputTable, CcInputTree, CcInputDialog}})
+  @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon}})
   export default class CcForm extends Vue {
     /*vue-props*/
     @Prop({required: true, type: Object})
@@ -99,8 +102,8 @@
     /*vue-vuex*/
     @Action('getOptions')
     private getOptions: (url: string) => Promise<any>
-    @Action('getById')
-    private getById: (url: string) => Promise<ActionReturn>
+    @Action('requestUrl')
+    private requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false
@@ -168,7 +171,7 @@
     //
     private async initModel() {
       this.loading = true
-      const {data} = await this.getById(this.url)
+      const {data} = await this.requestUrl(this.url)
       this.loading = false
       if (data) {
         this.data.model = data

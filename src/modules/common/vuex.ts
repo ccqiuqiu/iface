@@ -103,8 +103,8 @@ const actions: ActionTree<any, any> = {
       return null
     }
   },
-  getById(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
-    return api.getById(url)
+  requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
+    return api.requestUrl(url)
   },
 }
 

@@ -44,6 +44,13 @@
         tree: 11,
         table2: [1],
         tree2: [11],
+        icon: 'menu',
+        dialog: [
+          {
+            id: 1,
+            userName: '用户1',
+          },
+        ],
       },
       items: [
         {
@@ -343,10 +350,19 @@
           ],
         },
         {
+          label: '图标选择',
+          prop: 'icon',
+          type: 'icon',
+        },
+        {
           label: '弹出框',
           prop: 'dialog',
           type: 'dialog',
+          props: {
+            textField: 'userName',
+          },
           dialog: {
+            name: 'User',
             searchForm: {
               model: {},
               props: {
@@ -373,6 +389,7 @@
             },
             table: {
               columns: [
+                {type: 'selection'},
                 {prop: 'id', label: '编号'},
                 {prop: 'userName', label: '名称'},
               ],

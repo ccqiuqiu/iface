@@ -39,8 +39,9 @@ declare interface TableColumn {
   formatFun?: string, // 格式化的方法
 }
 
-declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox' | 'checkboxbutton'
-        | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider' | 'rate' | 'table' | 'tree' | 'dialog'
+declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox'
+  | 'checkboxbutton' | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider'
+  | 'rate' | 'table' | 'tree' | 'dialog' | 'icon'
 declare type BtnAction = 'save' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {

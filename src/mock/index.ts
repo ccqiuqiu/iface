@@ -136,18 +136,21 @@ Mock.mock(new RegExp('/login'), (option: any) => {
 })
 
 // 用户列表
-Mock.mock(new RegExp('/system/searchUser'), {
-  data: {
-    'total': 108,
-    'list|10': [{
-      'id|+1': 1,
-      'userName': '用户@id',
-      'tel': '124555222',
-      'sex|1': [0, 1],
-      'status|1': [0, 1],
-    }],
-  },
-  ...common(),
+Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
+  const body = JSON.parse(option.body)
+  return {
+    data: Mock.mock({
+      'total': 108,
+      'list|10': [{
+        'id|+1': (body.pageNum - 1) * 10 + 1,
+        'userName': '用户@id',
+        'tel': '124555222',
+        'sex|1': [0, 1],
+        'status|1': [0, 1],
+      }],
+    }),
+    ...common(),
+  }
 })
 // CRUD
 Mock.mock(new RegExp('/system/getCrud'), {
@@ -230,4 +233,20 @@ Mock.mock(new RegExp('/system/saveUser'), (option: any) => {
     data: {},
     ...common(),
   }
+})
+// 获取用户详情
+Mock.mock(new RegExp('/system/getUser/'), {
+  data: {
+    'id': 1,
+    'userName': '用户@id',
+    'tel': '124555222',
+    'sex|1': [0, 1],
+    'status|1': [0, 1],
+  },
+  ...common(),
+})
+// 删除用户
+Mock.mock(new RegExp('/system/delUser/'), {
+  data: {},
+  ...common(),
 })
