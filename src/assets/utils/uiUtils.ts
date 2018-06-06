@@ -43,17 +43,16 @@ export const msgbox = (option: MyElMessageBoxOptions) => {
   MessageBox(option)
 }
 
-export const dialog = (title: string, content: any, options: any = {}, inside = false) => {
+export const dialog = (title: string, content: any, options: any = {}) => {
   const dialog = {
       title,
       content,
       visible: true,
       options,
     }
-  store.commit('updateDialog', {dialog, inside})
+  store.commit('updateDialog', dialog)
 }
-export const dialogInside = (title: string, content: any, options: any) => dialog(title, content, options, true)
-export const hideDialog = (inside = false) => store.commit('updateDialog', { dialog: {}, inside})
+export const hideDialog = () => store.commit('hideDialog')
 
 /**
  * 跳转到tab，左侧菜单和顶部标签之外的地方跳转页面

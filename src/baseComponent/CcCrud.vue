@@ -11,6 +11,7 @@
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
                 :row-key="rowKey"
+                @single-click="$emit('rowClick')"
                 :selected-rows.sync="selectedRows"
                 :current-row.sync="currentRow">
       </cc-table>
@@ -123,7 +124,7 @@
         if (this.multi) {
           this.selectedRows = this.value
         } else {
-          this.currentRow = this.value
+          this.currentRow = this.value.length ? this.value[0] : null
         }
       }
     }
@@ -146,7 +147,12 @@
                 }
               })
             } else {
-              this.currentRow = data.list.find((row: any) => row[this.rowKey] === this.currentRow[this.rowKey])
+              if (this.currentRow) {
+                const newRow = data.list.find((row: any) => row[this.rowKey] === this.currentRow[this.rowKey])
+                if (newRow) {
+                  this.currentRow = newRow
+                }
+              }
             }
           }
         }

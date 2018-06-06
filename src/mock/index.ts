@@ -201,6 +201,48 @@ Mock.mock(new RegExp('/system/getCrud'), {
           type: 'select',
           options: 'status',
         },
+        {
+          label: '测试弹窗',
+          prop: 'dialog',
+          type: 'dialog',
+          props: {
+            valueField: 'id',
+            textField: 'userName',
+          },
+          dialog: {
+            name: 'User',
+            searchForm: {
+              model: {},
+              props: {
+                type: 'search',
+              },
+              items: [
+                {
+                  label: '姓名',
+                  prop: 'userName',
+                  type: 'text',
+                },
+                {
+                  label: '状态',
+                  prop: 'status',
+                  type: 'select',
+                  options: 'status',
+                },
+              ],
+            },
+            table: {
+              columns: [
+                {prop: 'id', label: '编号'},
+                {prop: 'userName', label: '名称'},
+                {prop: 'sex', label: '性别', formatFun: 'sex'},
+                {prop: 'tel', label: '电话'},
+                {prop: 'status', label: '状态', renderFun: 'status'},
+              ],
+              rows: [],
+            },
+            editNeedQuery: true,
+          },
+        },
       ],
     },
     table: {

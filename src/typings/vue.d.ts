@@ -35,9 +35,8 @@ export interface Utils {
   msgbox: MyElMessageBox,
   confirm: (content: string, title?: string, options?: any) => Promise<boolean>,
   alert: (content: string, title?: string, options?: any) => Promise<boolean>,
-  dialog: (title: string, content: any, options?: any, inside?: boolean) => void,
-  dialogInside: (title: string, content: any, options?: any, inside?: boolean) => void,
-  hideDialog: (inside?: boolean) => void
+  dialog: (title: string, content: any, options?: any) => void,
+  hideDialog: () => void
   flatObject: <T extends TT>(source: T[], children?: string) => T[],
   set: (key: string, val: any) => void
   get: (key: string, defaultVal: any) => any,

@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/6/4.-->
 <template>
   <div>
-    <cc-input-tags @click.native="show" v-model="value" :label="textField"  @del="delTag" icon="dialog"/>
+    <cc-input-tags @click.native="show" v-model="getSelectTag" :label="textField"  @del="delTag" icon="dialog"/>
   </div>
 </template>
 
@@ -22,20 +22,21 @@
     private selectData: any | any[]
     /*vue-compute*/
     get getSelectTag() {
-      return []
+      return this.value ? (Array.isArray(this.value) ? this.value : [this.value]) : []
     }
+
     /*vue-watch*/
     /*vue-lifecycle*/
 
     /*vue-method*/
     // 显示弹窗
     private show() {
-      this.selectData = JSON.parse(JSON.stringify(this.value))
+      this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
       this.$utils.dialog(this.title, (h: any) => <div>
-        <cc-crud data={this.dialog} type='dialog' value={this.selectData} onInput={this.onChange}></cc-crud>
-        <div class='action'>
+        <cc-crud data={this.dialog} type='dialog' value={this.selectData} onRowClick={this.rowClick} onInput={this.onChange}></cc-crud>
+        {Array.isArray(this.value) && <div class='action'>
           <el-button type='primary' onClick={this.select}>选择</el-button>
-        </div>
+        </div>}
       </div>)
     }
     // 删除标签
@@ -46,14 +47,24 @@
     private onChange(val: any | any[]) {
       this.selectData = val
     }
+    private rowClick() {
+      setTimeout(() => this.select(), 0)
+    }
     // 点击选择按钮
     private select() {
-      this.$emit('input', this.selectData.map((row: any) => {
-        const tag: any = {}
-        tag[this.valueField] = row[this.valueField]
-        tag[this.textField] = row[this.textField]
-        return tag
-      }))
+      let re: any = {}
+      if (Array.isArray(this.selectData)) {
+        re = this.selectData.map((row: any) => {
+          const tag: any = {}
+          tag[this.valueField] = row[this.valueField]
+          tag[this.textField] = row[this.textField]
+          return tag
+        })
+      } else {
+        re[this.valueField] = this.selectData[this.valueField]
+        re[this.textField] = this.selectData[this.textField]
+      }
+      this.$emit('input', re)
       this.$utils.hideDialog()
     }
   }

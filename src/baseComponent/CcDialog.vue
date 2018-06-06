@@ -36,7 +36,9 @@
     /*vue-lifecycle*/
     /*vue-method*/
     private onClose() {
-      this.$utils.hideDialog(this.inside)
+      if (this.dialog.visible) {
+        this.$utils.hideDialog()
+      }
     }
   }
 </script>

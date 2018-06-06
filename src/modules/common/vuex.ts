@@ -58,11 +58,19 @@ const mutations: MutationTree<any> = {
     }
   },
   // 更新Dialog弹窗
-  updateDialog(state: CommonState, params: any): void {
-    if (params.inside) {
-      state.insideDialog = params.dialog
+  updateDialog(state: CommonState, dialog: any): void {
+    if (state.outsideDialog.visible) {
+      state.insideDialog = dialog
     } else {
-      state.outsideDialog = params.dialog
+      state.outsideDialog = dialog
+    }
+  },
+  // 关闭Dialog弹窗
+  hideDialog(state: CommonState): void {
+    if (state.insideDialog.visible) {
+      state.insideDialog = {}
+    } else {
+      state.outsideDialog = {}
     }
   },
   // 登录后，设置一些用户信息到store

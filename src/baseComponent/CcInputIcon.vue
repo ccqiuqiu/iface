@@ -3,8 +3,8 @@
   <div class="input-icon" flex="cross:center">
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
       <div class="icon-con">
-        <span v-for="name in icons" flex="dir:top cross:center" :class="['icon-warp', {select: name === value}]">
-          <span class="icon" flex="cross:center" @click="select(name)"><cc-icon :name="name"></cc-icon></span>
+        <span v-for="name in icons" flex="dir:top cross:center" :class="['icon-warp', {select: name === value}]" @click="select(name)">
+          <span class="icon" flex="cross:center"><cc-icon :name="name"></cc-icon></span>
           <span class="to">{{name}}</span>
         </span>
       </div>

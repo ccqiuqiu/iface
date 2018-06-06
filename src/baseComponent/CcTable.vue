@@ -59,7 +59,9 @@
       }
     }
     private currentChange(row: any) {
-      this.$emit('update:currentRow', row)
+      if (row) {
+        this.$emit('update:currentRow', row)
+      }
     }
     private select(rows: any[], row: any) {
       this.$emit('update:selectedRows', rows)
@@ -73,6 +75,8 @@
         } else {
           this.selectedRows.push(row)
         }
+      } else {
+        this.$emit('single-click')
       }
     }
     //

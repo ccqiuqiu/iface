@@ -64,100 +64,6 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-card.i{
     border-top: 3px solid $color-info;
   }
-
-  // 表单样式
-  .el-form{
-    display: flex;
-    flex-wrap: wrap;
-
-    .el-form-item{
-      flex: 0 1 50%;
-    }
-    .el-form-item[type="daterange"],
-    .el-form-item[type="checkbox"], .el-form-item[type="checkboxbutton"],
-    .el-form-item[type="radio"], .el-form-item[type="radiobutton"] {
-      flex: 0 1 100%;
-    }
-    .el-select, .el-range-editor, .el-date-editor, .el-cascader{
-      width: 100%;
-    }
-    .el-form-item[type="slider"] .el-form-item__content > div{
-      margin: 0 10px;
-      .el-slider__runway{
-        margin: 13px 0;
-      }
-    }
-    .el-rate{
-      height: 32px;
-      display: flex;
-      align-items: center;
-    }
-    .action{
-      margin-top: 10px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    .el-checkbox{
-      margin-right: 30px;
-      margin-left: 0;
-    }
-  }
-  .el-form.single-line{
-    display: block;
-  }
-
-  .el-form.el-form--inline{
-    .el-form-item{
-      margin-right: 16px;
-      margin-bottom: 10px;
-      flex: none;
-    }
-    .el-form-item__label{
-      padding-right: 10px;
-      width: inherit !important;
-    }
-    .el-input{
-      width: 120px;
-    }
-    .action{
-      height: 32px;
-      width: inherit;
-      flex: none;
-      margin: 0 0 18px;
-      justify-content: center;
-
-      .el-button{
-        padding: 9px;
-      }
-    }
-  }
-  // 弹窗的表单调整一下样式
-  .el-dialog{
-    .el-dialog__body{
-      padding: 10px 20px;
-    }
-    .div{
-      padding: 0 10px;
-      border-radius: 0;
-      border: 0;
-      border-bottom: 1px solid $--input-border-color;
-    }
-    .el-card{
-      border: 0;
-      padding: 0;
-      border-radius: 0;
-
-      .el-card__body{
-        padding: 0;
-      }
-    }
-    .action{
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
   /*自定义样式*/
   .div{
     background-color: $color-white;
@@ -171,5 +77,97 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     background: $color-warning;
     border-radius: 4px;
     color: $color-white;
+  }
+}
+// 表单样式
+.el-form{
+  display: flex;
+  flex-wrap: wrap;
+
+  .el-form-item{
+    flex: 0 1 50%;
+  }
+  .el-form-item[type="daterange"],
+  .el-form-item[type="checkbox"], .el-form-item[type="checkboxbutton"],
+  .el-form-item[type="radio"], .el-form-item[type="radiobutton"] {
+    flex: 0 1 100%;
+  }
+  .el-select, .el-range-editor, .el-date-editor, .el-cascader{
+    width: 100%;
+  }
+  .el-form-item[type="slider"] .el-form-item__content > div{
+    margin: 0 10px;
+    .el-slider__runway{
+      margin: 13px 0;
+    }
+  }
+  .el-rate{
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+  .action{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .el-checkbox{
+    margin-right: 30px;
+    margin-left: 0;
+  }
+}
+.el-form.single-line{
+  display: block;
+}
+
+.el-form.el-form--inline{
+  .el-form-item{
+    margin-right: 16px;
+    margin-bottom: 10px;
+    flex: none;
+  }
+  .el-form-item__label{
+    padding-right: 10px;
+    width: inherit !important;
+  }
+  .el-input{
+    width: 120px;
+  }
+  .action{
+    height: 32px;
+    width: inherit;
+    flex: none;
+    margin: 0 0 18px;
+    justify-content: center;
+
+    .el-button{
+      padding: 9px;
+    }
+  }
+}
+// 弹窗的表单调整一下样式
+.el-dialog{
+  .el-dialog__body{
+    padding: 10px 20px;
+  }
+  .div{
+    padding: 0 10px;
+    border-radius: 0;
+    border: 0 !important;
+    border-bottom: 1px solid $--input-border-color !important;
+  }
+  .el-card{
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+
+    .el-card__body{
+      padding: 0;
+    }
+  }
+  .action{
+    display: flex;
+    justify-content: flex-end;
   }
 }
