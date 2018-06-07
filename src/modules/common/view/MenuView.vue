@@ -15,7 +15,10 @@
             <span slot="title" class="m-l-5">{{menu.name}}</span>
           </template>
           <el-menu-item v-for="menu2 in menu.children" :index="menu2.id" :key="menu2.id" :route="{path: menu2.url}">
-            {{menu2.name}}
+            <template slot="title">
+              <cc-icon name="ring" size="14"></cc-icon>
+              <span slot="title" class="m-l-5">{{menu2.name}}</span>
+            </template>
           </el-menu-item>
         </el-submenu>
         <el-menu-item :index="menu.id" v-else :route="{path: menu.url}" :key="menu.id">
@@ -110,6 +113,10 @@
     .el-menu{
       border-right: 0;
       background-color: $color-menu-bg;
+
+      .svg-icon {
+        margin-bottom: -2px;
+      }
     }
     .el-submenu__title, .el-menu-item{
       color: rgba($color-white, 0.6);
@@ -121,6 +128,9 @@
 
     .el-menu--inline{
       background-color: mix($color-white, $color-menu-bg, 5%);
+      .svg-icon {
+        margin-bottom: -1px;
+      }
       .el-submenu__title, .el-menu-item{
         color: rgba($color-white, 0.4);
       }
@@ -139,12 +149,8 @@
       line-height: 44px;
     }
     .el-submenu .el-menu-item{
-      height: 30px;
-      line-height: 30px;
-    }
-
-    .svg-icon {
-      margin-bottom: -2px;
+      height: 36px;
+      line-height: 36px;
     }
   }
 </style>

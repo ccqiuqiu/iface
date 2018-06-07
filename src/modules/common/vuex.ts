@@ -4,6 +4,7 @@ import api from '@g/api'
 
 const state: CommonState = {
   menus: [], // 左侧菜单
+  resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
   menuTabs: [{key: '0', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}], // tabs
   selectedTab: '0', // 当前激活的tab
@@ -77,6 +78,7 @@ const mutations: MutationTree<any> = {
   updateUser(state: CommonState, data: any): void {
     state.user = data.user
     state.menus = data.auth.menus
+    state.resources = data.auth.resources
   },
   // 清除Store里面的用户信息
   clearStore(state: CommonState): void {

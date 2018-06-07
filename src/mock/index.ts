@@ -72,7 +72,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
       {
         id: '2',
         name: '图表',
-        icon: 'add',
+        icon: 'chart',
         url: '/demo',
         children: [
           {
@@ -110,7 +110,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
       {
         id: '3',
         name: '表单',
-        icon: 'add',
+        icon: 'form',
         url: '/demo',
         children: [
           {
@@ -128,14 +128,14 @@ Mock.mock(new RegExp('/login'), (option: any) => {
         ],
       },
     ],
-    resources: [],
+    resources: ['addUser', 'editUser'],
   }
   if (user.userName === 'admin') {
     user.roles = '管理员'
     auth.menus.unshift(...[{
       id: '1',
       name: '系统管理',
-      icon: 'menu',
+      icon: 'system',
       url: '/system',
       children: [{
         id: '11',
@@ -144,6 +144,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
         url: '/system/user',
       }],
     }])
+    auth.resources = ['all']
   } else {
     user.roles = '普通用户'
   }

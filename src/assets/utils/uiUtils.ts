@@ -83,5 +83,10 @@ export const toTab = (url: string) => {
 }
 
 export const hasAuth = (binding: any): boolean => {
-  return binding.value.includes('addUser')
+  const resources: string[] = store.state.common.resources
+  if (resources[0] === 'all') {
+    return true
+  } else {
+    return !!resources.find((res: string) => binding.value.includes(res))
+  }
 }

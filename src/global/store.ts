@@ -42,6 +42,7 @@ export default new Vuex.Store({
     reducer: (state: State) => ({
       common: {
         menus: state.common.menus,
+        resources: state.common.resources,
         menuExpand: state.common.menuExpand,
         menuTabs: state.common.menuTabs,
         selectedTab: state.common.selectedTab,

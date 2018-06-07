@@ -18,6 +18,7 @@ interface State {
 // common模块
 declare interface CommonState extends IndexEd {
   menus?: Menu[],
+  resources?: string[],
   menuExpand?: boolean,
   selectedTab?: string,
   user?: User,
