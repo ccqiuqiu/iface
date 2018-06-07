@@ -41,8 +41,12 @@
     }
     // 删除标签
     private delTag(item: any) {
-      const index = this.value.findIndex((tag: any) => tag[this.valueField] = item[this.valueField])
-      this.value.splice(index, 1)
+      if (Array.isArray(this.value)) {
+        const index = this.value.findIndex((tag: any) => tag[this.valueField] = item[this.valueField])
+        this.value.splice(index, 1)
+      } else {
+        this.$emit('input', null)
+      }
     }
     private onChange(val: any | any[]) {
       this.selectData = val

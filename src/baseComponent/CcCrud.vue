@@ -175,8 +175,9 @@
       } else {
         this.editForm.model = {...this.defaultModel}
       }
+      const url = edit ? this.getUrl : ''
       this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h: any) =>
-        <cc-form data={this.editForm} onSave={this.save} url={edit ? this.getUrl : ''}></cc-form>)
+        <cc-form data={this.editForm} onSave={this.saved} url={url}></cc-form>)
     }
     // 点击编辑按钮
     private onEdit() {
@@ -204,8 +205,7 @@
       }
     }
     // 保存
-    private async save(url: string) {
-      const {error} = await this.formAction({url, params: this.editForm.model})
+    private async saved(error: any) {
       if (!error) {
         this.$utils.message('保存成功')
         this.$utils.hideDialog()

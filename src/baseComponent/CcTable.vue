@@ -3,6 +3,7 @@
   <el-table ref="table" :data="rows" v-bind="$attrs"
             v-on="$listeners"
             :row-key="rowKey"
+            stripe
             :highlight-current-row="!multi"
             @select="select"
             @select-all="select"

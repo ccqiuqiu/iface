@@ -99,47 +99,13 @@
           label: '多选',
           prop: 'type',
           type: 'checkbox',
-          options: [
-            {
-              label: '美食/餐厅线上活动',
-              value: 1,
-            },
-            {
-              label: '地推活动',
-              value: 2,
-            },
-            {
-              label: '线下主题活动',
-              value: 3,
-            },
-            {
-              label: '单纯品牌噱头',
-              value: 4,
-            },
-          ],
+          options: 'checkBoxDemo',
         },
         {
           label: '多选-按钮',
           prop: 'type',
           type: 'checkboxbutton',
-          options: [
-            {
-              label: '美食/餐厅线上活动',
-              value: 1,
-            },
-            {
-              label: '地推活动',
-              value: 2,
-            },
-            {
-              label: '线下主题活动',
-              value: 3,
-            },
-            {
-              label: '单纯品牌噱头',
-              value: 4,
-            },
-          ],
+          options: 'checkBoxDemo',
         },
         {
           label: '单选',

@@ -5,6 +5,10 @@
 
 import Mock from 'mockjs'
 
+Mock.setup({
+  timeout: '300-600',
+})
+
 const optinonMaps: any = {
   status: [
     {
@@ -24,6 +28,24 @@ const optinonMaps: any = {
     {
       label: '女',
       value: 0,
+    },
+  ],
+  checkBoxDemo: [
+    {
+      label: '美食/餐厅线上活动',
+      value: 1,
+    },
+    {
+      label: '地推活动',
+      value: 2,
+    },
+    {
+      label: '线下主题活动',
+      value: 3,
+    },
+    {
+      label: '单纯品牌噱头',
+      value: 4,
     },
   ],
 }
@@ -183,6 +205,9 @@ Mock.mock(new RegExp('/system/getCrud'), {
           label: '姓名',
           prop: 'userName',
           type: 'text',
+          verify: {
+            number: true,
+          },
         },
         {
           label: '性别',
@@ -194,6 +219,10 @@ Mock.mock(new RegExp('/system/getCrud'), {
           label: '电话',
           prop: 'tel',
           type: 'text',
+          verify: {
+            number: true,
+            canBeEmpty: '',
+          },
         },
         {
           label: '状态',
@@ -209,6 +238,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
             valueField: 'id',
             textField: 'userName',
           },
+          verify: {},
           dialog: {
             name: 'User',
             searchForm: {
@@ -284,6 +314,10 @@ Mock.mock(new RegExp('/system/getUser/'), {
     'tel': '124555222',
     'sex|1': [0, 1],
     'status|1': [0, 1],
+    'dialog': {
+      id: 1,
+      userName: '用户1',
+    },
   },
   ...common(),
 })

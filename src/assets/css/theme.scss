@@ -92,7 +92,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-form-item[type="radio"], .el-form-item[type="radiobutton"] {
     flex: 0 1 100%;
   }
-  .el-select, .el-range-editor, .el-date-editor, .el-cascader{
+  .el-select, .el-range-editor, .el-date-editor, .el-cascader, .el-date-editor .el-range-input{
     width: 100%;
   }
   .el-form-item[type="slider"] .el-form-item__content > div{

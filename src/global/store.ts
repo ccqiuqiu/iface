@@ -4,21 +4,7 @@ import { MutationTree, ActionTree, ModuleTree, ActionContext } from 'vuex'
 import common from '../modules/common/vuex'
 import publicM from '../modules/public/vuex'
 import system from '../modules/system/vuex'
-import VuexPersistence from 'vuex-persist'
-const vuexPersist = new VuexPersistence({
-  strictMode: true,
-  storage: sessionStorage,
-  reducer: (state: State) => ({
-    common: {
-      menus: state.common.menus,
-      menuExpand: state.common.menuExpand,
-      menuTabs: state.common.menuTabs,
-      selectedTab: state.common.selectedTab,
-      user: state.common.user,
-    },
-    // home: state.home,
-  }),
-})
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -37,8 +23,6 @@ const mutations: MutationTree<any> = {
   hideLoading(state: State): void {
     state.loading = true
   },
-  // 这个是vuex-persist需要的mutation
-  RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION,
 }
 
 const actions: ActionTree<any, any> = {
@@ -53,5 +37,17 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules,
-  plugins: [vuexPersist.plugin],
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+    reducer: (state: State) => ({
+      common: {
+        menus: state.common.menus,
+        menuExpand: state.common.menuExpand,
+        menuTabs: state.common.menuTabs,
+        selectedTab: state.common.selectedTab,
+        user: state.common.user,
+      },
+      // home: state.home,
+    }),
+  })],
 })
