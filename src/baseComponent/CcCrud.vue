@@ -7,7 +7,7 @@
         <span flex-box="1">{{data.title || ''}}</span>
         <cc-button v-auth="['add' + data.name]" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="['edit' + data.name]" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onEdit"/>
+        <cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>
         <cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
@@ -28,11 +28,12 @@
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import CrudUtils from '@utils/CrudUtils.tsx'
+  import CcCrudView from '@bc/CcCrudView.vue'
 
   @Component
   export default class CcCrud extends Vue {
     /*vue-props*/
-    @Prop() private data: any
+    @Prop() private data: CRUDObject
     @Prop({default: 'crud'}) private type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
     @Prop({type: [Array, Object]}) private value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
     /*vue-vuex*/
@@ -49,12 +50,15 @@
     private selectedRows: any[] = []
     private currentRow: any = null
     /*vue-compute*/
-    get searchForm() {
-      this.data.searchForm.name = this.data.searchForm.name || this.data.name
-      return this.data.searchForm
+    get searchForm(): FormObject | any {
+      if (this.data.searchForm) {
+        this.data.searchForm.name = this.data.searchForm.name || this.data.name
+        return this.data.searchForm
+      }
+      return {}
     }
-    get editForm() {
-      if (this.type === 'crud') {
+    get editForm(): FormObject | any {
+      if (this.type === 'crud' && this.data.editForm) {
         this.data.editForm.name = this.data.editForm.name || this.data.name
         return this.data.editForm
       }
@@ -83,18 +87,6 @@
     // 查询类表单的查询url，一般在action=search的按钮上面配置
     get searchUrl(): string {
       return 'search' + this.data.name
-    }
-    get getUrl(): string {
-      if (this.data.editNeedQuery && this.currentRow) {
-        return 'get' + this.data.name + '/' + this.currentRow[this.rowKey]
-      }
-      return ''
-    }
-    get delUrl(): string {
-      if (this.currentRow) {
-        return 'del' + this.data.name + '/' + this.currentRow[this.rowKey]
-      }
-      return ''
     }
     // 分页组件的样式
     get layout() {
@@ -176,7 +168,7 @@
       } else {
         this.editForm.model = {...this.defaultModel}
       }
-      const url = edit ? this.getUrl : ''
+      const url = this.data.needQuery && edit ? this.getActionUrl('get') : ''
       this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h: any) =>
         <cc-form data={this.editForm} onSave={this.saved} url={url}></cc-form>)
     }
@@ -197,7 +189,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.requestUrl(this.delUrl)
+        const{error} = await this.requestUrl(this.getActionUrl('del'))
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
@@ -205,13 +197,29 @@
         }
       }
     }
-    // 保存
+    // 点击查看按钮
+    private onView() {
+      if (!this.currentRow) {
+        this.$utils.message('请选择一行', 'warning')
+        return
+      }
+      const url = this.data.needQuery ? this.getActionUrl('view') : ''
+      this.$utils.dialog('查看', (h: any) =>
+        <CcCrudView data={this.currentRow} fields={this.editForm.items} url={url}></CcCrudView>, {showBtn: true})
+    }
+    // 保存完成
     private async saved(error: any) {
       if (!error) {
         this.$utils.message('保存成功')
         this.$utils.hideDialog()
         this.getData()
       }
+    }
+    private getActionUrl(action: string) {
+      if (this.currentRow) {
+        return action + this.data.name + '/' + this.currentRow[this.rowKey]
+      }
+      return ''
     }
   }
 </script>

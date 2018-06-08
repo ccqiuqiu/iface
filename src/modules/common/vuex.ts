@@ -53,9 +53,10 @@ const mutations: MutationTree<any> = {
       state.menuTabs.splice(index, 1)
     }
     // 如果删除的是当前激活的，要重新激活一个标签
-    // 暂定激活前一个
+    // 暂定激活下一个
     if (key === state.selectedTab) {
-      state.selectedTab = state.menuTabs[index - 1].key
+      const newIndex = state.menuTabs[index] ? index : index - 1
+      state.selectedTab = state.menuTabs[newIndex].key
     }
   },
   // 更新Dialog弹窗

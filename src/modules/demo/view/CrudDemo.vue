@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
-  <cc-crud :data="data" v-if="!$utils.isEmptyObject(data)"></cc-crud>
+  <cc-crud :data="data" v-if="data"></cc-crud>
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@
     /*vue-vuex*/
     @Action('getCrud') private getCrud: (id: number) => Promise<ActionReturn>
     /*vue-data*/
-    private data?: CURDObject = {}
+    private data: CRUDObject | null = null
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/

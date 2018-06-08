@@ -1,10 +1,14 @@
 <!--Created by 熊超超 on 2018/5/21.-->
 <template>
-  <el-dialog :title="dialog.title" :width="width"
+  <el-dialog :title="dialog.title" :width="width" v-bind="dialog.options"
              :visible.sync="dialog.visible"
              @close="onClose" :append-to-body="appendToBody">
     <cc-dialog v-if="!inside" inside append-to-body/>
     <cc-render :render-fun="dialog.content" v-if="dialog.content"></cc-render>
+
+    <div slot="footer" class="dialog-footer" v-if="dialog.options && dialog.options.showBtn">
+      <el-button type="primary" @click="onClose">确定</el-button>
+    </div>
   </el-dialog>
 </template>
 

@@ -1,10 +1,10 @@
 /**
  * Created by 熊超超 on 2018/5/29.
  */
-import CcTable from '../baseComponent/CcTable.vue'
-import CcButton from '../baseComponent/CcButton.vue'
-import CcForm from '../baseComponent/CcForm.vue'
-import CcCrud from '../baseComponent/CcCrud.vue'
+import CcTable from '@bc/CcTable.vue'
+import CcButton from '@bc/CcButton.vue'
+import CcForm from '@bc/CcForm.vue'
+import CcCrud from '@bc/CcCrud.vue'
 import VueProgressBar from 'vue-progressbar'
 import VeLine from 'v-charts/lib/line'
 import VeHistogram from 'v-charts/lib/histogram'

@@ -50,8 +50,8 @@
       <cc-input-icon v-model="data.model[item.prop]" v-bind="item.props" v-else-if="item.type === 'icon'"></cc-input-icon>
       <!--input-->
       <template v-else>
-        <el-input v-model.number="data.model[item.prop]" v-bind="item.props" :type="item.type" v-if="isNumber(item.verify)"></el-input>
-        <el-input v-model="data.model[item.prop]" v-bind="item.props" :type="item.type" v-else></el-input>
+        <el-input v-model.number="data.model[item.prop]" v-bind="item.props" :type="item.type" v-if="isNumber(item.verify)" clearable></el-input>
+        <el-input v-model="data.model[item.prop]" v-bind="item.props" :type="item.type" v-else clearable></el-input>
       </template>
     </el-form-item>
     <!--操作按钮-->
@@ -99,8 +99,7 @@
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
     @Action('requestUrl') private requestUrl: (url: string) => Promise<ActionReturn>
-    @Action('formAction')
-    private formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    @Action('formAction') private formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false

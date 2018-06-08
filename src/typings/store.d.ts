@@ -36,7 +36,6 @@ declare interface IndexEd {
 }
 
 // 以下是业务对象
-
 // 菜单
 declare interface Menu extends IndexEd {
   id: string, // id

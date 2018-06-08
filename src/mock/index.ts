@@ -161,6 +161,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
 // 用户列表
 Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
   const body = JSON.parse(option.body)
+  body.pageNum = body.pageNum || 1
   return {
     data: Mock.mock({
       'total': 108,
@@ -221,7 +222,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
           prop: 'tel',
           type: 'text',
           verify: {
-            number: true,
+            phone: true,
             canBeEmpty: '',
           },
         },
@@ -271,7 +272,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
               ],
               rows: [],
             },
-            editNeedQuery: true,
+            needQuery: true,
           },
         },
       ],
@@ -286,7 +287,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
       ],
       rows: [],
     },
-    editNeedQuery: true,
+    needQuery: true,
   },
   ...common(),
 })
@@ -319,6 +320,17 @@ Mock.mock(new RegExp('/system/getUser/'), {
       id: 1,
       userName: '用户1',
     },
+  },
+  ...common(),
+})
+// 获取用户详情
+Mock.mock(new RegExp('/system/viewUser/'), {
+  data: {
+    userName: '用户',
+    tel: '124555222',
+    sex: '男',
+    status: '启用',
+    dialog: '用户1,用户2',
   },
   ...common(),
 })

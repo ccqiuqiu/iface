@@ -9,6 +9,7 @@ $--color-success: $color-success;
 $--color-warning: $color-warning;
 $--color-danger: $color-danger;
 $--color-info: $color-info;
+$--input-border-color: $border-color;
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 @import "~element-ui/packages/theme-chalk/src/index";
@@ -138,7 +139,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     height: 32px;
     width: inherit;
     flex: none;
-    margin: 0 0 18px;
+    margin: 0 0 10px;
     justify-content: center;
 
     .el-button{
@@ -148,6 +149,9 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 // 弹窗的表单调整一下样式
 .el-dialog{
+  .el-dialog__footer{
+    padding-bottom: 16px;
+  }
   .el-dialog__body{
     padding: 10px 20px;
   }
@@ -169,5 +173,6 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .action{
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 6px;
   }
 }
