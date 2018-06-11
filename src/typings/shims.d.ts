@@ -48,20 +48,8 @@ declare interface FormObject {
   name?: string, // 对象名，没有配置url的情况下，根据name生成相应的url
   model: any, // 表单绑定的对象
   props?: any, // 表单的属性
-  items: FormItem[], // 表单项
+  items?: FormItem[], // 表单项
   btns?: FormBtn[], // 操作按钮
-}
-declare interface FormItem {
-  label: string,
-  prop: string,
-  type: FormItemType
-  verify?: any, // 表单校验配置
-  props?: any, // 表单项属性，对应element相应的组件的属性
-  options?: {
-    columns: TableColumn[],
-    rows: string| any[],
-  } | string | any[], // 选项值，类似单选组、下拉选择组件的可选值
-  dialog?: CRUDObject  // 用于类型为dialog的表单项
 }
 declare interface FormBtn {
   action: BtnAction,
@@ -70,9 +58,32 @@ declare interface FormBtn {
   icon?: string,
   url?: string,
 }
+declare interface FormItemPublic {
+  type?: FormItemType
+  verify?: any, // 表单校验配置
+  props?: any, // 表单项属性，对应element相应的组件的属性
+  options?: {
+    columns: TableColumn[],
+    rows: string| any[],
+  } | string | any[], // 选项值，类似单选组、下拉选择组件的可选值
+  dialog?: CRUDObject  // 用于类型为dialog的表单项
+}
+declare interface FormItem extends FormItemPublic {
+  label: string,
+  prop: string,
+}
+declare type targetType = 'table' | 'searchForm' | 'editForm'
+declare interface CRUDItem {
+  label: string,
+  prop: string,
+  target: string[],
+  formProps: FormItemPublic,
+  tableProps: TableColumn,
+}
 declare interface CRUDObject {
   name?: string, // 对象名，没有配置url的情况下，根据name生成相应的url
   title?: string,
+  items?: CRUDItem[], // 如果表单的items和表格的columns为空，就取这里的值
   searchForm?: FormObject,
   editForm?: FormObject,
   table: {

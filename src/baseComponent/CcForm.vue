@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/5/30.-->
 <template>
-  <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="data.props && data.props.type === 'search'">
-    <el-form-item v-bind="itemProps(item)" v-for="(item, index) in data.items" :key="item.id || index"
+  <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="isSearch">
+    <el-form-item v-bind="itemProps(item)" v-for="(item, index) in items" :key="item.id || index"
                   :class="{'is-required': item.verify && item.verify.canBeEmpty === undefined}">
       <!--选择框-->
       <el-select v-model="data.model[item.prop]" v-bind="item.props" v-if="item.type === 'select'">
@@ -103,6 +103,7 @@
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false
+    private items: FormItem[] = this.data.items || []
     /*vue-compute*/
     // 处理按钮数组
     get btns() {
@@ -165,10 +166,10 @@
       }
     }
     // 初始化选择类控件的options的值
-    private async initOptions() {
-      this.data.items
+    private initOptions() {
+      (this.data.items as FormItem[])
         .filter((item: FormItem) => item.options && typeof item.options === 'string')
-        .map((item: FormItem) => this.getOptionsSync(item))
+        .forEach((item: FormItem) => this.getOptionsSync(item))
     }
     // 异步查询options的值。赋值给options
     private async getOptionsSync(item: FormItem) {

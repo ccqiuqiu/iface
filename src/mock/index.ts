@@ -177,15 +177,12 @@ Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
   }
 })
 // CRUD
-Mock.mock(new RegExp('/system/getCrud'), {
+Mock.mock(new RegExp('/system/getCrud_'), {
   data: {
     title: '用户管理',
     name: 'User',
     searchForm: {
       model: {},
-      props: {
-        type: 'search',
-      },
       items: [
         {
           label: '姓名',
@@ -285,6 +282,124 @@ Mock.mock(new RegExp('/system/getCrud'), {
         {prop: 'tel', label: '电话'},
         {prop: 'status', label: '状态', renderFun: 'status'},
       ],
+      rows: [],
+    },
+    needQuery: true,
+  },
+  ...common(),
+})
+
+Mock.mock(new RegExp('/system/getCrud'), {
+  data: {
+    title: '用户管理',
+    name: 'User',
+    items: [
+      {
+        label: '编号',
+        prop: 'id',
+        target: ['table'],
+      },
+      {
+        label: '姓名',
+        prop: 'userName',
+        target: ['table', 'searchForm', 'editForm'],
+        formProps: {
+          type: 'text',
+          verify: {
+            number: true,
+          },
+        },
+      },
+      {
+        label: '性别',
+        prop: 'sex',
+        target: ['table', 'editForm'],
+        formProps: {
+          type: 'select',
+          options: 'sex',
+        },
+        tableProps: {
+          formatFun: 'sex',
+        },
+      },
+      {
+        label: '电话',
+        prop: 'tel',
+        target: ['table', 'editForm'],
+        formProps: {
+          type: 'text',
+          verify: {
+            phone: true,
+            canBeEmpty: '',
+          },
+        },
+      },
+      {
+        label: '状态',
+        prop: 'status',
+        target: ['table', 'searchForm', 'editForm'],
+        formProps: {
+          type: 'select',
+          options: 'status',
+        },
+        tableProps: {
+          renderFun: 'status',
+        },
+      },
+      {
+        label: '测试弹窗',
+        prop: 'dialog',
+        target: ['editForm'],
+        formProps: {
+          type: 'dialog',
+          props: {
+            valueField: 'id',
+            textField: 'userName',
+            verify: {},
+          },
+          dialog: {
+            name: 'User',
+            searchForm: {
+              model: {},
+              props: {
+                type: 'search',
+              },
+              items: [
+                {
+                  label: '姓名',
+                  prop: 'userName',
+                  type: 'text',
+                },
+                {
+                  label: '状态',
+                  prop: 'status',
+                  type: 'select',
+                  options: 'status',
+                },
+              ],
+            },
+            table: {
+              columns: [
+                {prop: 'id', label: '编号'},
+                {prop: 'userName', label: '名称'},
+                {prop: 'sex', label: '性别', formatFun: 'sex'},
+                {prop: 'tel', label: '电话'},
+                {prop: 'status', label: '状态', renderFun: 'status'},
+              ],
+              rows: [],
+            },
+            needQuery: true,
+          },
+        },
+      },
+    ],
+    searchForm: {
+      model: {},
+    },
+    editForm: {
+      model: {},
+    },
+    table: {
       rows: [],
     },
     needQuery: true,

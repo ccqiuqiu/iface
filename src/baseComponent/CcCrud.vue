@@ -53,14 +53,22 @@
     get searchForm(): FormObject | any {
       if (this.data.searchForm) {
         this.data.searchForm.name = this.data.searchForm.name || this.data.name
+        if (!this.data.searchForm.items) {
+          this.data.searchForm.items = this.getItems('searchForm') as FormItem[]
+        }
         return this.data.searchForm
       }
       return {}
     }
     get editForm(): FormObject | any {
-      if (this.type === 'crud' && this.data.editForm) {
-        this.data.editForm.name = this.data.editForm.name || this.data.name
-        return this.data.editForm
+      if (this.type === 'crud') {
+        if (this.data.editForm) {
+          this.data.editForm.name = this.data.editForm.name || this.data.name
+          if (!this.data.editForm.items) {
+            this.data.editForm.items = this.getItems('editForm') as FormItem[]
+          }
+          return this.data.editForm
+        }
       }
       return {}
     }
@@ -68,6 +76,9 @@
     // 因为formatter和renderCell必须是function，而后端只能返回字符串，
     // 所以折中的办法是后端传方法名，前端通过方法名找到对应的方法。这种情况需要前后端配合才能完成相应的业务
     get columns() {
+      if (!this.data.table.columns) {
+        this.data.table.columns = this.getItems('table') as TableColumn[]
+      }
       this.data.table.columns.forEach((c: TableColumn) => {
         if (c.formatFun) {
           c.formatter = CrudUtils[c.formatFun + 'Format']
@@ -220,6 +231,22 @@
         return action + this.data.name + '/' + this.currentRow[this.rowKey]
       }
       return ''
+    }
+    private getItems(val: string): FormItem[] | TableColumn[] {
+      return this.data.items ? this.data.items.filter((item: CRUDItem) => item.target.includes(val))
+        .map((item: CRUDItem) => {
+          const {tableProps, formProps, target, ...props} = {...item}
+          let otherProps: any = {}
+          if (val === 'table') {
+            otherProps = tableProps || {}
+          } else {
+            otherProps = formProps || {}
+            if (val === 'searchForm') {
+              delete otherProps.verify
+            }
+          }
+          return {...props, ...otherProps}
+        }) : []
     }
   }
 </script>
