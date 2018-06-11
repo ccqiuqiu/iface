@@ -115,7 +115,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
         children: [
           {
             id: '31',
-            name: '表单示例',
+            name: '表单组件',
             icon: 'form',
             url: '/form/form',
           },
@@ -137,12 +137,20 @@ Mock.mock(new RegExp('/login'), (option: any) => {
       name: '系统管理',
       icon: 'system',
       url: '/system',
-      children: [{
-        id: '11',
-        icon: 'user',
-        name: '用户管理',
-        url: '/system/user',
-      }],
+      children: [
+        {
+          id: '11',
+          icon: 'user',
+          name: '用户管理',
+          url: '/system/user',
+        },
+        {
+          id: '16',
+          name: '表单生成',
+          icon: 'form',
+          url: '/system/createCrud/form',
+        },
+      ],
     }])
     auth.resources = ['all']
   } else {

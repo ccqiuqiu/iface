@@ -103,3 +103,8 @@ declare module 'vue-progressbar' {
   const obj: any
   export default obj
 }
+
+declare module 'vuedraggable' {
+  const vuedraggable: any
+  export default vuedraggable
+}

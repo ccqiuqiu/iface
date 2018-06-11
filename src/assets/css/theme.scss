@@ -48,7 +48,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   }
   // 卡片
   .el-card{
-    margin: 10px 0;
+    //margin: 10px 0;
   }
   .el-card.p{
     border-top: 3px solid $color-primary;
@@ -65,19 +65,11 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-card.i{
     border-top: 3px solid $color-info;
   }
-  /*自定义样式*/
-  .div{
-    background-color: $color-white;
-    border: 1px solid $--card-border-color;
-    border-radius: 4px;
-  }
-  .tip{
-    padding: 10px;
-    margin: 10px 0;
-    border-left: 5px solid darken($color-warning, 10%);
-    background: $color-warning;
-    border-radius: 4px;
-    color: $color-white;
+
+  .el-collapse{
+    .el-collapse-item__header{
+      font-size: 14px;
+    }
   }
 }
 // 表单样式
@@ -175,4 +167,21 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     justify-content: flex-end;
     margin-bottom: 6px;
   }
+}
+
+/*自定义样式*/
+.div{
+  background-color: $color-white;
+  border: 1px solid $--card-border-color;
+  border-radius: 4px;
+}
+.tip{
+  padding: 10px;
+  border-left: 5px solid darken($color-warning, 10%);
+  background: $color-warning;
+  border-radius: 4px;
+  color: $color-white;
+}
+.f-b{
+  font-weight: bold;
 }

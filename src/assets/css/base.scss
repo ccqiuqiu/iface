@@ -106,12 +106,24 @@ input::-moz-focus-inner {
       position: relative;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 6px 16px;
+      padding: 10px;
 
       .content-view{
-        margin-bottom: 16px;
+        margin-bottom: 10px;
         position: absolute;
-        width: calc(100% - 32px)
+        width: calc(100% - 20px);
+
+        &:not(.h) {
+          >div {
+            margin: 10px 0;
+          }
+          >div:first-child{
+            margin-top: 0;
+          }
+          >div:last-child{
+            margin-bottom: 0;
+          }
+        }
       }
     }
   }
@@ -182,4 +194,27 @@ input::-moz-focus-inner {
 }
 .a-l{
   text-align: left;
+}
+
+.bg-white{
+  background-color: white;
+}
+
+.b-b{
+  border-bottom: 1px solid $border-color;
+}
+.b-t{
+  border-top: 1px solid $border-color;
+}
+.b-r{
+  border-right: 1px solid $border-color;
+}
+.b-l{
+  border-left: 1px solid $border-color;
+}
+.c-info{
+  color: $color-info;
+}
+.c-danger{
+  color: $color-danger;
 }
