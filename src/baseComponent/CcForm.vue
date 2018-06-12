@@ -2,7 +2,7 @@
 <template>
   <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="isSearch">
     <cc-form-item :model="data.model" :item="item"  v-for="(item, index) in items" :key="item.id || index"></cc-form-item>
-    <div class="action">
+    <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>
     </div>
   </el-form>

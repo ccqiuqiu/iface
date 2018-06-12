@@ -31,13 +31,15 @@
     /*vue-method*/
     // 显示弹窗
     private show() {
-      this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
-      this.$utils.dialog(this.title, (h: any) => <div>
-        <cc-crud data={this.dialog} type='dialog' value={this.selectData} onRowClick={this.rowClick} onInput={this.onChange}></cc-crud>
-        {Array.isArray(this.value) && <div class='action'>
-          <el-button type='primary' onClick={this.select}>选择</el-button>
-        </div>}
-      </div>)
+      if (this.dialog) {
+        this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
+        this.$utils.dialog(this.title, (h: any) => <div>
+          <cc-crud data={this.dialog} type='dialog' value={this.selectData} onRowClick={this.rowClick} onInput={this.onChange}></cc-crud>
+          {Array.isArray(this.value) && <div class='action'>
+            <el-button type='primary' onClick={this.select}>选择</el-button>
+          </div>}
+        </div>)
+      }
     }
     // 删除标签
     private delTag(item: any) {

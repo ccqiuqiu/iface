@@ -9,7 +9,13 @@
         </span>
       </div>
     </el-popover>
-    <cc-icon v-popover:popover :name="value"></cc-icon>
+    <div v-popover:popover flex="cross:center box:last" flex-box="1" class="content">
+      <span v-if="value">
+        <cc-icon :name="value" size="20"></cc-icon>
+      </span>
+      <span v-else class="c-info">请选择</span>
+      <i class="el-icon-circle-close m-r-10" v-if="value" @click.stop="$emit('input', '')"></i>
+    </div>
   </div>
 </template>
 
@@ -47,6 +53,15 @@
 
     svg{
       cursor: pointer;
+    }
+
+    .content i {
+      cursor: pointer;
+      display: none;
+      color: rgba($color-info, 0.5);
+    }
+    .content:hover i {
+      display: block;
     }
   }
   .icon-con{

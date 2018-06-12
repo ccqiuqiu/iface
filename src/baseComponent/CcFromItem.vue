@@ -31,7 +31,9 @@
     <cc-checkbox-group v-model="model[item.prop]" v-bind="item.props" :options="item.options" :type="item.type"
                        v-else-if="['checkbox', 'checkboxbutton'].includes(item.type)"></cc-checkbox-group>
     <!--级联选择器-->
-    <el-cascader v-model="model[item.prop]" :options="item.options" v-bind="item.props" v-else-if="item.type === 'cascader'"/>
+    <template v-else-if="item.type === 'cascader'">
+      <el-cascader v-model="model[item.prop]" :options="item.options" v-bind="item.props" v-if="item.options"/>
+    </template>
     <!--计数器-->
     <el-input-number v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'number'"></el-input-number>
     <!--滑块-->
@@ -39,9 +41,13 @@
     <!--评分-->
     <el-rate v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'rate'"></el-rate>
     <!--popover-table-->
-    <cc-input-table v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'table'"></cc-input-table>
+    <template v-else-if="item.type === 'table'">
+      <cc-input-table v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.options"></cc-input-table>
+    </template>
     <!--popover-tree-->
-    <cc-input-tree v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-else-if="item.type === 'tree'"></cc-input-tree>
+    <template v-else-if="item.type === 'tree'">
+      <cc-input-tree v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.options"></cc-input-tree>
+    </template>
     <!--弹出dialog-->
     <cc-input-dialog @input="onValueChange(item.prop)" :title="item.label" v-model="model[item.prop]" v-bind="item.props" :dialog="item.dialog" v-else-if="item.type === 'dialog'"></cc-input-dialog>
     <!--icon-->

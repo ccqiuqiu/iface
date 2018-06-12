@@ -33,7 +33,7 @@
     <div flex-box="1" flex="dir:top box:last">
       <el-collapse v-model="activeNames" class="right">
         <el-collapse-item title="属性" name="1">
-          <div>1</div>
+          <form-item-props :item="selectItem"></form-item-props>
         </el-collapse-item>
         <el-collapse-item title="选项" name="2">
           <div>2</div>
@@ -53,9 +53,10 @@
   import { Component, Vue } from 'vue-property-decorator'
   import draggable from 'vuedraggable'
   import CcFormItem from '@bc/CcFromItem.vue'
+  import FormItemProps from '../fragment/FormItemProps.vue'
 
 
-  @Component({components: {draggable, CcFormItem}})
+  @Component({components: {draggable, CcFormItem, FormItemProps}})
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
@@ -94,12 +95,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    // 当添加到字段列表的时候触发，增加prop属性
-    private add(evt: any) {
-      const prop = 'p' + Math.floor(Math.random() * 1000)
-      this.items[evt.newIndex] = {...this.controls[evt.oldIndex]}
-      this.items[evt.newIndex].prop = prop
-    }
+    // 删除已经添加的表单项
     private delItem() {
       if (this.selectIndex >= 0) {
         const item = this.items[this.selectIndex]
@@ -107,7 +103,92 @@
         this.items.splice(this.selectIndex, 1)
         this.selectIndex = -1
       }
-
+    }
+    // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
+    private add(evt: any) {
+      const prop = 'p' + Math.floor(Math.random() * 1000)
+      const item: any = {...this.controls[evt.oldIndex]}
+      item.prop = prop
+      if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(item.type)) {
+        item.options = [
+          {label: '选项1', value: 1},
+          {label: '选项2', value: 2},
+        ]
+      } else if (item.type === 'cascader') {
+        item.options = [
+          {
+            value: 1,
+            label: '广东省',
+            children: [{
+              value: 2,
+              label: '广州市',
+              children: [
+                {
+                  value: 1,
+                  label: '天河区',
+                },
+                {
+                  value: 2,
+                  label: '番禺区',
+                },
+              ],
+            }],
+          },
+          {
+            value: 2,
+            label: '湖北省',
+            children: [
+              {
+                value: 1,
+                label: '武汉市',
+              },
+              {
+                value: 2,
+                label: '仙桃市',
+              },
+            ],
+          },
+        ]
+      } else if (item.type === 'table') {
+        item.props = {
+          valueField: 'id',
+          textField: 'userName',
+        }
+        item.options = {
+          columns: [
+            {prop: 'id', label: '编号'},
+            {prop: 'userName', label: '名称'},
+          ],
+          rows: [
+            {id: 1, userName: '用户1'},
+            {id: 2, userName: '用户2'},
+          ],
+        }
+      } else if (item.type === 'tree') {
+        item.options = [
+          {
+            label: '一级1',
+            id: 1,
+            children: [
+              {
+                label: '二级1-1',
+                id: 11,
+              },
+            ],
+          },
+          {
+            label: '二级2',
+            id: 2,
+            children: [
+              {
+                label: '二级2-1',
+                id: 21,
+              },
+            ],
+          },
+        ]
+      }
+      this.items.splice(evt.newIndex, 1, item)
     }
 
   }
