@@ -2,9 +2,7 @@
 <template>
   <el-form-item v-bind="itemProps(item)" :class="{'is-required': item.verify && item.verify.canBeEmpty === undefined}">
     <!--选择框-->
-    <el-select v-model="model[item.prop]" v-bind="item.props" v-if="item.type === 'select'">
-      <el-option :label="option.label" :value="option.value" :key="option.value" v-for="option in item.options"/>
-    </el-select>
+    <cc-select v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.type === 'select'"></cc-select>
     <!--日期，范围-->
     <el-date-picker v-model="model[item.prop]" v-bind="item.props" :type="item.type"
                     v-else-if="['date', 'datetime', 'daterange', 'datetimerange'].includes(item.type)"
@@ -67,8 +65,9 @@
   import CcInputDialog from './CcInputDialog.vue'
   import CcInputIcon from './CcInputIcon.vue'
   import CcCheckboxGroup from './CcCheckboxGroup.vue'
+  import CcSelect from './CcSelect.vue'
 
-  @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup}})
+  @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
   export default class CcFromItem extends Vue {
     /*vue-props*/
     @Prop({required: true, type: Object}) private model: any
@@ -81,9 +80,13 @@
     /*vue-method*/
     // 过滤form-item的props
     private itemProps(item: FormItem) {
-      const {options, props, dialog, verify, ...itemProps} = item
+      const {options, props, dialog, verify, placeholder, ...itemProps} = item
       if (verify && !verify.verify) {
         verify.verify = ''
+      }
+      if (placeholder) {
+        item.props = item.props || {}
+        item.props.placeholder = placeholder
       }
       return {...itemProps, ...verify}
     }

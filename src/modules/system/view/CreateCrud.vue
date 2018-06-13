@@ -35,8 +35,8 @@
         <el-collapse-item title="属性" name="1">
           <form-item-props :item="selectItem"></form-item-props>
         </el-collapse-item>
-        <el-collapse-item title="选项" name="2">
-          <div>2</div>
+        <el-collapse-item title="选择项" name="2">
+          <form-item-options :item="selectItem"></form-item-options>
         </el-collapse-item>
         <el-collapse-item title="校验" name="3">
           <div>3</div>
@@ -46,7 +46,7 @@
         <cc-button icon="save" text="保存"/>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,9 +54,10 @@
   import draggable from 'vuedraggable'
   import CcFormItem from '@bc/CcFromItem.vue'
   import FormItemProps from '../fragment/FormItemProps.vue'
+  import FormItemOptions from '../fragment/FormItemOptions.vue'
 
 
-  @Component({components: {draggable, CcFormItem, FormItemProps}})
+  @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions}})
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
@@ -86,7 +87,7 @@
     ]
     private model: any = {}
     private items: any[] = []
-    private activeNames: string[] = ['1']
+    private activeNames: string[] = ['1', '2', '3']
     private selectIndex: number = -1
     /*vue-compute*/
     get selectItem() {
@@ -106,7 +107,7 @@
     }
     // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
     private add(evt: any) {
-      const prop = 'p' + Math.floor(Math.random() * 1000)
+      const prop = 'p' + Math.floor(Math.random() * 1000000)
       const item: any = {...this.controls[evt.oldIndex]}
       item.prop = prop
       if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(item.type)) {

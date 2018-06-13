@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/5/30.-->
 <template>
   <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="isSearch">
-    <cc-form-item :model="data.model" :item="item"  v-for="(item, index) in items" :key="item.id || index"></cc-form-item>
+    <cc-form-item :model="data.model" :item="item"  v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
     <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>
     </div>
@@ -46,7 +46,7 @@
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false
-    private items: FormItem[] = this.data.items || []
+    private items?: FormItem[] = []
     /*vue-compute*/
     // 处理按钮数组
     get btns() {
@@ -70,6 +70,10 @@
       if (val) {
         this.initModel()
       }
+    }
+    @Watch('data', {immediate: true})
+    private dataChange(val: CRUDObject) {
+      this.items = val.items
     }
     /*vue-lifecycle*/
     private created() {
@@ -95,14 +99,18 @@
     // 初始化选择类控件的options的值
     private initOptions() {
       (this.data.items as FormItem[])
-        .filter((item: FormItem) => item.options && typeof item.options === 'string')
-        .forEach((item: FormItem) => this.getOptionsSync(item))
+        .forEach((item: FormItem, index: number) => this.getOptionsSync(item, index))
     }
     // 异步查询options的值。赋值给options
-    private async getOptionsSync(item: FormItem) {
+    private async getOptionsSync(item: FormItem, index: number) {
+      if (!item.options || typeof item.options !== 'string') {
+        return
+      }
       const data = await this.getOptions('getOptions?query=' + item.options as string)
       if (data) {
-        item.options = data
+        const newItem = JSON.parse(JSON.stringify(item))
+        newItem.options = data
+        this.items.splice(index, 1, newItem)
       }
     }
     // 初始化model。用于更新表单从服务端获取完整数据

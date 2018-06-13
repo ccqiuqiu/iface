@@ -5,21 +5,20 @@ function resolve (dir) {
 }
 
 module.exports = {
+  productionSourceMap: false,
   chainWebpack: config => {
-    // 删除原有的svg rlue
-    config.module.rules.delete('svg')
-    // 使用新的rlue
-    config.module
-      .rule('svg')
-      .test(/\.svg$/)
+    const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
+    svgRule.test(/\.svg$/)
       .include
         .add(resolve('src/assets/icons/svg'))
         .end()
-      .use('svg-sprite-loader')
+      .use('svg-spritse-loader')
       .loader('svg-sprite-loader')
       .options({
         symbolId: 'icon-[name]'
       })
+
     // 设置一些别名
     config.resolve.alias
       .set('@g', resolve('src/global'))

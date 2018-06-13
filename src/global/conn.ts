@@ -10,7 +10,7 @@ import app from '../main'
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 // 创建一个axios实例
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: process.env.VUE_APP_BASE_URL || '',
   headers: {
     'Content-Type': 'application/json',
   },

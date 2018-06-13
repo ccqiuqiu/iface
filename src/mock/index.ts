@@ -17,7 +17,7 @@ const optinonMaps: any = {
     },
     {
       label: '禁用',
-      value: 0,
+      value: 2,
     },
   ],
   sex: [
@@ -27,7 +27,7 @@ const optinonMaps: any = {
     },
     {
       label: '女',
-      value: 0,
+      value: 2,
     },
   ],
   checkBoxDemo: [

@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
   @Component
   export default class FormItemProps extends Vue {
@@ -15,7 +15,7 @@
     /*vue-compute*/
     get formObj() {
       const model = this.item || {}
-      const items = [
+      const items: any[] = [
         {label: '标签', prop: 'label', type: 'text'},
         {label: '字段名', prop: 'prop', type: 'text'},
         {label: '字段类型', prop: 'type', type: 'select', options: [
@@ -23,11 +23,25 @@
             {label: '密码框', value: 'password'},
             {label: '多行文本框', value: 'textarea'},
           ]},
-        {label: '更多选项', prop: 'props', type: 'textarea'},
+        {label: '占位符', prop: 'placeholder', type: 'text', placeholder: '值为空的提示信息'},
+        {label: '更多选项', prop: 'propsStr', type: 'textarea', placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'},
       ]
+      if (this.item.type !== 'text') {
+        items.splice(2, 1)
+      }
       return {model, items, btns: []}
     }
     /*vue-watch*/
+    @Watch('item.propsStr')
+    private propsStrChange(val: string) {
+      try {
+        const json = JSON.parse(val)
+        this.item.props = this.item.props || {}
+        this.item.props = {...this.item.props, ...json}
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
     /*vue-lifecycle*/
     /*vue-method*/
   }

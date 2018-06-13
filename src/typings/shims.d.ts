@@ -59,6 +59,7 @@ declare interface FormBtn {
   url?: string,
 }
 declare interface FormItemPublic {
+  placeholder?: string,
   type?: FormItemType
   verify?: any, // 表单校验配置
   props?: any, // 表单项属性，对应element相应的组件的属性

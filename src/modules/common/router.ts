@@ -1,9 +1,8 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import { AsyncComponent } from 'vue'
 
-const Home: AsyncComponent = (): any => import(/* webpackChunkName: "public" */ './view/Home.vue')
+import Home from './view/Home.vue'
 
 export default [
   {
