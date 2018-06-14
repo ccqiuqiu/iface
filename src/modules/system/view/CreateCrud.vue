@@ -153,7 +153,7 @@
       } else if (item.type === 'table') {
         item.props = {
           valueField: 'id',
-          textField: 'userName',
+          labelField: 'userName',
         }
         item.options = {
           columns: [

@@ -102,6 +102,10 @@
     private isNumber(verify: any) {
       return verify && (verify.number || verify.int || verify.maxDecimalLength || verify.gt || verify.gte || verify.lt || verify.lte)
     }
+    // 在dialog的值变化的时候，触发一次校验
+    private onValueChange(prop: string) {
+      this.$emit('value-change', prop)
+    }
   }
 </script>
 

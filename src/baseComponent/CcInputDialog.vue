@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/6/4.-->
 <template>
   <div>
-    <cc-input-tags @click.native="show" v-model="getSelectTag" :label="textField"  @del="delTag" icon="dialog"/>
+    <cc-input-tags @click.native="show" v-model="getSelectTag" :label="labelField"  @del="delTag" icon="dialog"/>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
     @Prop() private title: string
     @Prop({type: [Array, Object]}) private value: any | any[]
     @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'text'}) private textField: string
+    @Prop({default: 'text'}) private labelField: string
     /*vue-vuex*/
     /*vue-data*/
     private selectData: any | any[]
@@ -63,12 +63,12 @@
         re = this.selectData.map((row: any) => {
           const tag: any = {}
           tag[this.valueField] = row[this.valueField]
-          tag[this.textField] = row[this.textField]
+          tag[this.labelField] = row[this.labelField]
           return tag
         })
       } else {
         re[this.valueField] = this.selectData[this.valueField]
-        re[this.textField] = this.selectData[this.textField]
+        re[this.labelField] = this.selectData[this.labelField]
       }
       this.$emit('input', re)
       this.$utils.hideDialog()

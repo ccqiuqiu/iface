@@ -97,7 +97,7 @@
         },
         {
           label: '多选',
-          prop: 'type',
+          prop: 'type2',
           type: 'checkbox',
           options: 'checkBoxDemo',
         },
@@ -124,7 +124,7 @@
         },
         {
           label: '单选-按钮',
-          prop: 'resource',
+          prop: 'resource2',
           type: 'radiobutton',
           options: [
             {
@@ -227,7 +227,7 @@
           type: 'table',
           props: {
             valueField: 'id',
-            textField: 'userName',
+            labelField: 'userName',
           },
           options: {
             columns: [
@@ -246,7 +246,7 @@
           type: 'table',
           props: {
             valueField: 'id',
-            textField: 'userName',
+            labelField: 'userName',
           },
           options: {
             columns: [
@@ -325,7 +325,7 @@
           prop: 'dialog',
           type: 'dialog',
           props: {
-            textField: 'userName',
+            labelField: 'userName',
           },
           dialog: {
             name: 'User',

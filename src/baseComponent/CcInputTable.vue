@@ -8,7 +8,7 @@
                 :current-row.sync="currentRow">
       </cc-table>
     </el-popover>
-    <cc-input-tags v-popover:popover v-model="getSelectTag" :label="textField" @del="delTag" icon="table"/>
+    <cc-input-tags v-popover:popover v-model="getSelectTag" :label="labelField" @del="delTag" icon="table"/>
   </div>
 </template>
 
@@ -22,7 +22,7 @@
     @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
     @Prop() private options: any
     @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'text'}) private textField: string
+    @Prop({default: 'text'}) private labelField: string
     /*vue-vuex*/
     /*vue-data*/
     private show: boolean = false

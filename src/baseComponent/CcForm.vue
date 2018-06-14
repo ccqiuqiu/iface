@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/5/30.-->
 <template>
   <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="isSearch">
-    <cc-form-item :model="data.model" :item="item"  v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
+    <cc-form-item :model="data.model" :item="item" @value-change="onValueChange" v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
     <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>
     </div>
@@ -46,7 +46,7 @@
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false
-    private items?: FormItem[] = []
+    private items: FormItem[] = []
     /*vue-compute*/
     // 处理按钮数组
     get btns() {
@@ -73,7 +73,9 @@
     }
     @Watch('data', {immediate: true})
     private dataChange(val: CRUDObject) {
-      this.items = val.items
+      if (val.items) {
+        this.items = val.items
+      }
     }
     /*vue-lifecycle*/
     private created() {

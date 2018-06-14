@@ -243,7 +243,7 @@ Mock.mock(new RegExp('/system/getCrud_'), {
           type: 'dialog',
           props: {
             valueField: 'id',
-            textField: 'userName',
+            labelField: 'userName',
           },
           verify: {},
           dialog: {
@@ -362,7 +362,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
           type: 'dialog',
           props: {
             valueField: 'id',
-            textField: 'userName',
+            labelField: 'userName',
             verify: {},
           },
           dialog: {
