@@ -19,11 +19,15 @@
     <el-switch v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'switch'" v-on="$listeners"></el-switch>
     <!--单选-->
     <el-radio-group v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'radio'" v-on="$listeners">
-      <el-radio v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio>
+      <template v-if="mItem.options && typeof mItem.options !== 'string'">
+        <el-radio v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio>
+      </template>
     </el-radio-group>
     <!--单选-按钮-->
     <el-radio-group v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'radiobutton'" v-on="$listeners">
-      <el-radio-button v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio-button>
+      <template v-if="mItem.options && typeof mItem.options !== 'string'">
+        <el-radio-button v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio-button>
+      </template>
     </el-radio-group>
     <!--多选-->
     <cc-checkbox-group v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" :type="mItem.type"
@@ -71,7 +75,7 @@
   @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
   export default class CcFromItem extends Vue {
     /*vue-props*/
-    @Prop({required: true, type: Object}) private model: any
+    @Prop({required: true, type: [Object]}) private model: any
     @Prop({required: true}) private item: FormItem
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
