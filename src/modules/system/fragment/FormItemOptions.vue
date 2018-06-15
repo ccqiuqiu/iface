@@ -2,7 +2,7 @@
 <template>
   <div v-if="item && needOptions">
     <el-radio-group v-model="source" class="m-v-10" @change="onSourceChange">
-      <el-radio :label="1">使用固定值</el-radio>
+      <el-radio :label="1">自定义数据</el-radio>
       <el-radio :label="2">使用数据源</el-radio>
     </el-radio-group>
     <el-input @blur="onBlur" v-model="source1" v-if="source === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>

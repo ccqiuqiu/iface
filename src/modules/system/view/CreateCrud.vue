@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <div class="crud h bg-white" flex="cross:stretch">
+  <div class="crud h bg-white" flex="">
     <div flex="dir:top" class="left b-r" flex-box="0">
       <div flex-box="0" class="p-10 b-b f-b" flex="box:last">
         <span>可选组件</span>
@@ -11,7 +11,8 @@
         </div>
       </draggable>
     </div>
-    <div flex="dir:top" class="content b-r" flex-box="0">
+
+    <div flex="dir:top" class="content b-r" flex-box="1">
       <div flex-box="0" class="p-10 b-b f-b" flex="box:last">
         <span>表单项</span>
         <cc-icon name="delete" @click="delItem" size="20" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
@@ -30,7 +31,7 @@
         </draggable>
       </el-form>
     </div>
-    <div flex-box="1" flex="dir:top box:last">
+    <div flex-box="0" class="props" flex="dir:top box:last">
       <el-collapse v-model="activeNames" class="right">
         <el-collapse-item title="属性" name="1">
           <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
@@ -225,6 +226,8 @@
       }
     }
     .content{
+    }
+    .props{
       width: 400px;
     }
     .form > div{

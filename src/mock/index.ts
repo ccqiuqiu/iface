@@ -5,6 +5,13 @@
 
 import Mock from 'mockjs'
 
+function getQueryString(url: string, name: string) {
+  const reg: RegExp = new RegExp('(.*/?)&?' + name + '=([^&]*)(&|$)', 'i')
+  const r: any = url.match(reg)
+  if (r) { return unescape(r[2]) }
+  return ''
+}
+
 Mock.setup({
   timeout: '300-600',
 })
@@ -416,9 +423,9 @@ Mock.mock(new RegExp('/system/getCrud'), {
 })
 // 获取选择类型表单组件的选项
 Mock.mock(new RegExp('/system/getOptions'), (option: any) => {
-  const type = option.url.substring(option.url.indexOf('?query=') + 7)
+  const name = getQueryString(option.url, 'name')
   return {
-    data: optinonMaps[type],
+    data: optinonMaps[name],
     ...common(),
   }
 })

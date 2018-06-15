@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': mItem.verify && mItem.verify.canBeEmpty === undefined}">
+  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': mItem.verify && mItem.verify.canBeEmpty === undefined}" v-loading="loading">
     <!--选择框-->
     <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners"></cc-select>
     <!--日期，范围-->
@@ -77,6 +77,7 @@
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
     /*vue-data*/
     private mItem: FormItem = JSON.parse(JSON.stringify(this.item))
+    private loading: boolean = false
     /*vue-compute*/
     /*vue-watch*/
     @Watch('item')
@@ -120,7 +121,9 @@
     //
     private async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
-        const data: any = await this.getOptions('getOptions?query=' + this.mItem.options as string)
+        this.loading = true
+        const data: any = await this.getOptions('getOptions?name=' + this.mItem.options + '&type=' + this.mItem.type)
+        this.loading = false
         if (data) {
           this.mItem.options = data
         }
