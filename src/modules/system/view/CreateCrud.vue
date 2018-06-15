@@ -14,7 +14,7 @@
     <div flex="dir:top" class="content b-r" flex-box="0">
       <div flex-box="0" class="p-10 b-b f-b" flex="box:last">
         <span>表单项</span>
-        <cc-icon name="delete" @click="delItem" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
+        <cc-icon name="delete" @click="delItem" size="20" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
       </div>
       <el-form ref="form" :model="model" flex-box="1" class="form m-10" flex="dir: top" label-width="100px">
         <draggable v-model="items" :options="{group: {name: 'g'}, filter:'.tips'}" felx-box="1" @add="add" class="form-item-draggable">
@@ -33,17 +33,17 @@
     <div flex-box="1" flex="dir:top box:last">
       <el-collapse v-model="activeNames" class="right">
         <el-collapse-item title="属性" name="1">
-          <form-item-props :item="selectItem"></form-item-props>
+          <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
         </el-collapse-item>
         <el-collapse-item title="选择项" name="2">
-          <form-item-options :item="selectItem"></form-item-options>
+          <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
         </el-collapse-item>
         <el-collapse-item title="校验" name="3">
           <div>3</div>
         </el-collapse-item>
       </el-collapse>
       <div class="p-10 a-r">
-        <cc-button icon="save" text="保存"/>
+        <cc-button icon="save" @click="save" text="保存"/>
       </div>
     </div>
   </div>
@@ -51,6 +51,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import {Action} from 'vuex-class'
   import draggable from 'vuedraggable'
   import CcFormItem from '@bc/CcFromItem.vue'
   import FormItemProps from '../fragment/FormItemProps.vue'
@@ -61,6 +62,7 @@
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
+    @Action('getOptions') private getOptions: (url: string) => Promise<any>
     /*vue-data*/
     private controls: any = [
       {type: 'text', label: '文本框'},
@@ -90,8 +92,12 @@
     private activeNames: string[] = ['1', '2', '3']
     private selectIndex: number = -1
     /*vue-compute*/
-    get selectItem() {
+    get selectItem(): any {
       return this.selectIndex >= 0 ? this.items[this.selectIndex] : undefined
+    }
+    get needOptions() {
+      return this.selectItem ? ['select', 'checkbox', 'radio', 'checkboxbutton', 'radiobutton', 'cascader', 'table', 'tree', 'dialog']
+        .includes(this.selectItem.type) : false
     }
     /*vue-watch*/
     /*vue-lifecycle*/
@@ -190,6 +196,13 @@
         ]
       }
       this.items.splice(evt.newIndex, 1, item)
+    }
+    private changeOptions() {
+      this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
+    }
+    private save() {
+      // 要删除propsStr
+      console.log('save')
     }
 
   }

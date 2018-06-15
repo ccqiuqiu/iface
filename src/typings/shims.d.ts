@@ -41,7 +41,7 @@ declare interface TableColumn {
 
 declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox'
   | 'checkboxbutton' | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider'
-  | 'rate' | 'table' | 'tree' | 'dialog' | 'icon'
+  | 'rate' | 'table' | 'tree' | 'dialog' | 'icon' | 'password' | 'textarea'
 declare type BtnAction = 'save' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {
@@ -94,6 +94,10 @@ declare interface CRUDObject {
   },
   needQuery?: boolean, // 编辑和查看的时候，是否要先查询，如果是，会使用getUrl去查询对象
   getUrl?: '',  // 获取数据详情的url
+}
+declare interface OptionItem {
+  label: string,
+  value: string | number,
 }
 // 粗暴的使用没有.d.ts文件的第三方库，后期应该扩展
 declare module 'v-charts/*' {

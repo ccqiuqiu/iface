@@ -11,7 +11,7 @@
     "strictPropertyInitialization": false, //
     "sourceMap": true,
     "baseUrl": ".",
-    "typeRoots" : ["./src/typings"],
+    "typeRoots" : ["./src/typings", "./node_modules/@types"],
     "types": [
       "node",
       "webpack-env" //

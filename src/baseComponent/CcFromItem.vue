@@ -1,71 +1,72 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <el-form-item v-bind="itemProps(item)" :class="{'is-required': item.verify && item.verify.canBeEmpty === undefined}">
+  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': mItem.verify && mItem.verify.canBeEmpty === undefined}">
     <!--选择框-->
-    <cc-select v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.type === 'select'"></cc-select>
+    <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners"></cc-select>
     <!--日期，范围-->
-    <el-date-picker v-model="model[item.prop]" v-bind="item.props" :type="item.type"
-                    v-else-if="['date', 'datetime', 'daterange', 'datetimerange'].includes(item.type)"
-                    :value-format="datePickerFarmatter(item)"></el-date-picker>
+    <el-date-picker v-model="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type"
+                    v-else-if="['date', 'datetime', 'daterange', 'datetimerange'].includes(mItem.type)"
+                    :value-format="datePickerFarmatter(mItem)" v-on="$listeners"></el-date-picker>
     <!--时间选择-->
-    <el-time-select v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type=== 'timeselect'">
+    <el-time-select v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type=== 'timeselect'" v-on="$listeners">
     </el-time-select>
     <!--时间、范围-->
-    <el-time-picker v-model="model[item.prop]" v-bind="item.props" :is-range="item.type === 'timerange'"
-                    v-else-if="['time', 'timerange'].includes(item.type)"
-                    :value-format="item.props && item.props.valueFormat ? item.props.valueFormat : 'HH:mm:ss'">
+    <el-time-picker v-model="model[mItem.prop]" v-bind="mItem.props" :is-range="mItem.type === 'timerange'"
+                    v-else-if="['time', 'timerange'].includes(mItem.type)"
+                    :value-format="mItem.props && mItem.props.valueFormat ? mItem.props.valueFormat : 'HH:mm:ss'" v-on="$listeners">
     </el-time-picker>
     <!--开关-->
-    <el-switch v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'switch'"></el-switch>
+    <el-switch v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'switch'" v-on="$listeners"></el-switch>
     <!--单选-->
-    <el-radio-group v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'radio'">
-      <el-radio v-bind="option" :label="option.value" :name="item.prop" :key="option.value" v-for="option in item.options">{{option.label}}</el-radio>
+    <el-radio-group v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'radio'" v-on="$listeners">
+      <el-radio v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio>
     </el-radio-group>
     <!--单选-按钮-->
-    <el-radio-group v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'radiobutton'">
-      <el-radio-button v-bind="option" :label="option.value" :name="item.prop" :key="option.value" v-for="option in item.options">{{option.label}}</el-radio-button>
+    <el-radio-group v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'radiobutton'" v-on="$listeners">
+      <el-radio-button v-bind="option" :label="option.value" :name="mItem.prop" :key="option.value" v-for="option in mItem.options">{{option.label}}</el-radio-button>
     </el-radio-group>
     <!--多选-->
-    <cc-checkbox-group v-model="model[item.prop]" v-bind="item.props" :options="item.options" :type="item.type"
-                       v-else-if="['checkbox', 'checkboxbutton'].includes(item.type)"></cc-checkbox-group>
+    <cc-checkbox-group v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" :type="mItem.type"
+                       v-else-if="['checkbox', 'checkboxbutton'].includes(mItem.type)" v-on="$listeners"></cc-checkbox-group>
     <!--级联选择器-->
-    <template v-else-if="item.type === 'cascader'">
-      <el-cascader v-model="model[item.prop]" :options="item.options" v-bind="item.props" v-if="item.options"/>
+    <template v-else-if="mItem.type === 'cascader'">
+      <el-cascader v-model="model[mItem.prop]" :options="mItem.options" v-bind="mItem.props" v-if="mItem.options" v-on="$listeners"/>
     </template>
     <!--计数器-->
-    <el-input-number v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'number'"></el-input-number>
+    <el-input-number v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'number'" v-on="$listeners"></el-input-number>
     <!--滑块-->
-    <el-slider v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'slider'"></el-slider>
+    <el-slider v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'slider'" v-on="$listeners"></el-slider>
     <!--评分-->
-    <el-rate v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'rate'"></el-rate>
+    <el-rate v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'rate'" v-on="$listeners"></el-rate>
     <!--popover-table-->
-    <template v-else-if="item.type === 'table'">
-      <cc-input-table v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.options"></cc-input-table>
+    <template v-else-if="mItem.type === 'table'">
+      <cc-input-table v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-table>
     </template>
     <!--popover-tree-->
-    <template v-else-if="item.type === 'tree'">
-      <cc-input-tree v-model="model[item.prop]" v-bind="item.props" :options="item.options" v-if="item.options"></cc-input-tree>
+    <template v-else-if="mItem.type === 'tree'">
+      <cc-input-tree v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-tree>
     </template>
     <!--弹出dialog-->
-    <cc-input-dialog @input="onValueChange(item.prop)" :title="item.label" v-model="model[item.prop]" v-bind="item.props" :dialog="item.dialog" v-else-if="item.type === 'dialog'"></cc-input-dialog>
+    <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="mItem.dialog" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
     <!--icon-->
-    <cc-input-icon v-model="model[item.prop]" v-bind="item.props" v-else-if="item.type === 'icon'"></cc-input-icon>
+    <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
     <!--input-->
     <template v-else>
-      <el-input v-model.number="model[item.prop]" v-bind="item.props" :type="item.type" v-if="isNumber(item.verify)" clearable></el-input>
-      <el-input v-model="model[item.prop]" v-bind="item.props" :type="item.type" v-else clearable></el-input>
+      <el-input v-model.number="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-if="isNumber(mItem.verify)" clearable v-on="$listeners"></el-input>
+      <el-input v-model="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-else clearable v-on="$listeners"></el-input>
     </template>
   </el-form-item>
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import CcInputTable from './CcInputTable.vue'
   import CcInputTree from './CcInputTree.vue'
   import CcInputDialog from './CcInputDialog.vue'
   import CcInputIcon from './CcInputIcon.vue'
   import CcCheckboxGroup from './CcCheckboxGroup.vue'
   import CcSelect from './CcSelect.vue'
+  import {Action} from 'vuex-class'
 
   @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
   export default class CcFromItem extends Vue {
@@ -73,9 +74,19 @@
     @Prop({required: true, type: Object}) private model: any
     @Prop({required: true}) private item: FormItem
     /*vue-vuex*/
+    @Action('getOptions') private getOptions: (url: string) => Promise<any>
     /*vue-data*/
+    private mItem: FormItem = JSON.parse(JSON.stringify(this.item))
     /*vue-compute*/
     /*vue-watch*/
+    @Watch('item')
+    private itemChange() {
+      this.mItem = JSON.parse(JSON.stringify(this.item))
+    }
+    @Watch('mItem', {immediate: true})
+    private mItemChange() {
+      this.initOptions()
+    }
     /*vue-lifecycle*/
     /*vue-method*/
     // 过滤form-item的props
@@ -106,6 +117,16 @@
     private onValueChange(prop: string) {
       this.$emit('value-change', prop)
     }
+    //
+    private async initOptions() {
+      if (this.mItem.options && typeof this.mItem.options === 'string') {
+        const data: any = await this.getOptions('getOptions?query=' + this.mItem.options as string)
+        if (data) {
+          this.mItem.options = data
+        }
+      }
+    }
+
   }
 </script>
 

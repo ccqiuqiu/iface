@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/5/30.-->
 <template>
   <el-form v-loading="loading" ref="form" :model="data.model" :label-width="data.labelWidth || '100px'" v-bind="data.props" :inline="isSearch">
-    <cc-form-item :model="data.model" :item="item" @value-change="onValueChange" v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
+    <cc-form-item @blur="$emit('blur', item.prop)" :model="data.model" :item="item" @value-change="onValueChange" v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
     <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>
     </div>
@@ -78,9 +78,6 @@
       }
     }
     /*vue-lifecycle*/
-    private created() {
-      this.initOptions()
-    }
     /*vue-method*/
     // 按钮点击事件
     private async btnClick(btn: FormBtn) {
@@ -98,23 +95,24 @@
         })
       }
     }
+    // 此段交由item自行处理，不再在表单里面统一处理
     // 初始化选择类控件的options的值
-    private initOptions() {
-      (this.data.items as FormItem[])
-        .forEach((item: FormItem, index: number) => this.getOptionsSync(item, index))
-    }
+    // private initOptions() {
+    //   (this.data.items as FormItem[])
+    //     .forEach((item: FormItem, index: number) => this.getOptionsSync(item, index))
+    // }
     // 异步查询options的值。赋值给options
-    private async getOptionsSync(item: FormItem, index: number) {
-      if (!item.options || typeof item.options !== 'string') {
-        return
-      }
-      const data = await this.getOptions('getOptions?query=' + item.options as string)
-      if (data) {
-        const newItem = JSON.parse(JSON.stringify(item))
-        newItem.options = data
-        this.items.splice(index, 1, newItem)
-      }
-    }
+    // private async getOptionsSync(item: FormItem, index: number) {
+    //   if (!item.options || typeof item.options !== 'string') {
+    //     return
+    //   }
+    //   const data = await this.getOptions('getOptions?query=' + item.options as string)
+    //   if (data) {
+    //     const newItem = JSON.parse(JSON.stringify(item))
+    //     newItem.options = data
+    //     this.items.splice(index, 1, newItem)
+    //   }
+    // }
     // 初始化model。用于更新表单从服务端获取完整数据
     private async initModel() {
       this.loading = true
