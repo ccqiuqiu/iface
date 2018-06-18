@@ -8,7 +8,7 @@ import * as $c from './constant'
 import lsUtils from './lsUtils'
 
 export default {
-  install(Vue: any, $i18n: any): void {
+  install (Vue, $i18n) {
     Vue.prototype.$utils = {...utils, ...uiUtils, ...lsUtils}
     Vue.prototype.$c = $c
 
@@ -16,11 +16,11 @@ export default {
      * 验证资源权限指令
      */
     Vue.directive('auth', {
-      bind(el: any, binding: any) {
+      bind (el, binding) {
         if (!uiUtils.hasAuth(binding)) {
           el.parentNode.removeChild(el)
         }
-      },
+      }
     })
-  },
+  }
 }

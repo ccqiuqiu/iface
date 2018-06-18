@@ -5,74 +5,74 @@
 
 import Mock from 'mockjs'
 
-function getQueryString(url: string, name: string) {
-  const reg: RegExp = new RegExp('(.*/?)&?' + name + '=([^&]*)(&|$)', 'i')
-  const r: any = url.match(reg)
+function getQueryString (url, name) {
+  const reg = new RegExp('(.*/?)&?' + name + '=([^&]*)(&|$)', 'i')
+  const r = url.match(reg)
   if (r) { return unescape(r[2]) }
   return ''
 }
 
 Mock.setup({
-  timeout: '300-600',
+  timeout: '300-600'
 })
 
-const optinonMaps: any = {
+const optinonMaps = {
   status: [
     {
       label: '启用',
-      value: 1,
+      value: 1
     },
     {
       label: '禁用',
-      value: 2,
-    },
+      value: 2
+    }
   ],
   sex: [
     {
       label: '男',
-      value: 1,
+      value: 1
     },
     {
       label: '女',
-      value: 2,
-    },
+      value: 2
+    }
   ],
   checkBoxDemo: [
     {
       label: '美食/餐厅线上活动',
-      value: 1,
+      value: 1
     },
     {
       label: '地推活动',
-      value: 2,
+      value: 2
     },
     {
       label: '线下主题活动',
-      value: 3,
+      value: 3
     },
     {
       label: '单纯品牌噱头',
-      value: 4,
-    },
-  ],
+      value: 4
+    }
+  ]
 }
 
-const common = (message?: any) => {
-  const obj: any = {
-    success: !message,
+const common = (message) => {
+  const obj = {
+    success: !message
   }
   if (message) {
     obj.error = {
-      message,
+      message
     }
   }
   return obj
 }
 
 // 登录
-Mock.mock(new RegExp('/login'), (option: any) => {
+Mock.mock(new RegExp('/login'), (option) => {
   const user = JSON.parse(option.body)
-  const success = user.userName === 'admin' && user.password === '123456' || user.userName === 'test' && user.password === '123456'
+  const success = (user.userName === 'admin' && user.password === '123456') || (user.userName === 'test' && user.password === '123456')
   // 权限
   const auth = {
     menus: [
@@ -86,33 +86,33 @@ Mock.mock(new RegExp('/login'), (option: any) => {
             id: '21',
             icon: 'line',
             name: '折线图',
-            url: '/chart/line',
+            url: '/chart/line'
           },
           {
             id: '22',
             icon: 'histogram',
             name: '柱状图',
-            url: '/chart/histogram',
+            url: '/chart/histogram'
           },
           {
             id: '23',
             icon: 'pie',
             name: '饼图',
-            url: '/chart/pie',
+            url: '/chart/pie'
           },
           {
             id: '24',
             icon: 'ring',
             name: '环形图',
-            url: '/chart/ring',
+            url: '/chart/ring'
           },
           {
             id: '25',
             icon: 'chart-toggle',
             name: '图表切换',
-            url: '/chart/toggle',
-          },
-        ],
+            url: '/chart/toggle'
+          }
+        ]
       },
       {
         id: '3',
@@ -124,18 +124,18 @@ Mock.mock(new RegExp('/login'), (option: any) => {
             id: '31',
             name: '表单组件',
             icon: 'form',
-            url: '/form/form',
+            url: '/form/form'
           },
           {
             id: '32',
             name: 'CRUD示例',
             icon: 'crud',
-            url: '/form/crud',
-          },
-        ],
-      },
+            url: '/form/crud'
+          }
+        ]
+      }
     ],
-    resources: ['addUser', 'editUser'],
+    resources: ['addUser', 'editUser']
   }
   if (user.userName === 'admin') {
     user.roles = '管理员'
@@ -149,15 +149,15 @@ Mock.mock(new RegExp('/login'), (option: any) => {
           id: '11',
           icon: 'user',
           name: '用户管理',
-          url: '/system/user',
+          url: '/system/user'
         },
         {
           id: '16',
           name: '表单生成',
           icon: 'form',
-          url: '/system/createCrud/form',
-        },
-      ],
+          url: '/system/createCrud/form'
+        }
+      ]
     }])
     auth.resources = ['all']
   } else {
@@ -167,14 +167,14 @@ Mock.mock(new RegExp('/login'), (option: any) => {
     data: {
       user,
       auth,
-      token: 'klsJGFLKjlslgsakldjflaksjldjslkrh835498sdf=4etgsdk',
+      token: 'klsJGFLKjlslgsakldjflaksjldjslkrh835498sdf=4etgsdk'
     },
-    ...common(success ? '' : '登录失败'),
+    ...common(success ? '' : '登录失败')
   }
 })
 
 // 用户列表
-Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
+Mock.mock(new RegExp('/system/searchUser'), (option) => {
   const body = JSON.parse(option.body)
   body.pageNum = body.pageNum || 1
   return {
@@ -185,10 +185,10 @@ Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
         'userName': '用户@id',
         'tel': '124555222',
         'sex|1': [0, 1],
-        'status|1': [0, 1],
-      }],
+        'status|1': [0, 1]
+      }]
     }),
-    ...common(),
+    ...common()
   }
 })
 // CRUD
@@ -202,15 +202,15 @@ Mock.mock(new RegExp('/system/getCrud_'), {
         {
           label: '姓名',
           prop: 'userName',
-          type: 'text',
+          type: 'text'
         },
         {
           label: '状态',
           prop: 'status',
           type: 'select',
-          options: 'status',
-        },
-      ],
+          options: 'status'
+        }
+      ]
     },
     editForm: {
       model: {},
@@ -220,14 +220,14 @@ Mock.mock(new RegExp('/system/getCrud_'), {
           prop: 'userName',
           type: 'text',
           verify: {
-            number: true,
-          },
+            number: true
+          }
         },
         {
           label: '性别',
           prop: 'sex',
           type: 'select',
-          options: 'sex',
+          options: 'sex'
         },
         {
           label: '电话',
@@ -235,14 +235,14 @@ Mock.mock(new RegExp('/system/getCrud_'), {
           type: 'text',
           verify: {
             phone: true,
-            canBeEmpty: '',
-          },
+            canBeEmpty: ''
+          }
         },
         {
           label: '状态',
           prop: 'status',
           type: 'select',
-          options: 'status',
+          options: 'status'
         },
         {
           label: '测试弹窗',
@@ -250,7 +250,7 @@ Mock.mock(new RegExp('/system/getCrud_'), {
           type: 'dialog',
           props: {
             valueField: 'id',
-            labelField: 'userName',
+            labelField: 'userName'
           },
           verify: {},
           dialog: {
@@ -258,21 +258,21 @@ Mock.mock(new RegExp('/system/getCrud_'), {
             searchForm: {
               model: {},
               props: {
-                type: 'search',
+                type: 'search'
               },
               items: [
                 {
                   label: '姓名',
                   prop: 'userName',
-                  type: 'text',
+                  type: 'text'
                 },
                 {
                   label: '状态',
                   prop: 'status',
                   type: 'select',
-                  options: 'status',
-                },
-              ],
+                  options: 'status'
+                }
+              ]
             },
             table: {
               columns: [
@@ -280,14 +280,14 @@ Mock.mock(new RegExp('/system/getCrud_'), {
                 {prop: 'userName', label: '名称'},
                 {prop: 'sex', label: '性别', formatFun: 'sex'},
                 {prop: 'tel', label: '电话'},
-                {prop: 'status', label: '状态', renderFun: 'status'},
+                {prop: 'status', label: '状态', renderFun: 'status'}
               ],
-              rows: [],
+              rows: []
             },
-            needQuery: true,
-          },
-        },
-      ],
+            needQuery: true
+          }
+        }
+      ]
     },
     table: {
       columns: [
@@ -295,13 +295,13 @@ Mock.mock(new RegExp('/system/getCrud_'), {
         {prop: 'userName', label: '名称'},
         {prop: 'sex', label: '性别', formatFun: 'sex'},
         {prop: 'tel', label: '电话'},
-        {prop: 'status', label: '状态', renderFun: 'status'},
+        {prop: 'status', label: '状态', renderFun: 'status'}
       ],
-      rows: [],
+      rows: []
     },
-    needQuery: true,
+    needQuery: true
   },
-  ...common(),
+  ...common()
 })
 
 Mock.mock(new RegExp('/system/getCrud'), {
@@ -312,7 +312,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
       {
         label: '编号',
         prop: 'id',
-        target: ['table'],
+        target: ['table']
       },
       {
         label: '姓名',
@@ -321,9 +321,9 @@ Mock.mock(new RegExp('/system/getCrud'), {
         formProps: {
           type: 'text',
           verify: {
-            number: true,
-          },
-        },
+            number: true
+          }
+        }
       },
       {
         label: '性别',
@@ -331,11 +331,11 @@ Mock.mock(new RegExp('/system/getCrud'), {
         target: ['table', 'editForm'],
         formProps: {
           type: 'select',
-          options: 'sex',
+          options: 'sex'
         },
         tableProps: {
-          formatFun: 'sex',
-        },
+          formatFun: 'sex'
+        }
       },
       {
         label: '电话',
@@ -345,9 +345,9 @@ Mock.mock(new RegExp('/system/getCrud'), {
           type: 'text',
           verify: {
             phone: true,
-            canBeEmpty: '',
-          },
-        },
+            canBeEmpty: ''
+          }
+        }
       },
       {
         label: '状态',
@@ -355,11 +355,11 @@ Mock.mock(new RegExp('/system/getCrud'), {
         target: ['table', 'searchForm', 'editForm'],
         formProps: {
           type: 'select',
-          options: 'status',
+          options: 'status'
         },
         tableProps: {
-          renderFun: 'status',
-        },
+          renderFun: 'status'
+        }
       },
       {
         label: '测试弹窗',
@@ -370,28 +370,28 @@ Mock.mock(new RegExp('/system/getCrud'), {
           props: {
             valueField: 'id',
             labelField: 'userName',
-            verify: {},
+            verify: {}
           },
           dialog: {
             name: 'User',
             searchForm: {
               model: {},
               props: {
-                type: 'search',
+                type: 'search'
               },
               items: [
                 {
                   label: '姓名',
                   prop: 'userName',
-                  type: 'text',
+                  type: 'text'
                 },
                 {
                   label: '状态',
                   prop: 'status',
                   type: 'select',
-                  options: 'status',
-                },
-              ],
+                  options: 'status'
+                }
+              ]
             },
             table: {
               columns: [
@@ -399,43 +399,43 @@ Mock.mock(new RegExp('/system/getCrud'), {
                 {prop: 'userName', label: '名称'},
                 {prop: 'sex', label: '性别', formatFun: 'sex'},
                 {prop: 'tel', label: '电话'},
-                {prop: 'status', label: '状态', renderFun: 'status'},
+                {prop: 'status', label: '状态', renderFun: 'status'}
               ],
-              rows: [],
+              rows: []
             },
-            needQuery: true,
-          },
-        },
-      },
+            needQuery: true
+          }
+        }
+      }
     ],
     searchForm: {
-      model: {},
+      model: {}
     },
     editForm: {
-      model: {},
+      model: {}
     },
     table: {
-      rows: [],
+      rows: []
     },
-    needQuery: true,
+    needQuery: true
   },
-  ...common(),
+  ...common()
 })
 // 获取选择类型表单组件的选项
-Mock.mock(new RegExp('/system/getOptions'), (option: any) => {
+Mock.mock(new RegExp('/system/getOptions'), (option) => {
   const name = getQueryString(option.url, 'name')
   return {
     data: optinonMaps[name],
-    ...common(),
+    ...common()
   }
 })
 //
-Mock.mock(new RegExp('/system/saveUser'), (option: any) => {
+Mock.mock(new RegExp('/system/saveUser'), (option) => {
   const user = JSON.parse(option.body)
   console.log(user)
   return {
     data: {},
-    ...common(),
+    ...common()
   }
 })
 // 获取用户详情
@@ -448,10 +448,10 @@ Mock.mock(new RegExp('/system/getUser/'), {
     'status|1': [0, 1],
     'dialog': {
       id: 1,
-      userName: '用户1',
-    },
+      userName: '用户1'
+    }
   },
-  ...common(),
+  ...common()
 })
 // 获取用户详情
 Mock.mock(new RegExp('/system/viewUser/'), {
@@ -460,12 +460,12 @@ Mock.mock(new RegExp('/system/viewUser/'), {
     tel: '124555222',
     sex: '男',
     status: '启用',
-    dialog: '用户1,用户2',
+    dialog: '用户1,用户2'
   },
-  ...common(),
+  ...common()
 })
 // 删除用户
 Mock.mock(new RegExp('/system/delUser/'), {
   data: {},
-  ...common(),
+  ...common()
 })

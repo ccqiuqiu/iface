@@ -12,79 +12,79 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import CcInputTags from './CcInputTags.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import CcInputTags from './CcInputTags.vue'
 
-  @Component({components: {CcInputTags}})
-  export default class CcInputTable extends Vue {
-    /*vue-props*/
-    @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
-    @Prop() private options: any
-    @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'text'}) private labelField: string
-    /*vue-vuex*/
-    /*vue-data*/
-    private show: boolean = false
-    private selectedRows: any[] = []
-    private currentRow: any = null
-    /*vue-compute*/
-    get multi() {
-      return !!this.options.columns.find((c: TableColumn) => c.type === 'selection')
+@Component({components: {CcInputTags}})
+export default class CcInputTable extends Vue {
+  /* vue-props */
+  @Prop({type: [String, Number, Array]}) value
+  @Prop() options
+  @Prop({default: 'id'}) valueField
+  @Prop({default: 'text'}) labelField
+  /* vue-vuex */
+  /* vue-data */
+  show = false
+  selectedRows = []
+  currentRow = null
+  /* vue-compute */
+  get multi () {
+    return !!this.options.columns.find((c) => c.type === 'selection')
+  }
+  get getSelectTag () {
+    return (this.multi ? this.selectedRows : [this.currentRow]).filter((item) => item)
+  }
+  /* vue-watch */
+  @Watch('currentRow')
+  currentRowChange (val) {
+    if (!this.multi && val) {
+      this.show = false
+      this.$emit('input', val[this.valueField])
     }
-    get getSelectTag() {
-      return (this.multi ? this.selectedRows : [this.currentRow]).filter((item: any) => item)
+  }
+  @Watch('selectedRows')
+  selectedRowsChange (val) {
+    if (this.multi) {
+      this.$emit('input', val.map((row) => row[this.valueField]))
     }
-    /*vue-watch*/
-    @Watch('currentRow')
-    private currentRowChange(val: any) {
-      if (!this.multi && val) {
-        this.show = false
-        this.$emit('input', val[this.valueField])
+  }
+  // 监听value是为了实现重置表单的时候，能更新表格
+  @Watch('value')
+  valueChange (val, old) {
+    if (this.multi) {
+      if (val.join(',') !== old.join(',')) {
+        this.init()
       }
-    }
-    @Watch('selectedRows')
-    private selectedRowsChange(val: any) {
-      if (this.multi) {
-        this.$emit('input', val.map((row: any) => row[this.valueField]))
-      }
-    }
-    // 监听value是为了实现重置表单的时候，能更新表格
-    @Watch('value')
-    private valueChange(val: any, old: any) {
-      if (this.multi) {
-        if (val.join(',') !== old.join(',')) {
-          this.init()
-        }
-      } else {
-        if (val !== old) {
-          this.init()
-        }
-      }
-    }
-    /*vue-lifecycle*/
-    private mounted() {
-      this.init()
-    }
-    /*vue-method*/
-    private init() {
-      if (this.value) {
-        if (this.multi) {
-          this.selectedRows = this.options.rows.filter((row: any) => (this.value as Array<string | number>).includes(row[this.valueField]))
-        } else {
-          this.currentRow = this.options.rows.find((row: any) => row[this.valueField] === this.value)
-        }
-      }
-    }
-    private delTag(tag: any) {
-      if (this.multi) {
-        const index = this.selectedRows.findIndex((row: any) => row[this.valueField] === tag[this.valueField])
-        this.selectedRows.splice(index, 1)
-      } else {
-        this.currentRow = null
+    } else {
+      if (val !== old) {
+        this.init()
       }
     }
   }
+  /* vue-lifecycle */
+  mounted () {
+    this.init()
+  }
+  /* vue-method */
+  init () {
+    if (this.value) {
+      if (this.multi) {
+        this.selectedRows = this.options.rows.filter((row) => this.value.includes(row[this.valueField]))
+      } else {
+        this.currentRow = this.options.rows.find((row) => row[this.valueField] === this.value)
+      }
+    }
+  }
+  delTag (tag) {
+    if (this.multi) {
+      const index = this.selectedRows.findIndex((row) => row[this.valueField] === tag[this.valueField])
+      this.selectedRows.splice(index, 1)
+    } else {
+      this.currentRow = null
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -25,8 +25,8 @@ Vue.use(elementUIVerify, {
     maxDecimalLength: '{alias}必须为小数位不大于{maxDecimalLength}的数字',
     phone: '{alias}必须为正确的手机号',
     email: '{alias}必须为正确的邮箱',
-    verifyCode: '{alias}必须为正确的验证码',
-  },
+    verifyCode: '{alias}必须为正确的验证码'
+  }
 })
 
 // 注册一些全局组件
@@ -42,5 +42,5 @@ Vue.use(utils)
 export default new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: (h) => h(App)
 }).$mount('#app')

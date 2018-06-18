@@ -13,61 +13,61 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
-  @Component
-  export default class FormItemOptions extends Vue {
-    /*vue-props*/
-    @Prop() private item: FormItem
-    @Prop(Boolean) private needOptions: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    private source: number = 0
-    private source1: string = ''
-    private source2: string = ''
-    private source2Options: OptionItem[] = [
-      {label: '性别', value: 'sex'},
-      {label: '状态', value: 'status'},
-    ]
-    /*vue-compute*/
-    /*vue-watch*/
-    @Watch('item')
-    private itemChange(val: any) {
-      if (val && val.options) {
-        if (typeof val.options === 'string') {
-          this.source = 2
-          this.source2 = val.options
-        } else {
-          this.source = 1
-          this.source1 = JSON.stringify(val.options)
-        }
-      }
-    }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    private onSourceChange(val: number) {
-      this.onBlur()
-      this.onChange()
-    }
-    private onBlur() {
-      if (this.source === 1) {
-        try {
-          const json = JSON.parse(this.source1)
-          this.item.options = json
-        } catch (e) {
-          console.log(e.message)
-        }
-        this.$emit('change')
-      }
-    }
-    private onChange() {
-      if (this.source === 2) {
-        this.item.options = this.source2
-        this.$emit('change')
+@Component
+export default class FormItemOptions extends Vue {
+  /* vue-props */
+  @Prop() item
+  @Prop(Boolean) needOptions
+  /* vue-vuex */
+  /* vue-data */
+  source = 0
+  source1 = ''
+  source2 = ''
+  source2Options = [
+    {label: '性别', value: 'sex'},
+    {label: '状态', value: 'status'}
+  ]
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('item')
+  itemChange (val) {
+    if (val && val.options) {
+      if (typeof val.options === 'string') {
+        this.source = 2
+        this.source2 = val.options
+      } else {
+        this.source = 1
+        this.source1 = JSON.stringify(val.options)
       }
     }
   }
+  /* vue-lifecycle */
+  /* vue-method */
+  onSourceChange (val) {
+    this.onBlur()
+    this.onChange()
+  }
+  onBlur () {
+    if (this.source === 1) {
+      try {
+        const json = JSON.parse(this.source1)
+        this.item.options = json
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.$emit('change')
+    }
+  }
+  onChange () {
+    if (this.source === 2) {
+      this.item.options = this.source2
+      this.$emit('change')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

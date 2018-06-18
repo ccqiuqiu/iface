@@ -8,45 +8,45 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
 
-  @Component
-  export default class CcCrudView extends Vue {
-    /*vue-props*/
-    @Prop() private data: any
-    @Prop() private fields: any[]
-    @Prop() private url: string
-    /*vue-vuex*/
-    @Action('requestUrl') private requestUrl: (url: string) => Promise<ActionReturn>
-    /*vue-data*/
-    private mData: any = this.data
-    private loading: boolean = false
-    /*vue-compute*/
-    /*vue-watch*/
-    @Watch('url', {immediate: true})
-    private urlChange(val: string) {
-      if (val) {
-        this.initModel()
-      }
-    }
-    @Watch('data')
-    private dataChange(val: any) {
-      this.mData = val
-    }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    // 初始化model。用于更新表单从服务端获取完整数据
-    private async initModel() {
-      this.loading = true
-      const {data} = await this.requestUrl(this.url)
-      this.loading = false
-      if (data) {
-        this.mData = data
-      }
+@Component
+export default class CcCrudView extends Vue {
+  /* vue-props */
+  @Prop() data
+  @Prop() fields
+  @Prop() url
+  /* vue-vuex */
+  @Action('requestUrl') requestUrl
+  /* vue-data */
+  mData = this.data
+  loading = false
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('url', {immediate: true})
+  urlChange (val) {
+    if (val) {
+      this.initModel()
     }
   }
+  @Watch('data')
+  dataChange (val) {
+    this.mData = val
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+  // 初始化model。用于更新表单从服务端获取完整数据
+  async initModel () {
+    this.loading = true
+    const {data} = await this.requestUrl(this.url)
+    this.loading = false
+    if (data) {
+      this.mData = data
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

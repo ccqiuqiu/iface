@@ -11,22 +11,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import { Component, Vue, Prop} from 'vue-property-decorator'
 
-  @Component
-  export default class CcInputTags extends Vue {
-    /*vue-props*/
-    @Prop() private value: any[]
-    @Prop({default: 'label'}) private label: string
-    @Prop(String) private icon: string
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-  }
+@Component
+export default class CcInputTags extends Vue {
+  /*vue-props*/
+  @Prop() value
+  @Prop({default: 'label'}) label
+  @Prop(String) icon
+  /*vue-vuex*/
+  /*vue-data*/
+  /*vue-compute*/
+  /*vue-watch*/
+  /*vue-lifecycle*/
+  /*vue-method*/
+}
 </script>
 
 <style lang="scss" scoped>

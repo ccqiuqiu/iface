@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MutationTree, ActionTree, ModuleTree, ActionContext } from 'vuex'
 import common from '../modules/common/vuex'
 import publicM from '../modules/public/vuex'
 import system from '../modules/system/vuex'
@@ -8,28 +7,28 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-const state: State = {
+const state = {
   common: {},
   publicM: {},
   system: {},
-  loading: false,
+  loading: false
 }
-const mutations: MutationTree<any> = {
+const mutations = {
   // 显示loading
-  showLoading(state: State): void {
+  showLoading (state) {
     state.loading = true
   },
   // 隐藏loading
-  hideLoading(state: State): void {
+  hideLoading (state) {
     state.loading = true
-  },
+  }
 }
 
-const actions: ActionTree<any, any> = {
+const actions = {
 }
 
-const modules: ModuleTree<any> = {
-  common, publicM, system,
+const modules = {
+  common, publicM, system
 }
 
 export default new Vuex.Store({
@@ -39,16 +38,16 @@ export default new Vuex.Store({
   modules,
   plugins: [createPersistedState({
     storage: window.sessionStorage,
-    reducer: (state: State) => ({
+    reducer: (state) => ({
       common: {
         menus: state.common.menus,
         resources: state.common.resources,
         menuExpand: state.common.menuExpand,
         menuTabs: state.common.menuTabs,
         selectedTab: state.common.selectedTab,
-        user: state.common.user,
-      },
+        user: state.common.user
+      }
       // home: state.home,
-    }),
-  })],
+    })
+  })]
 })

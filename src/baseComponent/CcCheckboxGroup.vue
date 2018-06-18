@@ -10,31 +10,35 @@
   </el-checkbox-group>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
-  @Component
-  export default class CcCheckBoxGroup extends Vue {
-    /*vue-props*/
-    @Prop(Array) private value: any | any[]
-    @Prop([Array, String]) private options: any[] | string
-    @Prop() private type: string
-    /*vue-vuex*/
-    /*vue-data*/
-    private model: any[] = this.value || []
-    /*vue-compute*/
-    /*vue-watch*/
-    @Watch('value')
-    private valueChange(val: any) {
-      this.model = val || []
+@Component
+export default class CcCheckBoxGroup extends Vue {
+  /* vue-props */
+  @Prop(Array) value
+  @Prop([Array, String]) options
+  @Prop() type
+  /* vue-vuex */
+  /* vue-data */
+  data () {
+    return {
+      model: this.value || []
     }
-    @Watch('model')
-    private modelChange(val: any[]) {
-      this.$emit('input', val)
-    }
-    /*vue-lifecycle*/
-    /*vue-method*/
   }
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('value')
+  valueChange (val) {
+    this.model = val || []
+  }
+  @Watch('model')
+  modelChange (val) {
+    this.$emit('input', val)
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

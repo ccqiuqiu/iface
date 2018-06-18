@@ -1,8 +1,7 @@
-import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
 import * as utils from '@utils/utils'
 import api from '@g/api'
 
-const state: CommonState = {
+const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
@@ -11,44 +10,44 @@ const state: CommonState = {
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
   user: {},
-  optionsCache: {},
+  optionsCache: {}
 }
-const getters: GetterTree<any, any> = {
+const getters = {
   // 面包屑导航对象
-  nav(state: CommonState): Menu[] {
-    const item = state.menuTabs.find((item: any) => item.key === state.selectedTab)
+  nav (state) {
+    const item = state.menuTabs.find((item) => item.key === state.selectedTab)
     return item ? item.menus : []
   },
   // dialog弹窗
-  dialog: (state: CommonState) => (inside: boolean) => {
+  dialog: (state) => (inside) => {
     return inside ? state.insideDialog : state.outsideDialog
   },
   // 打平的菜单，只有一个层级
-  flatMenu(state: CommonState): Menu[] {
-    return utils.flatObject(state.menus as Menu[])
-  },
+  flatMenu (state) {
+    return utils.flatObject(state.menus)
+  }
 }
-const mutations: MutationTree<any> = {
+const mutations = {
   // 切换左边菜单的大小
-  toggleMenu(state: CommonState): void {
+  toggleMenu (state) {
     state.menuExpand = !state.menuExpand
   },
   // 更新tab页
-  updateTabs(state: CommonState, params: {key: string, menus: Menu[]}): void {
+  updateTabs (state, params) {
     if (params.key) {
       state.menuTabs.push(params)
     }
   },
   // 更新当前选择的tab
-  updateSelectedTab(state: CommonState, key: string): void {
-     if (key) {
-       state.selectedTab = key
-     }
+  updateSelectedTab (state, key) {
+    if (key) {
+      state.selectedTab = key
+    }
   },
   // 关闭tab
-  removeTab(state: CommonState, key: string): void {
+  removeTab (state, key) {
     // 从menuTabs里面删除tab
-    const index = state.menuTabs.findIndex((o: any) => o.key === key)
+    const index = state.menuTabs.findIndex((o) => o.key === key)
     if (index >= 0) {
       state.menuTabs.splice(index, 1)
     }
@@ -60,7 +59,7 @@ const mutations: MutationTree<any> = {
     }
   },
   // 更新Dialog弹窗
-  updateDialog(state: CommonState, dialog: any): void {
+  updateDialog (state, dialog) {
     if (state.outsideDialog.visible) {
       state.insideDialog = dialog
     } else {
@@ -68,7 +67,7 @@ const mutations: MutationTree<any> = {
     }
   },
   // 关闭Dialog弹窗
-  hideDialog(state: CommonState): void {
+  hideDialog (state) {
     if (state.insideDialog.visible) {
       state.insideDialog = {}
     } else {
@@ -76,32 +75,31 @@ const mutations: MutationTree<any> = {
     }
   },
   // 登录后，设置一些用户信息到store
-  updateUser(state: CommonState, data: any): void {
+  updateUser (state, data) {
     state.user = data.user
     state.menus = data.auth.menus
     state.resources = data.auth.resources
   },
   // 清除Store里面的用户信息
-  clearStore(state: CommonState): void {
+  clearStore (state) {
     state.menus = []
     state.menuTabs = [{key: '0', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
     state.selectedTab = ''
     state.user = {}
-  },
+  }
 }
 
-
-const actions: ActionTree<any, any> = {
+const actions = {
   // 获取crud的json数据
-  getCrud(context: ActionContext<CommonState, State>, id: number): Promise<ActionReturn> {
+  getCrud (context, id) {
     return api.getCrud(id)
   },
   // 表单的按钮事件，主要是搜索和保存
-  formAction(context: ActionContext<CommonState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
+  formAction (context, params) {
     return api.formAction(params.url, params.params)
   },
   // 获取表单控件的选择项，下拉、单选、多选等
-  async getOptions(context: ActionContext<CommonState, State>, url: string): Promise<any> {
+  async getOptions (context, url) {
     if (context.state.optionsCache[url]) {
       return context.state.optionsCache[url]
     } else {
@@ -114,9 +112,9 @@ const actions: ActionTree<any, any> = {
       return null
     }
   },
-  requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
+  requestUrl (context, url) {
     return api.requestUrl(url)
-  },
+  }
 }
 
 export default {state, getters, mutations, actions}

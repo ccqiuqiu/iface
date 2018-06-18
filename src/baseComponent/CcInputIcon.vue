@@ -19,30 +19,30 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import iconPath from '../assets/icons/icon'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import iconPath from '../assets/icons/icon'
 
-  @Component
-  export default class CcInputIcon extends Vue {
-    /*vue-props*/
-    @Prop(String) private value: string
-    /*vue-vuex*/
-    /*vue-data*/
-    private show: boolean = false
-    /*vue-compute*/
-    get icons() {
-      const reg = /^.*\/(.*)\.svg$/
-      return iconPath.map((path: string) => path.replace(reg, '$1'))
-    }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    private select(name: string) {
-      this.$emit('input', name)
-      this.show = false
-    }
+@Component
+export default class CcInputIcon extends Vue {
+  /* vue-props */
+  @Prop(String) value
+  /* vue-vuex */
+  /* vue-data */
+  show = false
+  /* vue-compute */
+  get icons () {
+    const reg = /^.*\/(.*)\.svg$/
+    return iconPath.map((path) => path.replace(reg, '$1'))
   }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  select (name) {
+    this.$emit('input', name)
+    this.show = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>

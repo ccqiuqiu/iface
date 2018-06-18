@@ -7,18 +7,18 @@ import * as uiUtils from '@utils/uiUtils'
 import lsUtils from '@utils/lsUtils'
 import app from '../main'
 
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
+import axios from 'axios'
 // 创建一个axios实例
-const axiosInstance: AxiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL || '',
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   },
   withCredentials: true,
-  timeout: 45000, // 请求超时时间
+  timeout: 45000 // 请求超时时间
 })
 // 注册请求拦截器
-axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
+axiosInstance.interceptors.request.use((config) => {
   // 加公共请求参数
   config.headers.token = lsUtils.get('token')
 
@@ -39,7 +39,7 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosReques
 })
 
 // 注册响应拦截器
-axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> => {
+axiosInstance.interceptors.response.use((response) => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
   const {_loading, _hideGlobalError} = response.config.headers
   // if (_loading) {
@@ -68,15 +68,15 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     }
     return Promise.reject(response.data.error)
   }
-}, (error: any): Promise<any> => {
+}, (error) => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const {_loading, _hideGlobalError} = error.response.config.headers
+  const {_loading} = error.response.config.headers
   if (_loading) {
     // store.commit('hideLoading')
     app.$Progress.fail()
   }
   uiUtils.message('服务端异常', 'error')
-  return Promise.reject({code: error.response.status, message: error.response.data})
+  return Promise.reject(error)
 })
 
 export default axiosInstance

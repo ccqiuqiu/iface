@@ -15,34 +15,34 @@
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
-  import {State, Mutation, Getter} from 'vuex-class'
+<script>
+import {Component, Vue} from 'vue-property-decorator'
+import {State, Mutation, Getter} from 'vuex-class'
 
-  @Component
-  export default class NavView extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @State((state: State) => state.common.menuExpand) private menuExpand: string
-    @State((state: State) => state.common.menuTabs) private menuTabs: any[]
-    @State((state: State) => state.common.selectedTab) private selectedTab: any
-    @State((state: State) => state.common.user) private user: User
-    @Getter private nav: Menu[]
-    @Mutation private toggleMenu: () => void
-    @Mutation('clearStore') private clearStore: () => void
-    /*vue-data*/
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    // 退出登录
-    private logout(): void {
-      this.$utils.remove('token')
-      // 清除store里面缓存的数据
-      this.clearStore()
-      this.$router.push('/login')
-    }
+@Component
+export default class NavView extends Vue {
+  /* vue-props */
+  /* vue-vuex */
+  @State((state) => state.common.menuExpand) menuExpand
+  @State((state) => state.common.menuTabs) menuTabs
+  @State((state) => state.common.selectedTab) selectedTab
+  @State((state) => state.common.user) user
+  @Getter nav
+  @Mutation toggleMenu
+  @Mutation('clearStore') clearStore
+  /* vue-data */
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  // 退出登录
+  logout () {
+    this.$utils.remove('token')
+    // 清除store里面缓存的数据
+    this.clearStore()
+    this.$router.push('/login')
   }
+}
 
 </script>
 

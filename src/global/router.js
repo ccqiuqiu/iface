@@ -17,14 +17,14 @@ const router = new Router({
       children: [
         ...common,
         ...system,
-        ...demo,
-      ],
+        ...demo
+      ]
     },
     {
       path: '*',
-      redirect: '/',
-    },
-  ],
+      redirect: '/'
+    }
+  ]
 })
 // 路由改变的钩子
 // router.beforeEach((to, from, next) => {

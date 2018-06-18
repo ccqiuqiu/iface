@@ -3,23 +3,23 @@
  */
 
 export default {
-  set(key: string, val: any): void {
+  set (key, val) {
     if (typeof val === 'object') {
       val = JSON.stringify(val)
     }
     localStorage.setItem(key, val)
   },
-  get(key: string, defaultVal: any = ''): any {
+  get (key, defaultVal = '') {
     return localStorage.getItem(key) || defaultVal
   },
-  getObj(key: string, defaultVal: any): any {
+  getObj (key, defaultVal) {
     const val = this.get(key, null)
     if (val) {
       return JSON.parse(val)
     }
     return defaultVal || null
   },
-  remove(key: string): void {
+  remove (key) {
     localStorage.removeItem(key)
-  },
+  }
 }

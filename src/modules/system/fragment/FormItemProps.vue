@@ -3,61 +3,64 @@
   <cc-form @blur="onBlur" :data="formObj" class="table" v-if="item"/>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class FormItemProps extends Vue {
-    /*vue-props*/
-    @Prop() private item: any
-    @Prop(Boolean) private needOptions: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get formObj() {
-      const model = this.item || {}
-      const items: any[] = [
-        {label: '标签', prop: 'label', type: 'text', placeholder: '表单的标签'},
-        {label: '字段名', prop: 'prop', type: 'text', placeholder: '绑定的字段'},
-        {label: '字段类型', prop: 'type', type: 'select', options: [
-            {label: '文本框', value: 'text'},
-            {label: '密码框', value: 'password'},
-            {label: '多行文本框', value: 'textarea'},
-          ]},
-        {label: '占位符', prop: 'placeholder', type: 'text', placeholder: '值为空的提示信息'},
-        {label: '显示字段', prop: 'labelField', type: 'text', placeholder: '显示用字段，默认为label'},
-        {label: '值字段', prop: 'valueField', type: 'text', placeholder: '保存值的字段, 默认为value'},
-        {label: '更多选项', prop: 'propsStr', type: 'textarea', placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'},
-      ]
-      if (!['text', 'password', 'textarea'].includes(this.item.type)) {
-        items.splice(2, 2)
-      }
-      if (!this.needOptions) {
-        items.splice(4, 2)
-      }
-      return {model, items, btns: []}
+@Component
+export default class FormItemProps extends Vue {
+  /* vue-props */
+  @Prop() item
+  @Prop(Boolean) needOptions
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get formObj () {
+    const model = this.item || {}
+    const items = [
+      {label: '标签', prop: 'label', type: 'text', placeholder: '表单的标签'},
+      {label: '字段名', prop: 'prop', type: 'text', placeholder: '绑定的字段'},
+      {label: '字段类型',
+        prop: 'type',
+        type: 'select',
+        options: [
+          {label: '文本框', value: 'text'},
+          {label: '密码框', value: 'password'},
+          {label: '多行文本框', value: 'textarea'}
+        ]},
+      {label: '占位符', prop: 'placeholder', type: 'text', placeholder: '值为空的提示信息'},
+      {label: '显示字段', prop: 'labelField', type: 'text', placeholder: '显示用字段，默认为label'},
+      {label: '值字段', prop: 'valueField', type: 'text', placeholder: '保存值的字段, 默认为value'},
+      {label: '更多选项', prop: 'propsStr', type: 'textarea', placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'}
+    ]
+    if (!['text', 'password', 'textarea'].includes(this.item.type)) {
+      items.splice(2, 2)
     }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    private onBlur(prop: string) {
-      const value = (this.formObj.model[prop] || '').trim()
-      this.item.props = this.item.props || {}
-      if (prop === 'propsStr') {
-        try {
-          const json = JSON.parse(value)
-          this.item.props = {...this.item.props, ...json}
-        } catch (e) {
-          this.item.props = {}
-        }
-      } else if (prop === 'labelField') {
-        this.item.props = {...this.item.props, labelField: value}
-      } else if (prop === 'valueField') {
-        this.item.props = {...this.item.props, valueField: value}
-      }
-      this.$emit('change')
+    if (!this.needOptions) {
+      items.splice(4, 2)
     }
+    return {model, items, btns: []}
   }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  onBlur (prop) {
+    const value = (this.formObj.model[prop] || '').trim()
+    this.item.props = this.item.props || {}
+    if (prop === 'propsStr') {
+      try {
+        const json = JSON.parse(value)
+        this.item.props = {...this.item.props, ...json}
+      } catch (e) {
+        this.item.props = {}
+      }
+    } else if (prop === 'labelField') {
+      this.item.props = {...this.item.props, labelField: value}
+    } else if (prop === 'valueField') {
+      this.item.props = {...this.item.props, valueField: value}
+    }
+    this.$emit('change')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

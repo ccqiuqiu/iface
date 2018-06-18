@@ -5,36 +5,36 @@
   </el-select>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class CcSelect extends Vue {
-    /*vue-props*/
-    @Prop([Array, String, Number]) private value: any | any[]
-    @Prop([Array, String]) private options: any[] | string
-    @Prop(Boolean) private multiple: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get model() {
-      if (!this.value) {
-        return this.multiple ? [] : ''
+@Component
+export default class CcSelect extends Vue {
+  /* vue-props */
+  @Prop([Array, String, Number]) value
+  @Prop([Array, String]) options
+  @Prop(Boolean) multiple
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get model () {
+    if (!this.value) {
+      return this.multiple ? [] : ''
+    } else {
+      if (this.multiple) {
+        return Array.isArray(this.value) ? this.value : [this.value]
       } else {
-        if (this.multiple) {
-          return Array.isArray(this.value) ? this.value : [this.value]
-        } else {
-          return Array.isArray(this.value) ? (this.value[0] || '') : this.value
-        }
+        return Array.isArray(this.value) ? (this.value[0] || '') : this.value
       }
     }
-    set model(val) {
-      this.$emit('input', val)
-    }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
   }
+  set model (val) {
+    this.$emit('input', val)
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>
