@@ -37,7 +37,7 @@ export default class NavView extends Vue {
   /* vue-method */
   // 退出登录
   logout () {
-    this.$utils.remove('token')
+    this.$remove('token')
     // 清除store里面缓存的数据
     this.clearStore()
     this.$router.push('/login')

@@ -32,22 +32,21 @@
       </el-form>
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
-      <el-collapse v-model="activeNames" class="right">
-        <el-collapse-item title="属性" name="1">
-          <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
-        </el-collapse-item>
-        <el-collapse-item title="选择项" name="2">
-          <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
-        </el-collapse-item>
-        <el-collapse-item title="校验" name="3">
-          <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
-        </el-collapse-item>
-      </el-collapse>
+      <div class="collapses">
+        <el-collapse v-model="activeNames" class="right">
+          <el-collapse-item title="属性" name="1">
+            <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
+          </el-collapse-item>
+          <el-collapse-item title="选择项" name="2">
+            <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
+          </el-collapse-item>
+          <el-collapse-item title="校验" name="3">
+            <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
       <div class="p-10">
         <cc-form :data="formObj" class="single-line"/>
-        <div class="a-r">
-          <cc-button icon="save" @click="save" text="保存"/>
-        </div>
       </div>
     </div>
   </div>
@@ -98,10 +97,12 @@ export default class CreateCrud extends Vue {
   formObj = {
     model: {},
     items: [
-      {label: '页面标题', prop: 'title', type: 'text'},
-      {label: '实体名称', prop: 'name', type: 'text'}
+      {label: '页面标题', prop: 'title', type: 'text', placeholder: '显示在CRUD页面的标题'},
+      {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}}
     ],
-    btns: []
+    btns: [
+      {action: 'save', cb: this.save}
+    ]
   }
   /* vue-compute */
   get selectItem () {
@@ -226,6 +227,7 @@ export default class CreateCrud extends Vue {
 
     .left{
       width: 160px;
+      overflow-y: auto;
 
       .item{
         height: 32px;
@@ -236,6 +238,10 @@ export default class CreateCrud extends Vue {
       }
     }
     .content{
+      overflow-y: auto;
+    }
+    .collapses{
+      overflow-y: auto;
     }
     .props{
       width: 320px;
@@ -293,5 +299,9 @@ export default class CreateCrud extends Vue {
         }
       }
     }
+  }
+  /deep/ .el-form .action{
+    display: flex;
+    justify-content: flex-end;
   }
 </style>

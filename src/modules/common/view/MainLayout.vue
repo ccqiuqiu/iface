@@ -37,7 +37,7 @@ export default class MainLayout extends Vue {
   /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
   @Watch('$route')
   routerChange (val) {
-    this.$utils.toTab(val.path)
+    this.$toTab(val.path)
   }
   /* vue-lifecycle */
   /* vue-method */

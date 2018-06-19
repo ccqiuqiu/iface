@@ -178,13 +178,13 @@ export default class CcCrud extends Vue {
       this.editForm.model = {...this.defaultModel}
     }
     const url = this.data.needQuery && edit ? this.getActionUrl('get') : ''
-    this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h) =>
+    this.$dialog(`${edit ? '修改' : '新增'}`, (h) =>
       <cc-form data={this.editForm} onSave={this.saved} url={url}></cc-form>)
   }
   // 点击编辑按钮
   onEdit () {
     if (!this.currentRow) {
-      this.$utils.message('请选择一行', 'warning')
+      this.$message('请选择一行', 'warning')
       return
     }
     this.onAdd(true)
@@ -192,16 +192,16 @@ export default class CcCrud extends Vue {
   // 点击删除按钮
   async onDel () {
     if (!this.currentRow) {
-      this.$utils.message('请选择一行', 'warning')
+      this.$message('请选择一行', 'warning')
       return
     }
-    const re = await this.$utils.confirm('确定要删除这条数据吗？')
+    const re = await this.$confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
       const {error} = await this.requestUrl(this.getActionUrl('del'))
       this.loading = false
       if (!error) {
-        this.$utils.message('删除成功')
+        this.$message('删除成功')
         this.getData()
       }
     }
@@ -209,18 +209,18 @@ export default class CcCrud extends Vue {
   // 点击查看按钮
   onView () {
     if (!this.currentRow) {
-      this.$utils.message('请选择一行', 'warning')
+      this.$message('请选择一行', 'warning')
       return
     }
     const url = this.data.needQuery ? this.getActionUrl('view') : ''
-    this.$utils.dialog('查看', (h) =>
+    this.$dialog('查看', (h) =>
       <CcCrudView data={this.currentRow} fields={this.editForm.items} url={url}></CcCrudView>, {showBtn: true})
   }
   // 保存完成
   async saved (error) {
     if (!error) {
-      this.$utils.message('保存成功')
-      this.$utils.hideDialog()
+      this.$message('保存成功')
+      this.$hideDialog()
       this.getData()
     }
   }

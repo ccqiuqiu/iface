@@ -48,8 +48,8 @@ export default class EditUser extends Vue {
   async save () {
     const {error} = await this.saveUser(this.user)
     if (!error) {
-      this.$utils.message('保存成功')
-      this.$utils.hideDialog()
+      this.$message('保存成功')
+      this.$hideDialog()
       this.$emit('refresh')
     }
   }

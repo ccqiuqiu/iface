@@ -12,20 +12,20 @@
 </template>
 
 <script>
-  import { Component, Vue, Prop} from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CcInputTags extends Vue {
-  /*vue-props*/
+  /* vue-props */
   @Prop() value
   @Prop({default: 'label'}) label
   @Prop(String) icon
-  /*vue-vuex*/
-  /*vue-data*/
-  /*vue-compute*/
-  /*vue-watch*/
-  /*vue-lifecycle*/
-  /*vue-method*/
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
 }
 </script>
 

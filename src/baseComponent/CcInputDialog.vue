@@ -33,7 +33,7 @@ export default class CcInputDialog extends Vue {
   show () {
     if (this.dialog) {
       this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
-      this.$utils.dialog(this.title, (h) => <div>
+      this.$dialog(this.title, (h) => <div>
         <cc-crud data={this.dialog} type='dialog' value={this.selectData} onRowClick={this.rowClick} onInput={this.onChange}></cc-crud>
         {Array.isArray(this.value) && <div class='action'>
           <el-button type='primary' onClick={this.select}>选择</el-button>
@@ -44,7 +44,7 @@ export default class CcInputDialog extends Vue {
   // 删除标签
   delTag (item) {
     if (Array.isArray(this.value)) {
-      const index = this.value.findIndex((tag) => tag[this.valueField] = item[this.valueField])
+      const index = this.value.findIndex(tag => (tag[this.valueField] = item[this.valueField]))
       this.value.splice(index, 1)
     } else {
       this.$emit('input', null)
@@ -71,7 +71,7 @@ export default class CcInputDialog extends Vue {
       re[this.labelField] = this.selectData[this.labelField]
     }
     this.$emit('input', re)
-    this.$utils.hideDialog()
+    this.$hideDialog()
   }
 }
 </script>

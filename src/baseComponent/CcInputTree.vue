@@ -38,7 +38,7 @@ export default class CcInputTree extends Vue {
   }
 
   get flatData () {
-    return this.$utils.flatObject(this.options)
+    return this.$flatObject(this.options)
   }
 
   get getSelectTag () {

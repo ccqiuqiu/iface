@@ -77,7 +77,7 @@ export default class FormItemVerify extends Vue {
         re[r.code] = r.type === 'boolean' ? true : r.value
       }
     })
-    if (!this.$utils.isEmptyObject(re)) {
+    if (!this.$isEmptyObject(re)) {
       this.item.verify = re
     } else {
       delete this.item.verify

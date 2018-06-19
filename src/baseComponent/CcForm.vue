@@ -92,10 +92,14 @@ export default class CcForm extends Vue {
     } else {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          this.loading = true
-          const {error} = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
-          this.loading = false
-          this.$emit(btn.action, error)
+          if (btn.cb) {
+            btn.cb()
+          } else {
+            this.loading = true
+            const {error} = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
+            this.loading = false
+            this.$emit(btn.action, error)
+          }
         }
       })
     }

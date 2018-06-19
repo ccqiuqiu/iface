@@ -9,10 +9,10 @@
 </template>
 
 <script>
-  import {Component, Vue, Prop} from 'vue-property-decorator'
+import {Component, Vue, Prop} from 'vue-property-decorator'
 
   @Component
-  export default class CcButton extends Vue {
+export default class CcButton extends Vue {
     @Prop({required: true}) text
     @Prop({default: 'primary'}) type
     @Prop({default: 'small'}) size

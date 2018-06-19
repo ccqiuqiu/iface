@@ -15,7 +15,7 @@ export const flatObject = (source, children = 'children') => {
   return re
 }
 
-function flatObjectDo(source, children, re) {
+function flatObjectDo (source, children, re) {
   source.forEach((s) => {
     re.push(s)
     if (s[children]) {

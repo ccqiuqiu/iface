@@ -74,7 +74,7 @@ export default class Users extends Vue {
   onAdd (edit) {
     console.log(111)
     const user = edit ? {...this.currentRow} : undefined
-    this.$utils.dialog(`${edit ? '修改' : '新增'}用户`, (h) => <EditUser user={user} onRefresh={this.load}></EditUser>)
+    this.$dialog(`${edit ? '修改' : '新增'}用户`, (h) => <EditUser user={user} onRefresh={this.load}></EditUser>)
   }
   // 点击编辑按钮
   onEdit () {
@@ -82,11 +82,11 @@ export default class Users extends Vue {
   }
   // 点击删除按钮
   async onDel () {
-    const re = await this.$utils.confirm('确定要删除此用户吗？')
+    const re = await this.$confirm('确定要删除此用户吗？')
     if (re) {
       const {error} = await this.delUser(this.currentRow.id)
       if (!error) {
-        this.$utils.message('删除成功')
+        this.$message('删除成功')
         this.load()
       }
     }

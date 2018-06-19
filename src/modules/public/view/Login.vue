@@ -44,13 +44,13 @@ export default class Login extends Vue {
   async login () {
     const {error, data} = await this.loginAction(this.user)
     if (error) {
-      this.$utils.message(error.message, 'error')
+      this.$message(error.message, 'error')
     } else {
-      this.$utils.message('登录成功')
+      this.$message('登录成功')
       // 清除store里面缓存的数据
       this.clearStore()
       // 设置新的数据
-      this.$utils.set('token', data.token)
+      this.$set('token', data.token)
       this.updateUser(data)
       this.$router.push('/')
     }

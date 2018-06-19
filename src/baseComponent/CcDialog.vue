@@ -41,7 +41,7 @@ export default class CcDialog extends Vue {
   /* vue-method */
   onClose () {
     if (this.dialog.visible) {
-      this.$utils.hideDialog()
+      this.$hideDialog()
     }
   }
 }

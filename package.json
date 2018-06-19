@@ -28,9 +28,9 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.2",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.2",
-    "@vue/cli-service": "^3.0.0-rc.2",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.3",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.3",
+    "@vue/cli-service": "^3.0.0-rc.3",
     "@vue/eslint-config-standard": "^3.0.0-rc.2",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
