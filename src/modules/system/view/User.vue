@@ -7,8 +7,9 @@
         <cc-button v-auth="['addUser']" icon="add" text="添加" @click="onAdd"/>
         <cc-button icon="edit" text="修改" @click="onEdit"/>
         <cc-button icon="delete" text="删除" @click="onDel"/>
+        <cc-button icon="multi" text="多选" @click="multiSelect = !multiSelect"/>
       </div>
-      <cc-table :rows="users"
+      <cc-table :rows="users" :multi-select="multiSelect"
                 :columns="columns"
                 :selected-rows.sync="selectedRows"
                 :current-row.sync="currentRow"></cc-table>
@@ -34,6 +35,7 @@ export default class Users extends Vue {
   @Action userList
   @Action delUser
   /* data */
+  multiSelect = false
   columns = [
     {prop: 'id', label: '编号'},
     {prop: 'userName', label: '名称'},

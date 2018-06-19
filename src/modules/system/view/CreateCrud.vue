@@ -14,13 +14,13 @@
 
     <div flex="dir:top" class="content b-r" flex-box="1">
       <div flex-box="0" class="p-10 b-b f-b" flex="box:last">
-        <span>表单项</span>
+        <span>表单预览</span>
         <cc-icon name="delete" @click="delItem" size="20" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
       </div>
       <el-form ref="form" :model="model" flex-box="1" class="form m-10" flex="dir: top" label-width="100px">
         <draggable v-model="items" :options="{group: {name: 'g'}, filter:'.tips'}" felx-box="1" @add="add" class="form-item-draggable">
           <template v-if="items.length">
-            <cc-form-item @click.native="selectIndex = index" :class="['draggable-item', {'select': selectIndex === index}]"
+            <cc-form-item no-verify @click.native="selectIndex = index" :class="['draggable-item', {'select': selectIndex === index}]"
                           :model="model" :item="item" :key="index"  v-for="(item, index) in items"></cc-form-item>
           </template>
           <div v-else class="tips c-info" flex="cross:center main:center">
@@ -40,11 +40,14 @@
           <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
         </el-collapse-item>
         <el-collapse-item title="校验" name="3">
-          <div>3</div>
+          <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
         </el-collapse-item>
       </el-collapse>
-      <div class="p-10 a-r">
-        <cc-button icon="save" @click="save" text="保存"/>
+      <div class="p-10">
+        <cc-form :data="formObj" class="single-line"/>
+        <div class="a-r">
+          <cc-button icon="save" @click="save" text="保存"/>
+        </div>
       </div>
     </div>
   </div>
@@ -57,8 +60,9 @@ import draggable from 'vuedraggable'
 import CcFormItem from '@bc/CcFromItem.vue'
 import FormItemProps from '../fragment/FormItemProps.vue'
 import FormItemOptions from '../fragment/FormItemOptions.vue'
+import FormItemVerify from '../fragment/FormItemVerify.vue'
 
-@Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions}})
+@Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
 export default class CreateCrud extends Vue {
   /* vue-props */
   /* vue-vuex */
@@ -91,6 +95,14 @@ export default class CreateCrud extends Vue {
   items = []
   activeNames = ['1', '2', '3']
   selectIndex = -1
+  formObj = {
+    model: {},
+    items: [
+      {label: '页面标题', prop: 'title', type: 'text'},
+      {label: '实体名称', prop: 'name', type: 'text'}
+    ],
+    btns: []
+  }
   /* vue-compute */
   get selectItem () {
     return this.selectIndex >= 0 ? this.items[this.selectIndex] : undefined
@@ -226,7 +238,7 @@ export default class CreateCrud extends Vue {
     .content{
     }
     .props{
-      width: 400px;
+      width: 320px;
     }
     .form > div{
       width: 100%;

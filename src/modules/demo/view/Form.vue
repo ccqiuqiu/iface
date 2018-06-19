@@ -3,7 +3,7 @@
   <div>
     <div class="tip" flex="box:last cross:center">
       <span class="m-r-30">表单组件，使用json数据描述表单控件，纯数据驱动，简化表单使用方式。支持element-ui的全部表单组件，基本兼容原有api，并额外增加了弹窗选择组件</span>
-      <a href="https://v-charts.js.org/#/toggle" target="_blank">查看文档</a>
+      <a href="https://element.faas.ele.me/#/zh-CN/component/installation" target="_blank">查看文档</a>
     </div>
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center">
@@ -16,7 +16,6 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import ss from 'element-ui/src/mixins/emitter'
 
 @Component
 export default class Form extends Vue {
@@ -382,9 +381,6 @@ export default class Form extends Vue {
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
-  created () {
-    console.log(ss)
-  }
   /* vue-method */
 }
 </script>

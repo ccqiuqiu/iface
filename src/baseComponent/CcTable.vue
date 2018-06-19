@@ -9,7 +9,8 @@
             @select-all="select"
             @row-click="rowClick"
             @current-change="currentChange">
-    <template v-for="(column, index) in columns">
+    <el-table-column type="selection" width="55" v-if="multi" />
+    <template v-for="(column, index) in columnsFilter">
       <el-table-column v-if="column.renderCell" v-bind="column" :key="index">
         <template slot-scope="scope">
           <cc-render :render-fun="column.renderCell" :scope="scope"></cc-render>
@@ -29,12 +30,16 @@ export default class CcTable extends Vue {
   @Prop() rows
   @Prop({default: 'id'}) rowKey
   @Prop() columns
+  @Prop(Boolean) multiSelect // 是否多选
   @Prop() selectedRows // 选中的行的数组
   @Prop() currentRow // 当前行
   /* vue-data */
   /* vue-computed */
   get multi () {
-    return !!this.columns.find((c) => c.type === 'selection')
+    return this.multiSelect || !!this.columns.find((c) => c.type === 'selection')
+  }
+  get columnsFilter () {
+    return this.columns.filter((c) => c.type !== 'selection')
   }
   /**
    * 结合selectionChange方法，实现selectedRows双向绑定

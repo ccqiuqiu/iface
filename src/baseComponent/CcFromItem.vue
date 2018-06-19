@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': mItem.verify && mItem.verify.canBeEmpty === undefined}" v-loading="loading">
+  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': !noVerify && mItem.verify && mItem.verify.canBeEmpty === undefined}" v-loading="loading">
     <!--选择框-->
     <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners"></cc-select>
     <!--日期，范围-->
@@ -77,6 +77,7 @@ export default class CcFromItem extends Vue {
   /* vue-props */
   @Prop({required: true, type: [Object]}) model
   @Prop({required: true}) item
+  @Prop(Boolean) noVerify
   /* vue-vuex */
   @Action('getOptions') getOptions
   /* vue-data */
@@ -101,14 +102,23 @@ export default class CcFromItem extends Vue {
   // 过滤form-item的props
   itemProps (item) {
     const {options, props, dialog, verify, placeholder, ...itemProps} = item
-    if (verify && !verify.verify) {
-      verify.verify = ''
-    }
     if (placeholder) {
       item.props = item.props || {}
       item.props.placeholder = placeholder
     }
-    return {...itemProps, ...verify}
+    if (this.noVerify) {
+      return {...itemProps}
+    } else {
+      // 处理表单校验
+      if (verify) {
+        verify.verify = ''
+        // 校验框架没有必填选项，只有canBeEmpty，所以转换一下
+        if (!verify.required) {
+          verify.canBeEmpty = ''
+        }
+      }
+      return {...itemProps, ...verify}
+    }
   }
   // 日期控件默认格式
   datePickerFarmatter (item) {

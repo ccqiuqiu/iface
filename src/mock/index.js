@@ -321,6 +321,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
         formProps: {
           type: 'text',
           verify: {
+            required: true,
             number: true
           }
         }
@@ -344,8 +345,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
         formProps: {
           type: 'text',
           verify: {
-            phone: true,
-            canBeEmpty: ''
+            phone: true
           }
         }
       },

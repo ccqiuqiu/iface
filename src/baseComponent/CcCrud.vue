@@ -233,7 +233,8 @@ export default class CcCrud extends Vue {
   getItems (val) {
     return this.data.items ? this.data.items.filter((item) => item.target.includes(val))
       .map((item) => {
-        const {tableProps, formProps, target, ...props} = {...item}
+        const clone = JSON.parse(JSON.stringify(item))
+        const {tableProps, formProps, target, ...props} = {...clone}
         let otherProps = {}
         if (val === 'table') {
           otherProps = tableProps || {}
