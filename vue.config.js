@@ -5,8 +5,13 @@ function resolve (dir) {
 }
 
 module.exports = {
+  lintOnSave: false,
   productionSourceMap: false,
+  transpileDependencies: [
+    'element-ui-verify/dist'
+  ],
   chainWebpack: config => {
+    // config.optimization.minimize(false)
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule.test(/\.svg$/)

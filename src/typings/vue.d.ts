@@ -42,6 +42,8 @@ export interface Utils {
   get: (key: string, defaultVal: any) => any,
   remove: (key: string) => void,
   getObj: (key: string, defaultVal: any) => any,
+  isDate: (obj: any) => boolean
+  isEmptyObject: (obj: any) => boolean
   [propName: string]: any
 }
 

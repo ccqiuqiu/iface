@@ -33,7 +33,7 @@
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
       <div class="collapses">
-        <el-collapse v-model="activeNames" class="right">
+        <el-collapse v-model="activeNames" class="right" accordion>
           <el-collapse-item title="属性" name="1">
             <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
           </el-collapse-item>
@@ -68,6 +68,12 @@
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
     /*vue-data*/
+    data () {
+      return {
+        type: this.$route.params['type'],
+        typeName: this.type === 'form' ? '表单' : '页面'
+      }
+    }
     private controls: any = [
       {type: 'text', label: '文本框'},
       {type: 'select', label: '选择框'},
@@ -93,19 +99,23 @@
     ]
     private model: any = {}
     private items: any[] = []
-    private activeNames: string[] = ['1', '2', '3']
+    private activeNames: string = '1'
     private selectIndex: number = -1
-    private formObj: FormObject = {
-      model: {},
-      items: [
-        {label: '页面标题', prop: 'title', type: 'text', placeholder: '显示在CRUD页面的标题'},
-        {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}},
-      ],
-      btns: [
-        {action: 'save', cb: this.save},
-      ],
-    }
     /*vue-compute*/
+    get formObj(): FormObject {
+      return {
+        model: {},
+        items: [
+          {label: `${this.typeName}名称`, prop: 'pageName', type: 'text', placeholder: '', verify: {required: true}},
+          {label: `${this.typeName}标题`, prop: 'pageTitle', type: 'text', placeholder: '显示在CRUD页面的标题'},
+          {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}},
+          {label: `${this.typeName}描述`, prop: 'pageDesc', type: 'textarea', placeholder: ''},
+        ],
+        btns: [
+          {action: 'save', cb: this.save},
+        ],
+      }
+    }
     get selectItem(): any {
       return this.selectIndex >= 0 ? this.items[this.selectIndex] : undefined
     }
@@ -216,7 +226,18 @@
     }
     private save() {
       // 要删除propsStr
-      console.log('save')
+      const items: FormItem[] = this.items.map((item: FormItem) => {
+        const {propsStr, ...temp} = item
+        this.$utils.delEmptyProp(temp)
+        return temp
+      })
+      const obj: FormObject = {
+        name: this.formObj.model.name,
+        model: this.model,
+        items,
+      }
+      console.log(JSON.stringify(obj))
+
     }
   }
 </script>

@@ -34,7 +34,7 @@ Vue.use(regComponents)
 
 if (process.env.VUE_APP_MOCK) {
   /* tslint:disable:no-var-requires */
-  require('./mock/index')
+  require((process.env.VUE_APP_MOCK ? './mock/index' : null) as any)
 }
 
 Vue.config.productionTip = false

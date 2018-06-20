@@ -33,7 +33,7 @@
     /*vue-vuex*/
     @Action private userList: () => Promise<ActionReturn>
     @Action private delUser: (id: number) => Promise<ActionReturn>
-    /* data */
+    /*vue-data*/
     private columns: TableColumn[] = [
       {prop: 'id', label: '编号'},
       {prop: 'userName', label: '名称'},

@@ -423,9 +423,9 @@ Mock.mock(new RegExp('/system/getCrud'), {
 })
 // 获取选择类型表单组件的选项
 Mock.mock(new RegExp('/system/getOptions'), (option: any) => {
-  const name = getQueryString(option.url, 'name')
+  const code = getQueryString(option.url, 'code')
   return {
-    data: optinonMaps[name],
+    data: optinonMaps[code],
     ...common(),
   }
 })

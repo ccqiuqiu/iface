@@ -68,7 +68,8 @@ declare interface FormItemPublic {
     columns: TableColumn[],
     rows: string| any[],
   } | string | any[], // 选项值，类似单选组、下拉选择组件的可选值
-  dialog?: CRUDObject  // 用于类型为dialog的表单项
+  dialog?: CRUDObject,  // 用于类型为dialog的表单项
+  [prop: string]: any,
 }
 declare interface FormItem extends FormItemPublic {
   label: string,
