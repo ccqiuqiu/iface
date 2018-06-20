@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false, //
+    "sourceMap": true,
+    "baseUrl": ".",
+    "typeRoots" : ["./src/typings", "./node_modules/@types"],
+    "types": [
+      "node",
+      "webpack-env" //
+    ],
+    "paths": {
+      "@g/*": ["src/global/*"],
+      "@bc/*": ["src/baseComponent/*"],
+      "@common/*": ["src/module/common/view/*"],
+      "@utils/*": ["src/assets/utils/*"],
+      "@/*": ["src/*"]
+    },
+    "lib": [
+      "es2015",
+      "dom",
+      "dom.iterable",
+      "scripthost",
+      "es5",
+      "es6",
+      "es7",
+      "es2015.promise"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
