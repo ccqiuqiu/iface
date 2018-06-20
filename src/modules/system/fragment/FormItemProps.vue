@@ -1,6 +1,8 @@
 <!--Created by 熊超超 on 2018/6/12.-->
 <template>
-  <cc-form @blur="onBlur" :data="formObj" class="table" v-if="item"/>
+  <div>
+    <cc-form @blur="onBlur" :data="formObj" class="table" v-if="item"/>
+  </div>
 </template>
 
 <script>
@@ -20,7 +22,16 @@ export default class FormItemProps extends Vue {
       {label: '标签', prop: 'label', type: 'text', placeholder: '表单的标签'},
       {label: '字段名', prop: 'prop', type: 'text', placeholder: '绑定的字段'},
       {label: '占位符', prop: 'placeholder', type: 'text', placeholder: '值为空的提示信息'},
-      {label: '更多选项', prop: 'propsStr', type: 'textarea', props: {autosize: {minRows: 3, maxRows: 6}}, placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'}
+      {label: '更多选项', prop: 'propsStr', type: 'textarea', props: {autosize: {minRows: 3, maxRows: 6}}, placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'},
+      {label: '用于',
+        prop: 'target',
+        type: 'checkbox',
+        options: [
+          {label: '搜索', value: 'search'},
+          {label: '编辑', value: 'edit'},
+          {label: '表格', value: 'table'}
+        ]
+      }
     ]
     if (this.needOptions) {
       items.splice(items.length - 1, 0, ...[
@@ -76,6 +87,18 @@ export default class FormItemProps extends Vue {
     .el-form-item__content{
       border-left: 1px solid $border-color;
       border-right: 1px solid $border-color;
+    }
+    .el-checkbox-group{
+      padding-left: 15px;
+      padding-right: 8px;
+      .el-checkbox{
+        margin-right: 8px;
+        .el-checkbox__label{
+          font-weight: normal;
+          font-size: 12px;
+          padding-left: 5px;
+        }
+      }
     }
     input, textarea {
       border: 0;

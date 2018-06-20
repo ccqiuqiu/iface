@@ -75,7 +75,7 @@ import {Action} from 'vuex-class'
 @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
 export default class CcFromItem extends Vue {
   /* vue-props */
-  @Prop({required: true, type: [Object]}) model
+  @Prop({required: true, type: Object}) model
   @Prop({required: true}) item
   @Prop(Boolean) noVerify
   /* vue-vuex */

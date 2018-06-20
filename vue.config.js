@@ -11,7 +11,7 @@ module.exports = {
     'element-ui-verify/dist'
   ],
   chainWebpack: config => {
-    // config.optimization.minimize(false)
+    config.optimization.minimize(false)
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule.test(/\.svg$/)

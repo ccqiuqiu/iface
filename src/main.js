@@ -32,10 +32,7 @@ Vue.use(elementUIVerify, {
 // 注册一些全局组件
 Vue.use(regComponents)
 
-if (process.env.VUE_APP_MOCK) {
-  /* tslint:disable:no-var-requires */
-  require('./mock/index')
-}
+require(process.env.VUE_APP_MOCK ? './mock/index' : null)
 
 Vue.config.productionTip = false
 Vue.use(utils)
