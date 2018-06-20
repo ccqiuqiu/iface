@@ -5,30 +5,30 @@
   </svg>
 </template>
 
-<script>
-import { Component, Vue, Prop } from 'vue-property-decorator'
+<script lang="ts">
+  import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class CcIcon extends Vue {
-  @Prop({required: true}) name
-  @Prop(String) className
-  @Prop(Number) rotate
-  @Prop({ type: [String, Number], default: 24 }) size
+  @Component
+  export default class CcIcon extends Vue {
+    @Prop({required: true}) private name!: string
+    @Prop(String) private className!: string
+    @Prop(Number) private rotate!: number
+    @Prop({type: [String, Number], default: 24 }) private size!: number
 
-  get svgClass () {
-    return ('svg-icon ' + (this.className || '')).trim()
-  }
-  get iconName () {
-    return `#icon-${this.name}`
-  }
+    get svgClass() {
+      return ('svg-icon ' + (this.className || '')).trim()
+    }
+    get iconName() {
+      return `#icon-${this.name}`
+    }
 
-  get styleObj () {
-    return {
-      transform: `rotate(${this.rotate}deg)`,
-      fontSize: `${this.size}px`
+    get styleObj() {
+      return {
+        transform: `rotate(${this.rotate}deg)`,
+        fontSize: `${this.size}px`,
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

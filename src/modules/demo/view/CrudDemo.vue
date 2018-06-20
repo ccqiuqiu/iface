@@ -3,28 +3,28 @@
   <cc-crud :data="data" v-if="data"></cc-crud>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+<script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
+  import {Action} from 'vuex-class'
 
-@Component
-export default class CrudDemo extends Vue {
-  /* vue-props */
-  /* vue-vuex */
-  @Action('getCrud') getCrud
-  /* vue-data */
-  data = null
-  /* vue-compute */
-  /* vue-watch */
-  /* vue-lifecycle */
-  async created () {
-    const {data} = await this.getCrud(0)
-    if (data) {
-      this.data = data
+  @Component
+  export default class CrudDemo extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    @Action('getCrud') private getCrud: (id: number) => Promise<ActionReturn>
+    /*vue-data*/
+    private data: CRUDObject | null = null
+    /*vue-compute*/
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    private async created() {
+      const {data} = await this.getCrud(0)
+      if (data) {
+        this.data = data
+      }
     }
+    /*vue-method*/
   }
-  /* vue-method */
-}
 </script>
 
 <style lang="scss" scoped>

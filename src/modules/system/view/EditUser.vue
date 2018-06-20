@@ -25,35 +25,35 @@
   </el-form>
 </template>
 
-<script lang="jsx">
-import {Component, Vue, Prop} from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+<script lang="tsx">
+  import {Component, Vue, Prop} from 'vue-property-decorator'
+  import {Action} from 'vuex-class'
 
-@Component
-export default class EditUser extends Vue {
-  @Prop({default: () => ({
-    password: '123456',
-    sex: 1,
-    status: 1
-  })}) user
-  /* vue-props */
-  /* vue-vuex */
-  @Action('saveUser') saveUser
-  /* vue-data */
-  /* vue-compute */
-  /* vue-watch */
-  /* vue-lifecycle */
-  /* vue-method */
-  // 保存用户
-  async save () {
-    const {error} = await this.saveUser(this.user)
-    if (!error) {
-      this.$message('保存成功')
-      this.$hideDialog()
-      this.$emit('refresh')
+  @Component
+  export default class EditUser extends Vue {
+    @Prop({default: () => ({
+        password: '123456',
+        sex: 1,
+        status: 1,
+      })}) private user!: User
+    /* vue-props */
+    /* vue-vuex */
+    @Action('saveUser') private saveUser: (user: User) => Promise<ActionReturn>
+    /* vue-data */
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    // 保存用户
+    private async save() {
+      const {error} = await this.saveUser(this.user)
+      if (!error) {
+        this.$utils.message('保存成功')
+        this.$utils.hideDialog()
+        this.$emit('refresh')
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

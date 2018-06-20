@@ -30,70 +30,70 @@
   </div>
 </template>
 
-<script>
-import {Component, Watch, Vue} from 'vue-property-decorator'
-import { State, Action, Mutation, Getter } from 'vuex-class'
+<script lang="ts">
+  import {Component, Watch, Vue} from 'vue-property-decorator'
+  import { State, Action, Mutation, Getter} from 'vuex-class'
 
-@Component
-export default class MenuView extends Vue {
-  /* vue-props */
-  /* vue-vuex */
-  @State((state) => state.common.menus) menus
-  @State((state) => state.common.menuExpand) menuExpand
-  @State((state) => state.common.menuTabs) menuTabs
-  @State((state) => state.common.selectedTab) selectedTab
-  @Getter nav
-  @Getter flatMenu
-  @Action getMenu
-  @Mutation updateTabs
-  @Mutation updateSelectedTab
-  /* vue-data */
-  activeMenuIndexPath = []
-  get activeMenu () {
-    return this.selectedTab
-  }
-  /* vue-compute */
-  set activeMenu (val) {
-    this.updateSelectedTab(val)
-  }
-  /* vue-watch */
-  @Watch('activeMenu')
-  activeMenuChange () {
-    // if (this.selectedTab === '0') {
-    //   return
-    // }
-    // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
-    // 并且把这个数组整体放到一个数组，用于tabs显示
-    // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
-    // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
-    // const key: string = val.join('_')
-    const val = this.activeMenuIndexPath
-    const menus = val.map((id) => {
-      return this.flatMenu.find((m) => m.id === id)
-    })
-    // 如果menuTabs不存在，表示是新开一个标签
-    const item = this.menuTabs.find((o) => o.key === this.selectedTab)
-    if (!item) {
-      this.updateTabs({key: this.selectedTab, menus})
+  @Component
+  export default class MenuView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    @State((state: State) => state.common.menus) private menus: any[]
+    @State((state: State) => state.common.menuExpand) private menuExpand: string
+    @State((state: State) => state.common.menuTabs) private menuTabs: any[]
+    @State((state: State) => state.common.selectedTab) private selectedTab: string
+    @Getter private nav: Menu[]
+    @Getter private flatMenu: Menu[]
+    @Action private getMenu: () => void
+    @Mutation private updateTabs: (params: {key: string, menus: Menu[]}) => void
+    @Mutation private updateSelectedTab: (key: string) => void
+    /*vue-data*/
+    private activeMenuIndexPath: string[] = []
+    get activeMenu(): string {
+      return this.selectedTab
+    }
+    /*vue-compute*/
+    set activeMenu(val) {
+      this.updateSelectedTab(val)
+    }
+    /*vue-watch*/
+    @Watch('activeMenu')
+    private activeMenuChange() {
+      // if (this.selectedTab === '0') {
+      //   return
+      // }
+      // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
+      // 并且把这个数组整体放到一个数组，用于tabs显示
+      // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
+      // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
+      // const key: string = val.join('_')
+      const val = this.activeMenuIndexPath
+      const menus: Menu[] = val.map((id: string) => {
+        return this.flatMenu.find((m: Menu) => m.id === id) as Menu
+      })
+      // 如果menuTabs不存在，表示是新开一个标签
+      const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
+      if (!item) {
+        this.updateTabs({key: this.selectedTab, menus})
+      }
+    }
+    // nav是选择的菜单数组，当这个值变化的时候，说明当前选择的菜单被改变了
+    // 那调整URL
+    // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
+    @Watch('nav')
+    private privateNavChange(val: Menu[]) {
+      if (val.length) {
+        this.$router.push(val[val.length - 1].url)
+      }
+    }
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 菜单选择的回调
+    private selectMenu(index: string, indexPath: string[]): void {
+      this.activeMenuIndexPath = indexPath
+      this.activeMenu = index
     }
   }
-  // nav是选择的菜单数组，当这个值变化的时候，说明当前选择的菜单被改变了
-  // 那调整URL
-  // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
-  @Watch('nav')
-  privateNavChange (val) {
-    if (val.length) {
-      this.$router.push(val[val.length - 1].url)
-    }
-  }
-  /* vue-lifecycle */
-  /* vue-method */
-  // 菜单选择的回调
-  selectMenu (index, indexPath) {
-    this.activeMenuIndexPath = indexPath
-    this.activeMenu = index
-  }
-}
 </script>
 
 <style lang="scss" scoped>

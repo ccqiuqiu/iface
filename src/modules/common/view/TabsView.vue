@@ -11,50 +11,50 @@
   </el-tabs>
 </template>
 
-<script>
-import {Component, Vue} from 'vue-property-decorator'
-import { State, Mutation } from 'vuex-class'
+<script lang="ts">
+  import {Component, Vue} from 'vue-property-decorator'
+  import { State, Action, Mutation} from 'vuex-class'
 
-@Component
-export default class TabsView extends Vue {
-  /* vue-props */
-  /* vue-vuex */
-  @State((state) => state.common.menuTabs) menuTabs
-  @State((state) => state.common.selectedTab) selectedTab
-  @Mutation updateSelectedTab
-  @Mutation removeTab
-  /* vue-data */
-  /* vue-compute */
-  get activeTab () {
-    return this.selectedTab
-  }
-  set activeTab (val) {
-    this.updateSelectedTab(val)
-  }
-  get tabs () {
-    const menus = this.menuTabs.map((o) => {
-      const menu = o.menus[o.menus.length - 1]
-      return {
-        title: menu.name,
-        name: o.key,
-        noClose: menu.noClose
+  @Component
+  export default class TabsView extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    @State((state: State) => state.common.menuTabs) private menuTabs: any
+    @State((state: State) => state.common.selectedTab) private selectedTab: any
+    @Mutation private updateSelectedTab: (key: string) => void
+    @Mutation private removeTab: (key: string) => void
+    /*vue-data*/
+    /*vue-compute*/
+    get activeTab() {
+      return this.selectedTab
+    }
+    set activeTab(val) {
+      this.updateSelectedTab(val)
+    }
+    get tabs() {
+      const menus = this.menuTabs.map((o: any) => {
+        const menu: Menu = o.menus[o.menus.length - 1]
+        return {
+          title: menu.name,
+          name: o.key,
+          noClose: menu.noClose,
+        }
+      })
+      // menus.unshift({title: '首页', name: '0', noClose: true})
+      return menus
+    }
+    /*vue-watch*/
+    /*vue-lifecycle*/
+    /*vue-method*/
+    // 点击tab的时候，要跳转相应的url
+    private clickTab(tab: any) {
+      const item = this.menuTabs.find((item: any) => item.key === tab.name)
+      if (item) {
+        const menu = item.menus[item.menus.length - 1]
+        this.$router.push(menu.url)
       }
-    })
-    // menus.unshift({title: '首页', name: '0', noClose: true})
-    return menus
-  }
-  /* vue-watch */
-  /* vue-lifecycle */
-  /* vue-method */
-  // 点击tab的时候，要跳转相应的url
-  clickTab (tab) {
-    const item = this.menuTabs.find((item) => item.key === tab.name)
-    if (item) {
-      const menu = item.menus[item.menus.length - 1]
-      this.$router.push(menu.url)
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

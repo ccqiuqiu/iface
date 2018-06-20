@@ -17,31 +17,32 @@
   </div>
 </template>
 
-<script>
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import HeaderView from '../../common/view/HeaderView.vue'
-import MenuView from '../../common/view/MenuView.vue'
-import NavView from '../../common/view/NavView.vue'
-import TabsView from '../../common/view/TabsView.vue'
-import CcDialog from '../../../baseComponent/CcDialog.vue'
+<script lang="ts">
+  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import HeaderView from '../../common/view/HeaderView.vue'
+  import MenuView from '../../common/view/MenuView.vue'
+  import NavView from '../../common/view/NavView.vue'
+  import TabsView from '../../common/view/TabsView.vue'
+  import CcDialog from '../../../baseComponent/CcDialog.vue'
 
-@Component({
-  components: {HeaderView, MenuView, NavView, TabsView, CcDialog}
-})
-export default class MainLayout extends Vue {
-  /* vue-props */
-  /* vue-vuex */
-  /* vue-data */
-  /* vue-compute */
-  /* vue-watch */
-  /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
-  @Watch('$route')
-  routerChange (val) {
-    this.$toTab(val.path)
+  @Component({
+    components: {HeaderView, MenuView, NavView, TabsView, CcDialog},
+  })
+  export default class MainLayout extends Vue {
+    /*vue-props*/
+    /*vue-vuex*/
+    /*vue-data*/
+    /*vue-compute*/
+    /*vue-watch*/
+    /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
+    @Watch('$route')
+    private routerChange(val: any) {
+      this.$utils.toTab(val.path)
+    }
+    /*vue-lifecycle*/
+    /*vue-method*/
   }
-  /* vue-lifecycle */
-  /* vue-method */
-}
 </script>
 <style lang="scss">
 </style>
+

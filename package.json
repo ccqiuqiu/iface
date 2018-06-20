@@ -1,6 +1,6 @@
 {
   "name": "iFace",
-  "version": "1.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -20,7 +20,7 @@
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-progressbar": "^0.7.5",
-    "vue-property-decorator": "^6.1.0",
+    "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1",
@@ -28,32 +28,17 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.3",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.3",
-    "@vue/cli-service": "^3.0.0-rc.3",
-    "@vue/eslint-config-standard": "^3.0.0-rc.2",
+    "@types/mockjs": "^1.0.0",
+    "@types/webpack-env": "^1.13.6",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.1",
+    "@vue/cli-plugin-typescript": "^3.0.0-rc.1",
+    "@vue/cli-service": "^3.0.0-rc.1",
+    "ajv": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "svg-sprite-loader": "^3.7.3",
     "vue-template-compiler": "^2.5.16"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {
-      "no-debugger": 0,
-      "no-new": 0
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
   },
   "postcss": {
     "plugins": {

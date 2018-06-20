@@ -5,19 +5,14 @@ function resolve (dir) {
 }
 
 module.exports = {
-  lintOnSave: undefined,
   productionSourceMap: false,
-  transpileDependencies: [
-    'element-ui-verify/dist'
-  ],
   chainWebpack: config => {
-    config.optimization.minimize(false)
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule.test(/\.svg$/)
       .include
-      .add(resolve('src/assets/icons/svg'))
-      .end()
+        .add(resolve('src/assets/icons/svg'))
+        .end()
       .use('svg-spritse-loader')
       .loader('svg-sprite-loader')
       .options({
@@ -32,7 +27,7 @@ module.exports = {
       .set('@utils', resolve('src/assets/utils'))
   },
   devServer: {
-    port: 9088
+    port: 9088,
     // proxy: {},
-  }
+  },
 }
