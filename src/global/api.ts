@@ -3,7 +3,7 @@
  */
 import conn from './conn'
 
-const formBaseUrl = '/v1/system/'
+const formBaseUrl = '/v1/baseData/'
 
 /**
  * 所有请求的通用方法，此方法才会调用axios的方法
@@ -19,6 +19,8 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 }
 
 export default {
+  //
+  pageList: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'pageList', params, config),
   // 获取CRUD的json
   getCrud: (id: number, config: any = {}) => request('post', formBaseUrl + 'getCrud/' + id, config),
   // 表单按钮的统一方法

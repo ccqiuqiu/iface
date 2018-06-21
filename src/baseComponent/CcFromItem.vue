@@ -136,7 +136,10 @@
     private async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
-        const data: any = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + this.mItem.type)
+        let type = this.mItem.type as string
+        type = ['select', 'checkbox', 'checkboxbutton', 'radio', 'radiobutton']
+          .includes(type) ? 'keyValue' : type
+        const data: any = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
         this.loading = false
         if (data) {
           this.mItem.options = data

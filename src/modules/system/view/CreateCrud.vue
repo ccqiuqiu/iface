@@ -68,12 +68,6 @@
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
     /*vue-data*/
-    data () {
-      return {
-        type: this.$route.params['type'],
-        typeName: this.type === 'form' ? '表单' : '页面'
-      }
-    }
     private controls: any = [
       {type: 'text', label: '文本框'},
       {type: 'select', label: '选择框'},
@@ -102,6 +96,9 @@
     private activeNames: string = '1'
     private selectIndex: number = -1
     /*vue-compute*/
+    get typeName() {
+      return this.$route.params['type'] === 'form' ? '表单' : '页面'
+    }
     get formObj(): FormObject {
       return {
         model: {},

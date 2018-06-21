@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MutationTree, ActionTree, ModuleTree, ActionContext } from 'vuex'
+import { MutationTree, ActionTree, ModuleTree } from 'vuex'
 import common from '../modules/common/vuex'
 import publicM from '../modules/public/vuex'
 import system from '../modules/system/vuex'
+import baseData from '../modules/baseData/vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
@@ -29,7 +30,7 @@ const actions: ActionTree<any, any> = {
 }
 
 const modules: ModuleTree<any> = {
-  common, publicM, system,
+  common, publicM, system, baseData,
 }
 
 export default new Vuex.Store({
