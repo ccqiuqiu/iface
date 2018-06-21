@@ -97,7 +97,7 @@
     private selectIndex: number = -1
     /*vue-compute*/
     get typeName() {
-      return this.$route.params['type'] === 'form' ? '表单' : '页面'
+      return this.$route.params.type === 'form' ? '表单' : '页面'
     }
     get formObj(): FormObject {
       return {

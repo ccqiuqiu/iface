@@ -5,7 +5,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  lintOnSave: false,
+  // lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: [
     'element-ui-verify/dist'
