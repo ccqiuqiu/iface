@@ -6,6 +6,7 @@ import MainLayout from '../modules/common/view/MainLayout.vue'
 import system from '../modules/system/router'
 import baseData from '../modules/baseData/router'
 import demo from '../modules/demo/router'
+import Page404 from '../modules/common/view/Page404.vue'
 
 Vue.use(Router)
 
@@ -24,7 +25,7 @@ const router = new Router({
     },
     {
       path: '*',
-      redirect: '/',
+      component: Page404,
     },
   ],
 })

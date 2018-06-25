@@ -33,7 +33,7 @@
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
       <div class="collapses">
-        <el-collapse v-model="activeNames" class="right" accordion>
+        <el-collapse v-model="activeNames" class="right">
           <el-collapse-item title="属性" name="1">
             <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
           </el-collapse-item>
@@ -67,6 +67,7 @@
     /*vue-props*/
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
+    @Action('getPage') private getPage: (id: string) => Promise<ActionReturn>
     /*vue-data*/
     private controls: any = [
       {type: 'text', label: '文本框'},
@@ -93,18 +94,19 @@
     ]
     private model: any = {}
     private items: any[] = []
-    private activeNames: string = '1'
+    private activeNames: string[] = ['1', '2', '3']
     private selectIndex: number = -1
+    private pageModel: any = {type: 1}
     /*vue-compute*/
     get typeName() {
-      return this.$route.params.type === 'form' ? '表单' : '页面'
+      return this.$c.PageTypeK[this.pageModel.type || 1]
     }
     get formObj(): FormObject {
       return {
-        model: {},
+        model: this.pageModel,
         items: [
+          {label: `类型`, prop: 'type', type: 'radio', options: this.$utils.objToArr(this.$c.PageTypeV)},
           {label: `${this.typeName}名称`, prop: 'pageName', type: 'text', placeholder: '', verify: {required: true}},
-          {label: `${this.typeName}标题`, prop: 'pageTitle', type: 'text', placeholder: '显示在CRUD页面的标题'},
           {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}},
           {label: `${this.typeName}描述`, prop: 'pageDesc', type: 'textarea', placeholder: ''},
         ],
@@ -122,6 +124,20 @@
     }
     /*vue-watch*/
     /*vue-lifecycle*/
+    private created() {
+      this.initPage()
+    }
+    private async initPage() {
+      if (this.$route.query.id) {
+        const {data} = await this.getPage(this.$route.query.id)
+        if (data) {
+          const {value, ...pageModel} = data
+          this.pageModel = pageModel
+          const valueObj = JSON.parse(value)
+          this.items = valueObj.items
+        }
+      }
+    }
     /*vue-method*/
     // 删除已经添加的表单项
     private delItem() {
@@ -230,7 +246,7 @@
       })
       const obj: FormObject = {
         name: this.formObj.model.name,
-        model: this.model,
+        model: {},
         items,
       }
       console.log(JSON.stringify(obj))

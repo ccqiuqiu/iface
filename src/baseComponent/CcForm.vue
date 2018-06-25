@@ -51,7 +51,7 @@
     /*vue-data*/
     private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
     private loading: boolean = false
-    private items: FormItem[] = []
+    private items: CRUDItem[] = []
     /*vue-compute*/
     // 处理按钮数组
     get btns() {

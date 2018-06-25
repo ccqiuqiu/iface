@@ -174,13 +174,13 @@ Mock.mock(new RegExp('/login'), (option: any) => {
 })
 
 // 用户列表
-Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
+Mock.mock(new RegExp('/system/userList'), (option: any) => {
   const body = JSON.parse(option.body)
   body.pageNum = body.pageNum || 1
   return {
     data: Mock.mock({
       'total': 108,
-      'list|10': [{
+      'rows|10': [{
         'id|+1': (body.pageNum - 1) * 10 + 1,
         'userName': '用户@id',
         'tel': '124555222',
@@ -192,7 +192,7 @@ Mock.mock(new RegExp('/system/searchUser'), (option: any) => {
   }
 })
 // CRUD
-Mock.mock(new RegExp('/system/getCrud_'), {
+Mock.mock(new RegExp('/baseData/getCrud_'), {
   data: {
     title: '用户管理',
     name: 'User',
@@ -304,7 +304,7 @@ Mock.mock(new RegExp('/system/getCrud_'), {
   ...common(),
 })
 
-Mock.mock(new RegExp('/system/getCrud'), {
+Mock.mock(new RegExp('/baseData/getCrud'), {
   data: {
     title: '用户管理',
     name: 'User',
@@ -422,7 +422,7 @@ Mock.mock(new RegExp('/system/getCrud'), {
   ...common(),
 })
 // 获取选择类型表单组件的选项
-Mock.mock(new RegExp('/system/getOptions'), (option: any) => {
+Mock.mock(new RegExp('/baseData/getOptions'), (option: any) => {
   const code = getQueryString(option.url, 'code')
   return {
     data: optinonMaps[code],

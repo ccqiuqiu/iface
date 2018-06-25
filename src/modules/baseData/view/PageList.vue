@@ -5,7 +5,7 @@
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
         <!--<cc-button v-auth="['add' + data.name]" icon="add" text="添加" @click="onAdd"/>-->
-        <!--<cc-button v-auth="['edit' + data.name]" icon="edit" text="修改" @click="onEdit"/>-->
+        <cc-button v-auth="['editPage']" icon="edit" text="修改" @click="onEdit"/>
         <!--<cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>-->
         <!--<cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>-->
       </div>
@@ -34,8 +34,15 @@
     @Action('pageList') private pageList: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
     /*vue-data*/
     private columns: TableColumn[] = [
-      {prop: 'id', label: '编号'},
-      {prop: 'name', label: '名称'},
+      {prop: 'id', label: '编号', width: '100px'},
+      {prop: 'pageName', label: '名称', width: '120px'},
+      {prop: 'name', label: '实体对象', width: '100px'},
+      {prop: 'type', label: '类型', width: '80px',
+        formatter: (row: any, column: any, cellValue: number) => {
+          return this.$c.PageTypeK[cellValue]
+        },
+      },
+      {prop: 'pageDesc', label: '描述'},
     ]
     /*vue-compute*/
     /*vue-watch*/
@@ -49,6 +56,14 @@
         this.total = data.total
         this.rows = data.rows
       }
+    }
+    private onEdit() {
+      if (!this.currentRow) {
+        this.$utils.message('请选择一行', 'warning')
+        return
+      }
+      this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id)
+      // this.$router.push({name: 'createCrud', params: {id: this.currentRow.id}})
     }
   }
 </script>

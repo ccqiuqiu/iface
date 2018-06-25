@@ -11,6 +11,10 @@ const actions: ActionTree<any, any> = {
   pageList(context: ActionContext<SystemState, State>, params: any): Promise<any> {
     return api.pageList(params)
   },
+  //
+  getPage(context: ActionContext<SystemState, State>, id: string): Promise<any> {
+    return api.getPage({id})
+  },
 }
 
 export default {state, mutations, actions}

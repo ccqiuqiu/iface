@@ -18,10 +18,10 @@ export class PageMixin extends Vue {
   private layout: string = 'total, sizes, prev, pager, next, jumper'
   private pageSize: number = 10
   private pageNum: number = 1
-  private rows: User[] = []
+  private rows: any[] = []
   private total: number = 0
-  private selectedRows: User[] = []
-  private currentRow: User = {}
+  private selectedRows: any[] = []
+  private currentRow: any = null
 
   private created() {
     this.getData()

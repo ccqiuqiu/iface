@@ -59,14 +59,21 @@ export const hideDialog = () => store.commit('hideDialog')
  * @param {string} url
  */
 export const toTab = (url: string) => {
+  const arr = url.split('?')
+  url = arr[0]
+  const query = arr[1] || ''
   const flatMenu: Menu[] = store.getters.flatMenu
   const menuTabs = store.state.common.menuTabs
   // 先根据url找到要跳转的菜单对象
-  const menu: Menu = flatMenu.find((m: Menu) => m.url === url) as Menu
+  let menu: Menu = flatMenu.find((m: Menu) => m.url === url) as Menu
   // 没有找到菜单说明是首页
   if (!menu) {
     store.commit('updateSelectedTab',  '0')
     return
+  }
+  if (query) {
+    menu = JSON.parse(JSON.stringify(menu))
+    menu.url += ('?' + query)
   }
   // 判断菜单是否已经在tabs里面打开了
   const item = menuTabs.find((item: any) => item.key === menu.id)

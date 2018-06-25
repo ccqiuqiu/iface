@@ -14,6 +14,12 @@ export const SexV = {
 }
 export const SexK: IndexEd = reverse(SexV)
 
+export const PageTypeV = {
+  页面: 1,
+  表单: 2,
+}
+export const PageTypeK: IndexEd = reverse(PageTypeV)
+
 export enum FormItemType {
   text = 'text',
   select = 'select',

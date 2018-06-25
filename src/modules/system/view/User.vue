@@ -61,7 +61,7 @@
     private async load() {
       const {data}: any = await this.userList()
       if (data) {
-        this.users = data.list
+        this.users = data.rows
         // this.selectedRows = [this.users[0]]
         // this.currentRow = this.users[0]
       }
