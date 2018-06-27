@@ -6,6 +6,7 @@
         @keyup.native="$emit('keyup', item.prop)"
         @change="$emit('change', item.prop)"
         :model="data.model"
+        :no-verify="isSearch"
         :item="item" @value-change="onValueChange" v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
     <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>

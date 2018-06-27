@@ -20,8 +20,9 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 
 export default {
   //
-  pageList: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'pageList', params, config),
+  searchPage: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'searchPage', params, config),
   getPage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'getPage', params, config),
+  savePage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'savePage', params, config),
   // 获取CRUD的json
   getCrud: (id: number, config: any = {}) => request('post', formBaseUrl + 'getCrud/' + id, config),
   // 表单按钮的统一方法
@@ -32,10 +33,4 @@ export default {
   requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
-  // 用户列表
-  userList: (params: any = {}, config: any = {}) => request('post', '/v1/system/userList', params, config),
-  // 保存用户（新增或删除）
-  saveUser: (params: any = {}, config: any = {}) => request('post', '/v1/system/saveUser', params, config),
-  // 删除用户
-  delUser: (id: number, config: any = {}) => request('post', '/v1/system/delUser/' + id, config),
 }

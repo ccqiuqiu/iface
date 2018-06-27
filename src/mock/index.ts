@@ -304,7 +304,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
   ...common(),
 })
 
-Mock.mock(new RegExp('/baseData/getCrud'), {
+Mock.mock(new RegExp('/baseData/getPage'), {
   data: {
     title: '用户管理',
     name: 'User',

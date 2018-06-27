@@ -49,3 +49,10 @@ declare interface User extends IndexEd {
   userName?: string, // 用户名
   password?: string
 }
+// page
+declare interface Page extends IndexEd {
+  name: string,
+  pageName: string,
+  type: number,
+  pageDesc: string
+}

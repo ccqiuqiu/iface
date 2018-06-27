@@ -92,10 +92,6 @@ const mutations: MutationTree<any> = {
 
 
 const actions: ActionTree<any, any> = {
-  // 获取crud的json数据
-  getCrud(context: ActionContext<CommonState, State>, id: number): Promise<ActionReturn> {
-    return api.getCrud(id)
-  },
   // 表单的按钮事件，主要是搜索和保存
   formAction(context: ActionContext<CommonState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
     return api.formAction(params.url, params.params)

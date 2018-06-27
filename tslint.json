@@ -16,10 +16,11 @@
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "max-line-length": false, //  不限制单行代码长度
-    "no-debugger": false,
+    "no-debugger": false, // 运行debugger
     "no-console": [false], // 允许使用console方法
     "no-shadowed-variable": false,
-    "max-classes-per-file": false,
+    "max-classes-per-file": false, // 运行一个文件里面写多个class
+    "no-string-literal": false, // 运行通过字符串索引访问对象
     "semicolon": [true, "never"] // 结尾不用分号
   }
 }

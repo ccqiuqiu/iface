@@ -8,12 +8,16 @@ const mutations: MutationTree<any> = {
 
 const actions: ActionTree<any, any> = {
   //
-  pageList(context: ActionContext<SystemState, State>, params: any): Promise<any> {
-    return api.pageList(params)
+  searchPage(context: ActionContext<SystemState, State>, params: any): Promise<any> {
+    return api.searchPage(params)
   },
   //
   getPage(context: ActionContext<SystemState, State>, id: string): Promise<any> {
     return api.getPage({id})
+  },
+  //
+  savePage(context: ActionContext<SystemState, State>, page: Page): Promise<any> {
+    return api.savePage(page)
   },
 }
 

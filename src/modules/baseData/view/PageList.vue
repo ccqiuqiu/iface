@@ -31,7 +31,7 @@
   export default class PageList extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('pageList') private pageList: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
+    @Action('searchPage') private searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
     /*vue-data*/
     private columns: TableColumn[] = [
       {prop: 'id', label: '编号', width: '100px'},
@@ -50,7 +50,7 @@
     /*vue-method*/
     private async getData() {
       this.loading = true
-      const {data} = await this.pageList({pageNum: this.pageNum, pageSize: this.pageSize})
+      const {data} = await this.searchPage({pageNum: this.pageNum, pageSize: this.pageSize})
       this.loading = false
       if (data) {
         this.total = data.total

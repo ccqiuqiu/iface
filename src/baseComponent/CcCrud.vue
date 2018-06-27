@@ -140,19 +140,19 @@
         const {data} = await this.formAction({url: this.searchUrl, params})
         this.loading = false
         if (data) {
-          this.data.table.rows = data.list
+          this.data.table.rows = data.rows
           this.total = data.total
           if (this.value) {
             if (this.multi) {
               this.selectedRows.forEach((row: any, index: number) => {
-                const newRow = data.list.find((row2: any) => row[this.rowKey] === row2[this.rowKey])
+                const newRow = data.rows.find((row2: any) => row[this.rowKey] === row2[this.rowKey])
                 if (newRow) {
                   this.selectedRows.splice(index, 1, newRow)
                 }
               })
             } else {
               if (this.currentRow) {
-                const newRow = data.list.find((row: any) => row[this.rowKey] === this.currentRow[this.rowKey])
+                const newRow = data.rows.find((row: any) => row[this.rowKey] === this.currentRow[this.rowKey])
                 if (newRow) {
                   this.currentRow = newRow
                 }

@@ -35,7 +35,7 @@
       <div class="collapses">
         <el-collapse v-model="activeNames" class="right">
           <el-collapse-item title="属性" name="1">
-            <form-item-props @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-props>
+            <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem" :needOptions="needOptions"></form-item-props>
           </el-collapse-item>
           <el-collapse-item title="选择项" name="2">
             <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
@@ -45,7 +45,7 @@
           </el-collapse-item>
         </el-collapse>
       </div>
-      <div class="p-10">
+      <div class="p-10 b-t">
         <cc-form :data="formObj" class="single-line"/>
       </div>
     </div>
@@ -61,13 +61,13 @@
   import FormItemOptions from '../fragment/FormItemOptions.vue'
   import FormItemVerify from '../fragment/FormItemVerify.vue'
 
-
   @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
     @Action('getOptions') private getOptions: (url: string) => Promise<any>
     @Action('getPage') private getPage: (id: string) => Promise<ActionReturn>
+    @Action('savePage') private savePage: (page: Page) => Promise<ActionReturn>
     /*vue-data*/
     private controls: any = [
       {type: 'text', label: '文本框'},
@@ -96,7 +96,7 @@
     private items: any[] = []
     private activeNames: string[] = ['1', '2', '3']
     private selectIndex: number = -1
-    private pageModel: any = {type: 1}
+    private pageModel: Page = {type: 1, name: '', pageDesc: '', pageName: ''}
     /*vue-compute*/
     get typeName() {
       return this.$c.PageTypeK[this.pageModel.type || 1]
@@ -127,13 +127,22 @@
     private created() {
       this.initPage()
     }
+
     private async initPage() {
-      if (this.$route.query.id) {
-        const {data} = await this.getPage(this.$route.query.id)
+      if (this.$route.query['id']) {
+        const {data} = await this.getPage(this.$route.query['id'])
         if (data) {
           const {value, ...pageModel} = data
-          this.pageModel = pageModel
+          this.pageModel = pageModel as Page
           const valueObj = JSON.parse(value)
+          if (this.pageModel.type === this.$c.PageTypeV.页面) {
+            valueObj.items = valueObj.items.map((item: any) => {
+              const temp: any = {}
+              const formProps = JSON.parse(JSON.stringify(item.formProps))
+              delete temp.formProps
+              return {...item, ...formProps}
+            })
+          }
           this.items = valueObj.items
         }
       }
@@ -237,20 +246,59 @@
     private changeOptions() {
       this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
     }
-    private save() {
+    private async save() {
       // 要删除propsStr
       const items: FormItem[] = this.items.map((item: FormItem) => {
-        const {propsStr, ...temp} = item
+        const temp: FormItem = JSON.parse(JSON.stringify(item))
+        delete temp.propsStr
+        if (this.pageModel.type === this.$c.PageTypeV.表单) {
+          delete temp.target
+        } else {
+          temp.formProps = {
+            type: temp.type,
+          }
+          if (temp.props) {
+            temp.formProps.props = temp.props
+          }
+          if (temp.options) {
+            temp.formProps.options = temp.options
+          }
+          delete temp.type
+          delete temp.props
+          delete temp.options
+        }
         this.$utils.delEmptyProp(temp)
         return temp
       })
-      const obj: FormObject = {
-        name: this.formObj.model.name,
-        model: {},
-        items,
+      let value = {}
+      if (this.pageModel.type === this.$c.PageTypeV.表单) {
+        value = {
+          name: this.formObj.model.name,
+          model: {},
+          items,
+        }
+      } else {
+        value = {
+          title: this.pageModel.pageName,
+          name:  this.pageModel.name,
+          items,
+          searchForm: {
+            model: {},
+          },
+          editForm: {
+            model: {},
+          },
+          table: {
+            rows: [],
+          },
+          needQuery: true,
+        }
       }
-      console.log(JSON.stringify(obj))
-
+      this.pageModel.value = JSON.stringify(value)
+      const {error} = await this.savePage(this.pageModel)
+      if (!error) {
+        this.$utils.message('保存成功！')
+      }
     }
   }
 </script>
@@ -323,6 +371,11 @@
         border-top: 0;
         .el-collapse-item__header, .el-collapse-item__wrap{
           padding: 0 10px;
+        }
+        .el-collapse-item:last-child{
+          .el-collapse-item__header, .el-collapse-item__wrap{
+            border-bottom: 0;
+          }
         }
       }
     }
