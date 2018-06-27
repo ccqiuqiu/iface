@@ -50,8 +50,7 @@
     private clickTab(tab: any) {
       const item = this.menuTabs.find((item: any) => item.key === tab.name)
       if (item) {
-        const menu = item.menus[item.menus.length - 1]
-        this.$router.push(menu.url)
+        this.$router.push(item.url)
       }
     }
   }

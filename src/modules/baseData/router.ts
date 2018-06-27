@@ -5,6 +5,7 @@ import { AsyncComponent } from 'vue'
 
 const PageList: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/PageList.vue')
 const CreateCrud: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/CreateCrud.vue')
+const Page: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/Page.vue')
 
 export default [
   {
@@ -16,5 +17,10 @@ export default [
     path: '/baseData/createCrud',
     name: 'createCrud',
     component: CreateCrud,
+  },
+  {
+    path: '/baseData/page/:id',
+    name: 'page',
+    component: Page,
   },
 ]

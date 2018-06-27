@@ -4,21 +4,26 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
 
   @Component
   export default class CrudDemo extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getPage') private getPage: (id: number) => Promise<ActionReturn>
+    @Action('getPage') private getPage: (id: string) => Promise<ActionReturn>
     /*vue-data*/
     private data: CRUDObject | null = null
     /*vue-compute*/
     /*vue-watch*/
+    @Watch('$route', {immediate: true})
+    private routerChange() {
+      this.getData()
+    }
     /*vue-lifecycle*/
-    private async created() {
-      const {data} = await this.getPage(1)
+    private async getData() {
+      const id = this.$route.params['id']
+      const {data} = await this.getPage(id)
       if (data) {
         if (data.value) {
           this.data = JSON.parse(data.value)

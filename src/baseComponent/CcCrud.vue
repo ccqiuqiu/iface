@@ -27,7 +27,7 @@
 <script lang="tsx">
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
-  import CrudUtils from '@utils/CrudUtils.tsx'
+  import CrudUtils from '@utils/crudUtils.tsx'
   import CcCrudView from '@bc/CcCrudView.vue'
 
   @Component
@@ -81,10 +81,11 @@
       }
       this.data.table.columns.forEach((c: TableColumn) => {
         if (c.formatFun) {
-          c.formatter = CrudUtils[c.formatFun + 'Format']
-        }
-        if (c.renderFun) {
-          c.renderCell = CrudUtils[c.renderFun + 'Render']
+          if (c.formatFun.endsWith('Render')) {
+            c.renderCell = CrudUtils[c.formatFun].format
+          } else {
+            c.formatter = CrudUtils[c.formatFun].format
+          }
         }
       })
       return this.data.table.columns
@@ -116,12 +117,12 @@
         this.$emit('input', val)
       }
     }
-    /*vue-lifecycle*/
-    private created() {
+    @Watch('$route', {immediate: true})
+    private routerChange() {
       this.init()
-      // 搜索表单，默认立即执行搜索按钮
       this.getData()
     }
+    /*vue-lifecycle*/
     /*vue-method*/
     private init() {
       if (this.value) {

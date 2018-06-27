@@ -45,7 +45,7 @@
     @Getter private nav: Menu[]
     @Getter private flatMenu: Menu[]
     @Action private getMenu: () => void
-    @Mutation private updateTabs: (params: {key: string, menus: Menu[]}) => void
+    @Mutation private updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
     @Mutation private updateSelectedTab: (key: string) => void
     /*vue-data*/
     private activeMenuIndexPath: string[] = []
@@ -71,14 +71,16 @@
       const menus: Menu[] = val.map((id: string) => {
         return this.flatMenu.find((m: Menu) => m.id === id) as Menu
       })
-      // 如果menuTabs不存在，表示是新开一个标签
-      const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
-      if (!item) {
-        this.updateTabs({key: this.selectedTab, menus})
+      if (menus.length) {
+        // 如果menuTabs不存在，表示是新开一个标签
+        const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
+        if (!item) {
+          this.updateTabs({key: this.selectedTab, url: menus[menus.length - 1].url, menus})
+        }
       }
     }
     // nav是选择的菜单数组，当这个值变化的时候，说明当前选择的菜单被改变了
-    // 那调整URL
+    // 那跳转URL
     // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
     @Watch('nav')
     private privateNavChange(val: Menu[]) {

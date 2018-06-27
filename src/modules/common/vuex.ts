@@ -6,7 +6,7 @@ const state: CommonState = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
-  menuTabs: [{key: '0', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}], // tabs
+  menuTabs: [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}], // tabs
   selectedTab: '0', // 当前激活的tab
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
@@ -17,7 +17,14 @@ const getters: GetterTree<any, any> = {
   // 面包屑导航对象
   nav(state: CommonState): Menu[] {
     const item = state.menuTabs.find((item: any) => item.key === state.selectedTab)
-    return item ? item.menus : []
+    let menus: Menu[] = []
+    if (item) {
+      menus = JSON.parse(JSON.stringify(item.menus))
+      if (item.url) {
+        menus[menus.length - 1].url = item.url
+      }
+    }
+    return menus
   },
   // dialog弹窗
   dialog: (state: CommonState) => (inside: boolean) => {
@@ -44,6 +51,10 @@ const mutations: MutationTree<any> = {
      if (key) {
        state.selectedTab = key
      }
+  },
+  // 更新当前选择的tab的url
+  updateTabUrl(state: CommonState, {item, url}): void {
+    item.url = url
   },
   // 关闭tab
   removeTab(state: CommonState, key: string): void {

@@ -9,7 +9,6 @@ const ChartPie: AsyncComponent = (): any => import(/* webpackChunkName: "demo" *
 const ChartRing: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartRing.vue')
 const ChartToggle: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartToggle.vue')
 const Form: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/Form.vue')
-const CrudDemo: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/CrudDemo.vue')
 
 export default [
   {
@@ -35,9 +34,5 @@ export default [
   {
     path: '/form/form',
     component: Form,
-  },
-  {
-    path: '/form/crud',
-    component: CrudDemo,
   },
 ]

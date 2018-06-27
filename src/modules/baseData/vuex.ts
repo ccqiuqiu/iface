@@ -13,7 +13,7 @@ const actions: ActionTree<any, any> = {
   },
   //
   getPage(context: ActionContext<SystemState, State>, id: string): Promise<any> {
-    return api.getPage({id})
+    return api.getPage(id)
   },
   //
   savePage(context: ActionContext<SystemState, State>, page: Page): Promise<any> {

@@ -21,10 +21,8 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 export default {
   //
   searchPage: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'searchPage', params, config),
-  getPage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'getPage', params, config),
+  getPage: (id: string, config: any = {}) => request('post', formBaseUrl + 'getPage/' + id, config),
   savePage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'savePage', params, config),
-  // 获取CRUD的json
-  getCrud: (id: number, config: any = {}) => request('post', formBaseUrl + 'getCrud/' + id, config),
   // 表单按钮的统一方法
   formAction: (url: string, params: any, config: any = {}) => request('post', formBaseUrl + url, params, config),
   // 查询表单options

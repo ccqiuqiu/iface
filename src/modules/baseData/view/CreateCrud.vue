@@ -140,7 +140,8 @@
               const temp: any = {}
               const formProps = JSON.parse(JSON.stringify(item.formProps))
               delete temp.formProps
-              return {...item, ...formProps}
+              const {tableProps, ...other} = item
+              return {...other, ...formProps, ...tableProps}
             })
           }
           this.items = valueObj.items
@@ -254,6 +255,13 @@
         if (this.pageModel.type === this.$c.PageTypeV.表单) {
           delete temp.target
         } else {
+          if (temp.target.includes('table')) {
+            temp.tableProps = {}
+            temp.tableProps.width = temp.width
+            temp.tableProps.formatFun = temp.formatFun
+            delete temp.width
+            delete temp.formatFun
+          }
           temp.formProps = {
             type: temp.type,
           }
@@ -295,6 +303,7 @@
         }
       }
       this.pageModel.value = JSON.stringify(value)
+      console.log(value)
       const {error} = await this.savePage(this.pageModel)
       if (!error) {
         this.$utils.message('保存成功！')

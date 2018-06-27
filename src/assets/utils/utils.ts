@@ -32,10 +32,11 @@ export const isEmptyObject = (obj: any = {}) => Object.keys(obj).length <= 0
 //
 export const delEmptyProp = (obj: any = {}) => {
   for (const key of Object.keys(obj)) {
+    if (isObj(obj[key])) {
+      delEmptyProp(obj[key])
+    }
     if (obj[key] === null || obj[key] === undefined || isObj(obj[key]) && isEmptyObject(obj[key])) {
       delete obj[key]
-    } else if (isObj(obj[key])) {
-      delEmptyProp(obj[key])
     }
   }
 }

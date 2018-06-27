@@ -62,8 +62,8 @@
         this.$utils.message('请选择一行', 'warning')
         return
       }
-      this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id)
-      // this.$router.push({name: 'createCrud', params: {id: this.currentRow.id}})
+      // this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, '修改' + this.$c.PageTypeK[this.currentRow.type])
+      this.$router.push({name: 'createCrud', query: {id: this.currentRow.id}})
     }
   }
 </script>
