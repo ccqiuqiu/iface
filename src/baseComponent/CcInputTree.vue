@@ -2,7 +2,7 @@
 <template>
   <div>
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
-      <el-tree ref="tree" :data="options" :show-checkbox="showCheckbox"
+      <el-tree ref="tree" :data="options" :show-checkbox="showCheckbox" v-on="$listeners"
                :highlight-current="true"
                :default-expanded-keys="selectedKeys"
                :node-key="valueField"
@@ -23,7 +23,7 @@
   export default class CcInputTree extends Vue {
     /*vue-props*/
     @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
-    @Prop(Array) private options: any[]
+    @Prop({type: Array, default: () => []}) private options: any[]
     @Prop({default: 'id'}) private valueField: string
     @Prop({default: false}) private showCheckbox: boolean
 

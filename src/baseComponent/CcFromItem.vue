@@ -44,11 +44,11 @@
     <el-rate v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'rate'" v-on="$listeners"></el-rate>
     <!--popover-table-->
     <template v-else-if="mItem.type === 'table'">
-      <cc-input-table v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-table>
+      <cc-input-table v-model="model[mItem.prop]" v-bind="mItem.props" :options="typeof mItem.options === 'string' ? {} : mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-table>
     </template>
     <!--popover-tree-->
     <template v-else-if="mItem.type === 'tree'">
-      <cc-input-tree v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-tree>
+      <cc-input-tree v-model="model[mItem.prop]" v-bind="mItem.props" :options="typeof mItem.options === 'string' ? [] : mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-tree>
     </template>
     <!--弹出dialog-->
     <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="mItem.dialog" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>

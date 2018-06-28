@@ -60,6 +60,7 @@
   import FormItemProps from '../fragment/FormItemProps.vue'
   import FormItemOptions from '../fragment/FormItemOptions.vue'
   import FormItemVerify from '../fragment/FormItemVerify.vue'
+  import {optionsDefaultData} from '../assets/utils'
 
   @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
   export default class CreateCrud extends Vue {
@@ -163,84 +164,12 @@
       const prop = 'p' + Math.floor(Math.random() * 1000000)
       const item: any = {...this.controls[evt.oldIndex]}
       item.prop = prop
-      if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(item.type)) {
-        item.options = [
-          {label: '选项1', value: 1},
-          {label: '选项2', value: 2},
-        ]
-      } else if (item.type === 'cascader') {
-        item.options = [
-          {
-            value: 1,
-            label: '广东省',
-            children: [{
-              value: 2,
-              label: '广州市',
-              children: [
-                {
-                  value: 1,
-                  label: '天河区',
-                },
-                {
-                  value: 2,
-                  label: '番禺区',
-                },
-              ],
-            }],
-          },
-          {
-            value: 2,
-            label: '湖北省',
-            children: [
-              {
-                value: 1,
-                label: '武汉市',
-              },
-              {
-                value: 2,
-                label: '仙桃市',
-              },
-            ],
-          },
-        ]
-      } else if (item.type === 'table') {
+      item.options = optionsDefaultData(item.type)
+      if (item.type === 'table') {
         item.props = {
           valueField: 'id',
           labelField: 'userName',
         }
-        item.options = {
-          columns: [
-            {prop: 'id', label: '编号'},
-            {prop: 'userName', label: '名称'},
-          ],
-          rows: [
-            {id: 1, userName: '用户1'},
-            {id: 2, userName: '用户2'},
-          ],
-        }
-      } else if (item.type === 'tree') {
-        item.options = [
-          {
-            label: '一级1',
-            id: 1,
-            children: [
-              {
-                label: '二级1-1',
-                id: 11,
-              },
-            ],
-          },
-          {
-            label: '二级2',
-            id: 2,
-            children: [
-              {
-                label: '二级2-1',
-                id: 21,
-              },
-            ],
-          },
-        ]
       }
       this.items.splice(evt.newIndex, 1, item)
     }
@@ -307,6 +236,7 @@
       const {error} = await this.savePage(this.pageModel)
       if (!error) {
         this.$utils.message('保存成功！')
+        this.$utils.closeTab('/baseData/pageList')
       }
     }
   }

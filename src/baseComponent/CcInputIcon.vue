@@ -13,7 +13,7 @@
       <span v-if="value">
         <cc-icon :name="value" size="20"></cc-icon>
       </span>
-      <span v-else class="c-info">请选择</span>
+      <span v-else class="c-info">{{placeholder}}</span>
       <i class="el-icon-circle-close m-r-10" v-if="value" @click.stop="$emit('input', '')"></i>
     </div>
   </div>
@@ -27,6 +27,7 @@
   export default class CcInputIcon extends Vue {
     /*vue-props*/
     @Prop(String) private value: string
+    @Prop({type: String, default: '请选择图标'}) private placeholder: string
     /*vue-vuex*/
     /*vue-data*/
     private show: boolean = false

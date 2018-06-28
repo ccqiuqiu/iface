@@ -53,7 +53,7 @@
             {label: '表格', value: 'table'},
           ],
         })
-        if (model.target.includes('table')) {
+        if (model.target && model.target.includes('table')) {
           items.push(...[
             {label: '列宽度', prop: 'width', type: 'text', placeholder: '列宽度'},
             {label: '列格式化', prop: 'formatFun', type: 'select', options: this.formats},

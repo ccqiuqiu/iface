@@ -7,7 +7,7 @@
     </el-radio-group>
     <el-input @blur="onBlur" v-model="source1" v-if="source === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>
     <el-select v-else v-model="source2" placeholder="请选择" @change="onChange">
-      <el-option v-for="item in source2Options" :key="item.value" :label="item.label" :value="item.value">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>
   </div>
@@ -15,6 +15,7 @@
 
 <script lang="ts">
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+  import {optionsDefaultData} from '../assets/utils'
 
   @Component
   export default class FormItemOptions extends Vue {
@@ -26,11 +27,15 @@
     private source: number = 0
     private source1: string = ''
     private source2: string = ''
-    private source2Options: OptionItem[] = [
-      {label: '性别', value: 'sex'},
-      {label: '状态', value: 'status'},
-    ]
     /*vue-compute*/
+    get options() {
+      return this.$c.OptionsDataSource.filter((item) => {
+        if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(this.item.type as string)) {
+          return item.type === 'keyValue'
+        }
+        return item.type === this.item.type
+      })
+    }
     /*vue-watch*/
     @Watch('item')
     private itemChange(val: any) {
@@ -40,7 +45,7 @@
           this.source2 = val.options
         } else {
           this.source = 1
-          this.source1 = JSON.stringify(val.options)
+          this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type as string))
         }
       }
     }
@@ -53,7 +58,7 @@
     private onBlur() {
       if (this.source === 1) {
         try {
-          const json = JSON.parse(this.source1)
+          const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type as string)
           this.item.options = json
         } catch (e) {
           console.log(e.message)

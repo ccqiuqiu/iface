@@ -18,6 +18,11 @@ export const PageTypeV = {
   页面: 1,
   表单: 2,
 }
+export const OptionsDataSource = [
+  {label: '性别', value: 'sex', type: 'keyValue'},
+  {label: '状态', value: 'status', type: 'keyValue'},
+  {label: '菜单树', value: 'menuTree', type: 'tree'},
+]
 export const PageTypeK: IndexEd = reverse(PageTypeV)
 
 export enum FormItemType {

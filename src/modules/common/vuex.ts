@@ -57,7 +57,10 @@ const mutations: MutationTree<any> = {
     item.url = url
   },
   // 关闭tab
-  removeTab(state: CommonState, key: string): void {
+  removeTab(state: CommonState, key?: string): void {
+    if (!key) {
+      key = state.selectedTab
+    }
     // 从menuTabs里面删除tab
     const index = state.menuTabs.findIndex((o: any) => o.key === key)
     if (index >= 0) {

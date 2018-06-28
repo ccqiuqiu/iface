@@ -87,62 +87,12 @@ export const toTab = (url: string, name?: string) => {
     store.commit('updateTabs', {key, url, menus: [{name, url}]})
     store.commit('updateSelectedTab',  key)
   }
-/*  // 判断url是否已经在tabs里面打开了
-  const item = menuTabs.find((item: any) => item.url === url)
-  if (item) {  // url已经打开，直接更新当前选择的tab
-    store.commit('updateSelectedTab',  item.key)
-  } else {    // 没有打开
-    // 先根据url找到要跳转的菜单对象
-    const arr = url.split('?')
-    url = arr[0]
-    const query = arr[1] || ''
-    const menu: Menu = flatMenu.find((m: Menu) => m.url === url) as Menu
-    if (menu) {
-      // 如果存在菜单， 获取菜单父级菜单组成tab
-      const menus: Menu[] = [menu]
-      if (menu.parentId) {
-        const menuParent: Menu = flatMenu.find((item: any) => item.id === menu.parentId) as Menu
-        menus.unshift(menuParent)
-      }
-      store.commit('updateTabs', {key: menu.id, url,  menus})
-      store.commit('updateSelectedTab',  menu.id)
-    } else { // 不存在
-      const key: string = Math.floor(Math.random() * 20130306) + ''
-      store.commit('updateTabs', {key, url, menus: [{name, url}]})
-      store.commit('updateSelectedTab',  key)
-    }
-  }*/
- /* // 先根据url找到要跳转的菜单对象
-  const menu: Menu = flatMenu.find((m: Menu) => m.url === url) as Menu
-  // 没有找到菜单
-  if (!menu) {
-    // 首页
-    if (url === '/') {
-      store.commit('updateSelectedTab',  '0')
-      return
-    } else {
-      const key: string = Math.floor(Math.random() * 20130306) + ''
-      store.commit('updateTabs', {key, url, menus: [{name, url}]})
-      store.commit('updateSelectedTab',  key)
-      return
-    }
+}
+export const closeTab = (url?: string) => {
+  store.commit('removeTab')
+  if (url) {
+    toTab(url)
   }
-  // if (query) {
-  //   menu = JSON.parse(JSON.stringify(menu))
-  //   menu.url += ('?' + query)
-  // }
-  // 判断菜单是否已经在tabs里面打开了
-  const item = menuTabs.find((item: any) => item.key === menu.id)
-  // 没有打开，要找到菜单的层级，加到menuTabs里面，然后再跳转
-  if (!item) {
-    const menus: Menu[] = [menu]
-    if (menu.parentId) {
-      const menuParent: Menu = flatMenu.find((item: any) => item.id === menu.parentId) as Menu
-      menus.unshift(menuParent)
-      store.commit('updateTabs', {key: menu.id, url,  menus})
-    }
-  }
-  store.commit('updateSelectedTab',  menu.id)*/
 }
 
 export const hasAuth = (binding: any): boolean => {
