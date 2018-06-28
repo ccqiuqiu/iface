@@ -27,12 +27,12 @@
   @Component({components: {CcRender}})
   export default class CcTable extends Vue {
     /*vue-prop*/
-    @Prop() private rows: any[]
-    @Prop({default: 'id'}) private rowKey: string
-    @Prop() private columns: TableColumn[]
-    @Prop(Boolean) private multiSelect: boolean // 是否多选
-    @Prop() private selectedRows: any[] // 选中的行的数组
-    @Prop() private currentRow: any  // 当前行
+    @Prop() public rows: any[]
+    @Prop({default: 'id'}) public rowKey: string
+    @Prop() public columns: TableColumn[]
+    @Prop(Boolean) public multiSelect: boolean // 是否多选
+    @Prop() public selectedRows: any[] // 选中的行的数组
+    @Prop() public currentRow: any  // 当前行
     /*vue-data*/
     /*vue-computed*/
     get multi() {
@@ -42,7 +42,7 @@
      * 结合selectionChange方法，实现selectedRows双向绑定
      */
     @Watch('selectedRows')
-    private watchSelectedRows(val: any[], old: any[]) {
+    public watchSelectedRows(val: any[], old: any[]) {
       (this.$refs.table as Vue).clearSelection()
       if (val) {
         this.$nextTick(() => val.forEach((row: any) => {
@@ -54,23 +54,23 @@
      * 结合currentChange方法，实现currentRow双向绑定
      */
     @Watch('currentRow')
-    private watchCurrentRow(val: any, old: any) {
+    public watchCurrentRow(val: any, old: any) {
       if (val) {
         this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(val), 0))
       } else {
         this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(), 0))
       }
     }
-    private currentChange(row: any) {
+    public currentChange(row: any) {
       if (row) {
         this.$emit('update:currentRow', row)
       }
     }
-    private select(rows: any[], row: any) {
+    public select(rows: any[], row: any) {
       this.$emit('update:selectedRows', rows)
     }
     // 多选的时候，让点击行的时候，也能选中和取消选中行
-    private rowClick(row: any) {
+    public rowClick(row: any) {
       if (this.multi) {
         const index = this.selectedRows.findIndex((item: any) => item[this.rowKey] === row[this.rowKey])
         if (index >= 0) {
@@ -83,7 +83,7 @@
       }
     }
     //
-    private toggleRowSelection(rows: any[]) {
+    public toggleRowSelection(rows: any[]) {
       rows.forEach((row: any) => {
         (this.$refs.table as Vue).toggleRowSelection(row, true)
       })

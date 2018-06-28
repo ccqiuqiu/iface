@@ -35,17 +35,17 @@
         password: '123456',
         sex: 1,
         status: 1,
-      })}) private user!: User
+      })}) public user!: User
     /* vue-props */
     /* vue-vuex */
-    @Action('saveUser') private saveUser: (user: User) => Promise<ActionReturn>
+    @Action('saveUser') public saveUser: (user: User) => Promise<ActionReturn>
     /* vue-data */
     /* vue-compute */
     /* vue-watch */
     /* vue-lifecycle */
     /* vue-method */
     // 保存用户
-    private async save() {
+    public async save() {
       const {error} = await this.saveUser(this.user)
       if (!error) {
         this.$utils.message('保存成功')

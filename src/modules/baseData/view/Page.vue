@@ -11,17 +11,17 @@
   export default class CrudDemo extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getPage') private getPage: (id: string) => Promise<ActionReturn>
+    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
     /*vue-data*/
-    private data: CRUDObject | null = null
+    public data: CRUDObject | null = null
     /*vue-compute*/
     /*vue-watch*/
     @Watch('$route', {immediate: true})
-    private routerChange() {
+    public routerChange() {
       this.getData()
     }
     /*vue-lifecycle*/
-    private async getData() {
+    public async getData() {
       const id = this.$route.params['id']
       const {data} = await this.getPage(id)
       if (data) {

@@ -20,13 +20,13 @@
   @Component
   export default class FormItemOptions extends Vue {
     /*vue-props*/
-    @Prop() private item: FormItem
-    @Prop(Boolean) private needOptions: boolean
+    @Prop() public item: FormItem
+    @Prop(Boolean) public needOptions: boolean
     /*vue-vuex*/
     /*vue-data*/
-    private source: number = 0
-    private source1: string = ''
-    private source2: string = ''
+    public source: number = 0
+    public source1: string = ''
+    public source2: string = ''
     /*vue-compute*/
     get options() {
       return this.$c.OptionsDataSource.filter((item) => {
@@ -38,7 +38,7 @@
     }
     /*vue-watch*/
     @Watch('item')
-    private itemChange(val: any) {
+    public itemChange(val: any) {
       if (val && val.options) {
         if (typeof val.options === 'string') {
           this.source = 2
@@ -51,11 +51,11 @@
     }
     /*vue-lifecycle*/
     /*vue-method*/
-    private onSourceChange(val: number) {
+    public onSourceChange(val: number) {
       this.onBlur()
       this.onChange()
     }
-    private onBlur() {
+    public onBlur() {
       if (this.source === 1) {
         try {
           const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type as string)
@@ -66,7 +66,7 @@
         this.$emit('change')
       }
     }
-    private onChange() {
+    public onChange() {
       if (this.source === 2) {
         this.item.options = this.source2
         this.$emit('change')

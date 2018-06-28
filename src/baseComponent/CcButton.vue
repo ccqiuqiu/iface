@@ -12,10 +12,10 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
   @Component
   export default class CcButton extends Vue {
-    @Prop({required: true}) private text!: string
-    @Prop({default: 'primary'}) private type!: string
-    @Prop({default: 'small'}) private size!: string
-    @Prop() private icon!: string
+    @Prop({required: true}) public text!: string
+    @Prop({default: 'primary'}) public type!: string
+    @Prop({default: 'small'}) public size!: string
+    @Prop() public icon!: string
 
     get iconSize() {
       if (this.size === 'medium') {

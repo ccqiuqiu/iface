@@ -10,8 +10,8 @@
   @Component
   export default class FormItemProps extends Vue {
     /*vue-props*/
-    @Prop() private item: any
-    @Prop(Number) private type: number
+    @Prop() public item: any
+    @Prop(Number) public type: number
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/
@@ -64,7 +64,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    private onChange(prop: string) {
+    public onChange(prop: string) {
       const value = (this.formObj.model[prop] || '').trim()
       this.item.props = this.item.props || {}
       if (prop === 'propsStr') {
@@ -75,9 +75,9 @@
           this.item.props = {}
         }
       } else if (prop === 'labelField') {
-        this.item.props = {...this.item.props, labelField: value}
+        this.item.props = {...this.item.props, labelField: value || undefined}
       } else if (prop === 'valueField') {
-        this.item.props = {...this.item.props, valueField: value}
+        this.item.props = {...this.item.props, valueField: value || undefined}
       }
       this.$emit('change')
     }

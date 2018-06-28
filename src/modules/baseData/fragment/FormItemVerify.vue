@@ -13,10 +13,10 @@
   @Component
   export default class FormItemVerify extends Vue {
     /* vue-props */
-    @Prop() private item: any
+    @Prop() public item: any
     /* vue-vuex */
     /* vue-data */
-    private verifyRules = [
+    public verifyRules = [
       {name: '必填', code: 'required', selected: false, type: 'boolean'},
       {name: '最长', code: 'length', selected: false, value: '', type: 'number'},
       {name: '最短', code: 'minLength', selected: false, value: '', type: 'number'},
@@ -55,7 +55,7 @@
     /* vue-watch */
     /* vue-lifecycle */
     /* vue-method */
-    private click(rule: any) {
+    public click(rule: any) {
       if (rule.type === 'boolean') {
         if (rule.selected) {
           delete this.item.verify[rule.code]
@@ -66,7 +66,7 @@
         this.$emit('change')
       }
     }
-    private keyup() {
+    public keyup() {
       const re: any = {}
       this.rules.forEach((r: any) => {
         if (r.type !== 'boolean') {

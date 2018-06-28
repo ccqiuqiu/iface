@@ -9,6 +9,7 @@
                check-on-click-node
                check-strictly
                :props="props"
+               v-if="forceUpdate"
                @check-change="checkChange"
       ></el-tree>
     </el-popover>
@@ -23,17 +24,18 @@
   @Component({components: {CcInputTags}})
   export default class CcInputTree extends Vue {
     /*vue-props*/
-    @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
-    @Prop({type: Array, default: () => []}) private options: any[]
-    @Prop({default: 'children'}) private childrenField: string
-    @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'name'}) private labelField: string
-    @Prop({default: false}) private showCheckbox: boolean
+    @Prop({type: [String, Number, Array]}) public value: string | number | Array<string | number>
+    @Prop({type: Array, default: () => []}) public options: any[]
+    @Prop({default: 'children'}) public childrenField: string
+    @Prop({default: 'id'}) public valueField: string
+    @Prop({default: 'name'}) public labelField: string
+    @Prop({default: false}) public showCheckbox: boolean
 
     /*vue-vuex*/
     /*vue-data*/
-    private show: boolean = false
-    private selectedKeys: any[] = []
+    public forceUpdate: boolean = true
+    public show: boolean = false
+    public selectedKeys: any[] = []
     /*vue-compute*/
     get props() {
       return {children: this.childrenField, label: this.labelField}
@@ -48,8 +50,13 @@
       return this.flatData.filter((item: any) => this.selectedKeys.includes(item[this.valueField]))
     }
     /*vue-watch*/
+    @Watch('props')
+    public propsChange() {
+      this.forceUpdate = false
+      this.$nextTick(() => this.forceUpdate = true)
+    }
     @Watch('selectedKeys')
-    private selectedKeysChange(val: any[]) {
+    public selectedKeysChange(val: any[]) {
       if (this.multi) {
         this.$emit('input', val)
       } else {
@@ -58,15 +65,15 @@
     }
     // 监听value是为了实现重置表单的时候，能更新树
     @Watch('value')
-    private valueChange() {
+    public valueChange() {
       this.init()
     }
     /*vue-lifecycle*/
-    private mounted() {
+    public mounted() {
       this.init()
     }
     /*vue-method*/
-    private init() {
+    public init() {
       if (this.value) {
         if (this.multi) {
           (this.$refs as Vue).tree.setCheckedKeys(this.value)
@@ -78,7 +85,7 @@
       }
     }
     // 树选中节点变化的时候
-    private checkChange(node: any) {
+    public checkChange(node: any) {
       if (this.multi) {
         this.selectedKeys = (this.$refs as Vue).tree.getCheckedKeys()
       } else {
@@ -87,7 +94,7 @@
       }
     }
     // 点击标签删除按钮的时候
-    private delTag(node: any) {
+    public delTag(node: any) {
       if (this.multi) {
         const index = this.selectedKeys.findIndex((item: any) => item === node[this.valueField])
         if (index > -1) {

@@ -28,7 +28,7 @@
     /*vue-props*/
     /*vue-vuex*/
     /*vue-data*/
-    private chartData: any = {
+    public chartData: any = {
       columns: ['日期', '访问用户', '下单用户', '下单率'],
       rows: [
         { 日期: '1/1', 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
@@ -39,7 +39,7 @@
         { 日期: '1/6', 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 },
       ],
     }
-    private chartSettings: any = {
+    public chartSettings: any = {
       showLine: ['下单用户'],
     }
     /*vue-compute*/

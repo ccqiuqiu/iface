@@ -23,9 +23,9 @@
     /*vue-props*/
     /*vue-vuex*/
     /*vue-data*/
-    private index: number = 0
-    private typeArr: string[] = ['line', 'histogram', 'pie']
-    private chartData: any = {
+    public index: number = 0
+    public typeArr: string[] = ['line', 'histogram', 'pie']
+    public chartData: any = {
       columns: ['日期', '销售额-1季度'],
       rows: [
         { '日期': '1月1日', '销售额-1季度': 1523 },
@@ -43,7 +43,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    private changeType() {
+    public changeType() {
       this.index++
       if (this.index === this.typeArr.length) {
         this.index = 0

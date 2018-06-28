@@ -28,7 +28,7 @@
     /*vue-props*/
     /*vue-vuex*/
     /*vue-data*/
-    private chartData = {
+    public chartData = {
       columns: ['日期', '销售额-1季度', '销售额-2季度', '占比', '其他'],
       rows: [
         { '日期': '1月1日', '销售额-1季度': 1523, '销售额-2季度': 1523, '占比': 0.12, '其他': 100 },
@@ -39,8 +39,8 @@
         { '日期': '1月6日', '销售额-1季度': 7123, '销售额-2季度': 1523, '占比': 0.65, '其他': 100 },
       ],
     }
-    private chartSettings = {}
-    private chartSettings2 = {area: true}
+    public chartSettings = {}
+    public chartSettings2 = {area: true}
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/

@@ -16,20 +16,20 @@
   @Component
   export default class CcCheckBoxGroup extends Vue {
     /*vue-props*/
-    @Prop(Array) private value: any | any[]
-    @Prop([Array, String]) private options: any[] | string
-    @Prop() private type: string
+    @Prop(Array) public value: any | any[]
+    @Prop([Array, String]) public options: any[] | string
+    @Prop() public type: string
     /*vue-vuex*/
     /*vue-data*/
-    private model: any[] = this.value || []
+    public model: any[] = this.value || []
     /*vue-compute*/
     /*vue-watch*/
     @Watch('value')
-    private valueChange(val: any) {
+    public valueChange(val: any) {
       this.model = val || []
     }
     @Watch('model')
-    private modelChange(val: any[]) {
+    public modelChange(val: any[]) {
       this.$emit('input', val)
     }
     /*vue-lifecycle*/

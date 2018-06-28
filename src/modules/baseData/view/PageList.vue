@@ -31,9 +31,9 @@
   export default class PageList extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('searchPage') private searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
+    @Action('searchPage') public searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
     /*vue-data*/
-    private columns: TableColumn[] = [
+    public columns: TableColumn[] = [
       {prop: 'id', label: '编号', width: '100px'},
       {prop: 'pageName', label: '名称', width: '120px'},
       {prop: 'name', label: '实体对象', width: '100px'},
@@ -48,7 +48,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    private async getData() {
+    public async getData() {
       this.loading = true
       const {data} = await this.searchPage({pageNum: this.pageNum, pageSize: this.pageSize})
       this.loading = false
@@ -57,7 +57,7 @@
         this.rows = data.rows
       }
     }
-    private onEdit() {
+    public onEdit() {
       if (!this.currentRow) {
         this.$utils.message('请选择一行', 'warning')
         return

@@ -17,9 +17,9 @@
   @Component
   export default class CcInputTags extends Vue {
     /*vue-props*/
-    @Prop() private value: any[]
-    @Prop({default: 'label'}) private label: string
-    @Prop(String) private icon: string
+    @Prop() public value: any[]
+    @Prop({default: 'label'}) public label: string
+    @Prop(String) public icon: string
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/

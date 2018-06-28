@@ -26,11 +26,11 @@
   @Component
   export default class CcInputIcon extends Vue {
     /*vue-props*/
-    @Prop(String) private value: string
-    @Prop({type: String, default: '请选择图标'}) private placeholder: string
+    @Prop(String) public value: string
+    @Prop({type: String, default: '请选择图标'}) public placeholder: string
     /*vue-vuex*/
     /*vue-data*/
-    private show: boolean = false
+    public show: boolean = false
     /*vue-compute*/
     get icons() {
       const reg = /^.*\/(.*)\.svg$/
@@ -39,7 +39,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    private select(name: string) {
+    public select(name: string) {
       this.$emit('input', name)
       this.show = false
     }

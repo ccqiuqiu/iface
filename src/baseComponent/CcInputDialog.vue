@@ -12,14 +12,14 @@
   @Component({components: {CcInputTags}})
   export default class CcInputDialog extends Vue {
     /*vue-props*/
-    @Prop() private dialog: any
-    @Prop() private title: string
-    @Prop({type: [Array, Object]}) private value: any | any[]
-    @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'name'}) private labelField: string
+    @Prop() public dialog: any
+    @Prop() public title: string
+    @Prop({type: [Array, Object]}) public value: any | any[]
+    @Prop({default: 'id'}) public valueField: string
+    @Prop({default: 'name'}) public labelField: string
     /*vue-vuex*/
     /*vue-data*/
-    private selectData: any | any[]
+    public selectData: any | any[]
     /*vue-compute*/
     get getSelectTag() {
       return this.value ? (Array.isArray(this.value) ? this.value : [this.value]) : []
@@ -30,7 +30,7 @@
 
     /*vue-method*/
     // 显示弹窗
-    private show() {
+    public show() {
       if (this.dialog) {
         this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
         this.$utils.dialog(this.title, (h: any) => <div>
@@ -42,7 +42,7 @@
       }
     }
     // 删除标签
-    private delTag(item: any) {
+    public delTag(item: any) {
       if (Array.isArray(this.value)) {
         const index = this.value.findIndex((tag: any) => tag[this.valueField] = item[this.valueField])
         this.value.splice(index, 1)
@@ -50,14 +50,14 @@
         this.$emit('input', null)
       }
     }
-    private onChange(val: any | any[]) {
+    public onChange(val: any | any[]) {
       this.selectData = val
     }
-    private rowClick() {
+    public rowClick() {
       setTimeout(() => this.select(), 0)
     }
     // 点击选择按钮
-    private select() {
+    public select() {
       let re: any = {}
       if (Array.isArray(this.selectData)) {
         re = this.selectData.map((row: any) => {

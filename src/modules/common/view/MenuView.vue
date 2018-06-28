@@ -38,17 +38,17 @@
   export default class MenuView extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @State((state: State) => state.common.menus) private menus: any[]
-    @State((state: State) => state.common.menuExpand) private menuExpand: string
-    @State((state: State) => state.common.menuTabs) private menuTabs: any[]
-    @State((state: State) => state.common.selectedTab) private selectedTab: string
-    @Getter private nav: Menu[]
-    @Getter private flatMenu: Menu[]
-    @Action private getMenu: () => void
-    @Mutation private updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
-    @Mutation private updateSelectedTab: (key: string) => void
+    @State((state: State) => state.common.menus) public menus: any[]
+    @State((state: State) => state.common.menuExpand) public menuExpand: string
+    @State((state: State) => state.common.menuTabs) public menuTabs: any[]
+    @State((state: State) => state.common.selectedTab) public selectedTab: string
+    @Getter public nav: Menu[]
+    @Getter public flatMenu: Menu[]
+    @Action public getMenu: () => void
+    @Mutation public updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
+    @Mutation public updateSelectedTab: (key: string) => void
     /*vue-data*/
-    private activeMenuIndexPath: string[] = []
+    public activeMenuIndexPath: string[] = []
     get activeMenu(): string {
       return this.selectedTab
     }
@@ -58,7 +58,7 @@
     }
     /*vue-watch*/
     @Watch('activeMenu')
-    private activeMenuChange() {
+    public activeMenuChange() {
       // if (this.selectedTab === '0') {
       //   return
       // }
@@ -83,7 +83,7 @@
     // 那跳转URL
     // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
     @Watch('nav')
-    private privateNavChange(val: Menu[]) {
+    public publicNavChange(val: Menu[]) {
       if (val.length) {
         this.$router.push(val[val.length - 1].url)
       }
@@ -91,7 +91,7 @@
     /*vue-lifecycle*/
     /*vue-method*/
     // 菜单选择的回调
-    private selectMenu(index: string, indexPath: string[]): void {
+    public selectMenu(index: string, indexPath: string[]): void {
       this.activeMenuIndexPath = indexPath
       this.activeMenu = index
     }

@@ -33,22 +33,22 @@
   @Component
   export default class CcCrud extends Vue {
     /*vue-props*/
-    @Prop() private data: CRUDObject
-    @Prop({default: 'crud'}) private type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
-    @Prop({type: [Array, Object]}) private value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
+    @Prop() public data: CRUDObject
+    @Prop({default: 'crud'}) public type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
+    @Prop({type: [Array, Object]}) public value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
     /*vue-vuex*/
     @Action('formAction')
-    private formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
     @Action('requestUrl')
-    private requestUrl: (url: string) => Promise<ActionReturn>
+    public requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
-    private total: number = 0 // 总条数
-    private loading: boolean = false
-    private pageNum: number = 1  // 当前页
-    private pageSize: number = 10 // 每页显示条数
-    private defaultModel: any = {...this.editForm.model} // 保存一份原始数据的拷贝，用于新增的时候清空model
-    private selectedRows: any[] = []
-    private currentRow: any = null
+    public total: number = 0 // 总条数
+    public loading: boolean = false
+    public pageNum: number = 1  // 当前页
+    public pageSize: number = 10 // 每页显示条数
+    public defaultModel: any = {...this.editForm.model} // 保存一份原始数据的拷贝，用于新增的时候清空model
+    public selectedRows: any[] = []
+    public currentRow: any = null
     /*vue-compute*/
     get searchForm(): FormObject | any {
       if (this.data.searchForm) {
@@ -106,25 +106,25 @@
     }
     /*vue-watch*/
     @Watch('currentRow')
-    private currentRowChange(val: any) {
+    public currentRowChange(val: any) {
       if (!this.multi && val) {
         this.$emit('input', val)
       }
     }
     @Watch('selectedRows')
-    private selectedRowsChange(val: any) {
+    public selectedRowsChange(val: any) {
       if (this.multi) {
         this.$emit('input', val)
       }
     }
     @Watch('$route', {immediate: true})
-    private routerChange() {
+    public routerChange() {
       this.init()
       this.getData()
     }
     /*vue-lifecycle*/
     /*vue-method*/
-    private init() {
+    public init() {
       if (this.value) {
         if (this.multi) {
           this.selectedRows = this.value
@@ -134,7 +134,7 @@
       }
     }
     // 查询数据
-    private async getData() {
+    public async getData() {
       if (this.searchUrl) {
         this.loading = true
         const params = {...this.searchForm.model, pageNum: this.pageNum, pageSize: this.pageSize}
@@ -164,17 +164,17 @@
       }
     }
     // pageNum改变的时候的事件
-    private pageNumChange(pageNum: number) {
+    public pageNumChange(pageNum: number) {
       this.pageNum = pageNum
       this.getData()
     }
     // pageSize改变的时候的事件
-    private pageSizeChange(pageSize: number) {
+    public pageSizeChange(pageSize: number) {
       this.pageSize = pageSize
       this.getData()
     }
     // 点击添加按钮
-    private onAdd(edit: boolean) {
+    public onAdd(edit: boolean) {
       if (edit) {
         this.editForm.model = {...this.currentRow}
       } else {
@@ -185,7 +185,7 @@
         <cc-form data={this.editForm} onSave={this.saved} url={url}></cc-form>)
     }
     // 点击编辑按钮
-    private onEdit() {
+    public onEdit() {
       if (!this.currentRow) {
         this.$utils.message('请选择一行', 'warning')
         return
@@ -193,7 +193,7 @@
       this.onAdd(true)
     }
     // 点击删除按钮
-    private async onDel() {
+    public async onDel() {
       if (!this.currentRow) {
         this.$utils.message('请选择一行', 'warning')
         return
@@ -210,7 +210,7 @@
       }
     }
     // 点击查看按钮
-    private onView() {
+    public onView() {
       if (!this.currentRow) {
         this.$utils.message('请选择一行', 'warning')
         return
@@ -220,20 +220,20 @@
         <CcCrudView data={this.currentRow} fields={this.editForm.items} url={url}></CcCrudView>, {showBtn: true})
     }
     // 保存完成
-    private async saved(error: any) {
+    public async saved(error: any) {
       if (!error) {
         this.$utils.message('保存成功')
         this.$utils.hideDialog()
         this.getData()
       }
     }
-    private getActionUrl(action: string) {
+    public getActionUrl(action: string) {
       if (this.currentRow) {
         return action + this.data.name + '/' + this.currentRow[this.rowKey]
       }
       return ''
     }
-    private getItems(val: string): FormItem[] | TableColumn[] {
+    public getItems(val: string): FormItem[] | TableColumn[] {
       return this.data.items ? this.data.items.filter((item: CRUDItem) => item.target.includes(val))
         .map((item: CRUDItem) => {
           const {tableProps, formProps, target, ...props} = {...item}

@@ -31,10 +31,10 @@
   export default class Users extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action private userList: () => Promise<ActionReturn>
-    @Action private delUser: (id: number) => Promise<ActionReturn>
+    @Action public userList: () => Promise<ActionReturn>
+    @Action public delUser: (id: number) => Promise<ActionReturn>
     /*vue-data*/
-    private columns: TableColumn[] = [
+    public columns: TableColumn[] = [
       {prop: 'id', label: '编号'},
       {prop: 'userName', label: '名称'},
       {prop: 'sex', label: '性别',
@@ -47,18 +47,18 @@
         renderCell: (h: any, row: any) => <el-tag size='small' type={row.status === this.$c.StatusV.禁用 ? 'info' : ''}>{this.$c.StatusK[row.status]}</el-tag>,
       },
     ]
-    private users: User[] = []
-    private selectedRows: User[] = []
-    private currentRow: User = {}
+    public users: User[] = []
+    public selectedRows: User[] = []
+    public currentRow: User = {}
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/
-    private created() {
+    public created() {
       this.load()
     }
     /*vue-method*/
     // 获取列表数据
-    private async load() {
+    public async load() {
       const {data}: any = await this.userList()
       if (data) {
         this.users = data.rows
@@ -67,16 +67,16 @@
       }
     }
     // 点击添加按钮
-    private onAdd(edit: boolean) {
+    public onAdd(edit: boolean) {
       const user = edit ? {...this.currentRow} : undefined
       this.$utils.dialog(`${edit ? '修改' : '新增'}用户`, (h: any) => <EditUser user={user} onRefresh={this.load}></EditUser>)
     }
     // 点击编辑按钮
-    private onEdit() {
+    public onEdit() {
       this.onAdd(true)
     }
     // 点击删除按钮
-    private async onDel() {
+    public async onDel() {
       const re = await this.$utils.confirm('确定要删除此用户吗？')
       if (re) {
         const{error} = await this.delUser(this.currentRow.id as number)

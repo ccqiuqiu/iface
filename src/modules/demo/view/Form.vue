@@ -22,7 +22,7 @@
     /*vue-props*/
     /*vue-vuex*/
     /*vue-data*/
-    private formObj: FormObject = {
+    public formObj: FormObject = {
       model: {
         name: 'eee',
         area: 1,

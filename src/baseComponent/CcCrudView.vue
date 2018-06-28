@@ -15,30 +15,30 @@
   @Component
   export default class CcCrudView extends Vue {
     /*vue-props*/
-    @Prop() private data: any
-    @Prop() private fields: any[]
-    @Prop() private url: string
+    @Prop() public data: any
+    @Prop() public fields: any[]
+    @Prop() public url: string
     /*vue-vuex*/
-    @Action('requestUrl') private requestUrl: (url: string) => Promise<ActionReturn>
+    @Action('requestUrl') public requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
-    private mData: any = this.data
-    private loading: boolean = false
+    public mData: any = this.data
+    public loading: boolean = false
     /*vue-compute*/
     /*vue-watch*/
     @Watch('url', {immediate: true})
-    private urlChange(val: string) {
+    public urlChange(val: string) {
       if (val) {
         this.initModel()
       }
     }
     @Watch('data')
-    private dataChange(val: any) {
+    public dataChange(val: any) {
       this.mData = val
     }
     /*vue-lifecycle*/
     /*vue-method*/
     // 初始化model。用于更新表单从服务端获取完整数据
-    private async initModel() {
+    public async initModel() {
       this.loading = true
       const {data} = await this.requestUrl(this.url)
       this.loading = false

@@ -19,10 +19,10 @@
   @Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
   export default class CcDialog extends Vue {
     /*vue-props*/
-    @Prop({default: false}) private inside: boolean
-    @Prop({default: false}) private appendToBody: boolean
+    @Prop({default: false}) public inside: boolean
+    @Prop({default: false}) public appendToBody: boolean
     /*vue-vuex*/
-    @Getter('dialog') private getDialog: any
+    @Getter('dialog') public getDialog: any
 
     get dialog() {
       return this.getDialog(this.inside)
@@ -39,7 +39,7 @@
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
-    private onClose() {
+    public onClose() {
       if (this.dialog.visible) {
         this.$utils.hideDialog()
       }

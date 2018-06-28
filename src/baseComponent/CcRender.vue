@@ -4,10 +4,10 @@
 
   @Component
   export default class CcRender extends Vue {
-    @Prop(Function) private renderFun: any
-    @Prop() private scope?: any
+    @Prop(Function) public renderFun: any
+    @Prop() public scope?: any
 
-    private render(h: any) {
+    public render(h: any) {
       const scope = this.scope
       if (scope) {
         return this.renderFun(h, scope.row, scope.$index, scope.column, scope.store)

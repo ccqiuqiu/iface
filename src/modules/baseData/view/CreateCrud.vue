@@ -66,11 +66,11 @@
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getOptions') private getOptions: (url: string) => Promise<any>
-    @Action('getPage') private getPage: (id: string) => Promise<ActionReturn>
-    @Action('savePage') private savePage: (page: Page) => Promise<ActionReturn>
+    @Action('getOptions') public getOptions: (url: string) => Promise<any>
+    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
+    @Action('savePage') public savePage: (page: Page) => Promise<ActionReturn>
     /*vue-data*/
-    private controls: any = [
+    public controls: any = [
       {type: 'text', label: '文本框'},
       {type: 'select', label: '选择框'},
       {type: 'date', label: '日期选择器'},
@@ -93,11 +93,11 @@
       {type: 'icon', label: '图标选择器'},
       {type: 'dialog', label: '弹窗选择器'},
     ]
-    private model: any = {}
-    private items: any[] = []
-    private activeNames: string[] = ['1', '2', '3']
-    private selectIndex: number = -1
-    private pageModel: Page = {type: 1, name: '', pageDesc: '', pageName: ''}
+    public model: any = {}
+    public items: any[] = []
+    public activeNames: string[] = ['1', '2', '3']
+    public selectIndex: number = -1
+    public pageModel: Page = {type: 1, name: '', pageDesc: '', pageName: ''}
     /*vue-compute*/
     get typeName() {
       return this.$c.PageTypeK[this.pageModel.type || 1]
@@ -125,11 +125,11 @@
     }
     /*vue-watch*/
     /*vue-lifecycle*/
-    private created() {
+    public created() {
       this.initPage()
     }
 
-    private async initPage() {
+    public async initPage() {
       if (this.$route.query['id']) {
         const {data} = await this.getPage(this.$route.query['id'])
         if (data) {
@@ -151,7 +151,7 @@
     }
     /*vue-method*/
     // 删除已经添加的表单项
-    private delItem() {
+    public delItem() {
       if (this.selectIndex >= 0) {
         const item = this.items[this.selectIndex]
         delete this.model[item.prop]
@@ -160,7 +160,7 @@
       }
     }
     // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
-    private add(evt: any) {
+    public add(evt: any) {
       const prop = 'p' + Math.floor(Math.random() * 1000000)
       const item: any = {...this.controls[evt.oldIndex]}
       item.prop = prop
@@ -173,10 +173,10 @@
       }
       this.items.splice(evt.newIndex, 1, item)
     }
-    private changeOptions() {
+    public changeOptions() {
       this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
     }
-    private async save() {
+    public async save() {
       // 要删除propsStr
       const items: FormItem[] = this.items.map((item: FormItem) => {
         const temp: FormItem = JSON.parse(JSON.stringify(item))

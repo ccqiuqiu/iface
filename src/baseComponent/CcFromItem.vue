@@ -75,28 +75,28 @@
   @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
   export default class CcFromItem extends Vue {
     /*vue-props*/
-    @Prop({required: true, type: [Object]}) private model: any
-    @Prop({required: true}) private item: FormItem
-    @Prop(Boolean) private noVerify: boolean
+    @Prop({required: true, type: [Object]}) public model: any
+    @Prop({required: true}) public item: FormItem
+    @Prop(Boolean) public noVerify: boolean
     /*vue-vuex*/
-    @Action('getOptions') private getOptions: (url: string) => Promise<any>
+    @Action('getOptions') public getOptions: (url: string) => Promise<any>
     /*vue-data*/
-    private mItem: FormItem = JSON.parse(JSON.stringify(this.item))
-    private loading: boolean = false
+    public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
+    public loading: boolean = false
     /*vue-compute*/
     /*vue-watch*/
     @Watch('item')
-    private itemChange() {
+    public itemChange() {
       this.mItem = JSON.parse(JSON.stringify(this.item))
     }
     @Watch('mItem', {immediate: true})
-    private mItemChange() {
+    public mItemChange() {
       this.initOptions()
     }
     /*vue-lifecycle*/
     /*vue-method*/
     // 过滤form-item的props
-    private itemProps(item: FormItem) {
+    public itemProps(item: FormItem) {
       const {options, props, dialog, verify, placeholder, ...itemProps} = item
       if (placeholder) {
         item.props = item.props || {}
@@ -117,7 +117,7 @@
       }
     }
     // 日期控件默认格式
-    private datePickerFarmatter(item: FormItem) {
+    public datePickerFarmatter(item: FormItem) {
       if (item.props && item.props.valueFormat) {
         return item.props.valueFormat
       } else {
@@ -125,15 +125,15 @@
       }
     }
     // 检查输入框的值是否是number，以判断是否要加number修饰符
-    private isNumber(verify: any) {
+    public isNumber(verify: any) {
       return verify && (verify.number || verify.int || verify.maxDecimalLength || verify.gt || verify.gte || verify.lt || verify.lte)
     }
     // 在dialog的值变化的时候，触发一次校验
-    private onValueChange(prop: string) {
+    public onValueChange(prop: string) {
       this.$emit('value-change', prop)
     }
     //
-    private async initOptions() {
+    public async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
         let type = this.mItem.type as string

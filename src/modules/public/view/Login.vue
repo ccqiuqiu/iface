@@ -28,11 +28,11 @@
   export default class Login extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('login') private loginAction: (user: User) => Promise<ActionReturn>
-    @Mutation('clearStore') private clearStore: () => void
-    @Mutation('updateUser') private updateUser: (data: any) => void
+    @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
+    @Mutation('clearStore') public clearStore: () => void
+    @Mutation('updateUser') public updateUser: (data: any) => void
     /*vue-data*/
-    private user: User = {
+    public user: User = {
       userName: 'admin',
       password: '123456',
     }
@@ -41,7 +41,7 @@
     /*vue-lifecycle*/
     /*vue-method*/
     // 用户登录
-    private async login() {
+    public async login() {
       const {error, data} = await this.loginAction(this.user)
       if (error) {
         this.$utils.message(error.message, 'error')

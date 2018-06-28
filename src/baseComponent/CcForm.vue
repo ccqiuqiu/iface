@@ -42,17 +42,17 @@
   @Component({components: {CcFormItem}})
   export default class CcForm extends Vue {
     /*vue-props*/
-    @Prop({required: true, type: Object}) private data: FormObject
-    @Prop(Boolean) private isSearch: boolean
-    @Prop(String) private url: string
+    @Prop({required: true, type: Object}) public data: FormObject
+    @Prop(Boolean) public isSearch: boolean
+    @Prop(String) public url: string
     /*vue-vuex*/
-    @Action('getOptions') private getOptions: (url: string) => Promise<any>
-    @Action('requestUrl') private requestUrl: (url: string) => Promise<ActionReturn>
-    @Action('formAction') private formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    @Action('getOptions') public getOptions: (url: string) => Promise<any>
+    @Action('requestUrl') public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action('formAction') public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
     /*vue-data*/
-    private defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
-    private loading: boolean = false
-    private items: CRUDItem[] = []
+    public defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
+    public loading: boolean = false
+    public items: CRUDItem[] = []
     /*vue-compute*/
     // 处理按钮数组
     get btns() {
@@ -72,13 +72,13 @@
     }
     /*vue-watch*/
     @Watch('url', {immediate: true})
-    private urlChange(val: string) {
+    public urlChange(val: string) {
       if (val) {
         this.initModel()
       }
     }
     @Watch('data', {immediate: true})
-    private dataChange(val: CRUDObject) {
+    public dataChange(val: CRUDObject) {
       if (val.items) {
         this.items = val.items
       }
@@ -86,7 +86,7 @@
     /*vue-lifecycle*/
     /*vue-method*/
     // 按钮点击事件
-    private async btnClick(btn: FormBtn) {
+    public async btnClick(btn: FormBtn) {
       if (btn.action === 'reset') {
         (this.$refs.form as Vue).resetFields()
         this.data.model = {...this.defaultModel}
@@ -107,12 +107,12 @@
     }
     // 此段交由item自行处理，不再在表单里面统一处理
     // 初始化选择类控件的options的值
-    // private initOptions() {
+    // public initOptions() {
     //   (this.data.items as FormItem[])
     //     .forEach((item: FormItem, index: number) => this.getOptionsSync(item, index))
     // }
     // 异步查询options的值。赋值给options
-    // private async getOptionsSync(item: FormItem, index: number) {
+    // public async getOptionsSync(item: FormItem, index: number) {
     //   if (!item.options || typeof item.options !== 'string') {
     //     return
     //   }
@@ -124,7 +124,7 @@
     //   }
     // }
     // 初始化model。用于更新表单从服务端获取完整数据
-    private async initModel() {
+    public async initModel() {
       this.loading = true
       const {data} = await this.requestUrl(this.url)
       this.loading = false
@@ -133,7 +133,7 @@
       }
     }
     // 在dialog的值变化的时候，触发一次校验
-    private onValueChange(prop: string) {
+    public onValueChange(prop: string) {
       (this.$refs.form as Vue).validateField(prop, () => null)
     }
   }

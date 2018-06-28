@@ -28,7 +28,7 @@
     /*vue-props*/
     /*vue-vuex*/
     /*vue-data*/
-    private chartData: any = {
+    public chartData: any = {
       columns: ['日期', '访问用户'],
       rows: [
         { 日期: '1/1', 访问用户: 1393 },
@@ -39,7 +39,7 @@
         { 日期: '1/6', 访问用户: 4593 },
         ],
     }
-    private chartSettings: any = {
+    public chartSettings: any = {
       roseType: 'radius',
     }
     /*vue-compute*/

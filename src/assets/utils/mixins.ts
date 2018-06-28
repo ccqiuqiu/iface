@@ -6,8 +6,8 @@ import {Getter} from 'vuex-class'
 
 @Component
 export class BaseMixin extends Vue {
-  private loading: boolean = false
-  @Getter private nav: Menu[]
+  public loading: boolean = false
+  @Getter public nav: Menu[]
   get pageTitle() {
     return this.nav && this.nav.length ? this.nav[this.nav.length - 1].name : ''
   }
@@ -15,24 +15,24 @@ export class BaseMixin extends Vue {
 
 @Component
 export class PageMixin extends Vue {
-  private layout: string = 'total, sizes, prev, pager, next, jumper'
-  private pageSize: number = 10
-  private pageNum: number = 1
-  private rows: any[] = []
-  private total: number = 0
-  private selectedRows: any[] = []
-  private currentRow: any = null
+  public layout: string = 'total, sizes, prev, pager, next, jumper'
+  public pageSize: number = 10
+  public pageNum: number = 1
+  public rows: any[] = []
+  public total: number = 0
+  public selectedRows: any[] = []
+  public currentRow: any = null
 
-  private created() {
+  public created() {
     this.getData()
   }
   // pageNum改变的时候的事件
-  private pageNumChange(pageNum: number) {
+  public pageNumChange(pageNum: number) {
     this.pageNum = pageNum
     this.getData()
   }
   // pageSize改变的时候的事件
-  private pageSizeChange(pageSize: number) {
+  public pageSizeChange(pageSize: number) {
     this.pageSize = pageSize
     this.getData()
   }

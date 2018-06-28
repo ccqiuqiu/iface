@@ -19,15 +19,15 @@
   @Component({components: {CcInputTags}})
   export default class CcInputTable extends Vue {
     /*vue-props*/
-    @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
-    @Prop() private options: any
-    @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'name'}) private labelField: string
+    @Prop({type: [String, Number, Array]}) public value: string | number | Array<string | number>
+    @Prop() public options: any
+    @Prop({default: 'id'}) public valueField: string
+    @Prop({default: 'name'}) public labelField: string
     /*vue-vuex*/
     /*vue-data*/
-    private show: boolean = false
-    private selectedRows: any[] = []
-    private currentRow: any = null
+    public show: boolean = false
+    public selectedRows: any[] = []
+    public currentRow: any = null
     /*vue-compute*/
     get multi() {
       return !!this.options.columns.find((c: TableColumn) => c.type === 'selection')
@@ -37,21 +37,21 @@
     }
     /*vue-watch*/
     @Watch('currentRow')
-    private currentRowChange(val: any) {
+    public currentRowChange(val: any) {
       if (!this.multi && val) {
         this.show = false
         this.$emit('input', val[this.valueField])
       }
     }
     @Watch('selectedRows')
-    private selectedRowsChange(val: any) {
+    public selectedRowsChange(val: any) {
       if (this.multi) {
         this.$emit('input', val.map((row: any) => row[this.valueField]))
       }
     }
     // 监听value是为了实现重置表单的时候，能更新表格
     @Watch('value')
-    private valueChange(val: any, old: any) {
+    public valueChange(val: any, old: any) {
       if (this.multi) {
         if (val.join(',') !== old.join(',')) {
           this.init()
@@ -63,11 +63,11 @@
       }
     }
     /*vue-lifecycle*/
-    private mounted() {
+    public mounted() {
       this.init()
     }
     /*vue-method*/
-    private init() {
+    public init() {
       if (this.value) {
         if (this.multi) {
           this.selectedRows = this.options.rows.filter((row: any) => (this.value as Array<string | number>).includes(row[this.valueField]))
@@ -76,7 +76,7 @@
         }
       }
     }
-    private delTag(tag: any) {
+    public delTag(tag: any) {
       if (this.multi) {
         const index = this.selectedRows.findIndex((row: any) => row[this.valueField] === tag[this.valueField])
         this.selectedRows.splice(index, 1)

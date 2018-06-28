@@ -1,7 +1,7 @@
 {
   "name": "iFace",
   "version": "0.1.0",
-  "private": true,
+  "public": true,
   "scripts": {
     "dev": "vue-cli-service serve",
     "mock": "vue-cli-service serve --mode mock",

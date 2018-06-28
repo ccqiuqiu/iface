@@ -11,9 +11,9 @@
   @Component
   export default class CcSelect extends Vue {
     /*vue-props*/
-    @Prop([Array, String, Number]) private value: any | any[]
-    @Prop([Array, String]) private options: any[] | string
-    @Prop(Boolean) private multiple: boolean
+    @Prop([Array, String, Number]) public value: any | any[]
+    @Prop([Array, String]) public options: any[] | string
+    @Prop(Boolean) public multiple: boolean
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/

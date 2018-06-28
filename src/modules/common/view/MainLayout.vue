@@ -36,7 +36,7 @@
     /*vue-watch*/
     /* 监听路由变化，然后跳转到指定标签，主要解决浏览器后退后的页面和标签不对应的问题 */
     @Watch('$route')
-    private routerChange(val: any) {
+    public routerChange(val: any) {
       this.$utils.toTab(val.fullPath)
     }
     /*vue-lifecycle*/

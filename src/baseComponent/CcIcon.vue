@@ -10,10 +10,10 @@
 
   @Component
   export default class CcIcon extends Vue {
-    @Prop({required: true}) private name!: string
-    @Prop(String) private className!: string
-    @Prop(Number) private rotate!: number
-    @Prop({type: [String, Number], default: 24 }) private size!: number
+    @Prop({required: true}) public name!: string
+    @Prop(String) public className!: string
+    @Prop(Number) public rotate!: number
+    @Prop({type: [String, Number], default: 24 }) public size!: number
 
     get svgClass() {
       return ('svg-icon ' + (this.className || '')).trim()

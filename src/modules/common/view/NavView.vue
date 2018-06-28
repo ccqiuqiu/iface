@@ -23,20 +23,20 @@
   export default class NavView extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @State((state: State) => state.common.menuExpand) private menuExpand: string
-    @State((state: State) => state.common.menuTabs) private menuTabs: any[]
-    @State((state: State) => state.common.selectedTab) private selectedTab: any
-    @State((state: State) => state.common.user) private user: User
-    @Getter private nav: Menu[]
-    @Mutation private toggleMenu: () => void
-    @Mutation('clearStore') private clearStore: () => void
+    @State((state: State) => state.common.menuExpand) public menuExpand: string
+    @State((state: State) => state.common.menuTabs) public menuTabs: any[]
+    @State((state: State) => state.common.selectedTab) public selectedTab: any
+    @State((state: State) => state.common.user) public user: User
+    @Getter public nav: Menu[]
+    @Mutation public toggleMenu: () => void
+    @Mutation('clearStore') public clearStore: () => void
     /*vue-data*/
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
     // 退出登录
-    private logout(): void {
+    public logout(): void {
       this.$utils.remove('token')
       // 清除store里面缓存的数据
       this.clearStore()
