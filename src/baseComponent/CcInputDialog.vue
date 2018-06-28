@@ -16,7 +16,7 @@
     @Prop() private title: string
     @Prop({type: [Array, Object]}) private value: any | any[]
     @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'text'}) private labelField: string
+    @Prop({default: 'name'}) private labelField: string
     /*vue-vuex*/
     /*vue-data*/
     private selectData: any | any[]

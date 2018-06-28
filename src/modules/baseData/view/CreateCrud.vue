@@ -35,7 +35,7 @@
       <div class="collapses">
         <el-collapse v-model="activeNames" class="right">
           <el-collapse-item title="属性" name="1">
-            <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem" :needOptions="needOptions"></form-item-props>
+            <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem"></form-item-props>
           </el-collapse-item>
           <el-collapse-item title="选择项" name="2">
             <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>

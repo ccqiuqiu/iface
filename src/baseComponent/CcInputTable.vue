@@ -22,7 +22,7 @@
     @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
     @Prop() private options: any
     @Prop({default: 'id'}) private valueField: string
-    @Prop({default: 'text'}) private labelField: string
+    @Prop({default: 'name'}) private labelField: string
     /*vue-vuex*/
     /*vue-data*/
     private show: boolean = false

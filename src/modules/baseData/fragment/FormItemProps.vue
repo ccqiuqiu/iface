@@ -11,7 +11,6 @@
   export default class FormItemProps extends Vue {
     /*vue-props*/
     @Prop() private item: any
-    @Prop(Boolean) private needOptions: boolean
     @Prop(Number) private type: number
     /*vue-vuex*/
     /*vue-data*/
@@ -27,10 +26,10 @@
         {label: '占位符', prop: 'placeholder', type: 'text', placeholder: '值为空的提示信息'},
         {label: '更多选项', prop: 'propsStr', type: 'textarea', props: {autosize: {minRows: 3, maxRows: 6}}, placeholder: '对应element-ui的属性,接收json格式的字符串,属性名必须用双引号'},
       ]
-      if (this.needOptions) {
+      if (['tree', 'table', 'dialog'].includes(this.item.type)) {
         items.splice(items.length - 1, 0, ...[
-          {label: '显示字段', prop: 'labelField', type: 'text', placeholder: '显示用字段，默认为label'},
-          {label: '值字段', prop: 'valueField', type: 'text', placeholder: '保存值的字段, 默认为value'},
+          {label: '显示字段', prop: 'labelField', type: 'text', placeholder: '显示用字段，默认为name'},
+          {label: '值字段', prop: 'valueField', type: 'text', placeholder: '保存值的字段, 默认为id'},
         ])
       }
       if (['text', 'password', 'textarea'].includes(this.item.type)) {

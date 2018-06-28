@@ -8,10 +8,11 @@
                :node-key="valueField"
                check-on-click-node
                check-strictly
+               :props="props"
                @check-change="checkChange"
       ></el-tree>
     </el-popover>
-    <cc-input-tags v-popover:popover v-model="getSelectTag" @del="delTag" icon="tree"/>
+    <cc-input-tags v-popover:popover :label="labelField" v-model="getSelectTag" @del="delTag" icon="tree"/>
   </div>
 </template>
 
@@ -24,7 +25,9 @@
     /*vue-props*/
     @Prop({type: [String, Number, Array]}) private value: string | number | Array<string | number>
     @Prop({type: Array, default: () => []}) private options: any[]
+    @Prop({default: 'children'}) private childrenField: string
     @Prop({default: 'id'}) private valueField: string
+    @Prop({default: 'name'}) private labelField: string
     @Prop({default: false}) private showCheckbox: boolean
 
     /*vue-vuex*/
@@ -32,6 +35,9 @@
     private show: boolean = false
     private selectedKeys: any[] = []
     /*vue-compute*/
+    get props() {
+      return {children: this.childrenField, label: this.labelField}
+    }
     get multi() {
       return this.showCheckbox
     }
