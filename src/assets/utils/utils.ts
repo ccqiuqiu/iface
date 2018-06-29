@@ -11,15 +11,20 @@
  */
 export const flatObject = <T extends TT>(source: T[], children: string = 'children'): T[] => {
   const re: T[] = []
-  flatObject_do(source, children, re)
+  const clone = JSON.parse(JSON.stringify(source))
+  flatObject_do(clone, children, re)
   return re
 }
 
-function flatObject_do<T extends TT>(source: T[], children: string, re: T[]): void {
+function flatObject_do<T extends TT>(source: T[], children: string, re: T[], parentId: any = null): void {
   source.forEach((s: T) => {
+    if (parentId) {
+      s.parentId = parentId
+    }
     re.push(s)
     if (s[children]) {
-      flatObject_do(s[children], children, re)
+      flatObject_do(s[children], children, re, s.id)
+      delete s[children]
     }
   })
 }

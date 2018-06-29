@@ -5,13 +5,14 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
         <span flex-box="1">{{data.title || ''}}</span>
-        <cc-button v-auth="['add' + data.name]" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="['edit' + data.name]" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>
-        <cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>
+        <cc-button v-auth="'add' + data.name" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="'edit' + data.name" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="'view' + data.name" icon="view" text="查看" @click="onView"/>
+        <cc-button v-auth="'del' + data.name" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
                 :row-key="rowKey"
+                :multiSelect="multi"
                 @single-click="$emit('rowClick')"
                 :selected-rows.sync="selectedRows"
                 :current-row.sync="currentRow">
@@ -34,13 +35,12 @@
   export default class CcCrud extends Vue {
     /*vue-props*/
     @Prop() public data: CRUDObject
+    @Prop(Boolean) public multiSelect: boolean
     @Prop({default: 'crud'}) public type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
     @Prop({type: [Array, Object]}) public value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
     /*vue-vuex*/
-    @Action('formAction')
-    public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
-    @Action('requestUrl')
-    public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    @Action public requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public total: number = 0 // 总条数
     public loading: boolean = false
@@ -94,7 +94,7 @@
       return this.data.table.props && this.data.table.props.rowKey || 'id'
     }
     get multi() {
-      return !!this.data.table.columns.find((c: TableColumn) => c.type === 'selection')
+      return this.multiSelect
     }
     // 查询类表单的查询url，一般在action=search的按钮上面配置
     get searchUrl(): string {
@@ -123,6 +123,9 @@
       this.getData()
     }
     /*vue-lifecycle*/
+    public created() {
+      console.log(111)
+    }
     /*vue-method*/
     public init() {
       if (this.value) {

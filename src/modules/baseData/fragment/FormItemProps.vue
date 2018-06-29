@@ -32,6 +32,10 @@
           {label: '值字段', prop: 'valueField', type: 'text', placeholder: '保存值的字段, 默认为id'},
         ])
       }
+      if (['tree', 'table', 'dialog', 'select'].includes(this.item.type)) {
+        items.splice(items.length - 1, 0, {label: '多选',
+          prop: 'multiSelect', type: 'radio', options: [{label: '是', value: true}, {label: '否', value: false}]})
+      }
       if (['text', 'password', 'textarea'].includes(this.item.type)) {
         items.splice(items.length - 1, 0, {label: '字段类型',
           prop: 'type',
@@ -65,7 +69,10 @@
     /*vue-lifecycle*/
     /*vue-method*/
     public onChange(prop: string) {
-      const value = (this.formObj.model[prop] || '').trim()
+      let value = this.formObj.model[prop]
+      if (typeof value === 'string') {
+        value = (this.formObj.model[prop] || '').trim()
+      }
       this.item.props = this.item.props || {}
       if (prop === 'propsStr') {
         try {
@@ -109,6 +116,10 @@
           padding-left: 5px;
         }
       }
+    }
+    .el-radio-group{
+      padding-left: 15px;
+      padding-right: 8px;
     }
     input, textarea {
       border: 0;

@@ -48,7 +48,7 @@
         dialog: [
           {
             id: 1,
-            userName: '用户1',
+            name: '用户1',
           },
         ],
       },
@@ -325,9 +325,9 @@
           prop: 'dialog',
           type: 'dialog',
           props: {
-            labelField: 'userName',
+            labelField: 'name',
           },
-          dialog: {
+          options: {
             name: 'User',
             searchForm: {
               model: {},
@@ -355,13 +355,12 @@
             },
             table: {
               columns: [
-                {type: 'selection'},
                 {prop: 'id', label: '编号'},
-                {prop: 'userName', label: '名称'},
+                {prop: 'name', label: '名称'},
               ],
               rows: [
-                {id: 1, userName: '用户1'},
-                {id: 2, userName: '用户2'},
+                {id: 1, name: '用户1'},
+                {id: 2, name: '用户2'},
               ],
             },
           },

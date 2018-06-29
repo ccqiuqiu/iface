@@ -100,6 +100,6 @@ export const hasAuth = (binding: any): boolean => {
   if (resources[0] === 'all') {
     return true
   } else {
-    return !!resources.find((res: string) => binding.value.includes(res))
+    return resources.includes(binding.value)
   }
 }

@@ -2,7 +2,8 @@
 <template>
   <div>
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
-      <el-tree ref="tree" :data="options" :show-checkbox="showCheckbox" v-on="$listeners"
+      <el-tree ref="tree" :data="options"
+               :show-checkbox="multiSelect" v-on="$listeners"
                :highlight-current="true"
                :default-expanded-keys="selectedKeys"
                :node-key="valueField"
@@ -10,6 +11,7 @@
                check-strictly
                :props="props"
                v-if="forceUpdate"
+               v-bind="$attrs"
                @check-change="checkChange"
       ></el-tree>
     </el-popover>
@@ -29,7 +31,7 @@
     @Prop({default: 'children'}) public childrenField: string
     @Prop({default: 'id'}) public valueField: string
     @Prop({default: 'name'}) public labelField: string
-    @Prop({default: false}) public showCheckbox: boolean
+    @Prop(Boolean) public multiSelect: boolean // 是否多选
 
     /*vue-vuex*/
     /*vue-data*/
@@ -41,7 +43,7 @@
       return {children: this.childrenField, label: this.labelField}
     }
     get multi() {
-      return this.showCheckbox
+      return this.multiSelect
     }
     get flatData() {
       return this.$utils.flatObject(this.options)
@@ -54,6 +56,19 @@
     public propsChange() {
       this.forceUpdate = false
       this.$nextTick(() => this.forceUpdate = true)
+    }
+    @Watch('multi')
+    public multiChange(val: boolean) {
+      this.forceUpdate = false
+      this.$nextTick(() => this.forceUpdate = true)
+      setTimeout(() => {
+        if (val && this.value && !Array.isArray(this.value)) {
+          this.$emit('input', [this.value])
+        }
+        if (!val && this.value && Array.isArray(this.value)) {
+          this.$emit('input', this.value[0])
+        }
+      }, 0)
     }
     @Watch('selectedKeys')
     public selectedKeysChange(val: any[]) {

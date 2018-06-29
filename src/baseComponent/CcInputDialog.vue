@@ -6,7 +6,7 @@
 </template>
 
 <script lang="tsx">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import CcInputTags from './CcInputTags.vue'
 
   @Component({components: {CcInputTags}})
@@ -17,6 +17,7 @@
     @Prop({type: [Array, Object]}) public value: any | any[]
     @Prop({default: 'id'}) public valueField: string
     @Prop({default: 'name'}) public labelField: string
+    @Prop(Boolean) public multiSelect: boolean
     /*vue-vuex*/
     /*vue-data*/
     public selectData: any | any[]
@@ -26,6 +27,15 @@
     }
 
     /*vue-watch*/
+    @Watch('multiSelect')
+    public multiChange(val: boolean) {
+      if (val && this.value && !Array.isArray(this.value)) {
+        this.$emit('input', [this.value])
+      }
+      if (!val && this.value && Array.isArray(this.value)) {
+        this.$emit('input', this.value[0])
+      }
+    }
     /*vue-lifecycle*/
 
     /*vue-method*/
@@ -34,8 +44,12 @@
       if (this.dialog) {
         this.selectData = JSON.parse(JSON.stringify(this.getSelectTag))
         this.$utils.dialog(this.title, (h: any) => <div>
-          <cc-crud data={this.dialog} type='dialog' value={this.selectData} onRowClick={this.rowClick} onInput={this.onChange}></cc-crud>
-          {Array.isArray(this.value) && <div class='action'>
+          <cc-crud data={this.dialog} type='dialog'
+                   value={this.selectData}
+                   multiSelect={this.multiSelect}
+                   onRowClick={this.rowClick}
+                   onInput={this.onChange}></cc-crud>
+          {this.multiSelect && <div class='action'>
             <el-button type='primary' onClick={this.select}>选择</el-button>
           </div>}
         </div>)

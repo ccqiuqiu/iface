@@ -4,6 +4,8 @@
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
       <cc-table :rows="options.rows" :columns="options.columns"
                 :row-key="valueField"
+                v-bind="$attrs"
+                :multiSelect="multiSelect"
                 :selected-rows.sync="selectedRows"
                 :current-row.sync="currentRow">
       </cc-table>
@@ -23,6 +25,7 @@
     @Prop() public options: any
     @Prop({default: 'id'}) public valueField: string
     @Prop({default: 'name'}) public labelField: string
+    @Prop(Boolean) public multiSelect: boolean // 是否多选
     /*vue-vuex*/
     /*vue-data*/
     public show: boolean = false
@@ -30,12 +33,21 @@
     public currentRow: any = null
     /*vue-compute*/
     get multi() {
-      return !!this.options.columns.find((c: TableColumn) => c.type === 'selection')
+      return this.multiSelect || !!this.options.columns.find((c: TableColumn) => c.type === 'selection')
     }
     get getSelectTag() {
       return (this.multi ? this.selectedRows : [this.currentRow]).filter((item: any) => item)
     }
     /*vue-watch*/
+    @Watch('multi')
+    public multiChange(val: boolean) {
+      if (val && this.value && !Array.isArray(this.value)) {
+        this.$emit('input', [this.value])
+      }
+      if (!val && this.value && Array.isArray(this.value)) {
+        this.$emit('input', this.value[0])
+      }
+    }
     @Watch('currentRow')
     public currentRowChange(val: any) {
       if (!this.multi && val) {
@@ -53,7 +65,7 @@
     @Watch('value')
     public valueChange(val: any, old: any) {
       if (this.multi) {
-        if (val.join(',') !== old.join(',')) {
+        if (typeof val !== typeof old || val.join(',') !== old.join(',')) {
           this.init()
         }
       } else {

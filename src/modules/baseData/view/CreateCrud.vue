@@ -117,7 +117,12 @@
       }
     }
     get selectItem(): any {
-      return this.selectIndex >= 0 ? this.items[this.selectIndex] : undefined
+      if (this.selectIndex >= 0) {
+        const item = this.items[this.selectIndex]
+        item.multiSelect = item.multiSelect || false
+        return item
+      }
+      return undefined
     }
     get needOptions() {
       return this.selectItem ? ['select', 'checkbox', 'radio', 'checkboxbutton', 'radiobutton', 'cascader', 'table', 'tree', 'dialog']
@@ -165,12 +170,6 @@
       const item: any = {...this.controls[evt.oldIndex]}
       item.prop = prop
       item.options = optionsDefaultData(item.type)
-      if (item.type === 'table') {
-        item.props = {
-          valueField: 'id',
-          labelField: 'userName',
-        }
-      }
       this.items.splice(evt.newIndex, 1, item)
     }
     public changeOptions() {

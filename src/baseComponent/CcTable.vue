@@ -36,7 +36,7 @@
     /*vue-data*/
     /*vue-computed*/
     get multi() {
-      return this.multiSelect || !!this.columns.find((c: TableColumn) => c.type === 'selection')
+      return this.multiSelect
     }
     /**
      * 结合selectionChange方法，实现selectedRows双向绑定

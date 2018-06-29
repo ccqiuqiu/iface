@@ -3,12 +3,12 @@
  */
 import { AsyncComponent } from 'vue'
 
-const User: AsyncComponent = (): any => import(/* webpackChunkName: "system" */ './view/User.vue')
+// const User: AsyncComponent = (): any => import(/* webpackChunkName: "system" */ './view/User.vue')
 
 export default [
-  {
-    path: '/system/user',
-    name: 'user',
-    component: User,
-  },
+  // {
+  //   path: '/system/user',
+  //   name: 'user',
+  //   component: User,
+  // },
 ]

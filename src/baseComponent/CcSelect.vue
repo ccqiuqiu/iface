@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/13.-->
 <template>
-  <el-select v-model="model" v-bind="$attrs" :multiple="multiple"  v-on="$listeners">
+  <el-select v-model="model" v-bind="$attrs" :multiple="multiSelect"  v-on="$listeners">
     <el-option :label="option.label" :value="option.value" :key="option.value" v-for="option in options"/>
   </el-select>
 </template>
@@ -13,15 +13,16 @@
     /*vue-props*/
     @Prop([Array, String, Number]) public value: any | any[]
     @Prop([Array, String]) public options: any[] | string
-    @Prop(Boolean) public multiple: boolean
+    // @Prop(Boolean) public multiple: boolean
+    @Prop(Boolean) public multiSelect: boolean
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/
     get model() {
       if (!this.value) {
-        return this.multiple ? [] : ''
+        return this.multiSelect ? [] : ''
       } else {
-        if (this.multiple) {
+        if (this.multiSelect) {
           return Array.isArray(this.value) ? this.value : [this.value]
         } else {
           return Array.isArray(this.value) ? (this.value[0] || '') : this.value

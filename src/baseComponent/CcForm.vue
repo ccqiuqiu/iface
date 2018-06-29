@@ -91,15 +91,22 @@
         (this.$refs.form as Vue).resetFields()
         this.data.model = {...this.defaultModel}
       } else {
+        // 点击的不是重置按钮，先校验表单
         (this.$refs.form as Vue).validate(async (valid: boolean) => {
           if (valid) {
+            // 校验通过后，如果按钮有回调，直接执行回调
             if (btn.cb) {
               btn.cb()
-            } else {
-              this.loading = true
-              const {error} = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
-              this.loading = false
-              this.$emit(btn.action, error)
+            } else { // 没有回调的情况
+              // 搜索按钮直接发送事件
+              if (btn.action === 'search') {
+                this.$emit(btn.action)
+              } else { // 非搜索按钮，执行action
+                this.loading = true
+                const {error} = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
+                this.loading = false
+                this.$emit(btn.action, error)
+              }
             }
           }
         })

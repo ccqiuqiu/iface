@@ -47,35 +47,68 @@ export const optionsDefaultData = (type: string) => {
     return {
       columns: [
         {prop: 'id', label: '编号'},
-        {prop: 'userName', label: '名称'},
+        {prop: 'name', label: '名称'},
       ],
       rows: [
-        {id: 1, userName: '用户1'},
-        {id: 2, userName: '用户2'},
+        {id: 1, name: '用户1'},
+        {id: 2, name: '用户2'},
       ],
     }
   } else if (type === 'tree') {
     return [
       {
-        label: '一级1',
+        name: '一级1',
         id: 1,
         children: [
           {
-            label: '二级1-1',
+            name: '二级1-1',
             id: 11,
           },
         ],
       },
       {
-        label: '二级2',
+        name: '二级2',
         id: 2,
         children: [
           {
-            label: '二级2-1',
+            name: '二级2-1',
             id: 21,
           },
         ],
       },
     ]
+  } else if (type === 'dialog') {
+    return {
+      title: '用户管理',
+      name: 'User',
+      items: [
+        {
+          label: '编号',
+          prop: 'id',
+          target: ['table'],
+        },
+        {
+          label: '姓名',
+          prop: 'name',
+          target: ['table', 'searchForm', 'editForm'],
+          formProps: {
+            type: 'text',
+            verify: {
+              number: true,
+            },
+          },
+        },
+      ],
+      searchForm: {
+        model: {},
+      },
+      editForm: {
+        model: {},
+      },
+      table: {
+        rows: [],
+      },
+      needQuery: true,
+    }
   }
 }

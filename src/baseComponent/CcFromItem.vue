@@ -51,7 +51,7 @@
       <cc-input-tree v-model="model[mItem.prop]" v-bind="mItem.props" :options="typeof mItem.options === 'string' ? [] : mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-tree>
     </template>
     <!--弹出dialog-->
-    <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="mItem.dialog" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
+    <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="mItem.options" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
     <!--icon-->
     <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
     <!--input-->
@@ -97,10 +97,13 @@
     /*vue-method*/
     // 过滤form-item的props
     public itemProps(item: FormItem) {
-      const {options, props, dialog, verify, placeholder, ...itemProps} = item
+      const {options, props, dialog, verify, placeholder, multiSelect, ...itemProps} = item
+      item.props = item.props || {}
       if (placeholder) {
-        item.props = item.props || {}
         item.props.placeholder = placeholder
+      }
+      if (multiSelect) {
+        item.props.multiSelect = multiSelect
       }
       if (this.noVerify) {
         return {...itemProps}
