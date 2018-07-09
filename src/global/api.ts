@@ -31,4 +31,6 @@ export default {
   requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
+  // 获取菜单树
+  menuTree: (params: any = {}, config: any = {}) => request('post', '/v1/system/menuTree', params, config),
 }

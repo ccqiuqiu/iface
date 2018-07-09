@@ -123,9 +123,6 @@
       this.getData()
     }
     /*vue-lifecycle*/
-    public created() {
-      console.log(111)
-    }
     /*vue-method*/
     public init() {
       if (this.value) {

@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <div flex="cross:center">
       <cc-icon name="user" size="18" class="m-r-5"/>
-      <span>{{user.userName}}</span>
+      <span>{{user.name}}</span>
       <span class="m-h-5">|</span>
       <span>{{user.roles}}</span>
       <cc-icon name="logout" size="18" class="m-l-16 cp" @click="logout"/>

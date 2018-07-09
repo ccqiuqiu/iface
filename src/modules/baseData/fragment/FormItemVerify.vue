@@ -18,8 +18,9 @@
     /* vue-data */
     public verifyRules = [
       {name: '必填', code: 'required', selected: false, type: 'boolean'},
-      {name: '最长', code: 'length', selected: false, value: '', type: 'number'},
+      {name: '长度', code: 'length', selected: false, value: '', type: 'number'},
       {name: '最短', code: 'minLength', selected: false, value: '', type: 'number'},
+      {name: '最长', code: 'maxLength', selected: false, value: '', type: 'number'},
       {name: '大于', code: 'gt', selected: false, value: '', type: 'number'},
       {name: '大于等于', code: 'gte', selected: false, value: '', type: 'number'},
       {name: '小于', code: 'lt', selected: false, value: '', type: 'number'},

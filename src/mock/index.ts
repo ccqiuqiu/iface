@@ -72,7 +72,7 @@ const common = (message?: any) => {
 // 登录
 Mock.mock(new RegExp('/login'), (option: any) => {
   const user = JSON.parse(option.body)
-  const success = user.userName === 'admin' && user.password === '123456' || user.userName === 'test' && user.password === '123456'
+  const success = user.name === 'admin' && user.password === '123456' || user.name === 'test' && user.password === '123456'
   // 权限
   const auth = {
     menus: [
@@ -137,7 +137,7 @@ Mock.mock(new RegExp('/login'), (option: any) => {
     ],
     resources: ['addUser', 'editUser'],
   }
-  if (user.userName === 'admin') {
+  if (user.name === 'admin') {
     user.roles = '管理员'
     auth.menus.unshift(...[{
       id: '1',
@@ -182,7 +182,7 @@ Mock.mock(new RegExp('/system/userList'), (option: any) => {
       'total': 108,
       'rows|10': [{
         'id|+1': (body.pageNum - 1) * 10 + 1,
-        'userName': '用户@id',
+        'name': '用户@id',
         'tel': '124555222',
         'sex|1': [0, 1],
         'status|1': [0, 1],
@@ -201,7 +201,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
       items: [
         {
           label: '姓名',
-          prop: 'userName',
+          prop: 'name',
           type: 'text',
         },
         {
@@ -217,7 +217,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
       items: [
         {
           label: '姓名',
-          prop: 'userName',
+          prop: 'name',
           type: 'text',
           verify: {
             number: true,
@@ -250,7 +250,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
           type: 'dialog',
           props: {
             valueField: 'id',
-            labelField: 'userName',
+            labelField: 'name',
           },
           verify: {},
           dialog: {
@@ -263,7 +263,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
               items: [
                 {
                   label: '姓名',
-                  prop: 'userName',
+                  prop: 'name',
                   type: 'text',
                 },
                 {
@@ -277,7 +277,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
             table: {
               columns: [
                 {prop: 'id', label: '编号'},
-                {prop: 'userName', label: '名称'},
+                {prop: 'name', label: '名称'},
                 {prop: 'sex', label: '性别', formatFun: 'sex'},
                 {prop: 'tel', label: '电话'},
                 {prop: 'status', label: '状态', renderFun: 'status'},
@@ -292,7 +292,7 @@ Mock.mock(new RegExp('/baseData/getCrud_'), {
     table: {
       columns: [
         {prop: 'id', label: '编号'},
-        {prop: 'userName', label: '名称'},
+        {prop: 'name', label: '名称'},
         {prop: 'sex', label: '性别', formatFun: 'sex'},
         {prop: 'tel', label: '电话'},
         {prop: 'status', label: '状态', renderFun: 'status'},
@@ -316,7 +316,7 @@ Mock.mock(new RegExp('/baseData/getPage'), {
       },
       {
         label: '姓名',
-        prop: 'userName',
+        prop: 'name',
         target: ['table', 'searchForm', 'editForm'],
         formProps: {
           type: 'text',
@@ -369,7 +369,7 @@ Mock.mock(new RegExp('/baseData/getPage'), {
           type: 'dialog',
           props: {
             valueField: 'id',
-            labelField: 'userName',
+            labelField: 'name',
             verify: {},
           },
           dialog: {
@@ -382,7 +382,7 @@ Mock.mock(new RegExp('/baseData/getPage'), {
               items: [
                 {
                   label: '姓名',
-                  prop: 'userName',
+                  prop: 'name',
                   type: 'text',
                 },
                 {
@@ -396,7 +396,7 @@ Mock.mock(new RegExp('/baseData/getPage'), {
             table: {
               columns: [
                 {prop: 'id', label: '编号'},
-                {prop: 'userName', label: '名称'},
+                {prop: 'name', label: '名称'},
                 {prop: 'sex', label: '性别', formatFun: 'sex'},
                 {prop: 'tel', label: '电话'},
                 {prop: 'status', label: '状态', renderFun: 'status'},
@@ -442,13 +442,13 @@ Mock.mock(new RegExp('/system/saveUser'), (option: any) => {
 Mock.mock(new RegExp('/system/getUser/'), {
   data: {
     'id': 1,
-    'userName': '用户@id',
+    'name': '用户@id',
     'tel': '124555222',
     'sex|1': [0, 1],
     'status|1': [0, 1],
     'dialog': {
       id: 1,
-      userName: '用户1',
+      name: '用户1',
     },
   },
   ...common(),
@@ -456,7 +456,7 @@ Mock.mock(new RegExp('/system/getUser/'), {
 // 获取用户详情
 Mock.mock(new RegExp('/system/viewUser/'), {
   data: {
-    userName: '用户',
+    name: '用户',
     tel: '124555222',
     sex: '男',
     status: '启用',

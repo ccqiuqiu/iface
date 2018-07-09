@@ -4,6 +4,7 @@
 import CcTable from '@bc/CcTable.vue'
 import CcButton from '@bc/CcButton.vue'
 import CcForm from '@bc/CcForm.vue'
+import CcFormDynamic from '@bc/CcFormDynamic.vue'
 import CcCrud from '@bc/CcCrud.vue'
 import VueProgressBar from 'vue-progressbar'
 import VeLine from 'v-charts/lib/line'
@@ -18,6 +19,7 @@ export default {
     Vue.component('cc-button', CcButton)
     Vue.component('cc-form', CcForm)
     Vue.component('cc-crud', CcCrud)
+    Vue.component('cc-form-dynamic', CcFormDynamic)
     Vue.component(VeLine.name, VeLine)
     Vue.component(VeHistogram.name, VeHistogram)
     Vue.component(VePie.name, VePie)

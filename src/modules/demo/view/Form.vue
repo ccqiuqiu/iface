@@ -227,16 +227,16 @@
           type: 'table',
           props: {
             valueField: 'id',
-            labelField: 'userName',
+            labelField: 'name',
           },
           options: {
             columns: [
               {prop: 'id', label: '编号'},
-              {prop: 'userName', label: '名称'},
+              {prop: 'name', label: '名称'},
             ],
             rows: [
-              {id: 1, userName: '用户1'},
-              {id: 2, userName: '用户2'},
+              {id: 1, name: '用户1'},
+              {id: 2, name: '用户2'},
             ],
           },
         },
@@ -246,17 +246,17 @@
           type: 'table',
           props: {
             valueField: 'id',
-            labelField: 'userName',
+            labelField: 'name',
           },
           options: {
             columns: [
               {type: 'selection'},
               {prop: 'id', label: '编号'},
-              {prop: 'userName', label: '名称'},
+              {prop: 'name', label: '名称'},
             ],
             rows: [
-              {id: 1, userName: '用户1'},
-              {id: 2, userName: '用户2'},
+              {id: 1, name: '用户1'},
+              {id: 2, name: '用户2'},
             ],
           },
         },

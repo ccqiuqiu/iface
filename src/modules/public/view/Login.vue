@@ -5,9 +5,9 @@
       <div slot="header" flex="cross:center box:last">
         <span>用户登录</span>
       </div>
-      <el-form label-width="60px" class="m-h-20 single-line">
+      <el-form label-width="60px" class="m-h-20" full-width>
         <el-form-item label="用户名">
-          <el-input type="text" v-model="user.userName"></el-input>
+          <el-input type="text" v-model="user.name"></el-input>
         </el-form-item>
         <el-form-item label="密码">
           <el-input type="password" v-model="user.password"></el-input>
@@ -33,7 +33,7 @@
     @Mutation('updateUser') public updateUser: (data: any) => void
     /*vue-data*/
     public user: User = {
-      userName: 'admin',
+      name: 'admin',
       password: '123456',
     }
     /*vue-compute*/

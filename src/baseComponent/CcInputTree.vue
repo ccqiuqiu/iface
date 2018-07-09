@@ -15,7 +15,7 @@
                @check-change="checkChange"
       ></el-tree>
     </el-popover>
-    <cc-input-tags v-popover:popover :label="labelField" v-model="getSelectTag" @del="delTag" icon="tree"/>
+    <cc-input-tags v-popover:popover :label="labelField" :placeholder="placeholder" v-model="getSelectTag" @del="delTag" icon="tree"/>
   </div>
 </template>
 
@@ -32,6 +32,7 @@
     @Prop({default: 'id'}) public valueField: string
     @Prop({default: 'name'}) public labelField: string
     @Prop(Boolean) public multiSelect: boolean // 是否多选
+    @Prop() public placeholder: string
 
     /*vue-vuex*/
     /*vue-data*/
@@ -97,6 +98,8 @@
           (this.$refs as Vue).tree.setCurrentKey(this.value)
           this.selectedKeys = [this.value as number]
         }
+      } else {
+        this.selectedKeys = []
       }
     }
     // 树选中节点变化的时候

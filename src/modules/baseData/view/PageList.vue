@@ -5,7 +5,7 @@
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
         <!--<cc-button v-auth="['add' + data.name]" icon="add" text="添加" @click="onAdd"/>-->
-        <cc-button v-auth="['editPage']" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="'editPage'" icon="edit" text="修改" @click="onEdit"/>
         <!--<cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>-->
         <!--<cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>-->
       </div>

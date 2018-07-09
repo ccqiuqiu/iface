@@ -5,7 +5,7 @@
       <el-tag size="mini" type="info" closable @close="$emit('del', value[0])">{{value[0][this.label]}}</el-tag>
       <el-tag size="mini" type="info" v-if="value.length > 1">+{{value.length - 1}}</el-tag>
     </div>
-    <el-input type="text" readonly>
+    <el-input type="text" readonly :placeholder="myPlaceholder">
       <cc-icon slot="suffix" :name="icon" size="18"></cc-icon>
     </el-input>
   </div>
@@ -18,11 +18,15 @@
   export default class CcInputTags extends Vue {
     /*vue-props*/
     @Prop() public value: any[]
+    @Prop() public placeholder: string
     @Prop({default: 'name'}) public label: string
     @Prop(String) public icon: string
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/
+    get myPlaceholder() {
+      return this.value.length === 0 ? this.placeholder : ''
+    }
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/

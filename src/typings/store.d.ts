@@ -46,7 +46,7 @@ declare interface Menu extends IndexEd {
 // 用户
 declare interface User extends IndexEd {
   id?: number, // id
-  userName?: string, // 用户名
+  name?: string, // 用户名
   password?: string
 }
 // page

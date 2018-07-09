@@ -46,7 +46,7 @@
         </el-collapse>
       </div>
       <div class="p-10 b-t">
-        <cc-form :data="formObj" class="single-line"/>
+        <cc-form :data="formObj" full-width/>
       </div>
     </div>
   </div>
@@ -133,7 +133,6 @@
     public created() {
       this.initPage()
     }
-
     public async initPage() {
       if (this.$route.query['id']) {
         const {data} = await this.getPage(this.$route.query['id'])
