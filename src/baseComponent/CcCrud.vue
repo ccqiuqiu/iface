@@ -117,7 +117,7 @@
         this.$emit('input', val)
       }
     }
-    @Watch('$route', {immediate: true})
+    @Watch('data', {immediate: true})
     public routerChange() {
       this.init()
       this.getData()
@@ -220,8 +220,8 @@
         <CcCrudView data={this.currentRow} fields={this.editForm.items} url={url}></CcCrudView>, {showBtn: true})
     }
     // 保存完成
-    public async saved(error: any) {
-      if (!error) {
+    public async saved(re: any) {
+      if (!re.error) {
         this.$utils.message('保存成功')
         this.$utils.hideDialog()
         this.getData()

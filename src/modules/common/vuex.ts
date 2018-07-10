@@ -112,17 +112,23 @@ const actions: ActionTree<any, any> = {
   },
   // 获取表单控件的选择项，下拉、单选、多选等
   async getOptions(context: ActionContext<CommonState, State>, url: string): Promise<any> {
-    if (context.state.optionsCache[url]) {
-      return context.state.optionsCache[url]
-    } else {
       const {data} = await api.getOptions(url)
       if (data) {
-        // 缓存
-        context.state.optionsCache[url] = data
         return data
       }
       return null
-    }
+    // 暂时不缓存。等想到好的方案更新缓存再开启
+    // if (context.state.optionsCache[url]) {
+    //   return context.state.optionsCache[url]
+    // } else {
+    //   const {data} = await api.getOptions(url)
+    //   if (data) {
+    //     // 缓存
+    //     context.state.optionsCache[url] = data
+    //     return data
+    //   }
+    //   return null
+    // }
   },
   requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
     return api.requestUrl(url)

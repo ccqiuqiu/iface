@@ -181,6 +181,8 @@
         delete temp.propsStr
         if (this.pageModel.type === this.$c.PageTypeV.表单) {
           delete temp.target
+          delete temp.formProps
+          delete temp.tableProps
         } else {
           if (temp.target.includes('table')) {
             temp.tableProps = {}

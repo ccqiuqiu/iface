@@ -33,4 +33,6 @@ export default {
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
   // 获取菜单树
   menuTree: (params: any = {}, config: any = {}) => request('post', '/v1/system/menuTree', params, config),
+  // 删除菜单
+  delMenu: (id: number, config: any = {}) => request('post', '/v1/system/delMenu/' + id, config),
 }

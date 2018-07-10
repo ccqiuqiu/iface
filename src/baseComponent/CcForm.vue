@@ -76,6 +76,10 @@
       }
     }
     /*vue-watch*/
+    @Watch('data.model')
+    public modelChange(val: any) {
+      this.defaultModel = {...val}
+    }
     @Watch('url', {immediate: true})
     public urlChange(val: string) {
       if (val) {
@@ -114,9 +118,9 @@
                 }
                 if (pass) {
                   this.loading = true
-                  const {error} = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
+                  const re = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
                   this.loading = false
-                  this.$emit(btn.action, error)
+                  this.$emit(btn.action, re)
                 }
               }
             }

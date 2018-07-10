@@ -1,18 +1,20 @@
 <!--Created by 熊超超 on 2018/7/9.-->
 <template>
-  <el-card shadow="never" class="p">
+  <el-card shadow="never" class="p" v-loading="loading">
     <div slot="header" flex="cross:center">
       <span flex-box="1">{{pageTitle}}</span>
+      <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
+      <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
     </div>
     <div flex="box:first">
       <div class="left">
         <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
-        <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}"
+        <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}" default-expand-all
                  :filter-node-method="filterNode" highlight-current node-key="id"
                  @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
       </div>
       <div>
-        <cc-form-dynamic :model="selected" :form-id="4" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
+        <cc-form-dynamic v-if="selected" ref="form" :model="selected" :form-id="4" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
       </div>
     </div>
   </el-card>
@@ -28,6 +30,7 @@
     /*vue-props*/
     /*vue-vuex*/
     @Action public menuTree: () => Promise<ActionReturn>
+    @Action public delMenu: (id: number) => Promise<ActionReturn>
     /*vue-data*/
     public data: any[] = []
     public filterText: string = ''
@@ -63,19 +66,50 @@
       const clone = {...menu}
       delete clone.children
       this.selected = clone
+      if (this.$refs.form) {
+        (this.$refs.form as Vue).forceUpdate()
+      }
     }
     public beforeSave() {
-      if (this.selected.id === this.selected.parentId) {
+      if (this.selected.id && this.selected.id === this.selected.parentId) {
         this.$utils.message('上级不能是自己！', 'error')
         return false
       }
       return true
     }
-    public saved(error: any) {
-      if (!error) {
-        this.expandedKeys = [this.selected.id]
+    public saved(re: any) {
+      if (re.data) {
         this.$utils.message('保存成功！')
+        this.selected = re.data
         this.initData()
+      }
+    }
+    public onAdd() {
+      if (!this.selected) {
+        this.selected = {parentId: null, name: '', url: '', icon: ''}
+      } else {
+        this.selected = {parentId: this.selected.id, name: '', url: '', icon: ''}
+      }
+      if (this.$refs.form) {
+        (this.$refs.form as Vue).forceUpdate()
+      }
+    }
+    public async onDel() {
+      if (!this.selected) {
+        this.$utils.message('请选择一行', 'warning')
+        return
+      }
+      const re = await this.$utils.confirm('确定要删除这条数据吗？')
+      if (re) {
+        this.loading = true
+        const{error} = await this.delMenu(this.selected.id)
+        this.loading = false
+        if (!error) {
+          (this.$refs.tree as Vue).setCurrentKey(null)
+          this.selected = null
+          this.$utils.message('删除成功')
+          this.initData()
+        }
       }
     }
   }

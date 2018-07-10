@@ -2,7 +2,7 @@
 <template>
   <div>
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
-      <cc-table :rows="options.rows" :columns="options.columns"
+      <cc-table :rows="options.rows" :columns="options.columns" v-if="forceUpdate"
                 :row-key="valueField"
                 v-bind="$attrs"
                 :multiSelect="multiSelect"
@@ -10,7 +10,7 @@
                 :current-row.sync="currentRow">
       </cc-table>
     </el-popover>
-    <cc-input-tags v-popover:popover v-model="getSelectTag" :label="labelField" @del="delTag" icon="table"/>
+    <cc-input-tags v-popover:popover :placeholder="placeholder" v-model="getSelectTag" :label="labelField" @del="delTag" icon="table"/>
   </div>
 </template>
 
@@ -31,9 +31,11 @@
     public show: boolean = false
     public selectedRows: any[] = []
     public currentRow: any = null
+    public forceUpdate: boolean = true
+    @Prop() public placeholder: string
     /*vue-compute*/
     get multi() {
-      return this.multiSelect || !!this.options.columns.find((c: TableColumn) => c.type === 'selection')
+      return this.multiSelect
     }
     get getSelectTag() {
       return (this.multi ? this.selectedRows : [this.currentRow]).filter((item: any) => item)
@@ -41,12 +43,16 @@
     /*vue-watch*/
     @Watch('multi')
     public multiChange(val: boolean) {
-      if (val && this.value && !Array.isArray(this.value)) {
-        this.$emit('input', [this.value])
-      }
-      if (!val && this.value && Array.isArray(this.value)) {
-        this.$emit('input', this.value[0])
-      }
+      this.forceUpdate = false
+      this.$nextTick(() => this.forceUpdate = true)
+      setTimeout(() => {
+        if (val && this.value && !Array.isArray(this.value)) {
+          this.$emit('input', [this.value])
+        }
+        if (!val && this.value && Array.isArray(this.value)) {
+          this.$emit('input', this.value[0])
+        }
+      }, 0)
     }
     @Watch('currentRow')
     public currentRowChange(val: any) {
@@ -80,7 +86,7 @@
     }
     /*vue-method*/
     public init() {
-      if (this.value) {
+      if (this.value && this.options && this.options.rows) {
         if (this.multi) {
           this.selectedRows = this.options.rows.filter((row: any) => (this.value as Array<string | number>).includes(row[this.valueField]))
         } else {

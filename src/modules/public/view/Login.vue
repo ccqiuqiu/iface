@@ -5,7 +5,7 @@
       <div slot="header" flex="cross:center box:last">
         <span>用户登录</span>
       </div>
-      <el-form label-width="60px" class="m-h-20" full-width>
+      <el-form label-width="60px" class="m-h-20 full-width">
         <el-form-item label="用户名">
           <el-input type="text" v-model="user.name"></el-input>
         </el-form-item>
