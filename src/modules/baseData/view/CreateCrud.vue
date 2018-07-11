@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import draggable from 'vuedraggable'
   import CcFormItem from '@bc/CcFromItem.vue'
@@ -129,6 +129,10 @@
         .includes(this.selectItem.type) : false
     }
     /*vue-watch*/
+    @Watch('$route')
+    public routeChange() {
+      this.initPage()
+    }
     /*vue-lifecycle*/
     public created() {
       this.initPage()
@@ -175,6 +179,8 @@
       this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
     }
     public async save() {
+      // model名首字母转大写
+      this.formObj.model.name = this.formObj.model.name.substr(0, 1).toUpperCase() +  this.formObj.model.name.substr(1)
       // 要删除propsStr
       const items: FormItem[] = this.items.map((item: FormItem) => {
         const temp: FormItem = JSON.parse(JSON.stringify(item))
@@ -231,6 +237,7 @@
           needQuery: true,
         }
       }
+
       this.pageModel.value = JSON.stringify(value)
       console.log(value)
       const {error} = await this.savePage(this.pageModel)

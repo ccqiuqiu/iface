@@ -1,17 +1,18 @@
 import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
 import * as utils from '@utils/utils'
 import api from '@g/api'
-
+const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
 const state: CommonState = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
-  menuTabs: [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}], // tabs
+  menuTabs: defaultTabs, // tabs
   selectedTab: '0', // 当前激活的tab
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
   user: {},
   optionsCache: {},
+  noMenuTabsMap: {}, // 非menu的tab
 }
 const getters: GetterTree<any, any> = {
   // 面包屑导航对象
@@ -66,6 +67,7 @@ const mutations: MutationTree<any> = {
     if (index >= 0) {
       state.menuTabs.splice(index, 1)
     }
+    delete state.noMenuTabsMap[key as string]
     // 如果删除的是当前激活的，要重新激活一个标签
     // 暂定激活下一个
     if (key === state.selectedTab) {
@@ -98,7 +100,7 @@ const mutations: MutationTree<any> = {
   // 清除Store里面的用户信息
   clearStore(state: CommonState): void {
     state.menus = []
-    state.menuTabs = [{key: '0', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
+    state.menuTabs = defaultTabs
     state.selectedTab = ''
     state.user = {}
   },

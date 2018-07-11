@@ -3,7 +3,7 @@
  */
 import { AsyncComponent } from 'vue'
 
-const MenuTree: AsyncComponent = (): any => import(/* webpackChunkName: "system" */ './view/MenuTree.vue')
+const MenuTree: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/MenuTree.vue')
 
 export default [
   {

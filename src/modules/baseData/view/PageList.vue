@@ -4,7 +4,7 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
-        <!--<cc-button v-auth="['add' + data.name]" icon="add" text="添加" @click="onAdd"/>-->
+        <cc-button v-auth="'addPage'" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'editPage'" icon="edit" text="修改" @click="onEdit"/>
         <!--<cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>-->
         <!--<cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>-->
@@ -57,13 +57,17 @@
         this.rows = data.rows
       }
     }
+    public onAdd() {
+      this.$utils.toTab('/baseData/createCrud', '添加页面或表单')
+
+    }
     public onEdit() {
       if (!this.currentRow) {
         this.$utils.message('请选择一行', 'warning')
         return
       }
-      // this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, '修改' + this.$c.PageTypeK[this.currentRow.type])
-      this.$router.push({name: 'createCrud', query: {id: this.currentRow.id}})
+      this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, `修改${this.currentRow.pageName}`)
+      // this.$router.push({name: 'createCrud', query: {id: this.currentRow.id}})
     }
   }
 </script>

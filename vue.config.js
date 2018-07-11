@@ -12,6 +12,7 @@ module.exports = {
   ],
   chainWebpack: config => {
     // config.optimization.minimize(false)
+
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
     svgRule.test(/\.svg$/)
@@ -24,6 +25,35 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
 
+    // 单独打包vue相关库
+    // config.entry('lib')
+    //   .add('vue')
+    //   .add('vuex')
+    //   .add('vue-router')
+    //   .end()
+    // config.optimization.splitChunks({
+    //   cacheGroups: {
+    //     lib: {
+    //       name: `lib`,
+    //       priority: 1,
+    //       chunks: 'initial',
+    //       test: 'lib',
+    //     },
+    //     vendors: {
+    //       name: `chunk-vendors`,
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: -10,
+    //       chunks: 'initial'
+    //     },
+    //     common: {
+    //       name: `chunk-common`,
+    //       minChunks: 2,
+    //       priority: -20,
+    //       chunks: 'initial',
+    //       reuseExistingChunk: true
+    //     }
+    //   }
+    // })
     // 设置一些别名
     config.resolve.alias
       .set('@g', resolve('src/global'))

@@ -7,6 +7,7 @@
                 v-bind="$attrs"
                 :multiSelect="multiSelect"
                 :selected-rows.sync="selectedRows"
+                :height="height"
                 :current-row.sync="currentRow">
       </cc-table>
     </el-popover>
@@ -39,6 +40,9 @@
     }
     get getSelectTag() {
       return (this.multi ? this.selectedRows : [this.currentRow]).filter((item: any) => item)
+    }
+    get height() {
+      return this.options && this.options.rows && this.options.rows.length > 10 ? 400 : 'auto'
     }
     /*vue-watch*/
     @Watch('multi')

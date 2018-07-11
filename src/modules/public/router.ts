@@ -3,7 +3,7 @@
  */
 import { AsyncComponent } from 'vue'
 
-const Login: AsyncComponent = (): any => import(/* webpackChunkName: "public" */ './view/Login.vue')
+const Login: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/Login.vue')
 
 export default [
   {

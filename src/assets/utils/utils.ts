@@ -53,3 +53,12 @@ export const objToArr = (obj: any = {}, labelField: string = 'label', valueField
   }
   return arr
 }
+
+// 反转对象的key-value
+export function reverse(source: any): any {
+  const re: IndexEd = {}
+  for (const key of Object.keys(source)) {
+    re[source[key]] = key
+  }
+  return re
+}

@@ -1,6 +1,7 @@
 /**
  * Created by 熊超超 on 2018/5/3.
  */
+import {reverse} from './utils'
 
 export const StatusV = {
   禁用: 0,
@@ -23,6 +24,7 @@ export const OptionsDataSource = [
   {label: '状态', value: 'status', type: 'keyValue'},
   {label: '菜单树', value: 'menuTree', type: 'tree'},
   {label: '角色', value: 'role', type: 'table'},
+  {label: '资源', value: 'resource', type: 'table'},
 ]
 export const PageTypeK: IndexEd = reverse(PageTypeV)
 
@@ -44,12 +46,4 @@ export enum FormItemType {
   number = 'number',
   slider = 'slider',
   rate = 'rate',
-}
-// 反转对象的key-value
-function reverse(source: any): any {
-  const re: IndexEd = {}
-  for (const key of Object.keys(source)) {
-    re[source[key]] = key
-  }
-  return re
 }

@@ -5,6 +5,7 @@ import store from '@g/store'
 import { Message, MessageBox } from 'element-ui'
 import Vue, {CreateElement} from 'vue'
 const h: CreateElement = new Vue().$createElement
+import {reverse} from './utils'
 
 import {MessageType, MyElMessageBoxOptions} from '@/typings/vue'
 
@@ -58,6 +59,7 @@ export const hideDialog = () => store.commit('hideDialog')
  * 跳转到tab，左侧菜单和顶部标签之外的地方跳转页面
  * @param {string} url
  */
+
 export const toTab = (url: string, name?: string) => {
   if (url === '/' || url === '') {
     store.commit('updateSelectedTab',  '0')
@@ -83,9 +85,16 @@ export const toTab = (url: string, name?: string) => {
     }
     store.commit('updateSelectedTab',  menu.id)
   } else {
-    const key: string = Math.floor(Math.random() * 20130306) + ''
-    store.commit('updateTabs', {key, url, menus: [{name, url}]})
-    store.commit('updateSelectedTab',  key)
+    const noMenuTabsMap = store.state.common.noMenuTabsMap
+    const noMenuTabsMapReverse = reverse(noMenuTabsMap)
+    if (noMenuTabsMapReverse[url]) {
+      store.commit('updateSelectedTab',  noMenuTabsMapReverse[url])
+    } else {
+      const key: string = Math.floor(Math.random() * 20130306) + ''
+      store.commit('updateTabs', {key, url, menus: [{name, url}]})
+      store.commit('updateSelectedTab',  key)
+      noMenuTabsMap[key] = url
+    }
   }
 }
 export const closeTab = (url?: string) => {

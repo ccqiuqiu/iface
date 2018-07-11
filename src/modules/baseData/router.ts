@@ -3,9 +3,9 @@
  */
 import { AsyncComponent } from 'vue'
 
-const PageList: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/PageList.vue')
-const CreateCrud: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/CreateCrud.vue')
-const Page: AsyncComponent = (): any => import(/* webpackChunkName: "baseData" */ './view/Page.vue')
+const PageList: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/PageList.vue')
+const CreateCrud: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/CreateCrud.vue')
+const Page: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/Page.vue')
 
 export default [
   {

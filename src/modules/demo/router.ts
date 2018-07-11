@@ -3,12 +3,12 @@
  */
 import { AsyncComponent } from 'vue'
 
-const ChartLine: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartLine.vue')
-const ChartHistogram: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartHistogram.vue')
-const ChartPie: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartPie.vue')
-const ChartRing: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartRing.vue')
-const ChartToggle: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/ChartToggle.vue')
-const Form: AsyncComponent = (): any => import(/* webpackChunkName: "demo" */ './view/Form.vue')
+const ChartLine: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/ChartLine.vue')
+const ChartHistogram: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/ChartHistogram.vue')
+const ChartPie: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/ChartPie.vue')
+const ChartRing: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/ChartRing.vue')
+const ChartToggle: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/ChartToggle.vue')
+const Form: AsyncComponent = (): any => import(/* webpackChunkName: "m1" */ './view/Form.vue')
 
 export default [
   {
