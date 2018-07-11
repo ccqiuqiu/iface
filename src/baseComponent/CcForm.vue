@@ -76,10 +76,10 @@
       }
     }
     /*vue-watch*/
-    @Watch('data.model')
-    public modelChange(val: any) {
-      this.defaultModel = {...val}
-    }
+    // @Watch('data.model')
+    // public modelChange(val: any) {
+    //   this.defaultModel = {...val}
+    // }
     @Watch('url', {immediate: true})
     public urlChange(val: string) {
       if (val) {

@@ -9,7 +9,7 @@
       <cc-icon name="user" size="18" class="m-r-5"/>
       <span>{{user.name}}</span>
       <span class="m-h-5">|</span>
-      <span>{{user.roles}}</span>
+      <span>{{user.roleString}}</span>
       <cc-icon name="logout" size="18" class="m-l-16 cp" @click="logout"/>
     </div>
   </div>
