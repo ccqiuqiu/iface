@@ -54,6 +54,7 @@
             {label: '搜索', value: 'searchForm'},
             {label: '编辑', value: 'editForm'},
             {label: '表格', value: 'table'},
+            {label: '查看', value: 'view'},
           ],
         })
         if (model.target && model.target.includes('table')) {

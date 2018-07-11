@@ -90,6 +90,9 @@
       })
       return this.data.table.columns
     }
+    get viewFields() {
+      return this.getItems('view')
+    }
     get rowKey() {
       return this.data.table.props && this.data.table.props.rowKey || 'id'
     }
@@ -217,7 +220,7 @@
       }
       const url = this.data.needQuery ? this.getActionUrl('view') : ''
       this.$utils.dialog('查看', (h: any) =>
-        <CcCrudView data={this.currentRow} fields={this.editForm.items} url={url}></CcCrudView>, {showBtn: true})
+        <CcCrudView data={this.currentRow} fields={this.viewFields} url={url}></CcCrudView>, {showBtn: true})
     }
     // 保存完成
     public async saved(re: any) {
@@ -238,13 +241,13 @@
         .map((item: CRUDItem) => {
           const {tableProps, formProps, target, ...props} = {...item}
           let otherProps: any = {}
-          if (val === 'table') {
+          if (val === 'table' || val === 'view') {
             otherProps = tableProps || {}
           } else {
             otherProps = formProps || {}
-            if (val === 'searchForm') {
-              delete otherProps.verify
-            }
+          }
+          if (val === 'searchForm' || val === 'view') {
+            delete otherProps.verify
           }
           return {...props, ...otherProps}
         }) : []

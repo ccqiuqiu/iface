@@ -61,6 +61,10 @@
         this.$emit('input', val[this.valueField])
       }
     }
+    @Watch('options')
+    public optionsChange() {
+      this.init()
+    }
     @Watch('selectedRows')
     public selectedRowsChange(val: any) {
       if (this.multi) {
