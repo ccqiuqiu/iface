@@ -50,10 +50,29 @@
         // 清除store里面缓存的数据
         this.clearStore()
         // 设置新的数据
-        this.$utils.set('token', data.token)
+        this.handlerData(data)
         this.updateUser(data)
         this.$router.push('/')
       }
+    }
+    public handlerData(data: any) {
+      // 把菜单的id改为字符串
+      const menus = data.auth.menus
+      if (menus.length) {
+        this.number2string(menus)
+      }
+    }
+    public number2string(list: any[]) {
+      list.forEach((item: any) => {
+        item.id = item.id + ''
+        // 将补全特殊的url
+        if (item.url && item.url.substr(0, 1) !== '/') {
+          item.url = '/baseData/page/' + item.url
+        }
+        if (item.children) {
+          this.number2string(item.children)
+        }
+      })
     }
   }
 

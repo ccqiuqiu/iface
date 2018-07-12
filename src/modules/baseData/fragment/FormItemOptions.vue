@@ -27,8 +27,12 @@
     public source: number = 0
     public source1: string = ''
     public source2: string = ''
+    public dialogOptions = [{label: '资源管理', value: 4}]
     /*vue-compute*/
     get options() {
+      if (this.item.type === 'dialog') {
+        return this.dialogOptions
+      }
       return this.$c.OptionsDataSource.filter((item) => {
         if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(this.item.type as string)) {
           return item.type === 'keyValue'
@@ -40,12 +44,13 @@
     @Watch('item')
     public itemChange(val: any) {
       if (val && val.options) {
-        if (typeof val.options === 'string') {
+        if (typeof val.options === 'string' || typeof val.options === 'number') {
           this.source = 2
           this.source2 = val.options
         } else {
           this.source = 1
           this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type as string))
+          this.source2 = ''
         }
       }
     }
@@ -68,7 +73,7 @@
     }
     public onChange() {
       if (this.source === 2) {
-        this.item.options = this.source2
+        this.item.options = this.source2 + ''
         this.$emit('change')
       }
     }

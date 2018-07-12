@@ -51,11 +51,10 @@
     @Prop(String) public url: string
     @Prop(Boolean) public fullWidth: boolean
     /*vue-vuex*/
-    @Action('getOptions') public getOptions: (url: string) => Promise<any>
     @Action('requestUrl') public requestUrl: (url: string) => Promise<ActionReturn>
     @Action('formAction') public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
     /*vue-data*/
-    public defaultModel: any = {...this.data.model} // 保存一份原始数据的拷贝，用于重置表单
+    public defaultModel: any = JSON.parse(JSON.stringify(this.data.model)) // 保存一份原始数据的拷贝，用于重置表单
     public loading: boolean = false
     public items: CRUDItem[] = []
     /*vue-compute*/
@@ -76,10 +75,10 @@
       }
     }
     /*vue-watch*/
-    // @Watch('data.model')
-    // public modelChange(val: any) {
-    //   this.defaultModel = {...val}
-    // }
+    @Watch('data.model')
+    public modelChange(val: any) {
+      this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
+    }
     @Watch('url', {immediate: true})
     public urlChange(val: string) {
       if (val) {
@@ -98,7 +97,7 @@
     public async btnClick(btn: FormBtn) {
       if (btn.action === 'reset') {
         (this.$refs.form as Vue).resetFields()
-        this.data.model = {...this.defaultModel}
+        this.data.model = JSON.parse(JSON.stringify(this.defaultModel))
       } else {
         // 点击的不是重置按钮，先校验表单
         (this.$refs.form as Vue).validate(async (valid: boolean) => {

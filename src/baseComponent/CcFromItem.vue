@@ -51,7 +51,7 @@
       <cc-input-tree v-model="model[mItem.prop]" v-bind="mItem.props" :options="typeof mItem.options === 'string' ? [] : mItem.options" v-if="mItem.options" v-on="$listeners"></cc-input-tree>
     </template>
     <!--弹出dialog-->
-    <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="mItem.options" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
+    <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="typeof mItem.options === 'string' ? {} : mItem.options" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
     <!--icon-->
     <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
     <!--input-->
@@ -80,6 +80,7 @@
     @Prop(Boolean) public noVerify: boolean
     /*vue-vuex*/
     @Action('getOptions') public getOptions: (url: string) => Promise<any>
+    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
     /*vue-data*/
     public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
     public loading: boolean = false
@@ -142,7 +143,16 @@
         let type = this.mItem.type as string
         type = ['select', 'checkbox', 'checkboxbutton', 'radio', 'radiobutton']
           .includes(type) ? 'keyValue' : type
-        const data: any = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+
+        let data: any = null
+        if (type === 'dialog') {
+          const re = await this.getPage(this.mItem.options)
+          if (re.data) {
+            data = JSON.parse(re.data.value)
+          }
+        } else {
+          data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+        }
         this.loading = false
         if (data) {
           this.mItem.options = data

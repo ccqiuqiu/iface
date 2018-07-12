@@ -66,7 +66,6 @@
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getOptions') public getOptions: (url: string) => Promise<any>
     @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
     @Action('savePage') public savePage: (page: Page) => Promise<ActionReturn>
     /*vue-data*/

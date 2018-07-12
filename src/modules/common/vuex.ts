@@ -101,7 +101,7 @@ const mutations: MutationTree<any> = {
   clearStore(state: CommonState): void {
     state.menus = []
     state.menuTabs = defaultTabs
-    state.selectedTab = ''
+    state.selectedTab = '0'
     state.user = {}
   },
 }

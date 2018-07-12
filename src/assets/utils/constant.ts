@@ -24,7 +24,7 @@ export const OptionsDataSource = [
   {label: '状态', value: 'status', type: 'keyValue'},
   {label: '菜单树', value: 'menuTree', type: 'tree'},
   {label: '角色', value: 'role', type: 'table'},
-  {label: '资源', value: 'resource', type: 'table'},
+  {label: '资源表格', value: 'resource', type: 'table'},
 ]
 export const PageTypeK: IndexEd = reverse(PageTypeV)
 

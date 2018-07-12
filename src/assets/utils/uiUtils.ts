@@ -105,8 +105,8 @@ export const closeTab = (url?: string) => {
 }
 
 export const hasAuth = (binding: any): boolean => {
-  const resources: string[] = store.state.common.resources
-  if (resources[0] === 'all') {
+  const resources = store.state.common.resources
+  if (resources === 'all') {
     return true
   } else {
     return resources.includes(binding.value)
