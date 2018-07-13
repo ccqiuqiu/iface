@@ -2,9 +2,8 @@
  * Created by 熊超超 on 2018/4/20.
  */
 import router from '@g/router'
-// import store from './store'
+import store from './store'
 import * as uiUtils from '@utils/uiUtils'
-import lsUtils from '@utils/lsUtils'
 import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
@@ -15,12 +14,11 @@ const axiosInstance: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
-  timeout: 45000, // 请求超时时间
+  timeout: 0, // 请求超时时间
 })
 // 注册请求拦截器
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
   // 加公共请求参数
-  config.headers.token = lsUtils.get('token')
 
   // 从请求参数里面取出一些控制参数, 控制loading和error的显示
   const {_loading, _hideGlobalError, ...data} = config.data
@@ -49,18 +47,16 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     if (_loading) {
       app.$Progress.finish()
     }
-    // mock环境模拟登录过期
-    if (process.env.VUE_APP_MOCK && !lsUtils.get('token')) {
-      uiUtils.message('登录过期，请重新登录', 'error')
-      router.push('/login')
-    }
     return Promise.resolve(response.data.data)
   } else {
     if (_loading) {
       app.$Progress.fail()
     }
     if (response.data.error.code === 401) {
-      router.push('/login')
+      store.commit('clearStore')
+      setTimeout(() => router.push('/login'), 0)
+    } else if (response.data.error.code === 402) {
+      uiUtils.message(response.data.error.message, 'error')
     }
     // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
     if (!_hideGlobalError) {

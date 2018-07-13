@@ -11,6 +11,10 @@ const actions: ActionTree<any, any> = {
   login(context: ActionContext<CommonState, State>, user: User): Promise<any> {
      return api.login(user)
   },
+  // 用户退出登录
+  logout(context: ActionContext<CommonState, State>): Promise<any> {
+    return api.logout()
+  },
 }
 
 export default {state, mutations, actions}

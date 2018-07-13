@@ -30,7 +30,6 @@
     /*vue-vuex*/
     @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
     @Mutation('clearStore') public clearStore: () => void
-    @Mutation('updateUser') public updateUser: (data: any) => void
     /*vue-data*/
     public user: User = {
       name: 'admin',
@@ -47,11 +46,6 @@
         this.$utils.message(error.message, 'error')
       } else {
         this.$utils.message('登录成功')
-        // 清除store里面缓存的数据
-        this.clearStore()
-        // 设置新的数据
-        this.handlerData(data)
-        this.updateUser(data)
         this.$router.push('/')
       }
     }

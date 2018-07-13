@@ -3,7 +3,7 @@
  */
 import conn from './conn'
 
-const formBaseUrl = '/v1/baseData/'
+const formBaseUrl = '/v1/page/'
 
 /**
  * 所有请求的通用方法，此方法才会调用axios的方法
@@ -19,7 +19,6 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 }
 
 export default {
-  //
   searchPage: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'searchPage', params, config),
   getPage: (id: string, config: any = {}) => request('post', formBaseUrl + 'getPage/' + id, config),
   savePage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'savePage', params, config),
@@ -31,6 +30,10 @@ export default {
   requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
+  // 获取权限
+  getAuth: (params: any = {}, config: any = {}) => request('post', '/v1/system/getAuth', params, config),
+  // 退出登录
+  logout: (params: any = {}, config: any = {}) => request('post', '/v1/public/logout', params, config),
   // 获取菜单树
   menuTree: (params: any = {}, config: any = {}) => request('post', '/v1/system/menuTree', params, config),
   // 删除菜单

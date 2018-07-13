@@ -24,6 +24,7 @@
   import NavView from '../../common/view/NavView.vue'
   import TabsView from '../../common/view/TabsView.vue'
   import CcDialog from '../../../baseComponent/CcDialog.vue'
+  import {Action, Mutation} from 'vuex-class'
 
   @Component({
     components: {HeaderView, MenuView, NavView, TabsView, CcDialog},
@@ -31,6 +32,8 @@
   export default class MainLayout extends Vue {
     /*vue-props*/
     /*vue-vuex*/
+    @Mutation('updateUser') public updateUser: (data: any) => void
+    @Action public getAuth: () => Promise<ActionReturn>
     /*vue-data*/
     /*vue-compute*/
     /*vue-watch*/
@@ -40,7 +43,35 @@
       this.$utils.toTab(val.fullPath)
     }
     /*vue-lifecycle*/
+    public created() {
+      this.initAuth()
+    }
     /*vue-method*/
+    public async initAuth() {
+      // 获取权限
+      const {data} = await this.getAuth()
+      this.handlerData(data)
+      this.updateUser(data)
+    }
+    public handlerData(data: any) {
+      // 把菜单的id改为字符串
+      const menus = data.auth.menus
+      if (menus.length) {
+        this.number2string(menus)
+      }
+    }
+    public number2string(list: any[]) {
+      list.forEach((item: any) => {
+        item.id = item.id + ''
+        // 将补全特殊的url
+        if (item.url && item.url.substr(0, 1) !== '/') {
+          item.url = '/baseData/page/' + item.url
+        }
+        if (item.children) {
+          this.number2string(item.children)
+        }
+      })
+    }
   }
 </script>
 <style lang="scss">

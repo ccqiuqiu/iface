@@ -10,14 +10,14 @@
       <span>{{user.name}}</span>
       <span class="m-h-5">|</span>
       <span>{{user.roleString}}</span>
-      <cc-icon name="logout" size="18" class="m-l-16 cp" @click="logout"/>
+      <cc-icon name="logout" size="18" class="m-l-16 cp" @click="onLogout"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import {State, Mutation, Getter} from 'vuex-class'
+  import {State, Mutation, Getter, Action} from 'vuex-class'
 
   @Component
   export default class NavView extends Vue {
@@ -30,17 +30,23 @@
     @Getter public nav: Menu[]
     @Mutation public toggleMenu: () => void
     @Mutation('clearStore') public clearStore: () => void
+    @Action public logout: () => Promise<ActionReturn>
     /*vue-data*/
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
     // 退出登录
-    public logout(): void {
-      this.$utils.remove('token')
-      // 清除store里面缓存的数据
-      this.clearStore()
-      this.$router.push('/login')
+    public async onLogout() {
+      const {error} = await this.logout()
+      if (!error) {
+        this.$utils.message('退出登录成功')
+        // 清除store里面缓存的数据
+        this.clearStore()
+        // clearStore里面会改动selected,将导致url跳转到一次'/'
+        // 在下一个$nextTick跳转，保证会跳转到登录页
+        this.$nextTick(() => this.$router.push('/login'))
+      }
     }
   }
 

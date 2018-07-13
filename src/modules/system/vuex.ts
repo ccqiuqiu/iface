@@ -7,6 +7,9 @@ const mutations: MutationTree<any> = {
 }
 
 const actions: ActionTree<any, any> = {
+  getAuth(context: ActionContext<CommonState, State>): Promise<ActionReturn> {
+    return api.getAuth()
+  },
   menuTree(context: ActionContext<CommonState, State>): Promise<ActionReturn> {
     return api.menuTree()
   },
