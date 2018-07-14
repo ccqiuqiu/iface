@@ -6,8 +6,7 @@
         <span flex-box="1">{{pageTitle}}</span>
         <cc-button v-auth="'addPage'" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'editPage'" icon="edit" text="修改" @click="onEdit"/>
-        <!--<cc-button v-auth="['view' + data.name]" icon="view" text="查看" @click="onView"/>-->
-        <!--<cc-button v-auth="['del' + data.name]" icon="delete" text="删除" @click="onDel"/>-->
+        <cc-button v-auth="'delPage'" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" :rows="rows" :columns="columns" v-loading="loading"
                 @single-click="$emit('rowClick')"
@@ -31,7 +30,8 @@
   export default class PageList extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('searchPage') public searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
+    @Action public searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
+    @Action public requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public columns: TableColumn[] = [
       {prop: 'id', label: '编号', width: '100px'},
@@ -68,6 +68,22 @@
       }
       this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, `修改${this.currentRow.pageName}`)
       // this.$router.push({name: 'createCrud', query: {id: this.currentRow.id}})
+    }
+    public async onDel() {
+      if (!this.currentRow) {
+        this.$utils.message('请选择一行', 'warning')
+        return
+      }
+      const re = await this.$utils.confirm('确定要删除这条数据吗？')
+      if (re) {
+        this.loading = true
+        const{error} = await this.requestUrl('delPage/' + this.currentRow.id)
+        this.loading = false
+        if (!error) {
+          this.$utils.message('删除成功')
+          this.getData()
+        }
+      }
     }
   }
 </script>

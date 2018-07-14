@@ -49,6 +49,7 @@ export default new Vuex.Store({
         menuTabs: state.common.menuTabs,
         selectedTab: state.common.selectedTab,
         user: state.common.user,
+        noMenuTabsMap: state.common.noMenuTabsMap,
       },
       // home: state.home,
     }),

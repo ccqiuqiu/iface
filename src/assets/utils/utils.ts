@@ -45,7 +45,7 @@ export const delEmptyProp = (obj: any = {}) => {
     }
   }
 }
-//
+// 对象转为数组
 export const objToArr = (obj: any = {}, labelField: string = 'label', valueField: string = 'value'): any[] => {
   const arr: any[] = []
   for (const key of Object.keys(obj)) {

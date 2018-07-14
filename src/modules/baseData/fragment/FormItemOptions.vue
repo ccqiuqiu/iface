@@ -2,8 +2,8 @@
 <template>
   <div v-if="item && needOptions">
     <el-radio-group v-model="source" class="m-v-10" @change="onSourceChange">
-      <el-radio :label="1">自定义数据</el-radio>
       <el-radio :label="2">使用数据源</el-radio>
+      <el-radio :label="1">自定义数据</el-radio>
     </el-radio-group>
     <el-input @blur="onBlur" v-model="source1" v-if="source === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>
     <el-select v-else v-model="source2" placeholder="请选择" @change="onChange">
@@ -24,7 +24,7 @@
     @Prop(Boolean) public needOptions: boolean
     /*vue-vuex*/
     /*vue-data*/
-    public source: number = 0
+    public source: number = 2
     public source1: string = ''
     public source2: string = ''
     public dialogOptions = [{label: '资源管理', value: 4}]
@@ -42,11 +42,12 @@
     }
     /*vue-watch*/
     @Watch('item')
-    public itemChange(val: any) {
-      if (val && val.options) {
-        if (typeof val.options === 'string' || typeof val.options === 'number') {
+    public itemChange(val: any, old: any) {
+      if (val) {
+        if (!val.options || typeof val.options === 'string' || typeof val.options === 'number') {
           this.source = 2
           this.source2 = val.options
+          this.source1 = ''
         } else {
           this.source = 1
           this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type as string))

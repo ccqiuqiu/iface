@@ -150,6 +150,9 @@
           if (re.data) {
             data = JSON.parse(re.data.value)
           }
+        } else if (type === 'keyValue') {
+          // keyValue的选项直接从本地获取
+          data = this.$c.options[this.mItem.options]
         } else {
           data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
         }

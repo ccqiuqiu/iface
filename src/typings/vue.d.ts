@@ -40,6 +40,7 @@ interface Constant {
   StatusK: IndexEd,
   SexV: IndexEd,
   SexK: IndexEd,
+  options: {[propName: string]: Array<{label: string, value: string | number}>},
   OptionsDataSource: Array<{label: string, value: string, type: string}>,
   [propName: string]: any
 }

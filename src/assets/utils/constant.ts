@@ -1,24 +1,33 @@
 /**
  * Created by 熊超超 on 2018/5/3.
  */
-import {reverse} from './utils'
+import {reverse, objToArr} from './utils'
 
+// 状态
 export const StatusV = {
   禁用: 0,
   启用: 1,
 }
+// 反转key-value的状态
 export const StatusK: IndexEd = reverse(StatusV)
 
+// 性别
 export const SexV = {
   男: 1,
   女: 0,
 }
+// 反转key-value的性别
 export const SexK: IndexEd = reverse(SexV)
 
+// 页面类型
 export const PageTypeV = {
   页面: 1,
   表单: 2,
 }
+// 反转key-value的页面类型
+export const PageTypeK: IndexEd = reverse(PageTypeV)
+
+// 自定义表单组件的时候，选择类组件的数据源
 export const OptionsDataSource = [
   {label: '性别', value: 'sex', type: 'keyValue'},
   {label: '状态', value: 'status', type: 'keyValue'},
@@ -26,9 +35,14 @@ export const OptionsDataSource = [
   {label: '角色', value: 'role', type: 'table'},
   {label: '资源表格', value: 'resource', type: 'table'},
 ]
-export const PageTypeK: IndexEd = reverse(PageTypeV)
+// options是为type为keyValue的选择组件提供选项，key对应OptionsDataSource的value
+export const options = {
+  sex: objToArr(SexV),
+  status: objToArr(StatusV),
+  pageType: objToArr(PageTypeV),
+}
 
-export enum FormItemType {
+/*export enum FormItemType {
   text = 'text',
   select = 'select',
   date = 'date',
@@ -46,4 +60,4 @@ export enum FormItemType {
   number = 'number',
   slider = 'slider',
   rate = 'rate',
-}
+}*/

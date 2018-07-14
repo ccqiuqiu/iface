@@ -105,7 +105,7 @@
       return {
         model: this.pageModel,
         items: [
-          {label: `类型`, prop: 'type', type: 'radio', options: this.$utils.objToArr(this.$c.PageTypeV)},
+          {label: `类型`, prop: 'type', type: 'radio', options: this.$c.options.pageType},
           {label: `${this.typeName}名称`, prop: 'pageName', type: 'text', placeholder: '', verify: {required: true}},
           {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}},
           {label: `${this.typeName}描述`, prop: 'pageDesc', type: 'textarea', placeholder: ''},
@@ -171,7 +171,8 @@
       const prop = 'p' + Math.floor(Math.random() * 1000000)
       const item: any = {...this.controls[evt.oldIndex]}
       item.prop = prop
-      item.options = optionsDefaultData(item.type)
+      // item.options = optionsDefaultData(item.type)
+      item.target = ['editForm']
       this.items.splice(evt.newIndex, 1, item)
     }
     public changeOptions() {
