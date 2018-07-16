@@ -54,6 +54,8 @@
     <cc-input-dialog @input="onValueChange(mItem.prop)" :title="mItem.label" v-model="model[mItem.prop]" v-bind="mItem.props" :dialog="typeof mItem.options === 'string' ? {} : mItem.options" v-else-if="mItem.type === 'dialog'"  v-on="$listeners"></cc-input-dialog>
     <!--icon-->
     <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
+    <!--color-->
+    <el-color-picker v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'color'" v-on="$listeners" :predefine="['#53beea', '#49a361', '#e79f3c', '#cd5542']"></el-color-picker>
     <!--input-->
     <template v-else>
       <el-input v-model.number="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-if="isNumber(mItem.verify)" clearable v-on="$listeners"></el-input>

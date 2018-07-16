@@ -15,9 +15,19 @@ const CrudUtils: any = {
       return $c.StatusK[cellValue]
     },
   },
+  dashboardTypeFormat: {
+    label: '格式化-Dashboard类型',
+    format: (row: any, column: any, cellValue: number) => {
+      return $c.DashboardTypeK[cellValue]
+    },
+  },
   statusRender: {
     label: 'JSX-状态',
-    format: (h: any, row: any) => <el-tag size='small' type={row.status === $c.StatusV.禁用 ? 'info' : ''}>{$c.StatusK[row.status]}</el-tag>,
+    format: (h: any, val: any) => <el-tag size='small' type={val === $c.StatusV.禁用 ? 'info' : ''}>{$c.StatusK[val]}</el-tag>,
+  },
+  colorRender: {
+    label: 'JSX-颜色',
+    format: (h: any, val: any) => <div style={{ width: '24px', height: '24px', backgroundColor: val}}></div>,
   },
 }
 export default CrudUtils

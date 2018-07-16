@@ -10,7 +10,7 @@
     public render(h: any) {
       const scope = this.scope
       if (scope) {
-        return this.renderFun(h, scope.row, scope.$index, scope.column, scope.store)
+        return this.renderFun(h, scope.row[scope.column['property']], scope.row, scope.$index, scope.column, scope.store)
       } else {
         return this.renderFun(h)
       }

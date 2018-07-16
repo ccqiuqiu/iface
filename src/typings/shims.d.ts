@@ -34,14 +34,14 @@ declare interface TableColumn {
   filterMultiple?: boolean,
   filterMethod?: (value: any, row: any, column: TableColumn) => any,
   filteredValue?: any[],
-  renderCell?: (h: any, row: any, index: number, column: TableColumn, store: any) => any // jsx渲染
+  renderCell?: (h: any, value: any, row: any, index: number, column: TableColumn, store: any) => any // jsx渲染
   renderFun?: string // jsx渲染的方法名
   formatFun?: string, // 格式化的方法
 }
 
 declare type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox'
   | 'checkboxbutton' | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider'
-  | 'rate' | 'table' | 'tree' | 'dialog' | 'icon' | 'password' | 'textarea'
+  | 'rate' | 'table' | 'tree' | 'dialog' | 'icon' | 'color' | 'password' | 'textarea'
 declare type BtnAction = 'save' | 'reset' | 'search'
 declare type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 declare interface FormObject {
@@ -112,4 +112,9 @@ declare module 'vue-progressbar' {
 declare module 'vuedraggable' {
   const vuedraggable: any
   export default vuedraggable
+}
+
+declare module 'vue-grid-layout' {
+  const VueGridLayout: {GridLayout: any, GridItem: any}
+  export default VueGridLayout
 }

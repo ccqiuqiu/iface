@@ -100,12 +100,13 @@ const mutations: MutationTree<any> = {
   // 清除Store里面的用户信息
   clearStore(state: CommonState): void {
     state.menus = []
+    state.resources = []
     state.menuTabs = defaultTabs
     state.selectedTab = '0'
+    state.noMenuTabsMap = {}
     state.user = {}
   },
 }
-
 
 const actions: ActionTree<any, any> = {
   // 表单的按钮事件，主要是搜索和保存

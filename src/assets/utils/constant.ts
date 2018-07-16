@@ -27,10 +27,20 @@ export const PageTypeV = {
 // 反转key-value的页面类型
 export const PageTypeK: IndexEd = reverse(PageTypeV)
 
+// DashboardType
+export const DashboardTypeV = {
+  信息面板: 1,
+  列表: 2,
+  表格: 3,
+  图表: 4,
+}
+export const DashboardTypeK: IndexEd = reverse(DashboardTypeV)
+
 // 自定义表单组件的时候，选择类组件的数据源
 export const OptionsDataSource = [
   {label: '性别', value: 'sex', type: 'keyValue'},
   {label: '状态', value: 'status', type: 'keyValue'},
+  {label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue'},
   {label: '菜单树', value: 'menuTree', type: 'tree'},
   {label: '角色', value: 'role', type: 'table'},
   {label: '资源表格', value: 'resource', type: 'table'},
@@ -39,6 +49,7 @@ export const OptionsDataSource = [
 export const options = {
   sex: objToArr(SexV),
   status: objToArr(StatusV),
+  dashboardType: objToArr(DashboardTypeV),
   pageType: objToArr(PageTypeV),
 }
 

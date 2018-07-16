@@ -66,7 +66,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
   }
 }, (error: any): Promise<any> => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const {_loading, _hideGlobalError} = error.response.config.headers
+  const {_loading, _hideGlobalError} = error.config.headers
   if (_loading) {
     // store.commit('hideLoading')
     app.$Progress.fail()

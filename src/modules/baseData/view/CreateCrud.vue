@@ -90,6 +90,7 @@
       {type: 'table', label: '表格选择器'},
       {type: 'tree', label: '树选择器'},
       {type: 'icon', label: '图标选择器'},
+      {type: 'color', label: '颜色选择器'},
       {type: 'dialog', label: '弹窗选择器'},
     ]
     public model: any = {}
