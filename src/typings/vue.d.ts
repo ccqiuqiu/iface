@@ -4,6 +4,7 @@
 import 'vue'
 import {ElMessageBox, ElMessageBoxOptions, MessageBoxData} from 'element-ui/types/message-box'
 import {Vue} from 'vue/types/vue'
+import Constant from '@utils/constant'
 
 // 给Vue组件原型上增加的方法定义类型
 declare module 'vue/types/vue' {
@@ -33,18 +34,6 @@ export interface Utils {
   objToArr: (obj: any, labelField?: string, valueField?: string) => any[]
   closeTab: (url?: string) => void,
   [propName: string]: any,
-}
-
-interface Constant {
-  StatusV: IndexEd,
-  StatusK: IndexEd,
-  SexV: IndexEd,
-  SexK: IndexEd,
-  DashboardTypeK: IndexEd,
-  DashboardTypeV: IndexEd,
-  options: {[propName: string]: Array<{label: string, value: string | number}>},
-  OptionsDataSource: Array<{label: string, value: string, type: string}>,
-  [propName: string]: any
 }
 
 interface MyElMessageBox extends ElMessageBox {

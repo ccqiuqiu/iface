@@ -1,64 +1,67 @@
 /**
  * Created by 熊超超 on 2018/5/3.
  */
-import {reverse, objToArr} from './utils'
+import utils from './uiUtils'
 
-// 状态
-export const StatusV = {
-  禁用: 0,
-  启用: 1,
-}
+export default class Constant {
+  // 状态
+  public StatusV = {
+    禁用: 2,
+    启用: 1,
+  }
 // 反转key-value的状态
-export const StatusK: IndexEd = reverse(StatusV)
+  public StatusK: any = null
 
 // 性别
-export const SexV = {
-  男: 1,
-  女: 0,
-}
+  public SexV = {
+    男: 1,
+    女: 2,
+  }
 // 反转key-value的性别
-export const SexK: IndexEd = reverse(SexV)
+  public SexK: any = null
 
 // 页面类型
-export const PageTypeV = {
-  页面: 1,
-  表单: 2,
-}
+  public PageTypeV = {
+    页面: 1,
+    表单: 2,
+  }
 // 反转key-value的页面类型
-export const PageTypeK: IndexEd = reverse(PageTypeV)
+  public PageTypeK: any = null
 
-export const enum DashboardType {
-  信息面板 = 1,
-  列表 = 2,
-  表格 = 3,
-  图表 = 4,
-}
 // DashboardType
-export const DashboardTypeV = {
-  信息面板: DashboardType.信息面板,
-  列表: DashboardType.列表,
-  表格: DashboardType.表格,
-  图表: DashboardType.图表,
-}
+  public DashboardTypeV = {
+    信息面板: 1,
+    列表: 2,
+    表格: 3,
+    图表: 4,
+  }
 
-export const DashboardTypeK: IndexEd = reverse(DashboardTypeV)
+  public DashboardTypeK: any = null
 
 // 自定义表单组件的时候，选择类组件的数据源
-export const OptionsDataSource = [
-  {label: '性别', value: 'sex', type: 'keyValue'},
-  {label: '状态', value: 'status', type: 'keyValue'},
-  {label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue'},
-  {label: '菜单树', value: 'menuTree', type: 'tree'},
-  {label: '角色', value: 'role', type: 'table'},
-  {label: '资源表格', value: 'resource', type: 'table'},
-]
+  public OptionsDataSource = [
+    {label: '性别', value: 'sex', type: 'keyValue'},
+    {label: '状态', value: 'status', type: 'keyValue'},
+    {label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue'},
+    {label: '菜单树', value: 'menuTree', type: 'tree'},
+    {label: '角色', value: 'role', type: 'table'},
+    {label: '资源表格', value: 'resource', type: 'table'},
+  ]
 // options是为type为keyValue的选择组件提供选项，key对应OptionsDataSource的value
-export const options = {
-  sex: objToArr(SexV),
-  status: objToArr(StatusV),
-  dashboardType: objToArr(DashboardTypeV),
-  pageType: objToArr(PageTypeV),
+  public options: any = {
+    sex: utils.objToArr(this.SexV),
+    status: utils.objToArr(this.StatusV),
+    dashboardType: utils.objToArr(this.DashboardTypeV),
+    pageType: utils.objToArr(this.PageTypeV),
+  }
+  constructor() {
+    this.StatusK = utils.reverse(this.StatusV)
+    this.SexK = utils.reverse(this.SexV)
+    this.PageTypeK = utils.reverse(this.PageTypeV)
+    this.DashboardTypeK = utils.reverse(this.DashboardTypeV)
+  }
 }
+export const constant = new Constant()
 
 /*export enum FormItemType {
   text = 'text',

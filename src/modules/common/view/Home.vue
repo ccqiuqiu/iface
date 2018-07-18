@@ -10,7 +10,7 @@
                  :is-mirrored="false"
                  :vertical-compact="true"
                  :use-css-transforms="true">
-      <grid-item v-for="item in items" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i">
+      <grid-item v-for="item in items" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i">
         <dashboard-item :data="item.data"></dashboard-item>
       </grid-item>
     </grid-layout>
@@ -25,7 +25,6 @@
   import VueGridLayout from 'vue-grid-layout'
   import DashboardItem from '../fragment/DashboardItem.vue'
   import {Action} from 'vuex-class'
-  import {DashboardType} from '../../../assets/utils/constant'
 
   @Component({components: {GridLayout: VueGridLayout.GridLayout, GridItem: VueGridLayout.GridItem, DashboardItem}})
   export default class Home extends Vue {
@@ -57,7 +56,7 @@
           this.userDashboard = data.map((dashboard: Dashboard, index: number) => {
             let w: number = 2
             let h: number = 3
-            if (dashboard.type === DashboardType.信息面板) {
+            if (dashboard.type === this.$c.DashboardTypeV.信息面板) {
               w = 4
               h = 8
             }

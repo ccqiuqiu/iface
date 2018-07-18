@@ -1,5 +1,5 @@
 import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
-import * as utils from '@utils/utils'
+import {utils} from '@utils/index'
 import api from '@g/api'
 const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
 const state: CommonState = {

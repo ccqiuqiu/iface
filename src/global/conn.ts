@@ -3,7 +3,7 @@
  */
 import router from '@g/router'
 import store from './store'
-import * as uiUtils from '@utils/uiUtils'
+import {utils} from '@utils/index'
 import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
@@ -56,11 +56,11 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
       store.commit('clearStore')
       setTimeout(() => router.push('/login'), 0)
     } else if (response.data.error.code === 402) {
-      uiUtils.message(response.data.error.message, 'error')
+      utils.message(response.data.error.message, 'error')
     }
     // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
     if (!_hideGlobalError) {
-      uiUtils.message(response.data.error.message, 'error')
+      utils.message(response.data.error.message, 'error')
     }
     return Promise.reject(response.data.error)
   }
@@ -71,7 +71,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     // store.commit('hideLoading')
     app.$Progress.fail()
   }
-  uiUtils.message('服务端异常', 'error')
+  utils.message('服务端异常', 'error')
   return Promise.reject({code: error.response.status, message: error.response.data})
 })
 
