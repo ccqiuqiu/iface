@@ -50,8 +50,10 @@
     public async initAuth() {
       // 获取权限
       const {data} = await this.getAuth()
-      this.handlerData(data)
-      this.updateUser(data)
+      if (data) {
+        this.handlerData(data)
+        this.updateUser(data)
+      }
     }
     public handlerData(data: any) {
       // 把菜单的id改为字符串

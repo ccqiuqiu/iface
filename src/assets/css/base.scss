@@ -104,13 +104,14 @@ input::-moz-focus-inner {
 
     .main-view{
       position: relative;
-      overflow-x: hidden;
-      overflow-y: auto;
 
       .content-view{
-        margin: 10px;
+        padding: 10px;
         position: absolute;
         width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        overflow-x: hidden;
+        overflow-y: auto;
 
         &:not(.h) {
           >div {
@@ -216,4 +217,7 @@ input::-moz-focus-inner {
 }
 .c-danger{
   color: $color-danger;
+}
+.c-white{
+  color: white;
 }

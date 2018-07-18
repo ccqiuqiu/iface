@@ -56,3 +56,20 @@ declare interface Page extends IndexEd {
   type: number,
   pageDesc: string
 }
+// UserDashboard
+declare interface UserDashboard extends IndexEd {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  i: string,
+  dashboard?: Dashboard
+}
+// Dashboard
+declare interface Dashboard extends IndexEd {
+  id?: number,
+  name: string,
+  type: number,
+  url: string,
+}
+

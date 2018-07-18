@@ -38,4 +38,6 @@ export default {
   menuTree: (params: any = {}, config: any = {}) => request('post', '/v1/system/menuTree', params, config),
   // 删除菜单
   delMenu: (id: number, config: any = {}) => request('post', '/v1/system/delMenu/' + id, config),
+  // 获取用户首页的仪表盘信息
+  getUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getUserDashboard', params, config),
 }

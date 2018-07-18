@@ -2,8 +2,8 @@
 <template>
   <el-button v-bind="$attrs" :type="type" @click.native="$emit('click')">
     <span flex="cross:center">
-      <cc-icon v-if="icon" v-bind="$attrs" :name="icon" :size="iconSize" class="m-r-6"/>
-      <span>{{text}}</span>
+      <cc-icon v-if="icon" v-bind="$attrs" :name="icon" :size="iconSize"/>
+      <span v-if="text" class="m-l-6">{{text}}</span>
     </span>
   </el-button>
 </template>
@@ -12,7 +12,7 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
   @Component
   export default class CcButton extends Vue {
-    @Prop({required: true}) public text!: string
+    @Prop() public text: string
     @Prop({default: 'primary'}) public type!: string
     @Prop({default: 'small'}) public size!: string
     @Prop() public icon!: string

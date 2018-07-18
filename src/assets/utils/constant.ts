@@ -27,13 +27,20 @@ export const PageTypeV = {
 // 反转key-value的页面类型
 export const PageTypeK: IndexEd = reverse(PageTypeV)
 
+export const enum DashboardType {
+  信息面板 = 1,
+  列表 = 2,
+  表格 = 3,
+  图表 = 4,
+}
 // DashboardType
 export const DashboardTypeV = {
-  信息面板: 1,
-  列表: 2,
-  表格: 3,
-  图表: 4,
+  信息面板: DashboardType.信息面板,
+  列表: DashboardType.列表,
+  表格: DashboardType.表格,
+  图表: DashboardType.图表,
 }
+
 export const DashboardTypeK: IndexEd = reverse(DashboardTypeV)
 
 // 自定义表单组件的时候，选择类组件的数据源

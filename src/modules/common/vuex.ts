@@ -136,6 +136,10 @@ const actions: ActionTree<any, any> = {
   requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
     return api.requestUrl(url)
   },
+  // 获取首页用户仪表盘数据
+  getUserDashboard(context: ActionContext<SystemState, State>): Promise<ActionReturn> {
+    return api.getUserDashboard()
+  },
 }
 
 export default {state, getters, mutations, actions}
