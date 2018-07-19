@@ -20,6 +20,7 @@ if (process.env.VUE_APP_MOCK) {
   /* tslint:disable:no-var-requires */
   require(process.env.VUE_APP_MOCK)
 }
+
 Vue.config.productionTip = false
 Vue.use(utils)
 export default new Vue({

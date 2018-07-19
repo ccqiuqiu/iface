@@ -58,7 +58,7 @@ module.exports = {
     config.resolve.alias
       .set('@g', resolve('src/global'))
       .set('@bc', resolve('src/baseComponent'))
-      .set('@common', resolve('src/module/common/view'))
+      .set('@common', resolve('src/modules/common/view'))
       .set('@utils', resolve('src/assets/utils'))
   },
   devServer: {

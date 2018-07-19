@@ -10,7 +10,7 @@ import Utils from './utils'
 import {MessageType, MyElMessageBoxOptions} from '@/typings/vue'
 
 
-class UiUtils extends Utils {
+export class UiUtils extends Utils {
   // 消息框简单封装
   public message(message: string, type: boolean|MessageType = true) {
     if (typeof type === 'string') {
@@ -29,7 +29,7 @@ class UiUtils extends Utils {
     }))
   }
 
-  public confirm(content: string, title = '确认操作', options: any) {
+  public confirm(content: string, title = '确认操作', options?: any) {
     return new Promise(((resolve) => {
       MessageBox.confirm(content, title, {
         type: 'warning',

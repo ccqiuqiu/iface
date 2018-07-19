@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -19,7 +19,7 @@
     "paths": {
       "@g/*": ["src/global/*"],
       "@bc/*": ["src/baseComponent/*"],
-      "@common/*": ["src/module/common/view/*"],
+      "@common/*": ["src/modules/common/view/*"],
       "@utils/*": ["src/assets/utils/*"],
       "@/*": ["src/*"]
     },

@@ -20,7 +20,7 @@
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import HeaderView from '../../common/view/HeaderView.vue'
-  import MenuView from '../../common/view/MenuView.vue'
+  import MenuView from '@common/MenuView.vue'
   import NavView from '../../common/view/NavView.vue'
   import TabsView from '../../common/view/TabsView.vue'
   import CcDialog from '../../../baseComponent/CcDialog.vue'

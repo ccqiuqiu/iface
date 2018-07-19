@@ -63,11 +63,11 @@ declare interface UserDashboard extends IndexEd {
   w: number,
   h: number,
   i: string,
-  dashboard?: Dashboard
+  dashboard: Dashboard
 }
 // Dashboard
 declare interface Dashboard extends IndexEd {
-  id?: number,
+  id: number,
   name: string,
   type: number,
   url: string,
