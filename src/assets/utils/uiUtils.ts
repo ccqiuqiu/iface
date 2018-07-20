@@ -8,11 +8,12 @@ const h: CreateElement = new Vue().$createElement
 import Utils from './utils'
 
 import {Route} from 'vue-router'
+import {MessageType} from 'element-ui/types/message'
 
 
 export class UiUtils extends Utils {
   // 消息框简单封装
-  public message(message: string, type: boolean|MessageType = true) {
+  public message(message: string, type: boolean | MessageType = true) {
     if (typeof type === 'string') {
       Message({message, type: (type as MessageType)})
     } else {

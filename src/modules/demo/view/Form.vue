@@ -16,6 +16,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import {FormItemTypeEnum} from '../../../assets/utils/enuns'
 
   @Component
   export default class Form extends Vue {
@@ -56,12 +57,12 @@
         {
           label: '文本框',
           prop: 'name',
-          type: 'text',
+          type: FormItemTypeEnum.text,
         },
         {
           label: '选择框',
           prop: 'area',
-          type: 'select',
+          type: FormItemTypeEnum.select,
           options: [
             {
               label: '区域一',
@@ -76,7 +77,7 @@
         {
           label: '选择框-多选',
           prop: 'area2',
-          type: 'select',
+          type: FormItemTypeEnum.select,
           props: {multiple: true},
           options: [
             {
@@ -92,25 +93,25 @@
         {
           label: '日期范围',
           prop: 'daterange',
-          type: 'daterange',
+          type: FormItemTypeEnum.daterange,
           props: {rangeSeparator: '至'},
         },
         {
           label: '多选',
           prop: 'type2',
-          type: 'checkbox',
+          type: FormItemTypeEnum.checkbox,
           options: 'checkBoxDemo',
         },
         {
           label: '多选-按钮',
           prop: 'type',
-          type: 'checkboxbutton',
+          type: FormItemTypeEnum.checkboxbutton,
           options: 'checkBoxDemo',
         },
         {
           label: '单选',
           prop: 'resource',
-          type: 'radio',
+          type: FormItemTypeEnum.radio,
           options: [
             {
               label: '线上品牌商赞助',
@@ -125,7 +126,7 @@
         {
           label: '单选-按钮',
           prop: 'resource2',
-          type: 'radiobutton',
+          type: FormItemTypeEnum.radiobutton,
           options: [
             {
               label: '线上品牌商赞助',
@@ -140,32 +141,32 @@
         {
           label: '日期',
           prop: 'date',
-          type: 'date',
+          type: FormItemTypeEnum.date,
         },
         {
           label: '日期时间',
           prop: 'datetime',
-          type: 'datetime',
+          type: FormItemTypeEnum.datetime,
         },
         {
           label: '时间选择',
           prop: 'timeselect',
-          type: 'timeselect',
+          type: FormItemTypeEnum.timeselect,
         },
         {
           label: '时间面板',
           prop: 'time',
-          type: 'time',
+          type: FormItemTypeEnum.time,
         },
         {
           label: '时间范围',
           prop: 'timerange',
-          type: 'timerange',
+          type: FormItemTypeEnum.timerange,
         },
         {
           label: '级联选择',
           prop: 'cascader',
-          type: 'cascader',
+          type: FormItemTypeEnum.cascader,
           options: [
             {
               value: 1,
@@ -204,27 +205,27 @@
         {
           label: '计数器',
           prop: 'number',
-          type: 'number',
+          type: FormItemTypeEnum.number,
         },
         {
           label: '滑块',
           prop: 'slider',
-          type: 'slider',
+          type: FormItemTypeEnum.slider,
         },
         {
           label: '开关',
           prop: 'switch',
-          type: 'switch',
+          type: FormItemTypeEnum.switch,
         },
         {
           label: '评分',
           prop: 'rate',
-          type: 'rate',
+          type: FormItemTypeEnum.rate,
         },
         {
           label: '表格-单选',
           prop: 'table',
-          type: 'table',
+          type: FormItemTypeEnum.table,
           props: {
             valueField: 'id',
             labelField: 'name',
@@ -243,7 +244,7 @@
         {
           label: '表格-多选',
           prop: 'table2',
-          type: 'table',
+          type: FormItemTypeEnum.table,
           props: {
             valueField: 'id',
             labelField: 'name',
@@ -263,7 +264,7 @@
         {
           label: '树-单选',
           prop: 'tree',
-          type: 'tree',
+          type: FormItemTypeEnum.tree,
           options: [
             {
               label: '一级1',
@@ -290,7 +291,7 @@
         {
           label: '树-多选',
           prop: 'tree2',
-          type: 'tree',
+          type: FormItemTypeEnum.tree,
           props: {showCheckbox: true},
           options: [
             {
@@ -318,12 +319,12 @@
         {
           label: '图标选择',
           prop: 'icon',
-          type: 'icon',
+          type: FormItemTypeEnum.icon,
         },
         {
           label: '弹出框',
           prop: 'dialog',
-          type: 'dialog',
+          type: FormItemTypeEnum.dialog,
           props: {
             labelField: 'name',
           },
@@ -338,12 +339,12 @@
                 {
                   label: '文本框',
                   prop: 'name',
-                  type: 'text',
+                  type: FormItemTypeEnum.text,
                 },
                 {
                   label: '文本框2',
                   prop: 'name2',
-                  type: 'text',
+                  type: FormItemTypeEnum.text,
                 },
               ],
               btns: [

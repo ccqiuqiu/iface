@@ -30,6 +30,7 @@
   import {Action} from 'vuex-class'
   import CrudUtils from '@utils/crudUtils.tsx'
   import CcCrudView from '@bc/CcCrudView.vue'
+  import {MessageTypeEnum} from '../assets/utils/enuns'
 
   @Component
   export default class CcCrud extends Vue {
@@ -190,7 +191,7 @@
     // 点击编辑按钮
     public onEdit() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       this.onAdd(true)
@@ -198,7 +199,7 @@
     // 点击删除按钮
     public async onDel() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
@@ -215,7 +216,7 @@
     // 点击查看按钮
     public onView() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       const url = this.data.needQuery ? this.getActionUrl('view') : ''

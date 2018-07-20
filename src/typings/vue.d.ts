@@ -8,6 +8,7 @@ import {VNode} from 'vue'
 import Constant from '@utils/constant'
 import {UiUtils} from '@utils/uiUtils'
 import {DefaultComputed, DefaultData, DefaultMethods, DefaultProps, PropsDefinition} from 'vue/types/options'
+import {FormItemTypeEnum} from '@utils/enuns'
 
 // 给Vue组件原型上增加的方法定义类型
 declare module 'vue/types/vue' {
@@ -50,11 +51,12 @@ declare global {
   interface IndexEd {
     [propName: string]: any
   }
-
-  type MessageType = 'success' | 'warning' | 'info' | 'error'
-  type FormItemType = 'text' | 'select' | 'date' | 'time' | 'daterange' | 'timerange' | 'switch' | 'checkbox'
-    | 'checkboxbutton' | 'radio' | 'radiobutton' | 'datetime' | 'timeselect' | 'cascader' | 'number' | 'slider'
-    | 'rate' | 'table' | 'tree' | 'dialog' | 'icon' | 'color' | 'password' | 'textarea'
+  type FormItemType = FormItemTypeEnum.text | FormItemTypeEnum.select | FormItemTypeEnum.date | FormItemTypeEnum.time
+    | FormItemTypeEnum.daterange | FormItemTypeEnum.timerange | FormItemTypeEnum.switch | FormItemTypeEnum.checkbox
+    | FormItemTypeEnum.checkboxbutton | FormItemTypeEnum.radio | FormItemTypeEnum.radiobutton | FormItemTypeEnum.datetime
+    | FormItemTypeEnum.timeselect | FormItemTypeEnum.cascader | FormItemTypeEnum.number | FormItemTypeEnum.slider
+    | FormItemTypeEnum.rate | FormItemTypeEnum.table | FormItemTypeEnum.tree | FormItemTypeEnum.dialog | FormItemTypeEnum.icon
+    | FormItemTypeEnum.color | FormItemTypeEnum.password | FormItemTypeEnum.textarea
   type BtnAction = 'save' | 'reset' | 'search'
   type BtnType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
 

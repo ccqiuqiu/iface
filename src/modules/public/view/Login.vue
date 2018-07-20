@@ -22,7 +22,8 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import { State, Action, Mutation } from 'vuex-class'
+  import { Action, Mutation } from 'vuex-class'
+  import {MessageTypeEnum} from '../../../assets/utils/enuns'
 
   @Component
   export default class Login extends Vue {
@@ -43,7 +44,7 @@
     public async login() {
       const {error, data} = await this.loginAction(this.user)
       if (error) {
-        this.$utils.message(error.message, 'error')
+        this.$utils.message(error.message, MessageTypeEnum.error)
       } else {
         this.$utils.message('登录成功')
         this.$router.push('/')

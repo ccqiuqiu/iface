@@ -61,6 +61,7 @@
   import FormItemOptions from '../fragment/FormItemOptions.vue'
   import FormItemVerify from '../fragment/FormItemVerify.vue'
   import {optionsDefaultData} from '../assets/utils'
+  import {FormItemTypeEnum} from '../../../assets/utils/enuns'
 
   @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
   export default class CreateCrud extends Vue {
@@ -106,10 +107,10 @@
       return {
         model: this.pageModel,
         items: [
-          {label: `类型`, prop: 'type', type: 'radio', options: this.$c.options.pageType},
-          {label: `${this.typeName}名称`, prop: 'pageName', type: 'text', placeholder: '', verify: {required: true}},
-          {label: '实体名称', prop: 'name', type: 'text', placeholder: '表单对应的model对象名称', verify: {required: true}},
-          {label: `${this.typeName}描述`, prop: 'pageDesc', type: 'textarea', placeholder: ''},
+          {label: `类型`, prop: 'type', type: FormItemTypeEnum.radio, options: this.$c.options.pageType},
+          {label: `${this.typeName}名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '', verify: {required: true}},
+          {label: '实体名称', prop: 'name', type: FormItemTypeEnum.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
+          {label: `${this.typeName}描述`, prop: 'pageDesc', type: FormItemTypeEnum.textarea, placeholder: ''},
         ],
         btns: [
           {action: 'save', cb: this.save},

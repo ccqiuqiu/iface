@@ -7,6 +7,7 @@ import {utils} from '@utils/index'
 import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
+import {MessageTypeEnum} from '@utils/enuns'
 // 创建一个axios实例
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL || '',
@@ -56,11 +57,11 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
       store.commit('clearStore')
       setTimeout(() => router.push('/login'), 0)
     } else if (response.data.error.code === 402) {
-      utils.message(response.data.error.message, 'error')
+      utils.message(response.data.error.message, MessageTypeEnum.error)
     }
     // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
     if (!_hideGlobalError) {
-      utils.message(response.data.error.message, 'error')
+      utils.message(response.data.error.message, MessageTypeEnum.error)
     }
     return Promise.reject(response.data.error)
   }
@@ -71,7 +72,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     // store.commit('hideLoading')
     app.$Progress.fail()
   }
-  utils.message('服务端异常', 'error')
+  utils.message('服务端异常', MessageTypeEnum.error)
   return Promise.reject({code: error.response.status, message: error.response.data})
 })
 

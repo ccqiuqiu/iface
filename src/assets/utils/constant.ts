@@ -48,7 +48,7 @@ export default class Constant {
     {label: '资源表格', value: 'resource', type: 'table'},
   ]
 // options是为type为keyValue的选择组件提供选项，key对应OptionsDataSource的value
-  public options: any = {
+  public options: {[propName: string]: any[]} = {
     sex: utils.objToArr(this.SexV),
     status: utils.objToArr(this.StatusV),
     dashboardType: utils.objToArr(this.DashboardTypeV),
@@ -62,23 +62,3 @@ export default class Constant {
   }
 }
 export const constant = new Constant()
-
-/*export enum FormItemType {
-  text = 'text',
-  select = 'select',
-  date = 'date',
-  time = 'time',
-  daterange = 'daterange',
-  timerange = 'timerange',
-  switch = 'switch',
-  checkbox = 'checkbox',
-  checkboxbutton = 'checkboxbutton',
-  radio = 'radio',
-  radiobutton = 'radiobutton',
-  datetime = 'datetime',
-  timeselect = 'timeselect',
-  cascader = 'cascader',
-  number = 'number',
-  slider = 'slider',
-  rate = 'rate',
-}*/

@@ -26,6 +26,7 @@
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import {BaseMixin} from '@utils/mixins'
   import {Action} from 'vuex-class'
+  import {MessageTypeEnum} from '../../../assets/utils/enuns'
 
   @Component({mixins: [BaseMixin]})
   export default class MenuTree extends Vue {
@@ -74,7 +75,7 @@
     }
     public beforeSave() {
       if (this.selected.id && this.selected.id === this.selected.parentId) {
-        this.$utils.message('上级不能是自己！', 'error')
+        this.$utils.message('上级不能是自己！', MessageTypeEnum.error)
         return false
       }
       return true
@@ -98,7 +99,7 @@
     }
     public async onDel() {
       if (!this.selected) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')

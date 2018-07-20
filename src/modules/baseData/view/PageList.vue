@@ -25,6 +25,7 @@
   import { Component, Vue } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import {BaseMixin, PageMixin} from '../../../assets/utils/mixins'
+  import {MessageTypeEnum} from '../../../assets/utils/enuns'
 
   @Component({mixins: [BaseMixin, PageMixin]})
   export default class PageList extends Vue {
@@ -63,7 +64,7 @@
     }
     public onEdit() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, `修改${this.currentRow.pageName}`)
@@ -71,7 +72,7 @@
     }
     public async onDel() {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', 'warning')
+        this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
