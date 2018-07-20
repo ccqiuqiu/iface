@@ -19,7 +19,7 @@
     /*vue-props*/
     @Prop(Array) public value: number[]
     /*vue-vuex*/
-    @Action('formAction') public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
+    @Action public getAllDashboard: () => Promise<ActionReturn>
     /*vue-data*/
     public allDashboard: any[] = []
     public mSelected: number[] = this.value
@@ -31,7 +31,7 @@
     }
     /*vue-method*/
     public async initData() {
-      const {data} = await this.formAction({url: 'searchDashboard', params: {pageSize: 0}})
+      const {data} = await this.getAllDashboard()
       if (data) {
         this.allDashboard = data.rows.map((dashboard: Dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
       }

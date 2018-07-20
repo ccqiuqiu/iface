@@ -16,7 +16,7 @@
         <dashboard-item :data="item.data"></dashboard-item>
       </grid-item>
     </grid-layout>
-    <div :class="['action', {'save': layoutUpdated}]" @click="showEditView">
+    <div :class="['action', {'save': layoutUpdated}]" @click="action">
       <cc-icon name="layout" class="c-white" v-if="!layoutUpdated"></cc-icon>
       <cc-icon name="save" class="c-white" v-if="layoutUpdated"></cc-icon>
     </div>
@@ -38,6 +38,7 @@
     /*vue-props*/
     /*vue-vuex*/
     @Action public getUserDashboard: () => Promise<ActionReturn>
+    @Action public saveUserDashboard: (list: any[]) => Promise<ActionReturn>
     /*vue-data*/
     public colNum: number = 8
     public userDashboard: UserDashboard[] = []
@@ -53,16 +54,24 @@
     }
     public async beforeRouteLeave(to: Route, from: Route, next: any) {
       if (this.layoutUpdated) {
-        const re = await this.$utils.confirm('布局有修改，离开页面前需要保存吗？')
-        if (re) {
-          this.change()
-        }
+        this.$utils.beforeRouteLeave(to, from, next)
+      } else {
+        next()
       }
-      next()
     }
     /*vue-method*/
-    public change() {
-      this.layoutUpdated = false
+    public async save() {
+      const list: any[] = []
+      this.userDashboard.forEach((userDashboard: UserDashboard) => {
+        const clone: any = {...userDashboard}
+        clone.dashboardId = userDashboard.dashboard.id
+        list.push(clone)
+      })
+      const {data} = await this.saveUserDashboard(list)
+      if (data) {
+        this.$utils.message('保存成功！')
+        this.layoutUpdated = false
+      }
     }
     public async initData() {
       const {data} = await this.getUserDashboard()
@@ -120,10 +129,14 @@
       return {x: startX, y: startY}
     }
     // 所有的
-    public showEditView() {
-      this.$utils.dialog(`选择要显示的内容`,
-        (h: any) => <DashboardSelector onSelected={this.onSelected} value={this.selected}></DashboardSelector>,
-      )
+    public action() {
+      if (this.layoutUpdated) {
+        this.save()
+      } else {
+        this.$utils.dialog(`选择要显示的内容`,
+          (h: any) => <DashboardSelector onSelected={this.onSelected} value={this.selected}></DashboardSelector>,
+        )
+      }
     }
     public onSelected(dashboards: Dashboard[]) {
       this.dashboard2UserDashboard(dashboards)

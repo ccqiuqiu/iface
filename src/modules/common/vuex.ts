@@ -140,6 +140,14 @@ const actions: ActionTree<any, any> = {
   getUserDashboard(context: ActionContext<SystemState, State>): Promise<ActionReturn> {
     return api.getUserDashboard()
   },
+  // 获取首页可用的所有仪表盘
+  getAllDashboard(context: ActionContext<SystemState, State>): Promise<ActionReturn> {
+    return api.getAllDashboard()
+  },
+  // 保存用户的仪表盘布局
+  saveUserDashboard(context: ActionContext<SystemState, State>, userDashboards: UserDashboard[]): Promise<ActionReturn> {
+    return api.saveUserDashboard({userDashboards})
+  },
 }
 
 export default {state, getters, mutations, actions}

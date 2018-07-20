@@ -8,6 +8,7 @@ const h: CreateElement = new Vue().$createElement
 import Utils from './utils'
 
 import {MessageType, MyElMessageBoxOptions} from '@/typings/vue'
+import {Route} from 'vue-router'
 
 
 export class UiUtils extends Utils {
@@ -36,6 +37,17 @@ export class UiUtils extends Utils {
         ...options,
       }).then(() => resolve(true)).catch(() => resolve(false))
     }))
+  }
+  // 页面离开的时候，可以弹出提示
+  public async beforeRouteLeave(to: Route, from: Route, next: any, content: string = '有未保存的数据，确定要离开吗？') {
+    // session过期的情况，直接放行，不弹提示，这个时候回调到登录页面
+    if (!store.state.common.user) {
+      next()
+    }
+    const re = await this.confirm(content, '确定离开')
+    if (re) {
+      next()
+    }
   }
 // 消息框支持jsx
   public msgbox(option: MyElMessageBoxOptions) {

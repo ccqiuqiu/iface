@@ -40,4 +40,8 @@ export default {
   delMenu: (id: number, config: any = {}) => request('post', '/v1/system/delMenu/' + id, config),
   // 获取用户首页的仪表盘信息
   getUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getUserDashboard', params, config),
+  // 获取所有的仪表盘
+  getAllDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getAllDashboard', params, config),
+  // 保存用户的仪表盘布局
+  saveUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/saveUserDashboard', params, config),
 }
