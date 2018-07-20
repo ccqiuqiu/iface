@@ -1,11 +1,11 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div class="left" flex="dir:top">
+  <div class="left" flex="dir:top" tabindex="1">
     <div class="logo" flex-box="0" flex="cross:center main:center">
       <span v-if="menuExpand" class="f-24">iFace-Admin</span>
       <span v-else class="f-18">iFace</span>
     </div>
-    <el-menu :default-active="selectedTab"
+    <el-menu ref="menu" :default-active="selectedTab"
          :collapse="!menuExpand"
          @select="selectMenu" flex-box="1">
       <template v-for="menu in menus">
@@ -40,60 +40,73 @@
     /*vue-vuex*/
     @State((state: State) => state.common.menus) public menus: any[]
     @State((state: State) => state.common.menuExpand) public menuExpand: string
-    @State((state: State) => state.common.menuTabs) public menuTabs: any[]
+    // @State((state: State) => state.common.menuTabs) public menuTabs: any[]
     @State((state: State) => state.common.selectedTab) public selectedTab: string
-    @Getter public nav: Menu[]
+    // @Getter public nav: Menu[]
     @Getter public flatMenu: Menu[]
     @Action public getMenu: () => void
-    @Mutation public updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
+    // @Mutation public updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
     @Mutation public updateSelectedTab: (key: string) => void
     /*vue-data*/
-    public activeMenuIndexPath: string[] = []
-    get activeMenu(): string {
-      return this.selectedTab
-    }
-    /*vue-compute*/
-    set activeMenu(val) {
-      this.updateSelectedTab(val)
-    }
+    public perIndex = '0'
+    // public activeMenuIndexPath: string[] = []
+    // get activeMenu(): string {
+    //   return this.selectedTab
+    // }
+    // /*vue-compute*/
+    // set activeMenu(val) {
+    //   this.updateSelectedTab(val)
+    // }
     /*vue-watch*/
-    @Watch('activeMenu')
-    public activeMenuChange() {
-      // if (this.selectedTab === '0') {
-      //   return
-      // }
-      // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
-      // 并且把这个数组整体放到一个数组，用于tabs显示
-      // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
-      // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
-      // const key: string = val.join('_')
-      const val = this.activeMenuIndexPath
-      const menus: Menu[] = val.map((id: string) => {
-        return this.flatMenu.find((m: Menu) => m.id === id) as Menu
-      })
-      if (menus.length) {
-        // 如果menuTabs不存在，表示是新开一个标签
-        const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
-        if (!item) {
-          this.updateTabs({key: this.selectedTab, url: menus[menus.length - 1].url, menus})
-        }
-      }
-    }
+    // @Watch('activeMenu')
+    // public activeMenuChange() {
+    //   // if (this.selectedTab === '0') {
+    //   //   return
+    //   // }
+    //   // 点击菜单的时候，取到当前菜单和所有上级菜单的数组（层级数组），用于nav显示
+    //   // 并且把这个数组整体放到一个数组，用于tabs显示
+    //   // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
+    //   // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
+    //   // const key: string = val.join('_')
+    //   const val = this.activeMenuIndexPath
+    //   const menus: Menu[] = val.map((id: string) => {
+    //     return this.flatMenu.find((m: Menu) => m.id === id) as Menu
+    //   })
+    //   if (menus.length) {
+    //     // 如果menuTabs不存在，表示是新开一个标签
+    //     const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
+    //     if (!item) {
+    //       this.updateTabs({key: this.selectedTab, url: menus[menus.length - 1].url, menus})
+    //     }
+    //   }
+    // }
     // nav是选择的菜单数组，当这个值变化的时候，说明当前选择的菜单被改变了
     // 那跳转URL
     // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
-    @Watch('nav')
-    public publicNavChange(val: Menu[]) {
-      if (val.length) {
-        this.$router.push(val[val.length - 1].url)
-      }
-    }
+    // @Watch('nav')
+    // public publicNavChange(val: Menu[]) {
+    //   if (val.length) {
+    //     this.$router.push(val[val.length - 1].url)
+    //   }
+    // }
     /*vue-lifecycle*/
     /*vue-method*/
     // 菜单选择的回调
     public selectMenu(index: string, indexPath: string[]): void {
-      this.activeMenuIndexPath = indexPath
-      this.activeMenu = index
+      // 此处的处理同tab页一样，也是为了消除组件点击就切换了当前激活的item的效果
+      // 实现页面真正跳转才激活
+      this.perIndex = this.selectedTab
+      this.updateSelectedTab(index)
+      this.$nextTick(() => {
+        this.updateSelectedTab(this.perIndex)
+        this.$el.focus()
+        const menu = this.flatMenu.find((m: Menu) => m.id === index)
+        if (menu) {
+          this.$router.push((menu as Menu).url)
+        }
+      })
+      // this.activeMenuIndexPath = indexPath
+      // this.activeMenu = index
     }
   }
 </script>

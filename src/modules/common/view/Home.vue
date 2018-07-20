@@ -9,23 +9,29 @@
                  :is-resizable="true"
                  :is-mirrored="false"
                  :vertical-compact="true"
-                 :use-css-transforms="true">
+                 :use-css-transforms="true"
+                 @layout-updated="layoutUpdated = true"
+    >
       <grid-item v-for="item in userDashboard" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i">
         <dashboard-item :data="item.data"></dashboard-item>
       </grid-item>
     </grid-layout>
-    <div class="action" @click="showEditView">
-      <cc-icon name="layout" class="c-white"></cc-icon>
+    <div :class="['action', {'save': layoutUpdated}]" @click="showEditView">
+      <cc-icon name="layout" class="c-white" v-if="!layoutUpdated"></cc-icon>
+      <cc-icon name="save" class="c-white" v-if="layoutUpdated"></cc-icon>
     </div>
   </div>
 </template>
 
 <script lang="tsx">
-  import {Component, Vue, Watch} from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
   import VueGridLayout from 'vue-grid-layout'
   import DashboardItem from '../fragment/DashboardItem.vue'
   import {Action} from 'vuex-class'
   import DashboardSelector from '../fragment/DashboardSelector.vue'
+  import {Route} from 'vue-router'
+
+  Component.registerHooks(['beforeRouteLeave'])
 
   @Component({components: {GridLayout: VueGridLayout.GridLayout, GridItem: VueGridLayout.GridItem, DashboardItem}})
   export default class Home extends Vue {
@@ -35,20 +41,21 @@
     /*vue-data*/
     public colNum: number = 8
     public userDashboard: UserDashboard[] = []
+    public layoutUpdated: boolean = false
     /*vue-compute*/
     get selected() {
       return this.userDashboard.map((userDashboard: UserDashboard) => userDashboard.dashboard.id)
     }
     /*vue-watch*/
-    @Watch('userDashboard', {deep: true})
-    public userDashboardChange() {
-    }
     /*vue-lifecycle*/
     public created() {
       this.initData()
     }
+    public beforeRouteLeave(to: Route, from: Route, next: any) {
+      next()
+    }
     /*vue-method*/
-    public save() {
+    public change() {
       console.log(222)
     }
     public async initData() {
@@ -142,6 +149,10 @@
       padding: 10px;
       border-radius: 50%;
       transition: all .5s;
+    }
+    .action.save{
+      background-color: $color-danger;
+      opacity: 1;
     }
     .action:hover{
       opacity: 1;
