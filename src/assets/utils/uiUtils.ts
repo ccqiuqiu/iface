@@ -7,7 +7,6 @@ import Vue, {CreateElement} from 'vue'
 const h: CreateElement = new Vue().$createElement
 import Utils from './utils'
 
-import {MessageType, MyElMessageBoxOptions} from '@/typings/vue'
 import {Route} from 'vue-router'
 
 
