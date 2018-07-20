@@ -1,23 +1,25 @@
 <!--Created by 熊超超 on 2018/7/9.-->
 <template>
-  <el-card shadow="never" class="p" v-loading="loading">
-    <div slot="header" flex="cross:center">
-      <span flex-box="1">{{pageTitle}}</span>
-      <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
-      <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
-    </div>
-    <div flex="box:first">
-      <div class="left">
-        <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
-        <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}" default-expand-all
-                 :filter-node-method="filterNode" highlight-current node-key="id"
-                 @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
+  <div>
+    <el-card shadow="never" class="p" v-loading="loading">
+      <div slot="header" flex="cross:center">
+        <span flex-box="1">{{pageTitle}}</span>
+        <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
       </div>
-      <div>
-        <cc-form-dynamic v-if="selected" ref="form" :model="selected" :form-id="3" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
+      <div flex="box:first">
+        <div class="left">
+          <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
+          <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}" default-expand-all
+                   :filter-node-method="filterNode" highlight-current node-key="id"
+                   @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
+        </div>
+        <div>
+          <cc-form-dynamic v-if="selected" ref="form" :model="selected" :form-id="3" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
+        </div>
       </div>
-    </div>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script lang="ts">

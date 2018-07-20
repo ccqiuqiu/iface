@@ -51,12 +51,18 @@
     public created() {
       this.initData()
     }
-    public beforeRouteLeave(to: Route, from: Route, next: any) {
+    public async beforeRouteLeave(to: Route, from: Route, next: any) {
+      if (this.layoutUpdated) {
+        const re = await this.$utils.confirm('布局有修改，离开页面前需要保存吗？')
+        if (re) {
+          this.change()
+        }
+      }
       next()
     }
     /*vue-method*/
     public change() {
-      console.log(222)
+      this.layoutUpdated = false
     }
     public async initData() {
       const {data} = await this.getUserDashboard()
