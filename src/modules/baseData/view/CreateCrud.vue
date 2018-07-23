@@ -60,7 +60,6 @@
   import FormItemProps from '../fragment/FormItemProps.vue'
   import FormItemOptions from '../fragment/FormItemOptions.vue'
   import FormItemVerify from '../fragment/FormItemVerify.vue'
-  import {optionsDefaultData} from '../assets/utils'
   import {FormItemTypeEnum} from '../../../assets/utils/enuns'
 
   @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})

@@ -4,6 +4,7 @@
 
 import utils from './uiUtils'
 import {constant} from './constant'
+import ls from './lsUtils'
 
 export {utils}
 
@@ -11,6 +12,7 @@ export default {
   install(Vue: any, $i18n: any): void {
     Vue.prototype.$utils = utils
     Vue.prototype.$c = constant
+    Vue.prototype.$ls = ls
 
     /**
      * 验证资源权限指令

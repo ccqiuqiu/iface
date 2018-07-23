@@ -84,6 +84,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
       }
     }
   }
+
+  .vue-grid-item.vue-grid-placeholder{
+    background-color : $color-danger;
+  }
 }
 // 表单样式
 .el-form{
@@ -197,4 +201,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 .f-b{
   font-weight: bold;
+}
+.vue-grid-item > div, .vue-grid-item .root{
+  height: 100%;
 }

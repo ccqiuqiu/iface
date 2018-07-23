@@ -221,5 +221,6 @@ declare global {
     name: string,
     type: number,
     url: string,
+    color: string,
   }
 }

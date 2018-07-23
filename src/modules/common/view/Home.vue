@@ -12,8 +12,10 @@
                  :use-css-transforms="true"
                  @layout-updated="layoutUpdated = true"
     >
-      <grid-item v-for="item in userDashboard" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i">
-        <dashboard-item :data="item.data"></dashboard-item>
+      <grid-item v-for="item in userDashboard"
+                 :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i"
+                 dragIgnoreFrom=".ignore">
+        <dashboard-item :dashboard="item.dashboard" :size="{w: item.w, h: item.h}"></dashboard-item>
       </grid-item>
     </grid-layout>
     <div :class="['action', {'save': layoutUpdated}]" @click="action">
@@ -140,6 +142,7 @@
     }
     public onSelected(dashboards: Dashboard[]) {
       this.dashboard2UserDashboard(dashboards)
+      this.layoutUpdated = true
       this.$utils.hideDialog()
     }
   }
@@ -176,6 +179,5 @@
     .action:hover{
       opacity: 1;
     }
-
   }
 </style>

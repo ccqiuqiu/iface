@@ -180,10 +180,17 @@ input::-moz-focus-inner {
     padding-right: #{$i}px;
   }
 }
+// 字体 10-50 偶数
 @for $i from 5 through 25{
   $j: 2*$i;
   .f-#{$j} {
     font-size: #{$j}px;
+  }
+}
+//
+@for $i from 0 through 10{
+  .o-#{$i} {
+    opacity: #{$i/10};
   }
 }
 .a-c{
@@ -220,4 +227,10 @@ input::-moz-focus-inner {
 }
 .c-white{
   color: white;
+}
+.h-100{
+  height: 100%;
+}
+.w-100{
+  width: 100%;
 }

@@ -1,5 +1,6 @@
 import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
 import {utils} from '@utils/index'
+import router from '@g/router'
 import api from '@g/api'
 const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
 const state: CommonState = {
@@ -72,7 +73,9 @@ const mutations: MutationTree<any> = {
     // 暂定激活下一个
     if (key === state.selectedTab) {
       const newIndex = state.menuTabs[index] ? index : index - 1
-      state.selectedTab = state.menuTabs[newIndex].key
+      // state.selectedTab = state.menuTabs[newIndex].key
+      // 跳转url
+      router.push(state.menuTabs[newIndex].url)
     }
   },
   // 更新Dialog弹窗
@@ -147,6 +150,10 @@ const actions: ActionTree<any, any> = {
   // 保存用户的仪表盘布局
   saveUserDashboard(context: ActionContext<SystemState, State>, userDashboards: UserDashboard[]): Promise<ActionReturn> {
     return api.saveUserDashboard({userDashboards})
+  },
+  // 获取仪表盘的数据
+  getDashboardData(context: ActionContext<SystemState, State>, params: any): Promise<ActionReturn>  {
+    return api.getDashboardData(params.url, params.params)
   },
 }
 

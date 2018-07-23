@@ -25,6 +25,7 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
 
+
     // 单独打包vue相关库
     // config.entry('lib')
     //   .add('vue')

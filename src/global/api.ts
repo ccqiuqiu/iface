@@ -44,4 +44,5 @@ export default {
   getAllDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getAllDashboard', params, config),
   // 保存用户的仪表盘布局
   saveUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/saveUserDashboard', params, config),
+  getDashboardData: (url: string, params: any = {}, config: any = {}) => request('post', '/v1' + url, params, config),
 }

@@ -6,6 +6,7 @@ import { Message, MessageBox } from 'element-ui'
 import Vue, {CreateElement} from 'vue'
 const h: CreateElement = new Vue().$createElement
 import Utils from './utils'
+import router from '@g/router'
 
 import {Route} from 'vue-router'
 import {MessageType} from 'element-ui/types/message'
@@ -112,6 +113,8 @@ export class UiUtils extends Utils {
         noMenuTabsMap[key] = url
       }
     }
+    // 跳转一下页面
+    router.push(url)
   }
   public closeTab(url?: string) {
     store.commit('removeTab')
@@ -128,6 +131,7 @@ export class UiUtils extends Utils {
       return resources.includes(binding.value)
     }
   }
+
 }
 
 export default new UiUtils()

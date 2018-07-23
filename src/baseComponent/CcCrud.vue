@@ -4,7 +4,7 @@
     <cc-form :data="searchForm" class="p-t-10 div p-h-10" is-search :show-message="false" @search="getData"></cc-form>
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
-        <span flex-box="1">{{data.title || ''}}</span>
+        <span flex-box="1" class="f-16">{{data.title || ''}}</span>
         <cc-button v-auth="'add' + data.name" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'edit' + data.name" icon="edit" text="修改" @click="onEdit"/>
         <cc-button v-auth="'view' + data.name" icon="view" text="查看" @click="onView"/>
