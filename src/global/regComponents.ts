@@ -16,6 +16,7 @@ import VueProgressBar from 'vue-progressbar'
 // import VeMap from 'v-charts/lib/map'
 // import VeChart from 'v-charts/lib/chart'
 import VCharts from 'v-charts'
+import CcChart from '@bc/CcChart.vue'
 
 
 export default {
@@ -26,6 +27,7 @@ export default {
     Vue.component('cc-form', CcForm)
     Vue.component('cc-crud', CcCrud)
     Vue.component('cc-form-dynamic', CcFormDynamic)
+    Vue.component('cc-chart', CcChart)
     // Vue.component(VeLine.name, VeLine)
     // Vue.component(VeHistogram.name, VeHistogram)
     // Vue.component(VePie.name, VePie)

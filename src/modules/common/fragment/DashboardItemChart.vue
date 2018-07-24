@@ -2,16 +2,7 @@
 <template>
   <div class="h-100">
     <dashboard-title :dashboard="dashboard" :more="data && !!data.link"></dashboard-title>
-    <div class="m-10">
-      <ve-map v-if="dashboard.type === $c.DashboardTypeV['图表-地图']" ref="chart" v-bind="chartData"></ve-map>
-      <ve-sankey v-else-if="dashboard.type === $c.DashboardTypeV['图表-桑基图']" ref="chart" v-bind="chartData"></ve-sankey>
-      <ve-heatmap v-else-if="dashboard.type === $c.DashboardTypeV['图表-热力图']" ref="chart" v-bind="chartData"></ve-heatmap>
-      <ve-scatter v-else-if="dashboard.type === $c.DashboardTypeV['图表-散点图']" ref="chart" v-bind="chartData"></ve-scatter>
-      <ve-candle v-else-if="dashboard.type === $c.DashboardTypeV['图表-K线图']" ref="chart" v-bind="chartData"></ve-candle>
-      <ve-gauge v-else-if="dashboard.type === $c.DashboardTypeV['图表-仪表盘']" ref="chart" v-bind="chartData"></ve-gauge>
-      <ve-tree v-else-if="dashboard.type === $c.DashboardTypeV['图表-树图']" ref="chart" v-bind="chartData"></ve-tree>
-      <ve-chart v-else ref="chart" v-bind="chartData"></ve-chart>
-    </div>
+    <cc-chart class="m-10" ref="chart" v-bind="chartData" v-if="chartData.data"></cc-chart>
   </div>
 </template>
 
@@ -51,7 +42,6 @@
       const data: any = {}
       data.data = this.data.data
       data.settings = {type: this.dashboard.type, ...this.data.settings}
-      data.settings = {type: this.dashboard.type, ...this.data.settings}
       data.height = this.height
       data.width = 'auto'
       data.judgeWidth = true
@@ -60,7 +50,9 @@
     /*vue-watch*/
     @Watch('size', {deep: true})
     public sizeChange() {
-      (this.$refs.chart as Vue).resize()
+      if (this.$refs.chart) {
+        (this.$refs.chart as Vue).resize()
+      }
     }
     /*vue-lifecycle*/
     /*vue-method*/
