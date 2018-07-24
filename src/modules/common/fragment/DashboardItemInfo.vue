@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/7/23.-->
 <template>
-  <div class="root ignore" flex="dir:top box:last" :style="styleObj" v-if="data">
+  <div class="root" flex="dir:top box:last" :style="styleObj" v-if="data">
     <div flex="box:last cross:center" class="p-10">
       <div felx="">
         <div class="f-36">{{data.title}}</div>
@@ -8,10 +8,10 @@
       </div>
       <span class="icon"><cc-icon :name="dashboard.icon" size="50"></cc-icon></span>
     </div>
-    <a class="more p-v-4 f-12 o-8 cp" flex="cross:center main:center" @click="more">
+    <div class="more p-v-4 f-12 o-8 cp ignore" flex="cross:center main:center" @click="more">
       <span>更多</span>
       <span><cc-icon name="arrow" size="14"></cc-icon></span>
-    </a>
+    </div>
   </div>
 </template>
 
