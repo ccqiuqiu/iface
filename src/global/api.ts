@@ -20,7 +20,7 @@ const request = (method: string, url: string, data: any = {}, config: any = {}):
 
 export default {
   searchPage: (params: {pageNum: number, pageSize: number}, config: any = {}) => request('post', formBaseUrl + 'searchPage', params, config),
-  getPage: (id: string, config: any = {}) => request('post', formBaseUrl + 'getPage/' + id, config),
+  getPage: (pageCode: string, config: any = {}) => request('post', formBaseUrl + 'getPage/' + pageCode, config),
   savePage: (params: any = {}, config: any = {}) => request('post', formBaseUrl + 'savePage', params, config),
   // 表单按钮的统一方法
   formAction: (url: string, params: any, config: any = {}) => request('post', formBaseUrl + url, params, config),

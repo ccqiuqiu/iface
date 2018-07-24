@@ -12,8 +12,8 @@ const actions: ActionTree<any, any> = {
     return api.searchPage(params)
   },
   //
-  getPage(context: ActionContext<SystemState, State>, id: string): Promise<any> {
-    return api.getPage(id)
+  getPage(context: ActionContext<SystemState, State>, pageCode: string): Promise<any> {
+    return api.getPage(pageCode)
   },
   //
   savePage(context: ActionContext<SystemState, State>, page: Page): Promise<any> {

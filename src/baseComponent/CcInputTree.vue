@@ -8,7 +8,7 @@
                :default-expanded-keys="selectedKeys"
                :node-key="valueField"
                check-on-click-node
-               :check-strictly='false'
+               :check-strictly='true'
                :props="props"
                v-if="forceUpdate"
                v-bind="$attrs"

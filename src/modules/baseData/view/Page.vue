@@ -11,7 +11,7 @@
   export default class CrudDemo extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
+    @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>
     /*vue-data*/
     public data: CRUDObject | null = null
     /*vue-compute*/
@@ -22,8 +22,8 @@
     }
     /*vue-lifecycle*/
     public async getData() {
-      const id = this.$route.params['id']
-      const {data} = await this.getPage(id)
+      const code = this.$route.params['code']
+      const {data} = await this.getPage(code)
       if (data) {
         if (data.value) {
           this.data = JSON.parse(data.value)

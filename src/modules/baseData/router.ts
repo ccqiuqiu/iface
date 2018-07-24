@@ -19,7 +19,7 @@ export default [
     component: CreateCrud,
   },
   {
-    path: '/baseData/page/:id',
+    path: '/baseData/page/:code',
     name: 'page',
     component: Page,
   },

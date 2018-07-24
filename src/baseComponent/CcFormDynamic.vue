@@ -10,10 +10,10 @@
   @Component
   export default class CcFormDynamic extends Vue {
     /*vue-props*/
-    @Prop() public formId: number
+    @Prop() public formCode: string
     @Prop() public model: any
     /*vue-vuex*/
-    @Action public getPage: (id: number) => Promise<ActionReturn>
+    @Action public getPage: (pageCode: string) => Promise<ActionReturn>
     /*vue-data*/
     public formObject: any = null
     public show: boolean = true
@@ -28,7 +28,7 @@
     }
     /*vue-method*/
     public async getFormJson() {
-      const {data} = await this.getPage(this.formId)
+      const {data} = await this.getPage(this.formCode)
       if (data) {
         this.formObject = JSON.parse(data.value)
       }

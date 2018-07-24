@@ -66,7 +66,7 @@
   export default class CreateCrud extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
+    @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>
     @Action('savePage') public savePage: (page: Page) => Promise<ActionReturn>
     /*vue-data*/
     public controls: any = [
@@ -107,7 +107,8 @@
         model: this.pageModel,
         items: [
           {label: `类型`, prop: 'type', type: FormItemTypeEnum.radio, options: this.$c.options.pageType},
-          {label: `${this.typeName}名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '', verify: {required: true}},
+          {label: `${this.typeName}名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '页面名称', verify: {required: true}},
+          {label: `${this.typeName}代码`, prop: 'pageCode', type: FormItemTypeEnum.text, placeholder: '唯一编码', verify: {required: true}},
           {label: '实体名称', prop: 'name', type: FormItemTypeEnum.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
           {label: `${this.typeName}描述`, prop: 'pageDesc', type: FormItemTypeEnum.textarea, placeholder: ''},
         ],
@@ -138,8 +139,8 @@
       this.initPage()
     }
     public async initPage() {
-      if (this.$route.query['id']) {
-        const {data} = await this.getPage(this.$route.query['id'])
+      if (this.$route.query['code']) {
+        const {data} = await this.getPage(this.$route.query['code'])
         if (data) {
           const {value, ...pageModel} = data
           this.pageModel = pageModel as Page

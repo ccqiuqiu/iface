@@ -133,7 +133,7 @@
     public source: number = 2
     public source1: string = ''
     public source2: string = ''
-    public dialogOptions = [{label: '资源管理', value: 4}]
+    public dialogOptions = [{label: '资源管理', value: 'resource'}]
     /*vue-compute*/
     get options() {
       if (this.item.type === 'dialog') {

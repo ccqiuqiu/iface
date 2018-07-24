@@ -15,7 +15,7 @@
                    @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
         </div>
         <div>
-          <cc-form-dynamic v-if="selected" ref="form" :model="selected" :form-id="3" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
+          <cc-form-dynamic v-if="selected" ref="form" :model="selected" form-code="menu" :before-save="beforeSave" @save="saved"></cc-form-dynamic>
         </div>
       </div>
     </el-card>
@@ -67,7 +67,7 @@
     }
     public changeSelected(menu: Menu) {
       const clone = {...menu}
-      delete clone.children
+      delete clone['children']
       this.selected = clone
       if (this.$refs.form) {
         (this.$refs.form as Vue).forceUpdate()

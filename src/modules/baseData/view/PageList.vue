@@ -35,7 +35,6 @@
     @Action public requestUrl: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public columns: TableColumn[] = [
-      {prop: 'id', label: '编号', width: '100px'},
       {prop: 'pageName', label: '名称', width: '120px'},
       {prop: 'name', label: '实体对象', width: '100px'},
       {prop: 'type', label: '类型', width: '80px',
@@ -67,8 +66,8 @@
         this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
-      this.$utils.toTab('/baseData/createCrud?id=' + this.currentRow.id, `修改${this.currentRow.pageName}`)
-      // this.$router.push({name: 'createCrud', query: {id: this.currentRow.id}})
+      this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+      // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
     }
     public async onDel() {
       if (!this.currentRow) {
@@ -78,7 +77,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.requestUrl('delPage/' + this.currentRow.id)
+        const{error} = await this.requestUrl('delPage/' + this.currentRow.pageCode)
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
