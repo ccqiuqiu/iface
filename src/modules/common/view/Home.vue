@@ -1,10 +1,10 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
   <div class="home">
-    <grid-layout
+    <grid-layout v-if="userDashboard.length"
                  :layout="userDashboard"
                  :col-num="colNum"
-                 :row-height="30"
+                 :row-height="rowHight"
                  :is-draggable="true"
                  :is-resizable="true"
                  :is-mirrored="false"
@@ -15,7 +15,7 @@
       <grid-item v-for="item in userDashboard"
                  :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i"
                  dragIgnoreFrom=".ignore">
-        <dashboard-item :dashboard="item.dashboard" :size="{w: item.w, h: item.h}"></dashboard-item>
+        <dashboard-item :dashboard="item.dashboard" :size="{w: item.w, h: item.h * rowHight + 10 * (item.h - 1) - 60}"></dashboard-item>
       </grid-item>
     </grid-layout>
     <div :class="['action', {'save': layoutUpdated}]" @click="action">
@@ -42,6 +42,7 @@
     @Action public getUserDashboard: () => Promise<ActionReturn>
     @Action public saveUserDashboard: (list: any[]) => Promise<ActionReturn>
     /*vue-data*/
+    public rowHight: number = 30
     public colNum: number = 8
     public userDashboard: UserDashboard[] = []
     public layoutUpdated: boolean = false
@@ -142,7 +143,7 @@
     }
     public onSelected(dashboards: Dashboard[]) {
       this.dashboard2UserDashboard(dashboards)
-      this.layoutUpdated = true
+      this.save()
       this.$utils.hideDialog()
     }
   }
@@ -163,7 +164,7 @@
   .home {
     .action{
       cursor: pointer;
-      position: absolute;
+      position: fixed;
       right: 16px;
       bottom: 16px;
       background-color: $color-warning;

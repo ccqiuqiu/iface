@@ -8,6 +8,7 @@ declare module 'v-charts/*' {
   const vChart: any
   export default vChart
 }
+declare module 'v-charts'
 declare module 'vue-progressbar' {
   const obj: any
   export default obj

@@ -6,7 +6,6 @@
     <span flex-box="0" v-if="more" class="ignore c-info f-12 cp" @click="$emit('click')">more</span>
   </div>
 </template>
-
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
 

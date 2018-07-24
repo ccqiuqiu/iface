@@ -219,7 +219,7 @@ declare global {
   interface Dashboard extends IndexEd {
     id: number,
     name: string,
-    type: number,
+    type: string,
     url: string,
     color: string,
   }

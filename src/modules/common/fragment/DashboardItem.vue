@@ -3,8 +3,8 @@
   <div v-loading="loading">
     <dashboard-item-info v-if="dashboard.type === $c.DashboardTypeV.信息面板" :data="data" :dashboard="dashboard"></dashboard-item-info>
     <dashboard-item-list v-else-if="dashboard.type === $c.DashboardTypeV.列表" :data="data" :dashboard="dashboard"></dashboard-item-list>
-    <dashboard-item-chart v-else-if="dashboard.type === $c.DashboardTypeV.图表" :data="data" :dashboard="dashboard" v-bind="$attrs"></dashboard-item-chart>
     <dashboard-item-table v-else-if="dashboard.type === $c.DashboardTypeV.表格" :data="data" :dashboard="dashboard" @change-page="changePage"></dashboard-item-table>
+    <dashboard-item-chart v-else :data="data" :dashboard="dashboard" v-bind="$attrs"></dashboard-item-chart>
   </div>
 </template>
 

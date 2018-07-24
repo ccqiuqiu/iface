@@ -30,10 +30,24 @@ export default class Constant {
 
 // DashboardType
   public DashboardTypeV = {
-    信息面板: 1,
-    列表: 2,
-    表格: 3,
-    图表: 4,
+    '信息面板': 'info',
+    '列表': 'list',
+    '表格': 'table',
+    '图表-折线图': 'line',
+    '图表-柱状图': 'histogram',
+    '图表-条形图': 'bar',
+    '图表-饼图': 'pie',
+    '图表-环形图': 'ring',
+    '图表-瀑布图': 'waterfall',
+    '图表-漏斗图': 'funnel',
+    '图表-雷达图': 'radar',
+    '图表-地图': 'map',
+    '图表-桑基图': 'sankey',
+    '图表-热力图': 'heatmap',
+    '图表-散点图': 'scatter',
+    '图表-K线图': 'candle',
+    '图表-仪表盘': 'gauge',
+    '图表-树图': 'tree',
   }
 
   public DashboardTypeK: any = null
