@@ -48,6 +48,11 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     if (_loading) {
       app.$Progress.finish()
     }
+    // 如果是录制模式，每个请求返回后，将结果发送到录制服务器
+    if (process.env.VUE_APP_RECORD) {
+      const url = (response.config.url as string).replace(response.config.baseURL as string, '')
+      requestRecord('', {url, data: response.data.data})
+    }
     return Promise.resolve(response.data.data)
   } else {
     if (_loading) {
@@ -77,3 +82,13 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
 })
 
 export default axiosInstance
+
+const axiosRecord = axios.create({
+  baseURL: process.env.VUE_APP_RECORD_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+export function requestRecord(url: string, data?: any) {
+  return axiosRecord.post(url, data)
+}

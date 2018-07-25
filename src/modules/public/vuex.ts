@@ -15,6 +15,10 @@ const actions: ActionTree<any, any> = {
   logout(context: ActionContext<CommonState, State>): Promise<any> {
     return api.logout()
   },
+  // 保存接口录制的数据
+  saveRecord(context: ActionContext<CommonState, State>) {
+    return api.saveRecord()
+  },
 }
 
 export default {state, mutations, actions}

@@ -121,6 +121,9 @@
       background-color: mix($color-black, $color-primary, 10%);
     }
   }
+  .left:focus{
+    outline: 0;
+  }
   .left /deep/ {
     .el-menu:not(.el-menu--collapse) {
       width: 200px;

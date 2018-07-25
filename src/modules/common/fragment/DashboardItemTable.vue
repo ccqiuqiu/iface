@@ -5,7 +5,7 @@
     <div>
       <cc-table :rows="data.rows" :columns="data.columns" size="mini"></cc-table>
     </div>
-    <el-pagination class="p-10 a-c" small layout="prev, pager, next" :total="data.total" :page-size="1" :current-page.sync="currentPage">
+    <el-pagination class="p-10 a-c" small layout="prev, pager, next" :total="data.total" :page-size="5" :current-page.sync="currentPage">
     </el-pagination>
   </div>
 </template>

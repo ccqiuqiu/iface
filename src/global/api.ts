@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import conn from './conn'
+import conn, {requestRecord} from './conn'
 
 const formBaseUrl = '/v1/page/'
 
@@ -45,4 +45,7 @@ export default {
   // 保存用户的仪表盘布局
   saveUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/saveUserDashboard', params, config),
   getDashboardData: (url: string, params: any = {}, config: any = {}) => request('post', '/v1' + url, params, config),
+  //
+  // 保存接口录制的数据
+  saveRecord: () => requestRecord('/save'),
 }

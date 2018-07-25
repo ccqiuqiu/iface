@@ -32,7 +32,7 @@
       this.initData()
     }
     /*vue-method*/
-    public async initData(params?: any) {
+    public async initData(params: any = {pageSize: 5}) {
       this.loading = true
       const {data} = await this.getDashboardData({url: this.dashboard.url, params})
       this.loading = false
@@ -41,7 +41,7 @@
       }
     }
     public changePage(pageNum: number) {
-      this.initData({pageNum})
+      this.initData({pageNum, pageSize: 5})
     }
   }
 </script>

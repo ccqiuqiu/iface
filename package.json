@@ -6,8 +6,8 @@
     "dev": "vue-cli-service serve",
     "mock": "vue-cli-service serve --mode mock",
     "build": "vue-cli-service build",
-    "build-m": "vue-cli-service build --mode record",
-    "record": "concurrently \"vue-cli-service serve\" \"node record/index.ts\"",
+    "build-m": "vue-cli-service build --mode mock",
+    "record": "concurrently \"vue-cli-service serve --mode record\" \"node src/record/app.js\"",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -37,6 +37,10 @@
     "@vue/cli-plugin-typescript": "^3.0.0-rc.5",
     "@vue/cli-service": "^3.0.0-rc.5",
     "ajv": "^6.0.0",
+    "concurrently": "^3.6.1",
+    "kcors": "^2.2.2",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
