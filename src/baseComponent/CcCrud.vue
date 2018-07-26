@@ -30,7 +30,7 @@
   import {Action} from 'vuex-class'
   import CrudUtils from '@utils/crudUtils.tsx'
   import CcCrudView from '@bc/CcCrudView.vue'
-  import {MessageTypeEnum} from '../assets/utils/enuns'
+  import {MessageTypeEnum} from '../assets/utils/enums'
 
   @Component
   export default class CcCrud extends Vue {

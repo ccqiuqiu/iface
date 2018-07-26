@@ -8,7 +8,7 @@ import {VNode} from 'vue'
 import Constant from '@utils/constant'
 import {UiUtils} from '@utils/uiUtils'
 import {DefaultComputed, DefaultData, DefaultMethods, DefaultProps, PropsDefinition} from 'vue/types/options'
-import {FormItemTypeEnum} from '@utils/enuns'
+import {FormItemTypeEnum} from '@utils/enums'
 
 // 给Vue组件原型上增加的方法定义类型
 declare module 'vue/types/vue' {

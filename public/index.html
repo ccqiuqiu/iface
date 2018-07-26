@@ -6,12 +6,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>iFace</title>
+    <style type="text/css">
+      .loadingSvg {
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        top: 46%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but vue-cli3 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <img class="loadingSvg" src="<%= BASE_URL %>loading.svg" />
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

@@ -25,7 +25,7 @@
   import { Component, Vue } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import {BaseMixin, PageMixin} from '../../../assets/utils/mixins'
-  import {MessageTypeEnum} from '../../../assets/utils/enuns'
+  import {MessageTypeEnum} from '../../../assets/utils/enums'
 
   @Component({mixins: [BaseMixin, PageMixin]})
   export default class PageList extends Vue {

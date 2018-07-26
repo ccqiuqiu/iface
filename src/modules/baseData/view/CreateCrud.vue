@@ -60,7 +60,7 @@
   import FormItemProps from '../fragment/FormItemProps.vue'
   import FormItemOptions from '../fragment/FormItemOptions.vue'
   import FormItemVerify from '../fragment/FormItemVerify.vue'
-  import {FormItemTypeEnum} from '../../../assets/utils/enuns'
+  import {FormItemTypeEnum} from '../../../assets/utils/enums'
 
   @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
   export default class CreateCrud extends Vue {

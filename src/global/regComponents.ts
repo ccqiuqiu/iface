@@ -37,7 +37,7 @@ export default {
     // Vue.component(VeMap.name, VeMap)
     // Vue.component(VeChart.name, VeChart)
     Vue.use(VueProgressBar, {
-      color: '#4ebaf8',
+      color: '#93ccf8',
       failedColor: '#F56C6C',
     })
   },

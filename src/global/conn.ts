@@ -7,7 +7,7 @@ import {utils} from '@utils/index'
 import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
-import {MessageTypeEnum} from '@utils/enuns'
+import {MessageTypeEnum} from '@utils/enums'
 // 创建一个axios实例
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL || '',

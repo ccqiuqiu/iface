@@ -26,7 +26,7 @@
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import {BaseMixin} from '@utils/mixins'
   import {Action} from 'vuex-class'
-  import {MessageTypeEnum} from '../../../assets/utils/enuns'
+  import {MessageTypeEnum} from '../../../assets/utils/enums'
 
   @Component({mixins: [BaseMixin]})
   export default class MenuTree extends Vue {

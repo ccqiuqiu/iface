@@ -5,6 +5,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  baseUrl: process.env.BASE_URL || '/',
   // lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: [
