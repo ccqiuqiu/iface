@@ -29,8 +29,9 @@
   export default class Login extends Vue {
     /*vue-props*/
     /*vue-vuex*/
-    @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
     @Mutation('clearStore') public clearStore: () => void
+    @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
+    @Action public getAuth: () => Promise<ActionReturn>
     /*vue-data*/
     public user: User = {
       name: 'admin',
@@ -47,6 +48,7 @@
         this.$utils.message(error.message, MessageTypeEnum.error)
       } else {
         this.$utils.message('登录成功')
+        const {data} = await this.getAuth()
         this.$router.push('/')
       }
     }

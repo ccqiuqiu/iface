@@ -5,8 +5,8 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
         <span flex-box="1" class="f-16">{{data.title || ''}}</span>
-        <cc-button v-auth="'add' + data.name" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="'edit' + data.name" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="'save' + data.name" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="'save' + data.name" icon="edit" text="修改" @click="onEdit"/>
         <cc-button v-auth="'view' + data.name" icon="view" text="查看" @click="onView"/>
         <cc-button v-auth="'del' + data.name" icon="delete" text="删除" @click="onDel"/>
       </div>

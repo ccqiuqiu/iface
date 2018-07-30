@@ -4,8 +4,8 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
-        <cc-button v-auth="'addPage'" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="'editPage'" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="'savePage'" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="'savePage'" icon="edit" text="修改" @click="onEdit"/>
         <cc-button v-auth="'delPage'" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" :rows="rows" :columns="columns" v-loading="loading"

@@ -2,7 +2,7 @@
  * Created by 熊超超 on 2018/5/28.
  */
 
-class LsUtils {
+export class LsUtils {
   public set(key: string, val: any): void {
     if (typeof val === 'object') {
       val = JSON.stringify(val)

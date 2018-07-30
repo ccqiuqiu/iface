@@ -8,7 +8,9 @@
     "build": "vue-cli-service build",
     "build-m": "vue-cli-service build --mode mock",
     "record": "concurrently \"vue-cli-service serve --mode record\" \"node src/record/app.js\"",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "doc": "vuepress dev docs",
+    "build-doc": "vuepress build docs"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -45,7 +47,8 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "svg-sprite-loader": "^3.7.3",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.16",
+    "vuepress": "^0.13.0"
   },
   "postcss": {
     "plugins": {

@@ -7,6 +7,7 @@ import {Vue} from 'vue/types/vue'
 import {VNode} from 'vue'
 import Constant from '@utils/constant'
 import {UiUtils} from '@utils/uiUtils'
+import {LsUtils} from '@utils/lsUtils'
 import {DefaultComputed, DefaultData, DefaultMethods, DefaultProps, PropsDefinition} from 'vue/types/options'
 import {FormItemTypeEnum} from '@utils/enums'
 
@@ -15,6 +16,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $utils: UiUtils,
     $c: Constant,
+    $ls: LsUtils,
     [propName: string]: any
   }
 }

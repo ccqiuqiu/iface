@@ -5,6 +5,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  runtimeCompiler: true, // 包含编译器
   baseUrl: process.env.BASE_URL || '/',
   // lintOnSave: false,
   productionSourceMap: false,
@@ -65,6 +66,11 @@ module.exports = {
   },
   devServer: {
     port: 9088,
-    // proxy: {},
+    proxy: {
+      '/v1': {
+        target: 'http://127.0.0.1:3000',
+        changeOrigin: true
+      },
+    },
   },
 }

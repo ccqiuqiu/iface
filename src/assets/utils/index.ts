@@ -6,7 +6,7 @@ import utils from './uiUtils'
 import {constant} from './constant'
 import ls from './lsUtils'
 
-export {utils}
+export {utils, ls}
 
 export default {
   install(Vue: any, $i18n: any): void {
