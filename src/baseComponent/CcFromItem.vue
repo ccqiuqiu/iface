@@ -82,7 +82,7 @@
     @Prop(Boolean) public noVerify: boolean
     /*vue-vuex*/
     @Action('getOptions') public getOptions: (url: string) => Promise<any>
-    @Action('getPage') public getPage: (id: string) => Promise<ActionReturn>
+    @Action public getPageOptions: (id: string) => Promise<ActionReturn>
     /*vue-data*/
     public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
     public loading: boolean = false
@@ -148,7 +148,7 @@
 
         let data: any = null
         if (type === 'dialog') {
-          const re = await this.getPage(this.mItem.options)
+          const re = await this.getPageOptions(this.mItem.options)
           if (re.data) {
             data = JSON.parse(re.data.value)
           }

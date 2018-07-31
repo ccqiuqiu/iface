@@ -136,6 +136,9 @@ const actions: ActionTree<any, any> = {
     //   return null
     // }
   },
+  getPageOptions(context: ActionContext<SystemState, State>, code: string): Promise<ActionReturn> {
+    return api.getPageOptions(code)
+  },
   requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
     return api.requestUrl(url)
   },
