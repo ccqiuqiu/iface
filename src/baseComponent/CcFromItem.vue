@@ -83,6 +83,7 @@
     /*vue-vuex*/
     @Action('getOptions') public getOptions: (url: string) => Promise<any>
     @Action public getPageOptions: (id: string) => Promise<ActionReturn>
+    @Action public getOptionsUrl: (url: string) => Promise<any>
     /*vue-data*/
     public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
     public loading: boolean = false
@@ -142,21 +143,22 @@
     public async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
-        let type = this.mItem.type as string
-        type = ['select', 'checkbox', 'checkboxbutton', 'radio', 'radiobutton']
-          .includes(type) ? 'keyValue' : type
-
+        const type = this.mItem.type as string
         let data: any = null
-        if (type === 'dialog') {
-          const re = await this.getPageOptions(this.mItem.options)
-          if (re.data) {
-            data = JSON.parse(re.data.value)
-          }
-        } else if (type === 'keyValue') {
-          // keyValue的选项直接从本地获取
+
+        // 先在常量表里面找有没有值
+        if (this.$c.options[this.mItem.options]) {
           data = this.$c.options[this.mItem.options]
         } else {
-          data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+          if (this.mItem.options.indexOf('/') === 0) {
+            data = await this.getOptionsUrl(this.mItem.options)
+          } else {
+            if (type === 'dialog') {
+              data = await this.getPageOptions(this.mItem.options)
+            } else {
+              data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+            }
+          }
         }
         this.loading = false
         if (data) {

@@ -1,15 +1,17 @@
 <!--Created by 熊超超 on 2018/6/13.-->
 <template>
   <div v-if="item && needOptions">
-    <el-radio-group v-model="source" class="m-v-10" @change="onSourceChange">
-      <el-radio :label="2">使用数据源</el-radio>
+    <el-radio-group v-model="sourceType" class="m-v-10" @change="onChange">
       <el-radio :label="1">自定义数据</el-radio>
+      <el-radio :label="2">内置数据源</el-radio>
+      <el-radio :label="3">接口</el-radio>
     </el-radio-group>
-    <el-input @blur="onBlur" v-model="source1" v-if="source === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>
-    <el-select v-else v-model="source2" placeholder="请选择" @change="onChange">
+    <el-input @blur="onChange" v-model="source1" v-if="sourceType === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>
+    <el-select v-if="sourceType === 2" v-model="source2" placeholder="请选择" @change="onChange">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>
+    <el-input @blur="onChange" v-model="source3" v-if="sourceType === 3" type="text" placeholder="输入以'/'开头的接口地址"></el-input>
   </div>
 </template>
 
@@ -130,9 +132,10 @@
     @Prop(Boolean) public needOptions: boolean
     /*vue-vuex*/
     /*vue-data*/
-    public source: number = 2
+    public sourceType: number = 2
     public source1: string = ''
     public source2: string = ''
+    public source3: string = ''
     public dialogOptions = [{label: '资源管理', value: 'resource'}]
     /*vue-compute*/
     get options() {
@@ -149,40 +152,41 @@
     /*vue-watch*/
     @Watch('item')
     public itemChange(val: any, old: any) {
-      if (val) {
-        if (!val.options || typeof val.options === 'string' || typeof val.options === 'number') {
-          this.source = 2
-          this.source2 = val.options
-          this.source1 = ''
-        } else {
-          this.source = 1
+      if (val && (!old || old.options !== val.options)) {
+        if (val.options && typeof val.options === 'object') {
+          this.sourceType = 1
           this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type as string))
           this.source2 = ''
+          this.source3 = ''
+        } else if (val.options && typeof val.options === 'string' && val.options.indexOf('/') === 0) {
+          this.sourceType = 3
+          this.source1 = ''
+          this.source2 = ''
+          this.source3 = val.options
+        } else {
+          this.sourceType = 2
+          this.source1 = ''
+          this.source2 = val.options
+          this.source3 = ''
         }
       }
     }
     /*vue-lifecycle*/
     /*vue-method*/
-    public onSourceChange(val: number) {
-      this.onBlur()
-      this.onChange()
-    }
-    public onBlur() {
-      if (this.source === 1) {
-        try {
-          const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type as string)
-          this.item.options = json
-        } catch (e) {
-          console.log(e.message)
-        }
-        this.$emit('change')
-      }
-    }
     public onChange() {
-      if (this.source === 2) {
-        this.item.options = this.source2 + ''
-        this.$emit('change')
+      if (this.sourceType === 1) {
+          try {
+            const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type as string)
+            this.item.options = json
+          } catch (e) {
+            console.log(e.message)
+          }
+      } else if (this.sourceType === 2) {
+        this.item.options = this.source2
+      } else {
+        this.item.options = this.source3
       }
+      this.$emit('change')
     }
   }
 </script>

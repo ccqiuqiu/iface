@@ -136,8 +136,17 @@ const actions: ActionTree<any, any> = {
     //   return null
     // }
   },
-  getPageOptions(context: ActionContext<SystemState, State>, code: string): Promise<ActionReturn> {
-    return api.getPageOptions(code)
+  async getPageOptions(context: ActionContext<SystemState, State>, code: string): Promise<any> {
+    const {data} = await api.getPageOptions(code)
+    if (data) {
+      return JSON.parse(data.value)
+    }
+  },
+  async getOptionsUrl(context: ActionContext<SystemState, State>, url: string): Promise<any> {
+    const {data} = await api.getOptionsUrl(url)
+    if (data) {
+      return data
+    }
   },
   requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
     return api.requestUrl(url)

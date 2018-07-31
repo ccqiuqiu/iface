@@ -28,6 +28,8 @@ export default {
   getOptions: (url: string, config: any = {}) => request('post', '/v1/base/' + url, {}, config),
   // 查询表单options,类型为dialog的
   getPageOptions: (code: string, config: any = {}) => request('post', '/v1/base/getPageOptions/' + code, {}, config),
+  // 查询表单options,数据源是接口的
+  getOptionsUrl: (url: string, config: any = {}) => request('post', url, {}, config),
   // 通过id查询数据，或者删除
   requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
