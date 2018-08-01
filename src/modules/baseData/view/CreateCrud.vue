@@ -37,10 +37,10 @@
           <el-collapse-item title="属性" name="1">
             <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem"></form-item-props>
           </el-collapse-item>
-          <el-collapse-item title="选择项" name="2">
+          <el-collapse-item title="选择数据源" name="2">
             <form-item-options @change="changeOptions" :item="selectItem" :needOptions="needOptions"></form-item-options>
           </el-collapse-item>
-          <el-collapse-item title="校验" name="3">
+          <el-collapse-item title="表单校验" name="3">
             <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
           </el-collapse-item>
         </el-collapse>

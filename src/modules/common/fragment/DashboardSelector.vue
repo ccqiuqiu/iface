@@ -33,7 +33,7 @@
     public async initData() {
       const {data} = await this.getAllDashboard()
       if (data) {
-        this.allDashboard = data.rows.map((dashboard: Dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
+        this.allDashboard = data.map((dashboard: Dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
       }
     }
     public onSelected() {

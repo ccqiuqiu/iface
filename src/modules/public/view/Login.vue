@@ -31,7 +31,6 @@
     /*vue-vuex*/
     @Mutation('clearStore') public clearStore: () => void
     @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
-    @Action public getAuth: () => Promise<ActionReturn>
     /*vue-data*/
     public user: User = {
       name: 'admin',
@@ -44,11 +43,8 @@
     // 用户登录
     public async login() {
       const {error, data} = await this.loginAction(this.user)
-      if (error) {
-        this.$utils.message(error.message, MessageTypeEnum.error)
-      } else {
+      if (data) {
         this.$utils.message('登录成功')
-        const {data} = await this.getAuth()
         this.$router.push('/')
       }
     }

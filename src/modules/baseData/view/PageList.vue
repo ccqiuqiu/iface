@@ -77,7 +77,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.requestUrl('delPage/' + this.currentRow.pageCode)
+        const{error} = await this.requestUrl('delPage/' + this.currentRow.id)
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')

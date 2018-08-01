@@ -83,7 +83,7 @@
     /*vue-vuex*/
     @Action('getOptions') public getOptions: (url: string) => Promise<any>
     @Action public getPageOptions: (id: string) => Promise<ActionReturn>
-    @Action public getOptionsUrl: (url: string) => Promise<any>
+    @Action public getUrlOptions: (url: string) => Promise<any>
     /*vue-data*/
     public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
     public loading: boolean = false
@@ -151,7 +151,7 @@
           data = this.$c.options[this.mItem.options]
         } else {
           if (this.mItem.options.indexOf('/') === 0) {
-            data = await this.getOptionsUrl(this.mItem.options)
+            data = await this.getUrlOptions(this.mItem.options)
           } else {
             if (type === 'dialog') {
               data = await this.getPageOptions(this.mItem.options)

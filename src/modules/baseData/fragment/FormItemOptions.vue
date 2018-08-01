@@ -2,8 +2,8 @@
 <template>
   <div v-if="item && needOptions">
     <el-radio-group v-model="sourceType" class="m-v-10" @change="onChange">
-      <el-radio :label="1">自定义数据</el-radio>
-      <el-radio :label="2">内置数据源</el-radio>
+      <el-radio :label="2">系统内置</el-radio>
+      <el-radio :label="1">自定义</el-radio>
       <el-radio :label="3">接口</el-radio>
     </el-radio-group>
     <el-input @blur="onChange" v-model="source1" v-if="sourceType === 1" type="textarea" :autosize="{ minRows: 4}" placeholder="输入json格式的数据"></el-input>
@@ -194,5 +194,8 @@
 <style lang="scss" scoped>
   /deep/ .el-select{
     width: 100%;
+  }
+  /deep/ .el-radio + .el-radio{
+    margin-left: 10px;
   }
 </style>

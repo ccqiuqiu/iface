@@ -142,8 +142,8 @@ const actions: ActionTree<any, any> = {
       return JSON.parse(data.value)
     }
   },
-  async getOptionsUrl(context: ActionContext<SystemState, State>, url: string): Promise<any> {
-    const {data} = await api.getOptionsUrl(url)
+  async getUrlOptions(context: ActionContext<SystemState, State>, url: string): Promise<any> {
+    const {data} = await api.getUrlOptions(url)
     if (data) {
       return data
     }
