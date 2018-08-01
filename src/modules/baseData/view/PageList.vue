@@ -32,7 +32,7 @@
     /*vue-props*/
     /*vue-vuex*/
     @Action public searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
-    @Action public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action public formRequest: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public columns: TableColumn[] = [
       {prop: 'pageName', label: '名称', width: '120px'},
@@ -77,7 +77,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.requestUrl('delPage/' + this.currentRow.id)
+        const{error} = await this.formRequest('delPage/' + this.currentRow.id)
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')

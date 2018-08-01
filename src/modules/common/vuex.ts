@@ -142,14 +142,14 @@ const actions: ActionTree<any, any> = {
       return JSON.parse(data.value)
     }
   },
-  async getUrlOptions(context: ActionContext<SystemState, State>, url: string): Promise<any> {
-    const {data} = await api.getUrlOptions(url)
+  async requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<any> {
+    const {data} = await api.requestUrl(url)
     if (data) {
       return data
     }
   },
-  requestUrl(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
-    return api.requestUrl(url)
+  formRequest(context: ActionContext<SystemState, State>, url: string): Promise<ActionReturn> {
+    return api.formRequest(url)
   },
   // 获取首页用户仪表盘数据
   getUserDashboard(context: ActionContext<SystemState, State>): Promise<ActionReturn> {
@@ -165,7 +165,7 @@ const actions: ActionTree<any, any> = {
   },
   // 获取仪表盘的数据
   getDashboardData(context: ActionContext<SystemState, State>, params: any): Promise<ActionReturn>  {
-    return api.getDashboardData(params.url, params.params)
+    return api.requestUrl(params.url, params.params)
   },
 }
 

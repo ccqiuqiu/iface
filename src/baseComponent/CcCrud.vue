@@ -41,7 +41,7 @@
     @Prop({type: [Array, Object]}) public value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
     /*vue-vuex*/
     @Action public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
-    @Action public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action public formRequest: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public total: number = 0 // 总条数
     public loading: boolean = false
@@ -205,7 +205,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.requestUrl(this.getActionUrl('del'))
+        const{error} = await this.formRequest(this.getActionUrl('del'))
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')

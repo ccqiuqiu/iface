@@ -28,10 +28,10 @@ export default {
   getOptions: (url: string, config: any = {}) => request('post', '/v1/base/' + url, {}, config),
   // 查询表单options,类型为dialog的
   getPageOptions: (code: string, config: any = {}) => request('post', '/v1/base/getPageOptions/' + code, {}, config),
-  // 查询表单options,数据源是接口的
-  getUrlOptions: (url: string, config: any = {}) => request('post', url, {}, config),
+  // 传url直接请求接口
+  requestUrl: (url: string, params: any = {}, config: any = {}) => request('post', url, params, config),
   // 通过id查询数据，或者删除
-  requestUrl: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
+  formRequest: (url: string, config: any = {}) => request('post', formBaseUrl + url, {}, config),
   // 登录
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
   // 获取权限
@@ -48,7 +48,6 @@ export default {
   getAllDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getAllDashboard', params, config),
   // 保存用户的仪表盘布局
   saveUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/saveUserDashboard', params, config),
-  getDashboardData: (url: string, params: any = {}, config: any = {}) => request('post', '/v1' + url, params, config),
   //
   // 保存接口录制的数据
   saveRecord: () => requestRecord('/save'),

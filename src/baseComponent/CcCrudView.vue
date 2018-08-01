@@ -20,7 +20,7 @@
     @Prop() public fields: any[]
     @Prop() public url: string
     /*vue-vuex*/
-    @Action('requestUrl') public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action public formRequest: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public mData: any = this.data
     public loading: boolean = false
@@ -54,7 +54,7 @@
     // 初始化model。用于更新表单从服务端获取完整数据
     public async initModel() {
       this.loading = true
-      const {data} = await this.requestUrl(this.url)
+      const {data} = await this.formRequest(this.url)
       this.loading = false
       if (data) {
         this.mData = data

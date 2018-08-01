@@ -51,7 +51,7 @@
     @Prop(String) public url: string
     @Prop(Boolean) public fullWidth: boolean
     /*vue-vuex*/
-    @Action('requestUrl') public requestUrl: (url: string) => Promise<ActionReturn>
+    @Action public formRequest: (url: string) => Promise<ActionReturn>
     @Action('formAction') public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
     /*vue-data*/
     public defaultModel: any = JSON.parse(JSON.stringify(this.data.model)) // 保存一份原始数据的拷贝，用于重置表单
@@ -130,7 +130,7 @@
     // 初始化model。用于更新表单从服务端获取完整数据
     public async initModel() {
       this.loading = true
-      const {data} = await this.requestUrl(this.url)
+      const {data} = await this.formRequest(this.url)
       this.loading = false
       if (data) {
         this.data.model = data
