@@ -61,13 +61,10 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     if (response.data.error.code === 401) {
       store.commit('clearStore')
       setTimeout(() => router.push('/login'), 0)
-    } else if (response.data.error.code === 403) {
+    }
+    // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
+    if (!_hideGlobalError || [401, 403].includes(response.data.error.code)) {
       utils.message(response.data.error.message, MessageTypeEnum.error)
-    } else {
-      // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
-      if (!_hideGlobalError) {
-        utils.message(response.data.error.message, MessageTypeEnum.error)
-      }
     }
     return Promise.reject(response.data.error)
   }

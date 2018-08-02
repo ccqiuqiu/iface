@@ -133,11 +133,13 @@
     }
     // 所有的
     public action() {
+      const s: number[] = [1, 3]
       if (this.layoutUpdated) {
         this.save()
       } else {
         this.$utils.dialog(`选择要显示的内容`,
-          (h: any) => <DashboardSelector onSelected={this.onSelected} value={this.selected}></DashboardSelector>,
+          (h: any) => <DashboardSelector onSelected={this.onSelected} value={this.selected}>
+          </DashboardSelector>,
         )
       }
     }

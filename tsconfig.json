@@ -4,8 +4,10 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false, //
