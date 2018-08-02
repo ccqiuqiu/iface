@@ -143,7 +143,7 @@
     public async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
-        const type = this.mItem.type as string
+        const type = this.mItem.type!
         let data: any = null
 
         // 先在常量表里面找有没有值

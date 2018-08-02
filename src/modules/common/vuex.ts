@@ -68,7 +68,7 @@ const mutations: MutationTree<any> = {
     if (index >= 0) {
       state.menuTabs.splice(index, 1)
     }
-    delete state.noMenuTabsMap[key as string]
+    delete state.noMenuTabsMap[key!]
     // 如果删除的是当前激活的，要重新激活一个标签
     // 暂定激活下一个
     if (key === state.selectedTab) {

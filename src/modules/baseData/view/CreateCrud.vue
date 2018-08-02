@@ -17,18 +17,18 @@
         <span>表单预览</span>
         <cc-icon name="delete" @click="delItem" size="20" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
       </div>
-      <el-form ref="form" :model="model" flex-box="1" class="form m-10" flex="dir: top" label-width="100px">
-        <draggable v-model="items" :options="{group: {name: 'g'}, filter:'.tips'}" felx-box="1" @add="add" class="form-item-draggable">
+      <el-form ref="form" :model="model" flex-box="1" class="form m-10" flex="dir:top" label-width="100px">
+        <draggable v-model="items" :options="{group: {name: 'g'}, filter:'.tips'}" flex-box="1" @add="add" class="form-item-draggable">
           <template v-if="items.length">
             <cc-form-item no-verify @click.native="selectIndex = index" :class="['draggable-item', {'select': selectIndex === index}]"
                           :model="model" :item="item" :key="index"  v-for="(item, index) in items"></cc-form-item>
           </template>
-          <div v-else class="tips c-info" flex="cross:center main:center">
-            <div flex="dir:top cross:center" class="m-b-100 p-b-100">
-              <cc-icon name="drag" size="50"></cc-icon>
-              <span class="m-t-30">从左边拖动组件到这里</span></div>
-          </div>
         </draggable>
+        <div v-if="items.length === 0" class="tips c-info" flex="cross:center main:center">
+          <div flex="dir:top cross:center">
+            <cc-icon name="drag" size="50"></cc-icon>
+            <span class="m-t-30">从左边拖动组件到这里</span></div>
+        </div>
       </el-form>
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
@@ -275,18 +275,23 @@
     .props{
       width: 320px;
     }
-    .form > div{
-      width: 100%;
+    .form{
       position: relative;
+
       .tips{
         width: 100%;
-        height: 100%;
-        position: absolute;
+        position: absolute !important;
         cursor: auto;
-        top: 0;
+        top: 50%;
+        transform: translate3d(0, -70%, 0);
         >div{
           cursor: auto;
         }
+      }
+
+      .form-item-draggable{
+        width: 100%;
+        overflow-y: auto;
       }
       .draggable-item{
         cursor: move;

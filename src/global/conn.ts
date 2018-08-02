@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
     }
     // 如果是录制模式，每个请求返回后，将结果发送到录制服务器
     if (process.env.VUE_APP_RECORD) {
-      const url = (response.config.url as string).replace(response.config.baseURL as string, '')
+      const url = response.config.url!.replace(response.config.baseURL!, '')
       requestRecord('', {url, data: response.data.data})
     }
     return Promise.resolve(response.data.data)
