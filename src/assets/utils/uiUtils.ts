@@ -42,7 +42,7 @@ export class UiUtils extends Utils {
   // 页面离开的时候，可以弹出提示
   public async beforeRouteLeave(to: Route, from: Route, next: any, content: string = '有未保存的数据，确定要离开吗？') {
     // session过期的情况，直接放行，不弹提示，这个时候回调到登录页面
-    if (!store.state.common.user) {
+    if (this.isEmptyObject(store.state.common.user)) {
       next()
     }
     const re = await this.confirm(content, '确定离开')
@@ -59,6 +59,16 @@ export class UiUtils extends Utils {
     MessageBox(option)
   }
 
+  /**
+   * 显示弹窗的方法
+   * @param {string} title 弹窗标题
+   * @param content 弹窗内容
+   * @param options // 其他选择，透传给element
+   * @example
+   * 简单方式：dialog('标题', '内容')
+   * 弹出组件：dialog('标题', Component)
+   * 弹出JSX：dialog('标题', (h: any) => <Component data={this.data}></Component>)
+   */
   public dialog(title: string, content: any, options: any = {}) {
     const dialog = {
       title,

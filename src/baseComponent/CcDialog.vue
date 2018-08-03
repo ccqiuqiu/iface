@@ -5,7 +5,6 @@
              @close="onClose" :append-to-body="appendToBody">
 
     <cc-dialog v-if="!inside" :inside="true" append-to-body/>
-
     <cc-render :render-fun="dialog.content" v-if="dialog.content"></cc-render>
 
     <div slot="footer" class="dialog-footer" v-if="dialog.options && dialog.options.showBtn">

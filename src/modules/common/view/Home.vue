@@ -133,12 +133,15 @@
     }
     // 所有的
     public action() {
-      const s: number[] = [1, 3]
       if (this.layoutUpdated) {
         this.save()
       } else {
+        // 这个方法里注释的部分是为了示范在jsx中使用slot-scope
+        // const scopedSlots: any = {
+        //   default: (props: any) => <div>{props.text}</div>,
+        // }
         this.$utils.dialog(`选择要显示的内容`,
-          (h: any) => <DashboardSelector onSelected={this.onSelected} value={this.selected}>
+          (h: any) => <DashboardSelector /*scopedSlots={scopedSlots}*/ onSelected={this.onSelected} value={this.selected}>
           </DashboardSelector>,
         )
       }

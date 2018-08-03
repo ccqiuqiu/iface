@@ -1,6 +1,7 @@
 <!--Created by 熊超超 on 2018/7/19.-->
 <template>
   <div>
+    <!--<slot text="aaa">这是示范jsx中使用slot-scope</slot>-->
     <div flex='main:center'>
       <el-transfer
           :titles="['可选', '已选']" v-model="mSelected" :data="allDashboard">

@@ -16,9 +16,11 @@ Vue.use(formVerify)
 // 注册一些全局组件
 Vue.use(regComponents)
 
+// mock模式下启动的时候，导入mock数据
 if (process.env.VUE_APP_MOCK) {
   /* tslint:disable:no-var-requires */
-  require(process.env.VUE_APP_MOCK)
+  // 这里在非mock模式下导入vue并没有任何意义仅仅是为了让编译器不出现警告，因为require参数必须是字符串
+  require(process.env.VUE_APP_MOCK ? './record/mock.js' : 'vue')
 }
 
 Vue.config.productionTip = false
