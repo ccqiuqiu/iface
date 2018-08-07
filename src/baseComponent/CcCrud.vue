@@ -81,12 +81,11 @@
         this.data.table.columns = this.getItems('table') as TableColumn[]
       }
       this.data.table.columns.forEach((c: TableColumn) => {
-        if (c.formatFun) {
-          if (c.formatFun.endsWith('Render')) {
-            c.renderCell = CrudUtils[c.formatFun].format
-          } else {
-            c.formatter = CrudUtils[c.formatFun].format
-          }
+        const prop = c.prop
+        if (CrudUtils[prop + 'Render']) {
+          c.renderCell = CrudUtils[prop + 'Render'].format
+        } else if (CrudUtils[prop + 'Format']) {
+          c.formatter = CrudUtils[prop + 'Format'].format
         }
       })
       return this.data.table.columns
@@ -243,7 +242,8 @@
           const {tableProps, formProps, target, ...props} = {...item}
           let otherProps: any = {}
           if (val === 'table' || val === 'view') {
-            otherProps = tableProps || {}
+            otherProps = {...(tableProps || {})}
+            otherProps.formProps = formProps
           } else {
             otherProps = formProps || {}
           }

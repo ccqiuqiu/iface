@@ -11,7 +11,6 @@
 <script lang="ts">
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
-  import CrudUtils from '@utils/crudUtils.tsx'
 
   @Component
   export default class CcCrudView extends Vue {
@@ -27,14 +26,31 @@
     /*vue-compute*/
     get items() {
       return this.fields.filter((field: any) => this.mData[field.prop]).map((field: any) => {
-        const item = {label: field.label, value: this.data[field.prop]}
-        if (field.formatFun) {
-          const key = field.formatFun.replace('Render', 'Format')
-          if (CrudUtils[key]) {
-            console.log(CrudUtils[key])
-            item.value = CrudUtils[key].format(null, null, item.value)
+        const item = {label: field.label, value: this.mData[field.prop]}
+        if (field.formProps && field.formProps.options) {
+          let rows: any = field.formProps.options
+          let labelField = 'label'
+          let valueField = 'value'
+          if (['table', 'tree'].includes(field.formProps.type)) {
+            labelField = field.formProps.props && field.formProps.props.labelField || 'name'
+            valueField = field.formProps.props && field.formProps.props.valueField || 'id'
           }
+          item.value = Array.isArray(item.value) ? item.value : [item.value]
+          if (field.formProps.type === 'table') {
+            rows = field.formProps.options.rows
+          } else if (field.formProps.type === 'tree') {
+            rows = this.$utils.flatObject(field.formProps.options)
+          }
+          item.value = rows
+            .filter((row: any) => item.value.includes(row[valueField]))
+            .map((row: any) => row[labelField] || row.id).join(',')
         }
+        // if (field.tableProps.formatFun) {
+        //   const key = field.formatFun.replace('Render', 'Format')
+        //   if (CrudUtils[key]) {
+        //     item.value = CrudUtils[key].format(null, null, item.value)
+        //   }
+        // }
         return item
       })
     }

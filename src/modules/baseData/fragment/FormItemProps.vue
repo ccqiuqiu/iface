@@ -5,7 +5,6 @@
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
-  import CrudUtils from '@utils/crudUtils.tsx'
 
   @Component
   export default class FormItemProps extends Vue {
@@ -15,9 +14,9 @@
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/
-    get formats() {
-      return Object.keys(CrudUtils).map((key: string) => ({label: CrudUtils[key].label, value: key}))
-    }
+    // get formats() {
+    //   return Object.keys(CrudUtils).map((key: string) => ({label: CrudUtils[key].label, value: key}))
+    // }
     get formObj() {
       const model = this.item || {}
       const items: any = [
@@ -60,7 +59,7 @@
         if (model.target && model.target.includes('table')) {
           items.push(...[
             {label: '列宽度', prop: 'width', type: 'text', placeholder: '列宽度'},
-            {label: '列格式化', prop: 'formatFun', type: 'select', options: this.formats},
+            // {label: '列格式化', prop: 'formatFun', type: 'select', options: this.formats},
           ])
         }
       }

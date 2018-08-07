@@ -99,6 +99,7 @@ declare global {
     renderCell?: (h: any, value: any, row: any, index: number, column: TableColumn, store: any) => any // jsx渲染
     renderFun?: string // jsx渲染的方法名
     formatFun?: string, // 格式化的方法
+    formProps?: FormItemPublic
   }
 
   interface FormObject {

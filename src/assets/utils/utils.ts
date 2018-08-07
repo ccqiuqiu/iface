@@ -18,19 +18,6 @@ export default class Utils {
     return re
   }
 
-  public flatObject_do<T extends TT>(source: T[], children: string, re: T[], parentId: any = null): void {
-    source.forEach((s: T) => {
-      if (parentId) {
-        s.parentId = parentId
-      }
-      re.push(s)
-      if (s[children]) {
-        this.flatObject_do(s[children], children, re, s.id)
-        delete s[children]
-      }
-    })
-  }
-
 // 日期判断
   public isDate(obj: any): boolean {
     return Object.prototype.toString.call(obj) === '[object Date]'
@@ -69,5 +56,18 @@ export default class Utils {
       re[source[key]] = key
     }
     return re
+  }
+
+  private flatObject_do<T extends TT>(source: T[], children: string, re: T[], parentId: any = null): void {
+    source.forEach((s: T) => {
+      if (parentId) {
+        s.parentId = parentId
+      }
+      re.push(s)
+      if (s[children]) {
+        this.flatObject_do(s[children], children, re, s.id)
+        delete s[children]
+      }
+    })
   }
 }

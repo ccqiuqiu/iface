@@ -93,10 +93,10 @@
     public itemChange() {
       this.mItem = JSON.parse(JSON.stringify(this.item))
     }
-    @Watch('mItem', {immediate: true})
-    public mItemChange() {
-      this.initOptions()
-    }
+    // @Watch('mItem', {immediate: true})
+    // public mItemChange() {
+    //   this.initOptions()
+    // }
     /*vue-lifecycle*/
     /*vue-method*/
     // 过滤form-item的props
@@ -140,7 +140,7 @@
       this.$emit('value-change', prop)
     }
     //
-    public async initOptions() {
+    /*public async initOptions() {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
         const type = this.mItem.type!
@@ -165,7 +165,7 @@
           this.mItem.options = data
         }
       }
-    }
+    }*/
 
   }
 </script>

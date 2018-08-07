@@ -11,12 +11,12 @@
             @current-change="currentChange">
     <el-table-column type="selection" width="55" v-if="multi" />
     <template v-for="(column, index) in columns">
-      <el-table-column v-if="column.renderCell" v-bind="column">
+      <el-table-column v-bind="column">
         <template slot-scope="scope">
-          <cc-render :render-fun="column.renderCell" :scope="scope"></cc-render>
+          <cc-render :column="column" :scope="scope"></cc-render>
         </template>
       </el-table-column>
-      <el-table-column v-bind="column" v-else/>
+      <!--<el-table-column v-bind="column" v-else/>-->
     </template>
   </el-table>
 </template>

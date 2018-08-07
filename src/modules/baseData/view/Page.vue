@@ -1,13 +1,17 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
-  <cc-crud :data="data" v-if="data"></cc-crud>
+  <div v-loading="loading">
+    <cc-crud :data="data" v-if="data"></cc-crud>
+  </div>
 </template>
 
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
+  import {initOptions} from '@utils/crudUtils.tsx'
+  import {BaseMixin} from '@utils/mixins'
 
-  @Component
+  @Component({mixins: [BaseMixin]})
   export default class CrudDemo extends Vue {
     /*vue-props*/
     /*vue-vuex*/
@@ -22,14 +26,16 @@
     }
     /*vue-lifecycle*/
     public async getData() {
+      this.loading = true
       const code = this.$route.params['code']
-      const {data} = await this.getPage(code)
+      let {data} = await this.getPage(code)
       if (data) {
         if (data.value) {
-          this.data = JSON.parse(data.value)
-        } else {
-          this.data = data
+          data = JSON.parse(data.value)
         }
+        await initOptions(data)
+        this.data = data
+        this.loading = false
       }
     }
     /*vue-method*/
