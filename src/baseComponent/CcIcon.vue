@@ -12,7 +12,7 @@
   export default class CcIcon extends Vue {
     @Prop({required: true}) public name!: string
     @Prop(String) public className!: string
-    @Prop(Number) public rotate!: number
+    @Prop({type: Number, default: 0}) public rotate!: number
     @Prop({type: [String, Number], default: 24 }) public size!: number
 
     get svgClass() {
