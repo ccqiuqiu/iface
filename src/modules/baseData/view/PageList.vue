@@ -4,6 +4,7 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
+        <cc-button v-auth="'savePage'" icon="add" text="通过编辑器添加" @click="onAddEditor"/>
         <cc-button v-auth="'savePage'" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'savePage'" icon="edit" text="修改" @click="onEdit"/>
         <cc-button v-auth="'delPage'" icon="delete" text="删除" @click="onDel"/>
@@ -59,7 +60,9 @@
     }
     public onAdd() {
       this.$utils.toTab('/baseData/createCrud', '添加页面或表单')
-
+    }
+    public onAddEditor() {
+      this.$utils.toTab('/baseData/pageEditor', '在线编辑页面')
     }
     public onEdit() {
       if (!this.currentRow) {

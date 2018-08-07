@@ -21,6 +21,7 @@
     "v-charts": "^1.17.8",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
+    "vue-codemirror-lite": "^1.0.4",
     "vue-grid-layout": "^2.1.13",
     "vue-progressbar": "^0.7.5",
     "vue-property-decorator": "^7.0.0",

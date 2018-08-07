@@ -1,14 +1,16 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
   <cc-crud :data="data" v-if="data"></cc-crud>
+  <cc-render-vue v-else></cc-render-vue>
 </template>
 
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
+  import CcRenderVue from '@bc/CcRenderVue.vue'
 
-  @Component
-  export default class CrudDemo extends Vue {
+  @Component({components: {CcRenderVue}})
+  export default class Page extends Vue {
     /*vue-props*/
     /*vue-vuex*/
     @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>
