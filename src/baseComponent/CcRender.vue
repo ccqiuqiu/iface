@@ -19,6 +19,8 @@
         } else {
           return this.column.renderCell(h)
         }
+      } else if (this.column.formatter) {
+        return h('span', this.column.formatter(scope.row, scope.column, scope.row[scope.column['property']]))
       } else {
         let value = scope.row[scope.column['property']]
         if (this.column.formProps && this.column.formProps.options) {
