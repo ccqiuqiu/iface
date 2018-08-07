@@ -14,7 +14,7 @@
   import CcRenderVue from '@bc/CcRenderVue.vue'
 
   @Component({mixins: [BaseMixin], components: {CcRenderVue}})
-  export default class CrudDemo extends Vue {
+  export default class Page extends Vue {
     /*vue-props*/
     /*vue-vuex*/
     @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>

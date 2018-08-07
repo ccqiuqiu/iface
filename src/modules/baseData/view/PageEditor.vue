@@ -5,7 +5,7 @@
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
       </div>
-      <codemirror v-model="code" :options="options" flex-box="1"></codemirror>
+      <codemirror v-model="code" :options="options" flex-box="1" class="b-t b-l b-r"></codemirror>
       <div class="p-10 b-t">
         <cc-form :data="formObj" full-width/>
       </div>
@@ -40,7 +40,6 @@
       tabSize: 2,
       lineNumbers: true,
       mode: 'text/x-vue',
-      extraKeys: {Ctrl: 'autocomplete' },
     }
     public code: string = ``
     /*vue-compute*/
@@ -51,7 +50,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .CodeMirror{
-    height: 100%;
+  /deep/ .vue-codemirror-wrap{
+    overflow: auto;
+  }
+  /deep/ .CodeMirror{
+    height: 1000px;
   }
 </style>
