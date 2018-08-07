@@ -2,6 +2,7 @@
 <template>
   <div v-loading="loading">
     <cc-crud :data="data" v-if="data"></cc-crud>
+    <cc-render-vue v-else></cc-render-vue>
   </div>
 </template>
 
@@ -10,8 +11,9 @@
   import {Action} from 'vuex-class'
   import {initOptions} from '@utils/crudUtils.tsx'
   import {BaseMixin} from '@utils/mixins'
+  import CcRenderVue from '@bc/CcRenderVue.vue'
 
-  @Component({mixins: [BaseMixin]})
+  @Component({mixins: [BaseMixin], components: {CcRenderVue}})
   export default class CrudDemo extends Vue {
     /*vue-props*/
     /*vue-vuex*/

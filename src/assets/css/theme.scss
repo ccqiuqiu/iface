@@ -49,6 +49,9 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   // 卡片
   .el-card{
     //margin: 10px 0;
+    .el-card__header{
+      font-size: 16px;
+    }
   }
   .el-card.p{
     border-top: 3px solid $color-primary;
@@ -64,6 +67,16 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   }
   .el-card.i{
     border-top: 3px solid $color-info;
+  }
+  .el-card.flex{
+    display: flex;
+    flex-direction: column;
+
+    .el-card__body{
+      flex: auto;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .el-collapse{

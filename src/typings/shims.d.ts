@@ -23,3 +23,4 @@ declare module 'vue-grid-layout' {
   const VueGridLayout: {GridLayout: any, GridItem: any}
   export default VueGridLayout
 }
+declare module 'vue-codemirror-lite'
