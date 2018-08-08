@@ -8,18 +8,28 @@
   @Component
   export default class CcRendeVue extends Vue {
     /*vue-props*/
-    @Prop(String) public data: string
+    @Prop(String) public code: string
     /*vue-vuex*/
     /*vue-data*/
-    public component: any = {
-      template: '<div>{{aaa}}</div>',
-      data() {
-        return {
-          aaa: 111,
-        }
-      },
-    }
     /*vue-compute*/
+    get template() {
+      return 'code'
+    }
+    get script(): any {
+      return {
+        data() {
+          return {
+            aaa: 111,
+          }
+        },
+      }
+    }
+    get style() {
+      return ''
+    }
+    get component() {
+      return {...this.script, template: this.template}
+    }
     /*vue-watch*/
     /*vue-lifecycle*/
     /*vue-method*/
