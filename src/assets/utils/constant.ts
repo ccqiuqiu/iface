@@ -28,6 +28,11 @@ export default class Constant {
 // 反转key-value的页面类型
   public PageTypeK: any = null
 
+// 页面生成方式
+  public PageCategoryV: any = {
+    CRUD: 1,
+    CODE: 2,
+  }
 // DashboardType
   public DashboardTypeV = {
     '信息面板': 'info',

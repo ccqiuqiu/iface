@@ -2,7 +2,7 @@
 <template>
   <div v-loading="loading">
     <cc-crud :data="data" v-if="data"></cc-crud>
-    <cc-render-vue :code="code" v-else></cc-render-vue>
+    <cc-render-vue :code="code" v-if="code" id="render-page"></cc-render-vue>
   </div>
 </template>
 
@@ -25,6 +25,8 @@
     /*vue-watch*/
     @Watch('$route', {immediate: true})
     public routerChange() {
+      this.data = null
+      this.code = ''
       this.getData()
     }
     /*vue-lifecycle*/
