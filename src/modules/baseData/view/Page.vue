@@ -2,7 +2,7 @@
 <template>
   <div v-loading="loading">
     <cc-crud :data="data" v-if="data"></cc-crud>
-    <cc-render-vue v-else></cc-render-vue>
+    <cc-render-vue :code="code" v-else></cc-render-vue>
   </div>
 </template>
 
@@ -20,6 +20,7 @@
     @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>
     /*vue-data*/
     public data: CRUDObject | null = null
+    public code: string = ''
     /*vue-compute*/
     /*vue-watch*/
     @Watch('$route', {immediate: true})
@@ -32,13 +33,17 @@
       const code = this.$route.params['code']
       let {data} = await this.getPage(code)
       if (data) {
-        if (data.value) {
-          data = JSON.parse(data.value)
+        if (data.category === this.$c.PageCategoryV.CODE) {
+          this.code = data.value
+        } else {
+          if (data.value) {
+            data = JSON.parse(data.value)
+          }
+          await initOptions(data)
+          this.data = data
         }
-        await initOptions(data)
-        this.data = data
-        this.loading = false
       }
+      this.loading = false
     }
     /*vue-method*/
   }
