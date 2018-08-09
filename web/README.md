@@ -1,5 +1,3 @@
 # iFace
 
-
-web -  前端项目
-service - 配套的node.js后端
+[文档](https://ccqiuqiu.gitbook.io/iface/)
