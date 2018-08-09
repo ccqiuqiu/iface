@@ -16,6 +16,7 @@
       <div flex="main:right">
         <el-button type="primary" @click="login">登录</el-button>
       </div>
+      <div class="c-info">测试账号：admin/test  密码：123456</div>
     </el-card>
   </div>
 </template>
