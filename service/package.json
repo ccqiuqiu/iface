@@ -1,0 +1,41 @@
+{
+  "name": "koa-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "tsc && pm2 start dist/app.js --name api",
+    "stop": "pm2 stop api && pm2 delete api",
+    "debug": "node --inspect --require ts-node/register app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/koa": "^2.0.45",
+    "@types/koa-compress": "^2.0.8",
+    "@types/node": "^10.1.2",
+    "axios": "^0.18.0",
+    "ioredis": "^3.2.2",
+    "kcors": "^2.2.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0",
+    "koa-favicon": "^2.0.1",
+    "koa-log4": "^2.2.1",
+    "koa-response-time": "^2.0.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.3",
+    "mysql2": "^1.5.3",
+    "reflect-metadata": "^0.1.12",
+    "typeorm": "^0.2.7",
+    "typescript": "^2.8.3",
+    "uid-safe": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/mockjs": "^1.0.1",
+    "mockjs": "^1.0.1-beta3",
+    "nodemon": "^1.17.5",
+    "ts-node": "^7.0.0"
+  }
+}

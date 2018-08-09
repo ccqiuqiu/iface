@@ -30,7 +30,7 @@ export default class Constant {
 
 // 页面生成方式
   public PageCategoryV: any = {
-    CRUD: 1,
+    CURD: 1,
     CODE: 2,
   }
 // DashboardType

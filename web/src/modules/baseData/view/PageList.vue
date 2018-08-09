@@ -69,7 +69,11 @@
         this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
-      this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+      if (this.currentRow.category === this.$c.PageCategoryV.CRUD) {
+        this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+      } else {
+        this.$utils.toTab('/baseData/pageEditor?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+      }
       // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
     }
     public async onDel() {

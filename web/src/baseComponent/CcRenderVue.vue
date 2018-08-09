@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/8/7.-->
 <template>
-  <component :is="component"></component>
+  <div :class="id + ' root'"><component :is="component"></component></div>
 </template>
 
 <script lang="ts">
@@ -38,6 +38,7 @@
     // 添加样式到head
     public appendCss(code: string) {
       if (!document.querySelector('#' + this.id)) {
+        code = code.replace(/([\.#\w].*\{)/g, `.${this.id} $1`)
         const style: HTMLStyleElement = document.createElement('style')
         style.type = 'text/css'
         style.id = this.id
@@ -50,4 +51,7 @@
 </script>
 
 <style lang="scss" scoped>
+  .root{
+    height: calc(100% - 10px);
+  }
 </style>

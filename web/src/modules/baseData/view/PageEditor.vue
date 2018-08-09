@@ -20,16 +20,20 @@
   // language
   import 'codemirror/mode/vue/vue.js'
   import {FormItemTypeEnum} from '../../../assets/utils/enums'
+  import {Action} from 'vuex-class'
 
   @Component({mixins: [BaseMixin], components: {codemirror}})
   export default class PageEditor extends Vue {
     /*vue-props*/
     /*vue-vuex*/
+    @Action public getPage: (code: string) => Promise<ActionReturn>
+    @Action public savePage: (page: Page) => Promise<ActionReturn>
     /*vue-data*/
     public formObj = {
       model: {},
       items: [
         {label: `页面名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '页面名称', verify: {required: true}},
+        {label: `页面代码`, prop: 'pageCode', type: FormItemTypeEnum.text, placeholder: '唯一编码', verify: {required: true}},
         {label: `页面描述`, prop: 'pageDesc', type: FormItemTypeEnum.textarea, placeholder: ''},
       ],
       btns: [
@@ -45,7 +49,35 @@
     /*vue-compute*/
     /*vue-watch*/
     /*vue-lifecycle*/
+    public created() {
+      this.initData()
+    }
     /*vue-method*/
+    public async initData() {
+      if (this.$route.query['code']) {
+        const {data} = await this.getPage(this.$route.query['code'])
+        if (data) {
+          const {value, ...model} = data
+          this.code = value
+          this.formObj.model = model
+        }
+      } else {
+        this.code = decodeURIComponent(`%3Ctemplate%3E%0A%0A%3C%2Ftemplate%3E%0A%0A%3Cscript%3E%0A%20%20export%20default%20%7B%0A%20%20%20%20%0A%20%20%7D%0A%3C%2Fscript%3E%0A%0A%3Cstyle%3E%0A%20%20%0A%3C%2Fstyle%3E`)
+      }
+    }
+    public async save() {
+      const page: Page = this.formObj.model as Page
+      if (!page.id) {
+        page.type = this.$c.PageTypeV.页面
+        page.category = this.$c.PageCategoryV.CODE
+      }
+      page.value = this.code
+      const {error} = await this.savePage(page)
+      if (!error) {
+        this.$utils.message('保存成功！')
+        this.$utils.closeTab('/baseData/pageList')
+      }
+    }
   }
 </script>
 

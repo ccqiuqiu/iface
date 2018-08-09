@@ -19,9 +19,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-
-dist/
-.idea
-*.log
-db.log*
-app.log*
