@@ -1,0 +1,19 @@
+{
+  "name": "iface",
+  "version": "1.0.1",
+  "description": "介绍",
+  "scripts": {
+    "dev": "cd web && npm run dev",
+    "build": "cd web && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/HTPMO/iface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitee.com/HTPMO/iface/issues/new"
+  },
+  "homepage": "https://gitee.com/HTPMO/iface"
+}
