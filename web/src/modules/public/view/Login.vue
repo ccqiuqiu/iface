@@ -24,7 +24,6 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
   import { Action, Mutation } from 'vuex-class'
-  import {MessageTypeEnum} from '../../../assets/utils/enums'
 
   @Component
   export default class Login extends Vue {

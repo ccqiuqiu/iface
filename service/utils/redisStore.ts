@@ -2,7 +2,7 @@ import * as Redis from 'ioredis'
 import {Store} from './session'
 let redis = null
 export default class RedisStore extends Store {
-  redis = null
+  public redis = null
   constructor() {
     super()
     this.redis = new Redis() // https://github.com/luin/ioredis
@@ -18,7 +18,9 @@ export default class RedisStore extends Store {
     try {
       // Use redis set EX to automatically drop expired sessions
       await this.redis.set(`SESSION:${sid}`, JSON.stringify(session), 'EX', maxAge / 1000)
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
     return sid
   }
 

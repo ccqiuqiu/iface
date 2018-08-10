@@ -21,7 +21,4 @@ yarn-error.log*
 *.sw*
 
 dist/
-.idea
-*.log
-db.log*
-app.log*
+logs/

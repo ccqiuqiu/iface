@@ -13,8 +13,8 @@ import {Context} from 'koa'
  * @returns []
  */
 export const listToTree = (source: any[], parentIdVal: any = undefined, id: string = 'id', parentId: string = '_parentId'): any[] => {
-  const target = source.filter(s => s[parentId] === parentIdVal)
-  target.forEach(t => {
+  const target = source.filter((s) => s[parentId] === parentIdVal)
+  target.forEach((t) => {
     const children = listToTree(source, t[id], id, parentId)
     if (children.length) {
       t.children = children
