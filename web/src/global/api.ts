@@ -36,12 +36,12 @@ export default {
   login: (params: any = {}, config: any = {}) => request('post', '/v1/public/login', params, config),
   // 获取权限
   getAuth: (params: any = {}, config: any = {}) => request('post', '/v1/base/getAuth', params, config),
-  // 退出登录
-  logout: (params: any = {}, config: any = {}) => request('post', '/v1/public/logout', params, config),
   // 获取菜单树
   menuTree: (params: any = {}, config: any = {}) => request('post', '/v1/system/menuTree', params, config),
   // 删除菜单
   delMenu: (id: number, config: any = {}) => request('post', '/v1/system/delMenu/' + id, config),
+  // 删除菜单
+  sortMenu: (params: any = {}, config: any = {}) => request('post', '/v1/system/sortMenu', params, config),
   // 获取用户首页的仪表盘信息
   getUserDashboard: (params: any = {}, config: any = {}) => request('post', '/v1/base/getUserDashboard', params, config),
   // 获取所有的仪表盘

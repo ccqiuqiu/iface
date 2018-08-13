@@ -41,7 +41,7 @@ async function viewUser(ctx) {
 // 菜单
 async function menuTree(ctx) {
   const re = await Dao.Menu.findTrees()
-  addParentId(re)
+  addParentId(re, null, 'sort')
   ctx.body = createBody(re)
 }
 
@@ -123,6 +123,10 @@ async function getDashboard(ctx) {
     ctx.body = createBody(null, false, '暂无数据')
   }
 }
+async function sortMenu(ctx) {
+  await Dao.Menu.sortMenu(ctx.request.body)
+  ctx.body = createBody()
+}
 
 export default (routes: any, prefix: string) => {
   // 用户
@@ -135,6 +139,7 @@ export default (routes: any, prefix: string) => {
   routes.post(prefix + '/system/menuTree', menuTree)
   routes.post(prefix + '/page/saveMenu', saveMenu)
   routes.post(prefix + '/system/delMenu/:id', delMenu)
+  routes.post(prefix + '/system/sortMenu', sortMenu)
   // 角色
   routes.post(prefix + '/page/searchRole', searchRole)
   routes.post(prefix + '/page/saveRole', saveRole)

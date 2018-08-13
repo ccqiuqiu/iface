@@ -32,11 +32,14 @@ export const sortTree = (source: any[], shotField: string = 'sort') => {
   })
 }
 
-export const addParentId = (source: any[], parentId: any = null): void => {
+export const addParentId = (source: any[], parentId: any = null, sort: string): void => {
+  if (sort) {
+    source.sort((a, b) => a[sort] - b[sort])
+  }
   source.forEach((item: any) => {
     item.parentId = parentId
     if (item.children) {
-      addParentId(item.children, item.id)
+      addParentId(item.children, item.id, 'sort')
     }
   })
 }

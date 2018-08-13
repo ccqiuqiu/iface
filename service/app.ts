@@ -5,14 +5,14 @@ import * as log4js from 'koa-log4'
 import * as compress from 'koa-compress'
 import * as cors from 'kcors'
 import * as serve from 'koa-static'
-// import session from 'koa-session2' // https://github.com/Secbone/koa-session2
-import session from './utils/session'
-import redisStore from './utils/redisStore'
 import * as koaBody from 'koa-bodyparser'
 import routes from './services/index'
 import { dbInit } from './data/db'
 import {existsSync, mkdirSync} from 'fs'
 import {hasAuth} from './utils'
+import * as jwt from 'jsonwebtoken'
+import {jwtSecret, jwtExp, jwtReTime} from './services/config'
+import * as redis from './utils/redis'
 
 // 创建日志目录
 const logPath = 'logs'
@@ -36,7 +36,6 @@ app.use(responseTime()) // 响应时间中间件 会设置X-Response-Time
 app.use(log4js.koaLogger(logger, {level: 'auto'})) // 日志中间件
 app.use(compress()) // 数据压缩中间件
 app.use(cors({credentials: true})) // 跨域中间件
-app.use(session({key: 'SESSIONID', maxAge: 20 * 60 * 1000, store: new redisStore()}))// koa-session2中间件
 app.use(serve('static', {maxage: 20 * 60 * 1000}))// 设置静态文件中间件
 app.use(koaBody()) // 解析post请求参数的中间件
 
@@ -46,11 +45,35 @@ app.use(async (ctx, next) => {
   if (ctx.request.url.replace(/^(\/.*?\/)(.*)/, '/$2').indexOf('/public/') === 0) {
     return await next()
   }
-  // session里面有用户信息，说明已经登录
-  if (ctx.session.user) {
-    // 判断是否有资源权限
+  let decoded: any = null
+  try {
+    const token = ctx.headers['token']
+    decoded = jwt.verify(token, jwtSecret)
+    ctx.session = await redis.get(decoded.data.id)
+    // 如果redis里面没有缓存，抛出异常
+    if (!ctx.session) {
+      throw Error('')
+    }
+  } catch (err) {
+    ctx.body = {
+      success: false,
+      error: {
+        code: 401,
+        message: '未登录或已登录，请重新登录',
+      },
+    }
+  }
+  if (decoded) {
+    // 鉴权
     if (hasAuth(ctx)) {
       await next()
+      // 如果token快过期，刷新token
+      const time = decoded.exp - new Date().getTime() / 1000
+      if (time <= jwtReTime) {
+        const tokenNew = jwt.sign({data: decoded.data}, jwtSecret, { expiresIn: jwtExp })
+        await redis.expire(decoded.data.id, jwtExp)
+        ctx.body.token = tokenNew
+      }
     } else {
       ctx.body = {
         success: false,
@@ -59,14 +82,6 @@ app.use(async (ctx, next) => {
           message: '越权操作，请联系管理员',
         },
       }
-    }
-  } else {
-    ctx.body = {
-      success: false,
-      error: {
-        code: 401,
-        message: '未登录或已登录，请重新登录',
-      },
     }
   }
 })

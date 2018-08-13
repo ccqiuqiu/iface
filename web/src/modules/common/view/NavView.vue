@@ -30,7 +30,6 @@
     @Getter public nav: Menu[]
     @Mutation public toggleMenu: () => void
     @Mutation('clearStore') public clearStore: () => void
-    @Action public logout: () => Promise<ActionReturn>
     /*vue-data*/
     /*vue-compute*/
     /*vue-watch*/
@@ -38,15 +37,13 @@
     /*vue-method*/
     // 退出登录
     public async onLogout() {
-      const {error} = await this.logout()
-      if (!error) {
-        this.$utils.message('退出登录成功')
-        // 清除store里面缓存的数据
-        this.clearStore()
-        // clearStore里面会改动selected,将导致url跳转到一次'/'
-        // 在下一个$nextTick跳转，保证会跳转到登录页
-        this.$nextTick(() => this.$router.push('/login'))
-      }
+      this.$ls.remove('token')
+      this.$utils.message('退出登录成功')
+      // 清除store里面缓存的数据
+      this.clearStore()
+      // clearStore里面会改动selected,将导致url跳转到一次'/'
+      // 在下一个$nextTick跳转，保证会跳转到登录页
+      this.$nextTick(() => this.$router.push('/login'))
     }
   }
 

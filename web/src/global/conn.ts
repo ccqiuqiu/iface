@@ -4,6 +4,7 @@
 import router from '@g/router'
 import store from './store'
 import {utils} from '@utils/index'
+import {ls} from '@utils/index'
 import app from '../main'
 
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
@@ -20,7 +21,7 @@ const axiosInstance: AxiosInstance = axios.create({
 // 注册请求拦截器
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
   // 加公共请求参数
-
+  config.headers.token = ls.get('token', '')
   // 从请求参数里面取出一些控制参数, 控制loading和error的显示
   const {_loading, _hideGlobalError, ...data} = config.data
   config.headers._loading = _loading !== false
@@ -47,6 +48,10 @@ axiosInstance.interceptors.response.use((response: AxiosResponse): Promise<any> 
   if (response.data.success) {
     if (_loading) {
       app.$Progress.finish()
+    }
+    // 如果服务端刷新了token，更新
+    if (response.data.token) {
+      ls.set('token', response.data.token)
     }
     // 如果是录制模式，每个请求返回后，将结果发送到录制服务器
     if (process.env.VUE_APP_RECORD) {

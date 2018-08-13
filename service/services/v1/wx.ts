@@ -3,7 +3,7 @@
  */
 import createBody from './createBody'
 import axios from 'axios'
-import * as redis from '../../utils/redisStore'
+import * as redis from '../../utils/redis'
 import {createHash} from 'crypto'
 
 const appId = 'wx4a81740cdf4c1653'

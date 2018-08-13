@@ -16,6 +16,9 @@ const actions: ActionTree<any, any> = {
   delMenu(context: ActionContext<CommonState, State>, id: number): Promise<ActionReturn> {
     return api.delMenu(id)
   },
+  sortMenu(context: ActionContext<CommonState, State>, params: any): Promise<ActionReturn> {
+    return api.sortMenu(params)
+  },
 }
 
 export default {state, mutations, actions}

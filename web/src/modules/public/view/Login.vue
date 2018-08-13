@@ -44,6 +44,7 @@
     public async login() {
       const {error, data} = await this.loginAction(this.user)
       if (data) {
+        this.$ls.set('token', data.token)
         this.$utils.message('登录成功')
         this.$router.push('/')
       }

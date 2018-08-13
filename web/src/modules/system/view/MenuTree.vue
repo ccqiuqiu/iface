@@ -12,6 +12,7 @@
           <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
           <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}" default-expand-all
                    :filter-node-method="filterNode" highlight-current node-key="id"
+                   draggable @node-drop="nodeDrop" :allow-drop="allowDrop"
                    @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
         </div>
         <div>
@@ -34,6 +35,7 @@
     /*vue-vuex*/
     @Action public menuTree: () => Promise<ActionReturn>
     @Action public delMenu: (id: number) => Promise<ActionReturn>
+    @Action public sortMenu: (params: {sourceId: string, targetId: string, location: string}) => Promise<ActionReturn>
     /*vue-data*/
     public data: any[] = []
     public filterText: string = ''
@@ -113,6 +115,33 @@
           this.$utils.message('删除成功')
           this.initData()
         }
+      }
+    }
+    // 判断是否可以拖动
+    public allowDrop(node: any, targetNode: any, location: string) {
+      // 有子节点的，只能拖动到一级节点的前后
+      if (node.data.children && node.data.children.length && !targetNode.data.parentId && location !== 'inner') {
+        return true
+      }
+      // 没有子节点的，除了二级节点的里面，其他位置都可以拖动
+      if (node.data.children.length === 0 && (!targetNode.data.parentId || location !== 'inner')) {
+        return true
+      }
+      return false
+    }
+    // 拖动成功后
+    public async nodeDrop(node: any, targetNode: any, location: string) {
+      this.loading = true
+      // 修改一下parentId，防止后面的拖动出现问题
+      if (location === 'inner') {
+        node.data.parentId = targetNode.data.id
+      } else {
+        node.data.parentId = targetNode.data.parentId
+      }
+      const {data} = await this.sortMenu({sourceId: node.data.id, targetId: targetNode.data.id, location})
+      this.loading = false
+      if (data) {
+        this.$utils.message('修改顺序成功！')
       }
     }
   }
