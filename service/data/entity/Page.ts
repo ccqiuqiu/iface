@@ -33,7 +33,10 @@ export default class Page extends BaseEntity {
   public getUrl: string
 
   @Column({length: 128, nullable: true}) // 添加URL
-  public saveUrl: string
+  public addUrl: string
+
+  @Column({length: 128, nullable: true}) // 更新URL
+  public updateUrl: string
 
   @Column({length: 128, nullable: true}) // 删除URL
   public delUrl: string

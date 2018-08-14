@@ -5,10 +5,10 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
         <span flex-box="1" class="f-16">{{data.title || ''}}</span>
-        <cc-button v-auth="this.page.addUrl || 'save' + data.name" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="this.page.saveUrl || 'save' + data.name" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="this.page.viewUrl || 'view' + data.name" icon="view" text="查看" @click="onView"/>
-        <cc-button v-auth="this.page.delUrl || 'del' + data.name" icon="delete" text="删除" @click="onDel"/>
+        <cc-button v-auth="this.page.addUrl || '/page/save' + data.name" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="this.page.updateUrl || '/page/save' + data.name" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="this.page.viewUrl || '/page/view' + data.name" icon="view" text="查看" @click="onView"/>
+        <cc-button v-auth="this.page.delUrl || '/page/del' + data.name" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
                 :row-key="rowKey"
@@ -186,7 +186,7 @@
       }
       const url = edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
       this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h: any) =>
-        <cc-form data={this.editForm} saveUrl={this.page.saveUrl} onSave={this.saved} url={url}></cc-form>)
+        <cc-form data={this.editForm} saveUrl={this.page.saveUrl} updateUrl={this.page.updateUrl}  onSave={this.saved} url={url}></cc-form>)
     }
     // 点击编辑按钮
     public onEdit() {

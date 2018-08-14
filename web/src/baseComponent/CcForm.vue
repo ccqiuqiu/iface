@@ -49,7 +49,8 @@
     @Prop({required: true, type: Object}) public data: FormObject
     @Prop(Boolean) public isSearch: boolean
     @Prop(String) public url: string
-    @Prop(String) public saveUrl: string
+    @Prop(String) public addUrl: string
+    @Prop(String) public updateUrl: string
     @Prop(Boolean) public fullWidth: boolean
     /*vue-vuex*/
     @Action public formRequest: (url: string) => Promise<ActionReturn>
@@ -118,7 +119,8 @@
                 }
                 if (pass) {
                   this.loading = true
-                  const url = this[btn.action + 'Url'] || btn.action + this.data.name
+                  const action = this.data.model.id ? 'update' : 'add'
+                  const url = this[action + 'Url'] || btn.action + this.data.name
                   const re = await this.formAction({url, params: this.data.model})
                   this.loading = false
                   this.$emit(btn.action, re)

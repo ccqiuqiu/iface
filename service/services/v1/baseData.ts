@@ -10,8 +10,8 @@ async function searchPage(ctx) {
   ctx.body = createBody(re)
 }
 async function getPage(ctx) {
-  const pageCode = ctx.params.code
-  const re = await Dao.Page.findOne({pageCode})
+  const code = ctx.params.code
+  const re = await Dao.Page.findOne({code})
   if (re) {
     ctx.body = createBody(re)
   } else {
