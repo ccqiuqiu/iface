@@ -46,7 +46,7 @@
           ],
         })
       }
-      if (this.type === this.$c.PageTypeV.页面) {
+      if (this.type === this.$c.PageTypeV.表格页面) {
         items.push({
           label: '用于', prop: 'target', type: 'checkbox',
           options: [

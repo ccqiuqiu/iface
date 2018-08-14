@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <div class="crud h bg-white" flex="">
+  <div class="crud h bg-white full" flex="">
     <div flex="dir:top" class="left b-r" flex-box="0">
       <div flex-box="0" class="p-10 b-b f-b" flex="box:last">
         <span>可选组件</span>
@@ -33,7 +33,7 @@
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
       <div class="collapses">
-        <el-collapse v-model="activeNames" class="right">
+        <el-collapse v-model="activeNames" class="right" accordion>
           <el-collapse-item title="属性" name="1">
             <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem"></form-item-props>
           </el-collapse-item>
@@ -43,10 +43,13 @@
           <el-collapse-item title="表单校验" name="3">
             <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
           </el-collapse-item>
+          <el-collapse-item title="页面属性" name="4">
+            <cc-form ref="form" :data="formObj" full-width/>
+          </el-collapse-item>
         </el-collapse>
       </div>
-      <div class="p-10 b-t">
-        <cc-form :data="formObj" full-width/>
+      <div class="p-10 b-t a-r">
+        <cc-button icon="save" text="保存" @click="onSave"/>
       </div>
     </div>
   </div>
@@ -95,9 +98,9 @@
     ]
     public model: any = {}
     public items: any[] = []
-    public activeNames: string[] = ['1', '2', '3']
+    public activeNames: string = '4'
     public selectIndex: number = -1
-    public pageModel: Page = {type: 1, name: '', pageDesc: '', pageName: ''}
+    public pageModel: Page = {type: 1, name: '', remark: '', modelName: ''}
     /*vue-compute*/
     get typeName() {
       return this.$c.PageTypeK[this.pageModel.type || 1]
@@ -106,15 +109,19 @@
       return {
         model: this.pageModel,
         items: [
-          {label: `类型`, prop: 'type', type: FormItemTypeEnum.radio, options: this.$c.options.pageType},
-          {label: `${this.typeName}名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '页面名称', verify: {required: true}},
-          {label: `${this.typeName}代码`, prop: 'pageCode', type: FormItemTypeEnum.text, placeholder: '唯一编码', verify: {required: true}},
-          {label: '实体名称', prop: 'name', type: FormItemTypeEnum.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
-          {label: `${this.typeName}描述`, prop: 'pageDesc', type: FormItemTypeEnum.textarea, placeholder: ''},
+          {label: `类型`, prop: 'type', type: FormItemTypeEnum.select, options: this.$c.options.pageType, verify: {required: true}},
+          {label: `名称`, prop: 'name', type: FormItemTypeEnum.text, placeholder: '页面名称', verify: {required: true}},
+          {label: `代码`, prop: 'code', type: FormItemTypeEnum.text, placeholder: '唯一编码', verify: {required: true}},
+          {label: '实体名称', prop: 'modelName', type: FormItemTypeEnum.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
+          {label: '列表URL', prop: 'searchUrl', type: FormItemTypeEnum.text, placeholder: '表格或树的数据接口'},
+          {label: '查找URL', prop: 'getUrl', type: FormItemTypeEnum.text, placeholder: '编辑表单的数据初始化接口'},
+          // {label: '新增URL', prop: 'addUrl', type: FormItemTypeEnum.text, placeholder: '新增对象的接口'},
+          {label: '保存URL', prop: 'saveUrl', type: FormItemTypeEnum.text, placeholder: '更新对象的接口'},
+          {label: '查看URL', prop: 'viewUrl', type: FormItemTypeEnum.text, placeholder: '查看对象详情的接口'},
+          {label: '删除URL', prop: 'delUrl', type: FormItemTypeEnum.text, placeholder: '删除对象的接口'},
+          {label: `描述`, prop: 'remark', type: FormItemTypeEnum.textarea, placeholder: ''},
         ],
-        btns: [
-          {action: 'save', cb: this.save},
-        ],
+        btns: [],
       }
     }
     get selectItem(): any {
@@ -145,7 +152,7 @@
           const {value, ...pageModel} = data
           this.pageModel = pageModel as Page
           const valueObj = JSON.parse(value)
-          if (this.pageModel.type === this.$c.PageTypeV.页面) {
+          if (this.pageModel.type === this.$c.PageTypeV.表格页面) {
             valueObj.items = valueObj.items.map((item: any) => {
               const temp: any = {}
               const formProps = JSON.parse(JSON.stringify(item.formProps))
@@ -179,6 +186,9 @@
     }
     public changeOptions() {
       this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
+    }
+    public onSave() {
+      (this.$refs.form as Vue).submit(this.save)
     }
     public async save() {
       // model名首字母转大写
@@ -218,14 +228,14 @@
       let value = {}
       if (this.pageModel.type === this.$c.PageTypeV.表单) {
         value = {
-          name: this.formObj.model.name,
+          name: this.pageModel.modelName,
           model: {},
           items,
         }
       } else {
         value = {
-          title: this.pageModel.pageName,
-          name:  this.pageModel.name,
+          title: this.pageModel.name,
+          name:  this.pageModel.modelName,
           items,
           searchForm: {
             model: {},
@@ -236,7 +246,6 @@
           table: {
             rows: [],
           },
-          needQuery: true,
         }
       }
 
@@ -254,7 +263,6 @@
 <style lang="scss" scoped>
   @import "../../../assets/css/vars";
   .crud{
-    height: calc(100% - 20px);
     .left{
       width: 160px;
       overflow-y: auto;
@@ -273,7 +281,7 @@
       overflow-y: auto;
     }
     .props{
-      width: 320px;
+      width: 400px;
     }
     .form{
       position: relative;

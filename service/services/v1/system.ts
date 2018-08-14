@@ -89,7 +89,7 @@ async function saveResource(ctx) {
   ctx.body = createBody()
 }
 async function delResource(ctx) {
-  await Dao.Role.delete(ctx.params.id)
+  await Dao.Resource.delete(ctx.params.id)
   ctx.body = createBody()
 }
 async function getResource(ctx) {

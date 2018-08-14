@@ -5,10 +5,10 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
         <span flex-box="1" class="f-16">{{data.title || ''}}</span>
-        <cc-button v-auth="'save' + data.name" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="'save' + data.name" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="'view' + data.name" icon="view" text="查看" @click="onView"/>
-        <cc-button v-auth="'del' + data.name" icon="delete" text="删除" @click="onDel"/>
+        <cc-button v-auth="this.page.addUrl || 'save' + data.name" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="this.page.saveUrl || 'save' + data.name" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="this.page.viewUrl || 'view' + data.name" icon="view" text="查看" @click="onView"/>
+        <cc-button v-auth="this.page.delUrl || 'del' + data.name" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
                 :row-key="rowKey"
@@ -36,6 +36,7 @@
   export default class CcCrud extends Vue {
     /*vue-props*/
     @Prop() public data: CRUDObject
+    @Prop() public page: Page
     @Prop(Boolean) public multiSelect: boolean
     @Prop({default: 'crud'}) public type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
     @Prop({type: [Array, Object]}) public value: any | any[] // 用于dialog时，需要绑定value，crud时不需要
@@ -101,7 +102,7 @@
     }
     // 查询类表单的查询url，一般在action=search的按钮上面配置
     get searchUrl(): string {
-      return 'search' + this.data.name
+      return this.page.searchUrl || 'search' + this.data.name
     }
     // 分页组件的样式
     get layout() {
@@ -183,9 +184,9 @@
       } else {
         this.editForm.model = {...this.defaultModel}
       }
-      const url = this.data.needQuery && edit ? this.getActionUrl('get') : ''
+      const url = edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
       this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h: any) =>
-        <cc-form data={this.editForm} onSave={this.saved} url={url}></cc-form>)
+        <cc-form data={this.editForm} saveUrl={this.page.saveUrl} onSave={this.saved} url={url}></cc-form>)
     }
     // 点击编辑按钮
     public onEdit() {
@@ -204,7 +205,7 @@
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.formRequest(this.getActionUrl('del'))
+        const{error} = await this.formRequest(this.page.delUrl || this.getActionUrl('del'))
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
@@ -218,7 +219,7 @@
         this.$utils.message('请选择一行', MessageTypeEnum.warning)
         return
       }
-      const url = this.data.needQuery ? this.getActionUrl('view') : ''
+      const url = this.page.viewUrl || this.getActionUrl('view')
       this.$utils.dialog('查看', (h: any) =>
         <CcCrudView data={this.currentRow} fields={this.viewFields} url={url}></CcCrudView>, {showBtn: true})
     }

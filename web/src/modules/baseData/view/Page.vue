@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
   <div v-loading="loading">
-    <cc-crud :data="data" v-if="data"></cc-crud>
+    <cc-crud :data="data" v-if="data" :page="page"></cc-crud>
     <cc-render-vue :code="code" v-if="code" id="render-page"></cc-render-vue>
   </div>
 </template>
@@ -21,6 +21,7 @@
     /*vue-data*/
     public data: CRUDObject | null = null
     public code: string = ''
+    public page?: Page = undefined
     /*vue-compute*/
     /*vue-watch*/
     @Watch('$route', {immediate: true})
@@ -33,16 +34,16 @@
     public async getData() {
       this.loading = true
       const code = this.$route.params['code']
-      let {data} = await this.getPage(code)
+      const {data} = await this.getPage(code)
       if (data) {
         if (data.category === this.$c.PageCategoryV.CODE) {
           this.code = data.value
         } else {
-          if (data.value) {
-            data = JSON.parse(data.value)
-          }
-          await initOptions(data)
-          this.data = data
+          const {value, ...page} = data
+          const crud = JSON.parse(value)
+          await initOptions(crud)
+          this.page = page as Page
+          this.data = crud
         }
       }
       this.loading = false

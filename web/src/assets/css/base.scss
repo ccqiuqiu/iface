@@ -113,6 +113,12 @@ input::-moz-focus-inner {
         overflow-x: hidden;
         overflow-y: auto;
 
+        &.full{
+          padding: 0;
+          height: 100%;
+          width: 100%;
+        }
+
         &:not(.h) {
           >div {
             margin: 10px 0;

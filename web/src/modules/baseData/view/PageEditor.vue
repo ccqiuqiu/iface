@@ -68,7 +68,7 @@
     public async save() {
       const page: Page = this.formObj.model as Page
       if (!page.id) {
-        page.type = this.$c.PageTypeV.页面
+        page.type = this.$c.PageTypeV.表格页面
         page.category = this.$c.PageCategoryV.CODE
       }
       page.value = this.code

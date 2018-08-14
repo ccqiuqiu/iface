@@ -4,10 +4,10 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center">
         <span flex-box="1">{{pageTitle}}</span>
-        <cc-button v-auth="'savePage'" icon="add" text="通过编辑器添加" @click="onAddEditor"/>
         <cc-button v-auth="'savePage'" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'savePage'" icon="edit" text="修改" @click="onEdit"/>
         <cc-button v-auth="'delPage'" icon="delete" text="删除" @click="onDel"/>
+        <cc-button v-auth="'savePage'" icon="add" text="通过编辑器添加" @click="onAddEditor"/>
       </div>
       <cc-table ref="table" :rows="rows" :columns="columns" v-loading="loading"
                 @single-click="$emit('rowClick')"
@@ -36,14 +36,14 @@
     @Action public formRequest: (url: string) => Promise<ActionReturn>
     /*vue-data*/
     public columns: TableColumn[] = [
-      {prop: 'pageName', label: '名称', width: '120px'},
-      {prop: 'name', label: '实体对象', width: '100px'},
+      {prop: 'name', label: '名称', width: '120px'},
+      {prop: 'modelName', label: '实体对象', width: '100px'},
       {prop: 'type', label: '类型', width: '80px',
         formatter: (row: any, column: any, cellValue: number) => {
           return this.$c.PageTypeK[cellValue]
         },
       },
-      {prop: 'pageDesc', label: '描述'},
+      {prop: 'remark', label: '描述'},
     ]
     /*vue-compute*/
     /*vue-watch*/
@@ -70,9 +70,9 @@
         return
       }
       if (this.currentRow.category === this.$c.PageCategoryV.CRUD) {
-        this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+        this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
       } else {
-        this.$utils.toTab('/baseData/pageEditor?code=' + this.currentRow.pageCode, `修改${this.currentRow.pageName}`)
+        this.$utils.toTab('/baseData/pageEditor?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
       }
       // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
     }

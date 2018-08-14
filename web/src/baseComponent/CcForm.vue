@@ -49,6 +49,7 @@
     @Prop({required: true, type: Object}) public data: FormObject
     @Prop(Boolean) public isSearch: boolean
     @Prop(String) public url: string
+    @Prop(String) public saveUrl: string
     @Prop(Boolean) public fullWidth: boolean
     /*vue-vuex*/
     @Action public formRequest: (url: string) => Promise<ActionReturn>
@@ -117,7 +118,8 @@
                 }
                 if (pass) {
                   this.loading = true
-                  const re = await this.formAction({url: btn.action + this.data.name, params: this.data.model})
+                  const url = this[btn.action + 'Url'] || btn.action + this.data.name
+                  const re = await this.formAction({url, params: this.data.model})
                   this.loading = false
                   this.$emit(btn.action, re)
                 }
@@ -139,6 +141,13 @@
     // 在dialog的值变化的时候，触发一次校验
     public onValueChange(prop: string) {
       (this.$refs.form as Vue).validateField(prop, () => null)
+    }
+    public submit(cb: any) {
+      (this.$refs.form as Vue).validate(async (valid: boolean) => {
+        if (valid && cb) {
+          cb()
+        }
+      })
     }
   }
 </script>

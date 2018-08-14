@@ -5,7 +5,7 @@
 import {Entity, Column, ManyToMany, JoinTable, OneToMany} from 'typeorm'
 import Role from './Role'
 import BaseEntity from './BaseEntity'
-import UserDashboard from "./UserDashboard";
+import UserDashboard from './UserDashboard'
 
 @Entity()
 export default class User extends BaseEntity {

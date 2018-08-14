@@ -150,8 +150,7 @@ declare global {
       props?: any,
       columns: TableColumn[],
       rows: string| any[],
-    },
-    needQuery?: boolean, // 编辑和查看的时候，是否要先查询
+    }
   }
   interface OptionItem {
     label: string,
@@ -205,9 +204,9 @@ declare global {
 // page
   interface Page extends IndexEd {
     name: string,
-    pageName: string,
+    modelName: string,
     type: number,
-    pageDesc: string
+    remark: string
   }
 // UserDashboard
   interface UserDashboard extends IndexEd {

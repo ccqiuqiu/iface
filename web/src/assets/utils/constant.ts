@@ -22,8 +22,9 @@ export default class Constant {
 
 // 页面类型
   public PageTypeV = {
-    页面: 1,
-    表单: 2,
+    表格页面: 1,
+    树页面: 2,
+    表单: 9,
   }
 // 反转key-value的页面类型
   public PageTypeK: any = null
