@@ -6,6 +6,7 @@ import CcButton from '@bc/CcButton.vue'
 import CcForm from '@bc/CcForm.vue'
 import CcFormDynamic from '@bc/CcFormDynamic.vue'
 import CcCrud from '@bc/CcCrud.vue'
+import CcCrudTree from '@bc/CcCrudTree.vue'
 import VueProgressBar from 'vue-progressbar'
 // import VeLine from 'v-charts/lib/line'
 // import VeHistogram from 'v-charts/lib/histogram'
@@ -26,6 +27,7 @@ export default {
     Vue.component('cc-button', CcButton)
     Vue.component('cc-form', CcForm)
     Vue.component('cc-crud', CcCrud)
+    Vue.component('cc-crud-tree', CcCrudTree)
     Vue.component('cc-form-dynamic', CcFormDynamic)
     Vue.component('cc-chart', CcChart)
     // Vue.component(VeLine.name, VeLine)

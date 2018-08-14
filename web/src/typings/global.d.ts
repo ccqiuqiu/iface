@@ -206,7 +206,13 @@ declare global {
     name: string,
     modelName: string,
     type: number,
-    remark: string
+    remark: string,
+    addUrl?: string,
+    updateUrl?: string,
+    searchUrl?: string,
+    delUrl?: string,
+    viewUrl?: string,
+    getUrl?: string,
   }
 // UserDashboard
   interface UserDashboard extends IndexEd {

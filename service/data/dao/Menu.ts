@@ -21,12 +21,14 @@ class UserDao extends BaseDao<Menu> {
     } else {
       menu.parent = null
     }
-    // 顺序, 同级菜单最大sort + 1
-    const maxSort: Menu = await manager.findOne<Menu>(this.entityClass, {
-      where: {parent: menu.parent},
-      order: {sort: 'DESC'},
-    })
-    menu.sort = maxSort ? maxSort.sort + 1 : 1
+    if (!menu.sort) {
+      // 顺序, 同级菜单最大sort + 1
+      const maxSort: Menu = await manager.findOne<Menu>(this.entityClass, {
+        where: {parent: menu.parent},
+        order: {sort: 'DESC'},
+      })
+      menu.sort = maxSort ? maxSort.sort + 1 : 1
+    }
     return manager.save(this.entityClass, menu)
   }
   public async sortMenu(params: {sourceId: string, targetId: string, location: 'before' | 'after' | 'inner'}) {

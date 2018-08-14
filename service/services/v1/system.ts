@@ -54,6 +54,16 @@ async function delMenu(ctx) {
   await Dao.Menu.delete(ctx.params.id)
   ctx.body = createBody()
 }
+async function getMenu(ctx) {
+  const id = ctx.params.id
+  const re = await Dao.Menu.findOne({id})
+  if (re) {
+    re['parentId'] = re._parentId
+    ctx.body = createBody(re)
+  } else {
+    ctx.body = createBody(null, false, '暂无数据')
+  }
+}
 // 角色
 async function searchRole(ctx) {
   const re = await Dao.Role.findPaged(ctx.request.body)
@@ -137,8 +147,10 @@ export default (routes: any, prefix: string) => {
   routes.post(prefix + '/page/viewUser/:id', viewUser)
   // 菜单
   routes.post(prefix + '/system/menuTree', menuTree)
+  routes.post(prefix + '/page/searchMenu', menuTree)
   routes.post(prefix + '/page/saveMenu', saveMenu)
-  routes.post(prefix + '/system/delMenu/:id', delMenu)
+  routes.post(prefix + '/page/delMenu/:id', delMenu)
+  routes.post(prefix + '/page/getMenu/:id', getMenu)
   routes.post(prefix + '/system/sortMenu', sortMenu)
   // 角色
   routes.post(prefix + '/page/searchRole', searchRole)

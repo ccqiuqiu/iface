@@ -1,7 +1,8 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
   <div v-loading="loading">
-    <cc-crud :data="data" v-if="data" :page="page"></cc-crud>
+    <cc-crud :data="data" v-if="data && page.type === $c.PageTypeV.表格页面" :page="page"></cc-crud>
+    <cc-crud-tree :data="data" v-if="data && page.type === $c.PageTypeV.树页面" :page="page"></cc-crud-tree>
     <cc-render-vue :code="code" v-if="code" id="render-page"></cc-render-vue>
   </div>
 </template>

@@ -152,7 +152,7 @@
           const {value, ...pageModel} = data
           this.pageModel = pageModel as Page
           const valueObj = JSON.parse(value)
-          if (this.pageModel.type === this.$c.PageTypeV.表格页面) {
+          if (this.pageModel.type !== this.$c.PageTypeV.表单) {
             valueObj.items = valueObj.items.map((item: any) => {
               const temp: any = {}
               const formProps = JSON.parse(JSON.stringify(item.formProps))
@@ -202,7 +202,7 @@
           delete temp.formProps
           delete temp.tableProps
         } else {
-          if (temp.target.includes('table')) {
+          if (temp.target && temp.target.includes('table')) {
             temp.tableProps = {}
             temp.tableProps.width = temp.width
             temp.tableProps.formatFun = temp.formatFun

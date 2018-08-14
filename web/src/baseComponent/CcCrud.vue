@@ -122,7 +122,7 @@
       }
     }
     @Watch('data', {immediate: true})
-    public routerChange() {
+    public dataChange() {
       this.init()
       this.getData()
     }
@@ -186,7 +186,7 @@
       }
       const url = edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
       this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h: any) =>
-        <cc-form data={this.editForm} saveUrl={this.page.saveUrl} updateUrl={this.page.updateUrl}  onSave={this.saved} url={url}></cc-form>)
+        <cc-form data={this.editForm} addUrl={this.page.addUrl} updateUrl={this.page.updateUrl}  onSave={this.saved} url={url}></cc-form>)
     }
     // 点击编辑按钮
     public onEdit() {
