@@ -36,7 +36,7 @@
   export default class CcCrud extends Vue {
     /*vue-props*/
     @Prop() public data: CRUDObject
-    @Prop() public page: Page
+    @Prop({default: () => ({})}) public page: Page
     @Prop(Boolean) public multiSelect: boolean
     @Prop({default: 'crud'}) public type: string // 类型，目前支持crud和dialog，主要控制一些样式差异
     @Prop({type: [Array, Object]}) public value: any | any[] // 用于dialog时，需要绑定value，crud时不需要

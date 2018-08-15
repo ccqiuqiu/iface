@@ -2,12 +2,12 @@
 <template>
   <div class="input-con">
     <div class="tags" v-if="value && value.length">
-      <el-tag size="mini" type="info" closable @close="$emit('del', value[0])">{{value[0][this.label]}}</el-tag>
-      <el-tag size="mini" type="info" v-if="value.length > 1">+{{value.length - 1}}</el-tag>
+      <el-tag size="mini" type="info" v-for="(item, index) in showList" :key="index" closable @close="$emit('del', item)">{{item[label]}}</el-tag>
+      <el-tag size="mini" type="info" v-if="otherNum > 0">+{{otherNum}}</el-tag>
     </div>
     <el-input type="text" readonly :placeholder="myPlaceholder">
-      <cc-icon slot="suffix" :name="icon" size="18"></cc-icon>
     </el-input>
+    <span class="icon"><cc-icon :name="icon" size="18"></cc-icon></span>
   </div>
 </template>
 
@@ -21,11 +21,22 @@
     @Prop() public placeholder: string
     @Prop({default: 'name'}) public label: string
     @Prop(String) public icon: string
+    @Prop(Boolean) public collapseTags: boolean
     /*vue-vuex*/
     /*vue-data*/
     /*vue-compute*/
     get myPlaceholder() {
       return this.value.length === 0 ? this.placeholder : ''
+    }
+    get showList() {
+      if (!this.collapseTags) {
+        return this.value.slice(0, Math.min(20, this.value.length))
+      } else {
+        return this.value.slice(0, 1)
+      }
+    }
+    get otherNum() {
+      return this.value.length - this.showList.length
     }
     /*vue-watch*/
     /*vue-lifecycle*/
@@ -35,16 +46,47 @@
 
 <style lang="scss" scoped>
   @import "../assets/css/vars";
+  .el-form-item.is-error .input-con{
+    border-color: $color-danger;
+  }
+  .el-form-item.is-success .input-con{
+    border-color: $color-success;
+  }
   .input-con {
     position: relative;
+    border: 1px solid $--border-color-base;
+    border-radius: 4px;
+    background-color: white;
+    min-height: 32px;
+    padding-right: 30px;
+    /deep/ input{
+      border: 0!important;
+    }
+    /deep/ .el-input{
+      position: absolute;
+      top: 0;
+    }
+    &:hover{
+      border-color: $--color-text-placeholder;
+    }
+    .icon{
+      text-align: center;
+      color: $--color-text-placeholder;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      transform: translate3d(0, -50%, 0);
+      top: 50%;
+      right: 0;
+    }
 
     .tags {
       z-index: 10;
-      position: absolute;
+      position: relative;
       left: 0;
     }
   }
-  .el-tag{
+  /deep/ .el-tag{
     box-sizing: border-box;
     background-color: #f0f2f5;
     border-color: transparent;

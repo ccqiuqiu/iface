@@ -1,6 +1,6 @@
 {
   "name": "iFace",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "public": true,
   "scripts": {
     "dev": "vue-cli-service serve",

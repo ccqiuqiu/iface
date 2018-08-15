@@ -11,13 +11,12 @@ async function test(ctx) {
 
 async function login(ctx) {
   const params = ctx.request.body
-  const userAuth = await Dao.User.findUserAndAuth(params)
-  if (userAuth) {
-    const token = jwt.sign({data: userAuth.user}, jwtSecret, { expiresIn: jwtExp})
-    // 保存用户信息到redis
-    // ctx.session.user = userAuth.user
-    // ctx.session.auth = userAuth.auth
-    await redis.set(userAuth.user.id, userAuth, jwtExp)
+  const user = await Dao.User.findOne(params)
+  if (user) {
+    const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+    // 获取用户权限保存redis
+    const auth = await Dao.User.findUserAuth(user.id)
+    await redis.set(user.id, {user, auth}, jwtExp)
     ctx.body = createBody({token})
   } else {
     ctx.body = createBody(null, false, '用户名密码不匹配')

@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/6/4.-->
 <template>
   <div>
-    <cc-input-tags @click.native="show" v-model="selectTag" :label="labelField"  @del="delTag" icon="dialog"/>
+    <cc-input-tags @click.native="show" v-model="selectTag" :label="labelField" :collapseTags="collapseTags" @del="delTag" icon="dialog"/>
   </div>
 </template>
 
@@ -14,10 +14,11 @@
   export default class CcInputDialog extends Vue {
     /*vue-props*/
     @Prop() public dialog: any
-    @Prop() public title: string
+    @Prop(String) public title: string
     @Prop({type: [Array, Object]}) public value: any | any[]
     @Prop({default: 'id'}) public valueField: string
     @Prop({default: 'name'}) public labelField: string
+    @Prop(Boolean) public collapseTags: boolean
     @Prop(Boolean) public multiSelect: boolean
     /*vue-vuex*/
     @Action public formAction: (params: {url: string, params?: any}) => Promise<ActionReturn>
@@ -32,7 +33,7 @@
     public valueChange(val: any) {
       this.updateSelectTag()
     }
-    @Watch('dialog')
+    @Watch('dialog', {immediate: true})
     public dialogChange(val: any) {
       if (val && val.name && this.rows.length === 0) {
         this.getTableData(val.name)

@@ -4,6 +4,9 @@
 import createBody from './createBody'
 import * as Dao from '../../data/dao/index'
 import {mock} from 'mockjs'
+import {jwtExp} from '../config'
+import * as redis from '../../utils/redis'
+import User from '../../data/entity/User'
 
 async function getUserDashboard(ctx) {
   const re = await Dao.User.getUserDashboard(ctx.session.user.id)
@@ -102,12 +105,16 @@ async function getOptions(ctx) {
 
 
 async function getAuth(ctx) {
-  const user = ctx.session.user
-  let resources = ctx.session.auth.resources
+  const userId = ctx.session.user.id
+  // 更新重新查询一下用户的权限，为了解决用户权限变化后一定要重新登录才能生效的问题
+  const user: User = await Dao.User.findOne({id: userId})
+  const auth = await Dao.User.findUserAuth(userId)
+  await redis.set(user.id, {user, auth}, jwtExp)
+  let resources = auth.resources
   if (typeof resources !== 'string') {
     resources = (resources as any[]).map((res: any) => res.url/*.replace(/^\/.*?\/(.*)/, '$1')*/)
   }
-  ctx.body = createBody({user, auth: {resources, menus: ctx.session.auth.menus}})
+  ctx.body = createBody({user, auth: {resources, menus: auth.menus}})
 }
 
 async function getPageOptions(ctx) {

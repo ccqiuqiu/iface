@@ -1,7 +1,8 @@
-import { MutationTree, ActionTree, ActionContext, GetterTree } from 'vuex'
+import {MutationTree, ActionTree, ActionContext, GetterTree} from 'vuex'
 import {utils} from '@utils/index'
 import router from '@g/router'
 import api from '@g/api'
+
 const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
 const state: CommonState = {
   menus: [], // 左侧菜单
@@ -43,16 +44,16 @@ const mutations: MutationTree<any> = {
     state.menuExpand = !state.menuExpand
   },
   // 更新tab页
-  updateTabs(state: CommonState, params: {key: string, menus: Menu[]}): void {
+  updateTabs(state: CommonState, params: { key: string, menus: Menu[] }): void {
     if (params.key) {
       state.menuTabs.push(params)
     }
   },
   // 更新当前选择的tab
   updateSelectedTab(state: CommonState, key: string): void {
-     if (key) {
-       state.selectedTab = key
-     }
+    if (key) {
+      state.selectedTab = key
+    }
   },
   // 更新当前选择的tab的url
   updateTabUrl(state: CommonState, {item, url}): void {
@@ -76,6 +77,24 @@ const mutations: MutationTree<any> = {
       // state.selectedTab = state.menuTabs[newIndex].key
       // 跳转url
       router.push(state.menuTabs[newIndex].url)
+    }
+  },
+  closeTab(state: CommonState, command: string): void {
+    const index = state.menuTabs.findIndex((tab: any) => tab.key === state.selectedTab)
+    if (command === 'noActive') {
+      state.menuTabs.splice(index + 1)
+      if (index > 0) {
+        state.menuTabs.splice(1, index - 1)
+      }
+    } else if (command === 'all') {
+      state.menuTabs = [state.menuTabs[0]]
+      router.push('/')
+    } else if (command === 'left') {
+      if (index > 0) {
+        state.menuTabs.splice(1, index - 1)
+      }
+    } else if (command === 'right') {
+      state.menuTabs.splice(index + 1)
     }
   },
   // 更新Dialog弹窗
@@ -113,16 +132,16 @@ const mutations: MutationTree<any> = {
 
 const actions: ActionTree<any, any> = {
   // 表单的按钮事件，主要是搜索和保存
-  formAction(context: ActionContext<CommonState, State>, params: {url: string, params: any}): Promise<ActionReturn> {
+  formAction(context: ActionContext<CommonState, State>, params: { url: string, params: any }): Promise<ActionReturn> {
     return api.formAction(params.url, params.params)
   },
   // 获取表单控件的选择项，下拉、单选、多选等
   async getOptions(context: ActionContext<CommonState, State>, url: string): Promise<any> {
-      const {data} = await api.getOptions(url)
-      if (data) {
-        return data
-      }
-      return null
+    const {data} = await api.getOptions(url)
+    if (data) {
+      return data
+    }
+    return null
     // 暂时不缓存。等想到好的方案更新缓存再开启
     // if (context.state.optionsCache[url]) {
     //   return context.state.optionsCache[url]
@@ -164,7 +183,7 @@ const actions: ActionTree<any, any> = {
     return api.saveUserDashboard({userDashboards})
   },
   // 获取仪表盘的数据
-  getDashboardData(context: ActionContext<SystemState, State>, params: any): Promise<ActionReturn>  {
+  getDashboardData(context: ActionContext<SystemState, State>, params: any): Promise<ActionReturn> {
     return api.requestUrl(params.url, params.params)
   },
 }

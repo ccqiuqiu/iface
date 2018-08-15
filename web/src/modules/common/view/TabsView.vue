@@ -1,19 +1,31 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
-    <el-tab-pane
-        :key="item.name"
-        v-for="item in tabs"
-        :label="item.title"
-        :closable="!item.noClose"
-        :name="item.name">
-    </el-tab-pane>
-  </el-tabs>
+  <div flex="box:last">
+    <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
+      <el-tab-pane
+          :key="item.name"
+          v-for="item in tabs"
+          :label="item.title"
+          :closable="!item.noClose"
+          :name="item.name">
+      </el-tab-pane>
+    </el-tabs>
+    <el-dropdown trigger="click" class="action" flex="cross:center"
+                 @command="closeTab" @visible-change="toggleMenuVisible">
+      <span class="p-h-4 p-v-6 cp" :class="{'menu-visible': menuVisible}"><i class="el-icon-arrow-down"></i></span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="noActive">关闭未激活</el-dropdown-item>
+        <el-dropdown-item command="left">关闭左边</el-dropdown-item>
+        <el-dropdown-item command="right">关闭右边</el-dropdown-item>
+        <el-dropdown-item command="all" divided>关闭所有</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import { State, Action, Mutation} from 'vuex-class'
+  import { State, Mutation} from 'vuex-class'
 
   @Component
   export default class TabsView extends Vue {
@@ -23,8 +35,10 @@
     @State((state: State) => state.common.selectedTab) public selectedTab: any
     @Mutation public updateSelectedTab: (key: string) => void
     @Mutation public removeTab: (key: string) => void
+    @Mutation public closeTab: (command: string) => void
     /*vue-data*/
     public perTab: string = '0'
+    public menuVisible: boolean = false
     /*vue-compute*/
     get activeTab() {
       return this.selectedTab
@@ -62,15 +76,36 @@
         }
       })
     }
+    public toggleMenuVisible(visible: boolean) {
+      this.menuVisible = visible
+    }
   }
 </script>
 
 <style lang="scss" scoped>
+  @import '../../../assets/css/vars';
+
   .el-tabs--border-card{
     border-left: 0;
     border-right: 0;
     /deep/ .el-tabs__content{
       padding: 0;
+    }
+  }
+  .action{
+    background-color: #f5f7fa;
+    border-bottom: 1px solid #e4e7ed;
+    border-left: 1px solid #e4e7ed;
+  }
+  .el-dropdown {
+    span:focus{
+      outline: none;
+    }
+    i{
+      transition: all 0.3s;
+    }
+    .menu-visible i{
+      transform: rotate(180deg);
     }
   }
 </style>

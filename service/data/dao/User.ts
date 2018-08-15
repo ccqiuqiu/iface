@@ -64,13 +64,13 @@ class UserDao extends BaseDao<User> {
     }
     return user
   }
-  public async findUserAndAuth(where: any): Promise<{user: User, auth: {menus: Menu[], resources: string | Resource[]}}> {
+  public async findUserAuth(userId: string): Promise<{menus: Menu[], resources: string | Resource[]}> {
     const repository = this.getRepository()
     const user = await repository.createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'role')
       .leftJoinAndSelect('role.menus', 'menu')
       .leftJoinAndSelect('role.resources', 'resource')
-      .where(where)
+      .where('user.id = :id', {id: userId})
       .getOne()
     if (!user) {
       return null
@@ -99,7 +99,7 @@ class UserDao extends BaseDao<User> {
     auth.menus = menus
     user.roleString = user.roles.map((role: Role) => role.name).join(',')
     delete user.roles
-    return {user, auth}
+    return auth
   }
   public async getUserDashboard(id: number) {
     const repository = this.getRepository()
