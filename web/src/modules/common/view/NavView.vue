@@ -17,7 +17,7 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
-  import {State, Mutation, Getter, Action} from 'vuex-class'
+  import {State, Mutation, Getter} from 'vuex-class'
 
   @Component
   export default class NavView extends Vue {

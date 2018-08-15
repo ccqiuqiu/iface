@@ -34,9 +34,9 @@
   "devDependencies": {
     "@types/mockjs": "^1.0.0",
     "@types/webpack-env": "^1.13.6",
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-typescript": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-typescript": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
     "ajv": "^6.0.0",
     "concurrently": "^3.6.1",
     "kcors": "^2.2.2",

@@ -110,19 +110,13 @@
       this.editForm.model = this.currentRow
       this.forceUpdate()
     }
-    public beforeSave() {
-      if (this.selected.id && this.selected.id === this.selected.parentId) {
-        this.$utils.message('上级不能是自己！', MessageTypeEnum.error)
-        return false
-      }
-      return true
-    }
 
     public saved(re: any) {
       if (re.data) {
         this.$utils.message('保存成功！')
         this.selected = re.data
         this.getData()
+        this.show = false
       }
     }
 
