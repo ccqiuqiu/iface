@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import {Action} from 'vuex-class'
   import {BaseMixin} from '@utils/mixins'
   import DashboardItemInfo from './DashboardItemInfo.vue'
@@ -27,10 +27,11 @@
     public data: {title: string, subTitle: string, link: string} | null = null
     /*vue-compute*/
     /*vue-watch*/
-    /*vue-lifecycle*/
-    public created() {
+    @Watch('dashboard.id', {immediate: true})
+    public idChange() {
       this.initData()
     }
+    /*vue-lifecycle*/
     /*vue-method*/
     public async initData(params: any = {pageSize: 5}) {
       this.loading = true

@@ -7,17 +7,18 @@ import {mock} from 'mockjs'
 import {jwtExp} from '../config'
 import * as redis from '../../utils/redis'
 import User from '../../data/entity/User'
+import {Context} from 'koa'
 
-async function getUserDashboard(ctx) {
-  const re = await Dao.User.getUserDashboard(ctx.session.user.id)
+async function getUserDashboard(ctx: Context) {
+  const re = await Dao.User.getUserDashboard(ctx.state.session.user.id)
   ctx.body = createBody(re)
 }
 async function getAllDashboard(ctx) {
   const re = await Dao.Dashboard.findPaged({pageSize: 0})
   ctx.body = createBody(re.rows)
 }
-async function saveUserDashboard(ctx) {
-  const re = await Dao.User.saveUserDashboard(ctx.session.user.id, ctx.request.body.userDashboards)
+async function saveUserDashboard(ctx: Context) {
+  const re = await Dao.User.saveUserDashboard(ctx.state.session.user.id, ctx.request['body'].userDashboards)
   ctx.body = createBody(re)
 }
 async function newOrder(ctx) {
@@ -104,8 +105,8 @@ async function getOptions(ctx) {
 }
 
 
-async function getAuth(ctx) {
-  const userId = ctx.session.user.id
+async function getAuth(ctx: Context) {
+  const userId = ctx.state.session.user.id
   // 更新重新查询一下用户的权限，为了解决用户权限变化后一定要重新登录才能生效的问题
   const user: User = await Dao.User.findOne({id: userId})
   const auth = await Dao.User.findUserAuth(userId)

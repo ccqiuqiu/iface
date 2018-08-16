@@ -21,19 +21,23 @@ if (!existsSync(logPath)) {
 }
 // 初始化日志配置
 log4js.configure({
-  appenders: [
-    {type: 'console'},
-    {type: 'dateFile', filename: logPath + '/app.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, category: 'app', usefsync: true},
-    {type: 'dateFile', filename: logPath + '/db.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, category: 'db', usefsync: true},
-  ],
+  appenders: {
+    console: {type: 'console'},
+    app: { type: 'file', filename: logPath + '/app.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
+    db: { type: 'file', filename: logPath + '/db.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
+  },
+  categories: {
+    default: { appenders: ['console', 'app'], level: 'ALL' },
+    db: { appenders: ['console', 'db'], level: 'ALL' },
+  },
 })
-const logger = log4js.getLogger('app')
+const logger = log4js.getLogger()
 
 const app = new Koa()
 // 使用一些中间件
 app.use(favicon(__dirname + '/favicon.ico')) // favicon中间件
 app.use(responseTime()) // 响应时间中间件 会设置X-Response-Time
-app.use(log4js.koaLogger(logger, {level: 'auto'})) // 日志中间件
+app.use(log4js.koaLogger(logger)) // 日志中间件
 app.use(compress()) // 数据压缩中间件
 app.use(cors({credentials: true})) // 跨域中间件
 app.use(serve('static', {maxage: 20 * 60 * 1000}))// 设置静态文件中间件
@@ -49,9 +53,9 @@ app.use(async (ctx, next) => {
   try {
     const token = ctx.headers['token']
     decoded = jwt.verify(token, jwtSecret)
-    ctx.session = await redis.get(decoded.data.id)
+    ctx.state.session = await redis.get(decoded.data.id)
     // 如果redis里面没有缓存，抛出异常
-    if (!ctx.session) {
+    if (!ctx.state.session) {
       throw Error('')
     }
   } catch (err) {

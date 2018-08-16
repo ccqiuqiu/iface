@@ -13,7 +13,7 @@
                  @layout-updated="layoutUpdated = true"
     >
       <grid-item v-for="item in userDashboard"
-                 :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i"
+                 :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.id"
                  dragIgnoreFrom=".ignore">
         <dashboard-item :dashboard="item.dashboard" :size="{w: item.w, h: item.h * rowHight + 10 * (item.h - 1) - 60}"></dashboard-item>
       </grid-item>

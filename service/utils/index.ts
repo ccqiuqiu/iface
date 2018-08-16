@@ -56,7 +56,7 @@ export const hasAuth = (ctx: Context): boolean => {
     const whiteList: string[] = ['/page/getPage']
     // 不在白名单的url要校验资源权限
     if (!whiteList.includes(url)) {
-      const resources = ctx.session.auth.resources
+      const resources = ctx.state.session.auth.resources
       if (resources !== 'all') {
         return !!resources.find((role: any) => role.url === url)
       }

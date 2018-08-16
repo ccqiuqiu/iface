@@ -33,8 +33,8 @@
     </div>
     <div flex-box="0" class="props" flex="dir:top box:last">
       <div class="collapses">
-        <el-collapse v-model="activeNames" class="right" accordion>
-          <el-collapse-item title="属性" name="1">
+        <el-collapse v-model="activeNames" class="right" :accordion="false">
+          <el-collapse-item title="组件属性" name="1">
             <form-item-props @change="changeOptions" :type="pageModel.type" :item="selectItem"></form-item-props>
           </el-collapse-item>
           <el-collapse-item title="选择数据源" name="2">
@@ -43,7 +43,7 @@
           <el-collapse-item title="表单校验" name="3">
             <form-item-verify @change="changeOptions" :item="selectItem"></form-item-verify>
           </el-collapse-item>
-          <el-collapse-item title="页面属性" name="4">
+          <el-collapse-item title="页面/表单属性" name="4">
             <cc-form ref="form" :data="formObj" full-width/>
           </el-collapse-item>
         </el-collapse>
@@ -98,7 +98,7 @@
     ]
     public model: any = {}
     public items: any[] = []
-    public activeNames: string = '4'
+    public activeNames: string[] = ['1', '4']
     public selectIndex: number = -1
     public pageModel: Page = {type: 1, name: '', remark: '', modelName: ''}
     /*vue-compute*/
