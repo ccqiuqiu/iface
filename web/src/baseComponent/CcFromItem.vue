@@ -64,110 +64,113 @@
   </el-form-item>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import CcInputTable from './CcInputTable.vue'
-  import CcInputTree from './CcInputTree.vue'
-  import CcInputDialog from './CcInputDialog.vue'
-  import CcInputIcon from './CcInputIcon.vue'
-  import CcCheckboxGroup from './CcCheckboxGroup.vue'
-  import CcSelect from './CcSelect.vue'
-  import {Action} from 'vuex-class'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import CcInputTable from './CcInputTable.vue'
+import CcInputTree from './CcInputTree.vue'
+import CcInputDialog from './CcInputDialog.vue'
+import CcInputIcon from './CcInputIcon.vue'
+import CcCheckboxGroup from './CcCheckboxGroup.vue'
+import CcSelect from './CcSelect.vue'
+import {Action} from 'vuex-class'
 
-  @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
-  export default class CcFromItem extends Vue {
-    /*vue-props*/
-    @Prop({required: true, type: [Object]}) public model: any
-    @Prop({required: true}) public item: FormItem
-    @Prop(Boolean) public noVerify: boolean
-    /*vue-vuex*/
-    @Action('getOptions') public getOptions: (url: string) => Promise<any>
-    @Action public getPageOptions: (id: string) => Promise<ActionReturn>
-    @Action public requestUrl: (url: string) => Promise<any>
-    /*vue-data*/
-    public mItem: FormItem = JSON.parse(JSON.stringify(this.item))
-    public loading: boolean = false
-    /*vue-compute*/
-    /*vue-watch*/
-    @Watch('item')
-    public itemChange() {
-      this.mItem = JSON.parse(JSON.stringify(this.item))
+@Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
+export default class CcFromItem extends Vue {
+  /* vue-props */
+  @Prop({required: true, type: [Object]}) model
+  @Prop({required: true}) item
+  @Prop(Boolean) noVerify
+  /* vue-vuex */
+  @Action('getOptions') getOptions
+  @Action getPageOptions
+  @Action requestUrl
+  /* vue-data */
+  loading = false
+  data () {
+    return {
+      mItem: JSON.parse(JSON.stringify(this.item))
     }
-    @Watch('mItem', {immediate: true})
-    public mItemChange() {
-      this.initOptions()
-    }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    // 过滤form-item的props
-    public itemProps(item: FormItem) {
-      const {options, props, dialog, verify, placeholder, multiSelect, ...itemProps} = item
-      item.props = item.props || {}
-      if (placeholder) {
-        item.props.placeholder = placeholder
-      }
-      if (multiSelect) {
-        item.props.multiSelect = multiSelect
-      }
-      if (this.noVerify) {
-        return {...itemProps}
-      } else {
-        // 处理表单校验
-        if (verify) {
-          verify.verify = ''
-          // 校验框架没有必填选项，只有canBeEmpty，所以转换一下
-          if (!verify.required) {
-            verify.canBeEmpty = ''
-          }
-        }
-        return {...itemProps, ...verify}
-      }
-    }
-    // 日期控件默认格式
-    public datePickerFarmatter(item: FormItem) {
-      if (item.props && item.props.valueFormat) {
-        return item.props.valueFormat
-      } else {
-        return (item.type === 'date' || item.type === 'daterange') ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss'
-      }
-    }
-    // 检查输入框的值是否是number，以判断是否要加number修饰符
-    public isNumber(verify: any) {
-      return verify && (verify.number || verify.int || verify.maxDecimalLength || verify.gt || verify.gte || verify.lt || verify.lte)
-    }
-    // 在dialog的值变化的时候，触发一次校验
-    public onValueChange(prop: string) {
-      this.$emit('value-change', prop)
-    }
-    //
-    public async initOptions() {
-      if (this.mItem.options && typeof this.mItem.options === 'string') {
-        this.loading = true
-        const type = this.mItem.type!
-        let data: any = null
-
-        // 先在常量表里面找有没有值
-        if (this.$c.options[this.mItem.options]) {
-          data = this.$c.options[this.mItem.options]
-        } else {
-          if (this.mItem.options.indexOf('/') === 0) {
-            data = await this.requestUrl(this.mItem.options)
-          } else {
-            if (type === 'dialog') {
-              data = await this.getPageOptions(this.mItem.options)
-            } else {
-              data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
-            }
-          }
-        }
-        this.loading = false
-        if (data) {
-          this.mItem.options = data
-        }
-      }
-    }
-
   }
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('item')
+  itemChange () {
+    this.mItem = JSON.parse(JSON.stringify(this.item))
+  }
+  @Watch('mItem', {immediate: true})
+  mItemChange () {
+    this.initOptions()
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+  // 过滤form-item的props
+  itemProps (item) {
+    const {options, props, dialog, verify, placeholder, multiSelect, ...itemProps} = item
+    item.props = item.props || {}
+    if (placeholder) {
+      item.props.placeholder = placeholder
+    }
+    if (multiSelect) {
+      item.props.multiSelect = multiSelect
+    }
+    if (this.noVerify) {
+      return {...itemProps}
+    } else {
+      // 处理表单校验
+      if (verify) {
+        verify.verify = ''
+        // 校验框架没有必填选项，只有canBeEmpty，所以转换一下
+        if (!verify.required) {
+          verify.canBeEmpty = ''
+        }
+      }
+      return {...itemProps, ...verify}
+    }
+  }
+  // 日期控件默认格式
+  datePickerFarmatter (item) {
+    if (item.props && item.props.valueFormat) {
+      return item.props.valueFormat
+    } else {
+      return (item.type === 'date' || item.type === 'daterange') ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss'
+    }
+  }
+  // 检查输入框的值是否是number，以判断是否要加number修饰符
+  isNumber (verify) {
+    return verify && (verify.number || verify.int || verify.maxDecimalLength || verify.gt || verify.gte || verify.lt || verify.lte)
+  }
+  // 在dialog的值变化的时候，触发一次校验
+  onValueChange (prop) {
+    this.$emit('value-change', prop)
+  }
+  //
+  async initOptions () {
+    if (this.mItem.options && typeof this.mItem.options === 'string') {
+      this.loading = true
+      const type = this.mItem.type
+      let data = null
+
+      // 先在常量表里面找有没有值
+      if (this.$c.options[this.mItem.options]) {
+        data = this.$c.options[this.mItem.options]
+      } else {
+        if (this.mItem.options.indexOf('/') === 0) {
+          data = await this.requestUrl(this.mItem.options)
+        } else {
+          if (type === 'dialog') {
+            data = await this.getPageOptions(this.mItem.options)
+          } else {
+            data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+          }
+        }
+      }
+      this.loading = false
+      if (data) {
+        this.mItem.options = data
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -15,28 +15,28 @@
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
-  import {State, Mutation, Getter} from 'vuex-class'
+<script>
+import {Component, Vue} from 'vue-property-decorator'
+import {State, Mutation, Getter} from 'vuex-class'
 
-  @Component
-  export default class NavView extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @State((state: State) => state.common.menuExpand) public menuExpand: string
-    @State((state: State) => state.common.menuTabs) public menuTabs: any[]
-    @State((state: State) => state.common.selectedTab) public selectedTab: any
-    @State((state: State) => state.common.user) public user: User
-    @Getter public nav: Menu[]
-    @Mutation public toggleMenu: () => void
-    @Mutation('clearStore') public clearStore: () => void
-    /*vue-data*/
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
+@Component
+export default class NavView extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @State((state) => state.common.menuExpand) menuExpand
+    @State((state) => state.common.menuTabs) menuTabs
+    @State((state) => state.common.selectedTab) selectedTab
+    @State((state) => state.common.user) user
+    @Getter nav
+    @Mutation toggleMenu
+    @Mutation('clearStore') clearStore
+    /* vue-data */
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
     // 退出登录
-    public async onLogout() {
+    async onLogout () {
       this.$ls.remove('token')
       this.$utils.message('退出登录成功')
       // 清除store里面缓存的数据
@@ -45,7 +45,7 @@
       // 在下一个$nextTick跳转，保证会跳转到登录页
       this.$nextTick(() => this.$router.push('/login'))
     }
-  }
+}
 
 </script>
 

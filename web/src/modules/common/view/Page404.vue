@@ -7,22 +7,22 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Component, Vue } from 'vue-property-decorator'
 
-  @Component
-  export default class Page404 extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get url() {
-      return this.$route.path
-    }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
+@Component
+export default class Page404 extends Vue {
+  /* vue-props */
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get url () {
+    return this.$route.path
   }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

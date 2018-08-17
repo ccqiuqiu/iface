@@ -10,27 +10,27 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import DashboardTitle from './DashboardTitle.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import DashboardTitle from './DashboardTitle.vue'
 
-  @Component({components: {DashboardTitle}})
-  export default class DashboardItemTable extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    @Prop(Object) public data: any
-    /*vue-vuex*/
-    /*vue-data*/
-    public currentPage: number = 1
-    /*vue-compute*/
-    /*vue-watch*/
+@Component({components: {DashboardTitle}})
+export default class DashboardItemTable extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    @Prop(Object) data
+    /* vue-vuex */
+    /* vue-data */
+    currentPage = 1
+    /* vue-compute */
+    /* vue-watch */
     @Watch('currentPage')
-    public currentPageChange() {
+    currentPageChange () {
       this.$emit('change-page', this.currentPage)
     }
-    /*vue-lifecycle*/
-    /*vue-method*/
-  }
+    /* vue-lifecycle */
+    /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

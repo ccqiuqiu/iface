@@ -11,37 +11,37 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop} from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class CcInputTags extends Vue {
-    /*vue-props*/
-    @Prop() public value: any[]
-    @Prop() public placeholder: string
-    @Prop({default: 'name'}) public label: string
-    @Prop(String) public icon: string
-    @Prop(Boolean) public collapseTags: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get myPlaceholder() {
+@Component
+export default class CcInputTags extends Vue {
+    /* vue-props */
+    @Prop() value
+    @Prop() placeholder
+    @Prop({default: 'name'}) label
+    @Prop(String) icon
+    @Prop(Boolean) collapseTags
+    /* vue-vuex */
+    /* vue-data */
+    /* vue-compute */
+    get myPlaceholder () {
       return this.value.length === 0 ? this.placeholder : ''
     }
-    get showList() {
+    get showList () {
       if (!this.collapseTags) {
         return this.value.slice(0, Math.min(20, this.value.length))
       } else {
         return this.value.slice(0, 1)
       }
     }
-    get otherNum() {
+    get otherNum () {
       return this.value.length - this.showList.length
     }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-  }
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

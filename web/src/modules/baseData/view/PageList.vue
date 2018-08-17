@@ -22,34 +22,35 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
-  import {BaseMixin, PageMixin} from '../../../assets/utils/mixins'
-  import {MessageTypeEnum} from '../../../assets/utils/enums'
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
+import {BaseMixin, PageMixin} from '../../../assets/utils/mixins'
 
-  @Component({mixins: [BaseMixin, PageMixin]})
-  export default class PageList extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @Action public searchPage: (params: {pageNum: number, pageSize: number}) => Promise<ActionReturn>
-    @Action public formRequest: (url: string) => Promise<ActionReturn>
-    /*vue-data*/
-    public columns: TableColumn[] = [
+@Component({mixins: [BaseMixin, PageMixin]})
+export default class PageList extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @Action searchPage
+    @Action formRequest
+    /* vue-data */
+    columns = [
       {prop: 'name', label: '名称', width: '120px'},
       {prop: 'modelName', label: '实体对象', width: '100px'},
-      {prop: 'type', label: '类型', width: '80px',
-        formatter: (row: any, column: any, cellValue: number) => {
+      {prop: 'type',
+        label: '类型',
+        width: '80px',
+        formatter: (row, column, cellValue) => {
           return this.$c.PageTypeK[cellValue]
-        },
+        }
       },
-      {prop: 'remark', label: '描述'},
+      {prop: 'remark', label: '描述'}
     ]
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public async getData() {
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    async getData () {
       this.loading = true
       const {data} = await this.searchPage({pageNum: this.pageNum, pageSize: this.pageSize})
       this.loading = false
@@ -58,15 +59,15 @@
         this.rows = data.rows
       }
     }
-    public onAdd() {
+    onAdd () {
       this.$utils.toTab('/baseData/createCrud', '添加页面或表单')
     }
-    public onAddEditor() {
+    onAddEditor () {
       this.$utils.toTab('/baseData/pageEditor', '在线编辑页面')
     }
-    public onEdit() {
+    onEdit () {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', MessageTypeEnum.warning)
+        this.$utils.message('请选择一行', this.$c.MessageType.warning)
         return
       }
       if (this.currentRow.category === this.$c.PageCategoryV.CRUD) {
@@ -76,15 +77,15 @@
       }
       // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
     }
-    public async onDel() {
+    async onDel () {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', MessageTypeEnum.warning)
+        this.$utils.message('请选择一行', this.$c.MessageType.warning)
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.formRequest('delPage/' + this.currentRow.id)
+        const {error} = await this.formRequest('delPage/' + this.currentRow.id)
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
@@ -92,7 +93,7 @@
         }
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

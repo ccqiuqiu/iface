@@ -15,27 +15,31 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class DashboardItemInfo extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    @Prop(Object) public data: {title: string, link: string}
-    /*vue-vuex*/
-    /*vue-data*/
-    public styleObj: any = {
-      backgroundColor: this.dashboard.color,
+@Component
+export default class DashboardItemInfo extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    @Prop(Object) data
+    /* vue-vuex */
+    /* vue-data */
+    data () {
+      return {
+        styleObj: {
+          backgroundColor: this.dashboard.color
+        }
+      }
     }
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public more() {
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    more () {
       this.$router.push(this.data.link)
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

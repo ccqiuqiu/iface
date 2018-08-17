@@ -6,12 +6,12 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import CcRecord from './record/CcRecord.vue'
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+import CcRecord from './record/CcRecord.vue'
 
-  @Component({components: {CcRecord}})
-  export default class App extends Vue {}
+@Component({components: {CcRecord}})
+export default class App extends Vue {}
 </script>
 <style lang="scss">
 </style>

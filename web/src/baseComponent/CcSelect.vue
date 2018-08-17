@@ -5,20 +5,20 @@
   </el-select>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class CcSelect extends Vue {
-    /*vue-props*/
-    @Prop([Array, String, Number]) public value: any | any[]
-    @Prop([Array, String]) public options: any[] | string
-    // @Prop(Boolean) public multiple: boolean
-    @Prop(Boolean) public multiSelect: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get model() {
+@Component
+export default class CcSelect extends Vue {
+    /* vue-props */
+    @Prop([Array, String, Number]) value
+    @Prop([Array, String]) options
+    // @Prop(Boolean) multiple
+    @Prop(Boolean) multiSelect
+    /* vue-vuex */
+    /* vue-data */
+    /* vue-compute */
+    get model () {
       if (!this.value) {
         return this.multiSelect ? [] : ''
       } else {
@@ -29,13 +29,13 @@
         }
       }
     }
-    set model(val) {
+    set model (val) {
       this.$emit('input', val)
     }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-  }
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

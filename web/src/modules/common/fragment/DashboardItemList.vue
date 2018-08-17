@@ -11,28 +11,28 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import DashboardTitle from './DashboardTitle.vue'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import DashboardTitle from './DashboardTitle.vue'
 
-  @Component({components: {DashboardTitle}})
-  export default class DashboardItemList extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    @Prop(Object) public data: any
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public itemClick(item: any) {
+@Component({components: {DashboardTitle}})
+export default class DashboardItemList extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    @Prop(Object) data
+    /* vue-vuex */
+    /* vue-data */
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    itemClick (item) {
       this.$router.push(item.url)
     }
-    public titleClick() {
+    titleClick () {
       this.$router.push(this.data.link)
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

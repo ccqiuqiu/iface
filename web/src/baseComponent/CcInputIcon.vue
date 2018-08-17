@@ -19,31 +19,31 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import iconPath from '../assets/icons/icon'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import iconPath from '../assets/icons/icon'
 
-  @Component
-  export default class CcInputIcon extends Vue {
-    /*vue-props*/
-    @Prop(String) public value: string
-    @Prop({type: String, default: '请选择图标'}) public placeholder: string
-    /*vue-vuex*/
-    /*vue-data*/
-    public show: boolean = false
-    /*vue-compute*/
-    get icons() {
+@Component
+export default class CcInputIcon extends Vue {
+    /* vue-props */
+    @Prop(String) value
+    @Prop({type: String, default: '请选择图标'}) placeholder
+    /* vue-vuex */
+    /* vue-data */
+    show = false
+    /* vue-compute */
+    get icons () {
       const reg = /^.*\/(.*)\.svg$/
-      return iconPath.map((path: string) => path.replace(reg, '$1'))
+      return iconPath.map((path) => path.replace(reg, '$1'))
     }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public select(name: string) {
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    select (name) {
       this.$emit('input', name)
       this.show = false
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

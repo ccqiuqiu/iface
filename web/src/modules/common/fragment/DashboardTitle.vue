@@ -6,24 +6,28 @@
     <span flex-box="0" v-if="more" class="ignore c-info f-12 cp" @click="$emit('click')">more</span>
   </div>
 </template>
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class DashboardTitle extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    @Prop(Boolean) public more: boolean
-    /*vue-vuex*/
-    /*vue-data*/
-    public styleObj: any = {
-      borderTop: `3px solid ${this.dashboard.color}`,
+@Component
+export default class DashboardTitle extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    @Prop(Boolean) more
+    /* vue-vuex */
+    /* vue-data */
+    data () {
+      return {
+        styleObj: {
+          borderTop: `3px solid ${this.dashboard.color}`
+        }
+      }
     }
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-  }
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>

@@ -19,14 +19,13 @@ module.exports = {
     svgRule.uses.clear()
     svgRule.test(/\.svg$/)
       .include
-        .add(resolve('src/assets/icons/svg'))
-        .end()
+      .add(resolve('src/assets/icons/svg'))
+      .end()
       .use('svg-spritse-loader')
       .loader('svg-sprite-loader')
       .options({
         symbolId: 'icon-[name]'
       })
-
 
     // 单独打包vue相关库
     // config.entry('lib')
@@ -58,11 +57,11 @@ module.exports = {
     //   }
     // })
     // 设置一些别名
-    config.resolve.alias
-      .set('@g', resolve('src/global'))
-      .set('@bc', resolve('src/baseComponent'))
-      .set('@common', resolve('src/modules/common/view'))
-      .set('@utils', resolve('src/assets/utils'))
+    // config.resolve.alias
+    //   .set('@g', resolve('src/global'))
+    //   .set('@bc', resolve('src/baseComponent'))
+    //   .set('@common', resolve('src/modules/common/view'))
+    //   .set('@utils', resolve('src/assets/utils'))
   },
   devServer: {
     port: 9088,
@@ -70,7 +69,7 @@ module.exports = {
       '/v1': {
         target: 'http://127.0.0.1:3000',
         changeOrigin: true
-      },
-    },
-  },
+      }
+    }
+  }
 }

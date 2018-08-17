@@ -6,24 +6,23 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import DashboardTitle from './DashboardTitle.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import DashboardTitle from './DashboardTitle.vue'
 
-  @Component({components: {DashboardTitle}})
-  export default class DashboardItemChart extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    @Prop() public size: {w: number, h: number}
-    @Prop(Object) public data: {data: any [], settings: any}
-    /*vue-vuex*/
-    /*vue-data*/
-    public index: number = 0
-    public typeArr: string[] = ['line', 'histogram', 'pie']
-    /*vue-compute*/
-    get height() {
+@Component({components: {DashboardTitle}})
+export default class DashboardItemChart extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    @Prop() size
+    @Prop(Object) data
+    /* vue-vuex */
+    /* vue-data */
+    index = 0
+    typeArr = ['line', 'histogram', 'pie']
+    /* vue-compute */
+    get height () {
       if (this.size && this.size.h) {
-
         if ([this.$c.DashboardTypeV['图表-饼图'], this.$c.DashboardTypeV['图表-环形图'],
           this.$c.DashboardTypeV['图表-桑基图'], this.$c.DashboardTypeV['图表-热力图']]
           .includes(this.dashboard.type)) {
@@ -35,11 +34,11 @@
       }
       return '300px'
     }
-    get chartData() {
+    get chartData () {
       if (!this.data) {
         return {}
       }
-      const data: any = {}
+      const data = {}
       data.data = this.data.data
       data.settings = {type: this.dashboard.type, ...this.data.settings}
       data.height = this.height
@@ -47,22 +46,22 @@
       data.judgeWidth = true
       return data
     }
-    /*vue-watch*/
+    /* vue-watch */
     @Watch('size', {deep: true})
-    public sizeChange() {
+    sizeChange () {
       if (this.$refs.chart) {
-        (this.$refs.chart as Vue).resize()
+        this.$refs.chart.resize()
       }
     }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public changeType() {
+    /* vue-lifecycle */
+    /* vue-method */
+    changeType () {
       this.index++
       if (this.index === this.typeArr.length) {
         this.index = 0
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -8,11 +8,11 @@ class UserDao extends BaseDao<Menu> {
   constructor() {
     super(Menu)
   }
-  public findTrees() {
+  findTrees() {
     const manager = this.getManager()
     return manager.getTreeRepository(Menu).findTrees()
   }
-  public async saveMenu(menu: any) {
+  async saveMenu(menu) {
     const manager = this.getManager()
     if (menu.parentId) {
       const parentMenu = new Menu(menu.parentId)
@@ -31,7 +31,7 @@ class UserDao extends BaseDao<Menu> {
     }
     return manager.save(this.entityClass, menu)
   }
-  public async sortMenu(params: {sourceId: string, targetId: string, location: 'before' | 'after' | 'inner'}) {
+  async sortMenu(params: {sourceId, targetId, location: 'before' | 'after' | 'inner'}) {
     const manager = this.getManager()
     const source: Menu = await manager.findOne<Menu>(this.entityClass, params.sourceId)
     const target: Menu = await manager.findOne<Menu>(this.entityClass, params.targetId)

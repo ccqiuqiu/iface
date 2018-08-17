@@ -5,22 +5,23 @@ import {BaseDao} from './BaseDao'
 import Role from '../entity/Role'
 import Menu from '../entity/Menu'
 import Resource from '../entity/Resource'
+import {getManager} from 'typeorm'
 
 class RoleDao extends BaseDao<Role> {
   constructor() {
     super(Role)
   }
-  public save(role: Role): Promise<any> {
+  save(role: Role): any {
     if (role.menuIds) {
-      role.menus = role.menuIds.map((id: string) => new Menu(id))
+      role.menus = role.menuIds.map((id) => new Menu(id))
     }
     if (role.resourceIds) {
-      role.resources = role.resourceIds.map((id: string) => new Resource(id))
+      role.resources = role.resourceIds.map((id) => new Resource(id))
     }
     return super.getRepository().save(role)
   }
 
-  public async findOne(where: any) {
+  async findOne(where) {
     const repository = this.getRepository()
     const role: Role = await repository.findOne({
       where,

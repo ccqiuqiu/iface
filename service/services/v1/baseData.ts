@@ -28,7 +28,7 @@ async function delPage(ctx) {
   ctx.body = createBody()
 }
 
-export default (routes: any, prefix: string) => {
+export default (routes, prefix) => {
   routes.post(prefix + '/page/searchPage', searchPage)
   routes.post(prefix + '/page/getPage/:code', getPage)
   routes.post(prefix + '/page/delPage/:id', delPage)

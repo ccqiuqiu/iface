@@ -1,5 +1,5 @@
 // 封装通用的响应数据
-export default function(data: any = {}, success: boolean = true, message: string | {code: string, message: string} = '') {
+export default function(data = {}, success = true, message: string | {code, message} = '') {
   const re: any = {
     success,
     data,

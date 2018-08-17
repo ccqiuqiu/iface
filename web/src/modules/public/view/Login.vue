@@ -21,43 +21,43 @@
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
-  import { Action, Mutation } from 'vuex-class'
+<script>
+import {Component, Vue} from 'vue-property-decorator'
+import { Action, Mutation } from 'vuex-class'
 
-  @Component
-  export default class Login extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @Mutation('clearStore') public clearStore: () => void
-    @Action('login') public loginAction: (user: User) => Promise<ActionReturn>
-    /*vue-data*/
-    public user: User = {
+@Component
+export default class Login extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @Mutation('clearStore') clearStore
+    @Action('login') loginAction
+    /* vue-data */
+    user = {
       name: 'admin',
-      password: '123456',
+      password: '123456'
     }
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
     // 用户登录
-    public async login() {
-      const {error, data} = await this.loginAction(this.user)
+    async login () {
+      const {data} = await this.loginAction(this.user)
       if (data) {
         this.$ls.set('token', data.token)
         this.$utils.message('登录成功')
         this.$router.push('/')
       }
     }
-    public handlerData(data: any) {
+    handlerData (data) {
       // 把菜单的id改为字符串
       const menus = data.auth.menus
       if (menus.length) {
         this.number2string(menus)
       }
     }
-    public number2string(list: any[]) {
-      list.forEach((item: any) => {
+    number2string (list) {
+      list.forEach((item) => {
         item.id = item.id + ''
         // 将补全特殊的url
         if (item.url && item.url.substr(0, 1) !== '/') {
@@ -68,7 +68,7 @@
         }
       })
     }
-  }
+}
 
 </script>
 

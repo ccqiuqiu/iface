@@ -12,25 +12,25 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Component, Vue } from 'vue-property-decorator'
 
-  @Component
-  export default class CcChart extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    /*vue-data*/
-    /*vue-compute*/
-    get type() {
-      return (this.$attrs as any).settings.type || 'line'
-    }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public resize() {
-      (this.$refs.chart as Vue).resize()
-    }
+@Component
+export default class CcChart extends Vue {
+  /* vue-props */
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get type () {
+    return this.$attrs.settings.type || 'line'
   }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  resize () {
+    this.$refs.chart.resize()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

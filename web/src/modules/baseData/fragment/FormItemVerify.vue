@@ -8,15 +8,15 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  @Component
-  export default class FormItemVerify extends Vue {
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class FormItemVerify extends Vue {
     /* vue-props */
-    @Prop() public item: any
+    @Prop() item
     /* vue-vuex */
     /* vue-data */
-    public verifyRules = [
+    verifyRules = [
       {name: '必填', code: 'required', selected: false, type: 'boolean'},
       {name: '长度', code: 'length', selected: false, value: '', type: 'number'},
       {name: '最短', code: 'minLength', selected: false, value: '', type: 'number'},
@@ -30,19 +30,19 @@
       {name: '整数', code: 'int', selected: false, type: 'boolean'},
       {name: '手机号', code: 'phone', selected: false, type: 'boolean'},
       {name: '邮箱', code: 'email', selected: false, type: 'boolean'},
-      {name: '数字验证码', code: 'verifyCode', selected: false, type: 'boolean'},
+      {name: '数字验证码', code: 'verifyCode', selected: false, type: 'boolean'}
     ]
     /* vue-compute */
-    get verifyRulesFilter() {
+    get verifyRulesFilter () {
       if (!['text', 'password', 'textarea'].includes(this.item.type)) {
         return this.verifyRules.slice(0, 1)
       } else {
         return this.verifyRules
       }
     }
-    get rules() {
-      return this.verifyRulesFilter.map((r: any) => {
-        const clone: any = {...r}
+    get rules () {
+      return this.verifyRulesFilter.map((r) => {
+        const clone = {...r}
         if (this.item && this.item.verify) {
           const value = this.item.verify[r.code]
           clone.selected = !!value
@@ -56,7 +56,7 @@
     /* vue-watch */
     /* vue-lifecycle */
     /* vue-method */
-    public click(rule: any) {
+    click (rule) {
       if (rule.type === 'boolean') {
         if (rule.selected) {
           delete this.item.verify[rule.code]
@@ -67,9 +67,9 @@
         this.$emit('change')
       }
     }
-    public keyup() {
-      const re: any = {}
-      this.rules.forEach((r: any) => {
+    keyup () {
+      const re = {}
+      this.rules.forEach((r) => {
         if (r.type !== 'boolean') {
           r.selected = !!r.value
         }
@@ -84,7 +84,7 @@
       }
       this.$emit('change')
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -2,16 +2,16 @@ import * as Redis from 'ioredis'
 
 const redis = new Redis() // https://github.com/luin/ioredis
 
-export const set = (key: string, value: any, maxAge: number = 20 * 60) => {
+export const set = (key, value, maxAge = 20 * 60) => {
   redis.set(key, typeof value === 'string' ? value : JSON.stringify(value), 'EX', maxAge)
 }
-export const expire = (key: string, maxAge: number = 20 * 60) => {
+export const expire = (key, maxAge = 20 * 60) => {
   redis.expire(key, maxAge)
 }
-export const del = (key: string) => {
+export const del = (key) => {
   redis.del(key)
 }
-export const get = async (key: string) => {
+export const get = async (key) => {
   const data = await redis.get(key)
   try {
     return JSON.parse(data)

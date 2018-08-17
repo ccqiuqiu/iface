@@ -8,32 +8,32 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
-  import {BaseMixin} from '@utils/mixins'
-  import DashboardItemInfo from './DashboardItemInfo.vue'
-  import DashboardItemList from './DashboardItemList.vue'
-  import DashboardItemTable from './DashboardItemTable.vue'
-  import DashboardItemChart from './DashboardItemChart.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
+import {BaseMixin} from '../../../assets/utils/mixins'
+import DashboardItemInfo from './DashboardItemInfo.vue'
+import DashboardItemList from './DashboardItemList.vue'
+import DashboardItemTable from './DashboardItemTable.vue'
+import DashboardItemChart from './DashboardItemChart.vue'
 
-  @Component({mixins: [BaseMixin], components: {DashboardItemInfo, DashboardItemList, DashboardItemTable, DashboardItemChart}})
-  export default class DashboardItem extends Vue {
-    /*vue-props*/
-    @Prop() public dashboard: Dashboard
-    /*vue-vuex*/
-    @Action public getDashboardData: (params: {url: string, params: any}) => Promise<ActionReturn>
-    /*vue-data*/
-    public data: {title: string, subTitle: string, link: string} | null = null
-    /*vue-compute*/
-    /*vue-watch*/
+@Component({mixins: [BaseMixin], components: {DashboardItemInfo, DashboardItemList, DashboardItemTable, DashboardItemChart}})
+export default class DashboardItem extends Vue {
+    /* vue-props */
+    @Prop() dashboard
+    /* vue-vuex */
+    @Action getDashboardData
+    /* vue-data */
+    data = null
+    /* vue-compute */
+    /* vue-watch */
     @Watch('dashboard.id', {immediate: true})
-    public idChange() {
+    idChange () {
       this.initData()
     }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public async initData(params: any = {pageSize: 5}) {
+    /* vue-lifecycle */
+    /* vue-method */
+    async initData (params = {pageSize: 5}) {
       this.loading = true
       const {data} = await this.getDashboardData({url: this.dashboard.url, params})
       this.loading = false
@@ -41,10 +41,10 @@
         this.data = data
       }
     }
-    public changePage(pageNum: number) {
+    changePage (pageNum) {
       this.initData({pageNum, pageSize: 5})
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

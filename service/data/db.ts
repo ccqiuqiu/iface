@@ -17,12 +17,12 @@ export const dbInit = async (app) => {
     logging: 'all', // ['query', 'error'],
     logger: new MyLogger(),
     synchronize: true, // 生产不能设置true
-  }).then((connection: any) => {
+  }).then((connection) => {
     console.log('数据库连接成功')
     app.listen(3000)
     console.log('应用启动成功')
     return true
-  }).catch((error: any) => {
+  }).catch((error) => {
     console.log(error)
     console.log('数据库连接异常')
     return false
@@ -30,27 +30,27 @@ export const dbInit = async (app) => {
 }
 // 自定义的日志记录器 http://typeorm.io/#/logging
 class MyLogger implements Logger {
-  public log(level, message: any, queryRunner?: QueryRunner): any {
+  log(level, message, queryRunner?: QueryRunner) {
     logger.info(message)
   }
   // 迁移日志
-  public logMigration(message: string, queryRunner?: QueryRunner): any {
+  logMigration(message, queryRunner?: QueryRunner) {
     logger.info(message)
   }
   // 数据库查询日志
-  public logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner): any {
+  logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner): any {
     logger.info(query)
   }
   // 数据库查询错误日志
-  public logQueryError(error: string, query: string, parameters?: any[], queryRunner?: QueryRunner): any {
+  logQueryError(error: string, query: string, parameters?: any[], queryRunner?: QueryRunner): any {
     logger.error(error)
   }
   // 查询超时日志
-  public logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner): any {
+  logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner): any {
     console.warn('logQuerySlow:' + time)
   }
   // 模式构建
-  public logSchemaBuild(message: string, queryRunner?: QueryRunner): any {
+  logSchemaBuild(message, queryRunner?: QueryRunner) {
     logger.info('logSchemaBuild:' + message)
   }
 }

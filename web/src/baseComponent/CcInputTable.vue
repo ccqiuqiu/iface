@@ -15,40 +15,40 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import CcInputTags from './CcInputTags.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import CcInputTags from './CcInputTags.vue'
 
-  @Component({components: {CcInputTags}})
-  export default class CcInputTable extends Vue {
-    /*vue-props*/
-    @Prop({type: [String, Number, Array]}) public value: string | number | Array<string | number>
-    @Prop() public options: any
-    @Prop({default: 'id'}) public valueField: string
-    @Prop({default: 'name'}) public labelField: string
-    @Prop(Boolean) public multiSelect: boolean // 是否多选
-    /*vue-vuex*/
-    /*vue-data*/
-    public show: boolean = false
-    public selectedRows: any[] = []
-    public currentRow: any = null
-    public forceUpdate: boolean = true
-    @Prop() public placeholder: string
-    /*vue-compute*/
-    get multi() {
+@Component({components: {CcInputTags}})
+export default class CcInputTable extends Vue {
+    /* vue-props */
+    @Prop({type: [String, Number, Array]}) value
+    @Prop() options
+    @Prop({default: 'id'}) valueField
+    @Prop({default: 'name'}) labelField
+    @Prop(Boolean) multiSelect // 是否多选
+    /* vue-vuex */
+    /* vue-data */
+    show = false
+    selectedRows = []
+    currentRow = null
+    forceUpdate = true
+    @Prop() placeholder
+    /* vue-compute */
+    get multi () {
       return this.multiSelect
     }
-    get getSelectTag() {
-      return (this.multi ? this.selectedRows : [this.currentRow]).filter((item: any) => item)
+    get getSelectTag () {
+      return (this.multi ? this.selectedRows : [this.currentRow]).filter((item) => item)
     }
-    get height() {
+    get height () {
       return this.options && this.options.rows && this.options.rows.length > 10 ? 400 : 'auto'
     }
-    /*vue-watch*/
+    /* vue-watch */
     @Watch('multi')
-    public multiChange(val: boolean) {
+    multiChange (val) {
       this.forceUpdate = false
-      this.$nextTick(() => this.forceUpdate = true)
+      this.$nextTick(() => (this.forceUpdate = true))
       setTimeout(() => {
         if (val && this.value && !Array.isArray(this.value)) {
           this.$emit('input', [this.value])
@@ -59,25 +59,25 @@
       }, 0)
     }
     @Watch('currentRow')
-    public currentRowChange(val: any) {
+    currentRowChange (val) {
       if (!this.multi && val) {
         this.show = false
         this.$emit('input', val[this.valueField])
       }
     }
     @Watch('options')
-    public optionsChange() {
+    optionsChange () {
       this.init()
     }
     @Watch('selectedRows')
-    public selectedRowsChange(val: any) {
+    selectedRowsChange (val) {
       if (this.multi) {
-        this.$emit('input', val.map((row: any) => row[this.valueField]))
+        this.$emit('input', val.map((row) => row[this.valueField]))
       }
     }
     // 监听value是为了实现重置表单的时候，能更新表格
     @Watch('value')
-    public valueChange(val: any, old: any) {
+    valueChange (val, old) {
       if (this.multi) {
         if (typeof val !== typeof old || val.join(',') !== old.join(',')) {
           this.init()
@@ -88,29 +88,29 @@
         }
       }
     }
-    /*vue-lifecycle*/
-    public mounted() {
+    /* vue-lifecycle */
+    mounted () {
       this.init()
     }
-    /*vue-method*/
-    public init() {
+    /* vue-method */
+    init () {
       if (this.value && this.options && this.options.rows) {
         if (this.multi) {
-          this.selectedRows = this.options.rows.filter((row: any) => (this.value as Array<string | number>).includes(row[this.valueField]))
+          this.selectedRows = this.options.rows.filter((row) => this.value.includes(row[this.valueField]))
         } else {
-          this.currentRow = this.options.rows.find((row: any) => row[this.valueField] === this.value)
+          this.currentRow = this.options.rows.find((row) => row[this.valueField] === this.value)
         }
       }
     }
-    public delTag(tag: any) {
+    delTag (tag) {
       if (this.multi) {
-        const index = this.selectedRows.findIndex((row: any) => row[this.valueField] === tag[this.valueField])
+        const index = this.selectedRows.findIndex((row) => row[this.valueField] === tag[this.valueField])
         this.selectedRows.splice(index, 1)
       } else {
         this.currentRow = null
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

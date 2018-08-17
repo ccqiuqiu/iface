@@ -72,7 +72,7 @@ async function saveApp(ctx) {
   console.log(ctx.request.body)
 }
 
-export default (routes: any, prefix: string) => {
+export default (routes, prefix) => {
   routes.get(prefix + '/public/oauth2getAccessToken.do', auth)
   routes.post(prefix + '/public/oauth2getSignature.do', signUrl)
   routes.post(prefix + '/public/tms_abnormity_app_save.do', saveApp)

@@ -19,49 +19,49 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import CcInputTags from './CcInputTags.vue'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import CcInputTags from './CcInputTags.vue'
 
-  @Component({components: {CcInputTags}})
-  export default class CcInputTree extends Vue {
-    /*vue-props*/
-    @Prop({type: [String, Number, Array]}) public value: string | number | Array<string | number>
-    @Prop({type: Array, default: () => []}) public options: any[]
-    @Prop({default: 'children'}) public childrenField: string
-    @Prop({default: 'id'}) public valueField: string
-    @Prop({default: 'name'}) public labelField: string
-    @Prop(Boolean) public multiSelect: boolean // 是否多选
-    @Prop() public placeholder: string
+@Component({components: {CcInputTags}})
+export default class CcInputTree extends Vue {
+    /* vue-props */
+    @Prop({type: [String, Number, Array]}) value
+    @Prop({type: Array, default: () => []}) options
+    @Prop({default: 'children'}) childrenField
+    @Prop({default: 'id'}) valueField
+    @Prop({default: 'name'}) labelField
+    @Prop(Boolean) multiSelect // 是否多选
+    @Prop() placeholder
 
-    /*vue-vuex*/
-    /*vue-data*/
-    public forceUpdate: boolean = true
-    public show: boolean = false
-    public selectedKeys: any[] = []
-    /*vue-compute*/
-    get props() {
+    /* vue-vuex */
+    /* vue-data */
+    forceUpdate = true
+    show = false
+    selectedKeys = []
+    /* vue-compute */
+    get props () {
       return {children: this.childrenField, label: this.labelField}
     }
-    get multi() {
+    get multi () {
       return this.multiSelect
     }
-    get flatData() {
+    get flatData () {
       return this.$utils.flatObject(this.options)
     }
-    get getSelectTag() {
-      return this.flatData.filter((item: any) => this.selectedKeys.includes(item[this.valueField]))
+    get getSelectTag () {
+      return this.flatData.filter((item) => this.selectedKeys.includes(item[this.valueField]))
     }
-    /*vue-watch*/
+    /* vue-watch */
     @Watch('props')
-    public propsChange() {
+    propsChange () {
       this.forceUpdate = false
-      this.$nextTick(() => this.forceUpdate = true)
+      this.$nextTick(() => (this.forceUpdate = true))
     }
     @Watch('multi')
-    public multiChange(val: boolean) {
+    multiChange (val) {
       this.forceUpdate = false
-      this.$nextTick(() => this.forceUpdate = true)
+      this.$nextTick(() => (this.forceUpdate = true))
       setTimeout(() => {
         if (val && this.value && !Array.isArray(this.value)) {
           this.$emit('input', [this.value])
@@ -72,7 +72,7 @@
       }, 0)
     }
     @Watch('selectedKeys')
-    public selectedKeysChange(val: any[]) {
+    selectedKeysChange (val) {
       if (this.multi) {
         this.$emit('input', val)
       } else {
@@ -81,52 +81,52 @@
     }
     // 监听value是为了实现重置表单的时候，能更新树
     @Watch('value')
-    public valueChange() {
+    valueChange () {
       this.init()
     }
-    /*vue-lifecycle*/
-    public mounted() {
+    /* vue-lifecycle */
+    mounted () {
       this.init()
     }
-    /*vue-method*/
-    public init() {
+    /* vue-method */
+    init () {
       if (this.value) {
         if (this.multi) {
-          (this.$refs as Vue).tree.setCheckedKeys(this.value)
-          this.selectedKeys = this.value as any[]
+          this.$refs.tree.setCheckedKeys(this.value)
+          this.selectedKeys = this.value
         } else {
-          (this.$refs as Vue).tree.setCurrentKey(this.value)
-          this.selectedKeys = [this.value as number]
+          this.$refs.tree.setCurrentKey(this.value)
+          this.selectedKeys = [this.value]
         }
       } else {
         this.selectedKeys = []
       }
     }
     // 树选中节点变化的时候
-    public checkChange(node: any) {
+    checkChange (node) {
       if (this.multi) {
-        this.selectedKeys = (this.$refs as Vue).tree.getCheckedKeys()
+        this.selectedKeys = this.$refs.tree.getCheckedKeys()
       } else {
         this.show = false
-        this.selectedKeys = [(this.$refs as Vue).tree.getCurrentKey()]
+        this.selectedKeys = [this.$refs.tree.getCurrentKey()]
       }
     }
     // 点击标签删除按钮的时候
-    public delTag(node: any) {
+    delTag (node) {
       if (this.multi) {
-        const index = this.selectedKeys.findIndex((item: any) => item === node[this.valueField])
+        const index = this.selectedKeys.findIndex((item) => item === node[this.valueField])
         if (index > -1) {
           this.selectedKeys.splice(index, 1)
         } else {
           this.selectedKeys.push(node[this.valueField])
         }
-        (this.$refs as Vue).tree.setCheckedKeys(this.selectedKeys)
+        this.$refs.tree.setCheckedKeys(this.selectedKeys)
       } else {
-        (this.$refs as Vue).tree.setCurrentKey(null)
+        this.$refs.tree.setCurrentKey(null)
         this.selectedKeys = []
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

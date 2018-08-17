@@ -23,63 +23,63 @@
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
-  import { State, Mutation} from 'vuex-class'
+<script>
+import {Component, Vue} from 'vue-property-decorator'
+import { State, Mutation } from 'vuex-class'
 
-  @Component
-  export default class TabsView extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @State((state: State) => state.common.menuTabs) public menuTabs: any
-    @State((state: State) => state.common.selectedTab) public selectedTab: any
-    @Mutation public updateSelectedTab: (key: string) => void
-    @Mutation public removeTab: (key: string) => void
-    @Mutation public closeTab: (command: string) => void
-    /*vue-data*/
-    public perTab: string = '0'
-    public menuVisible: boolean = false
-    /*vue-compute*/
-    get activeTab() {
+@Component
+export default class TabsView extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @State((state) => state.common.menuTabs) menuTabs
+    @State((state) => state.common.selectedTab) selectedTab
+    @Mutation updateSelectedTab
+    @Mutation removeTab
+    @Mutation closeTab
+    /* vue-data */
+    perTab = '0'
+    menuVisible = false
+    /* vue-compute */
+    get activeTab () {
       return this.selectedTab
     }
-    set activeTab(val) {
+    set activeTab (val) {
       this.perTab = this.activeTab
       this.updateSelectedTab(val)
     }
-    get tabs() {
-      const menus = this.menuTabs.map((o: any) => {
-        const menu: Menu = o.menus[o.menus.length - 1]
+    get tabs () {
+      const menus = this.menuTabs.map((o) => {
+        const menu = o.menus[o.menus.length - 1]
         return {
           title: menu.name,
           name: o.key,
-          noClose: menu.noClose,
+          noClose: menu.noClose
         }
       })
       // menus.unshift({title: '首页', name: '0', noClose: true})
       return menus
     }
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
     // 点击tab的时候，要跳转相应的url
-    public clickTab(tab: any) {
+    clickTab (tab) {
       const perTab = this.perTab // 保存住跳转前的tab
       this.$nextTick(() => {
         // 此时，激活的选项卡已经改变，再手动改回去，
         // 此处理是为了实现，点击选项卡后，如果页面被拦截没有跳转的话，tab页应该也不能改变激活的选项卡
         // 而只有当路由真的跳转后，再更新激活的选项卡。
         this.updateSelectedTab(perTab)
-        const item = this.menuTabs.find((item: any) => item.key === tab.name)
+        const item = this.menuTabs.find((item) => item.key === tab.name)
         if (item) {
           this.$router.push(item.url)
         }
       })
     }
-    public toggleMenuVisible(visible: boolean) {
+    toggleMenuVisible (visible) {
       this.menuVisible = visible
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

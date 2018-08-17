@@ -113,7 +113,7 @@ async function getAuth(ctx: Context) {
   await redis.set(user.id, {user, auth}, jwtExp)
   let resources = auth.resources
   if (typeof resources !== 'string') {
-    resources = (resources as any[]).map((res: any) => res.url/*.replace(/^\/.*?\/(.*)/, '$1')*/)
+    resources = (resources as any[]).map((res) => res.url/*.replace(/^\/.*?\/(.*)/, '$1')*/)
   }
   ctx.body = createBody({user, auth: {resources, menus: auth.menus}})
 }
@@ -132,7 +132,7 @@ async function optionsDemo(ctx) {
   ctx.body = createBody([{label: 'demo1', value : 1}, {label: 'demo2', value : 2}])
 }
 
-export default (routes: any, prefix: string) => {
+export default (routes, prefix) => {
   routes.post(prefix + '/base/getUserDashboard', getUserDashboard)
   routes.post(prefix + '/base/getAllDashboard', getAllDashboard)
   routes.post(prefix + '/base/saveUserDashboard', saveUserDashboard)

@@ -11,7 +11,7 @@
             @current-change="currentChange">
     <el-table-column type="selection" width="55" v-if="multi" />
     <template v-for="(column, index) in columns">
-      <el-table-column v-bind="column">
+      <el-table-column v-bind="column" :key="index">
         <template slot-scope="scope">
           <cc-render :column="column" :scope="scope"></cc-render>
         </template>
@@ -21,32 +21,32 @@
   </el-table>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import CcRender from '@bc/CcRender.vue'
-  @Component({components: {CcRender}})
-  export default class CcTable extends Vue {
-    /*vue-prop*/
-    @Prop() public rows: any[]
-    @Prop({default: 'id'}) public rowKey: string
-    @Prop() public columns: TableColumn[]
-    @Prop(Boolean) public multiSelect: boolean // 是否多选
-    @Prop() public selectedRows: any[] // 选中的行的数组
-    @Prop() public currentRow: any  // 当前行
-    /*vue-data*/
-    /*vue-computed*/
-    get multi() {
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import CcRender from './CcRender.vue'
+@Component({components: {CcRender}})
+export default class CcTable extends Vue {
+    /* vue-prop */
+    @Prop() rows
+    @Prop({default: 'id'}) rowKey
+    @Prop() columns
+    @Prop(Boolean) multiSelect // 是否多选
+    @Prop() selectedRows // 选中的行的数组
+    @Prop() currentRow // 当前行
+    /* vue-data */
+    /* vue-computed */
+    get multi () {
       return this.multiSelect
     }
     /**
      * 结合selectionChange方法，实现selectedRows双向绑定
      */
     @Watch('selectedRows')
-    public watchSelectedRows(val: any[], old: any[]) {
-      (this.$refs.table as Vue).clearSelection()
+    watchSelectedRows (val, old) {
+      this.$refs.table.clearSelection()
       if (val) {
-        this.$nextTick(() => val.forEach((row: any) => {
-          (this.$refs.table as Vue).toggleRowSelection(row, true)
+        this.$nextTick(() => val.forEach((row) => {
+          this.$refs.table.toggleRowSelection(row, true)
         }))
       }
     }
@@ -54,25 +54,25 @@
      * 结合currentChange方法，实现currentRow双向绑定
      */
     @Watch('currentRow')
-    public watchCurrentRow(val: any, old: any) {
+    watchCurrentRow (val, old) {
       if (val) {
-        this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(val), 0))
+        this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(val), 0))
       } else {
-        this.$nextTick(() => setTimeout((this.$refs.table as Vue).setCurrentRow(), 0))
+        this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(), 0))
       }
     }
-    public currentChange(row: any) {
+    currentChange (row) {
       if (row) {
         this.$emit('update:currentRow', row)
       }
     }
-    public select(rows: any[], row: any) {
+    select (rows, row) {
       this.$emit('update:selectedRows', rows)
     }
     // 多选的时候，让点击行的时候，也能选中和取消选中行
-    public rowClick(row: any) {
+    rowClick (row) {
       if (this.multi) {
-        const index = this.selectedRows.findIndex((item: any) => item[this.rowKey] === row[this.rowKey])
+        const index = this.selectedRows.findIndex((item) => item[this.rowKey] === row[this.rowKey])
         if (index >= 0) {
           this.selectedRows.splice(index, 1)
         } else {
@@ -83,12 +83,12 @@
       }
     }
     //
-    public toggleRowSelection(rows: any[]) {
-      rows.forEach((row: any) => {
-        (this.$refs.table as Vue).toggleRowSelection(row, true)
+    toggleRowSelection (rows) {
+      rows.forEach((row) => {
+        this.$refs.table.toggleRowSelection(row, true)
       })
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

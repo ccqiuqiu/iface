@@ -23,7 +23,7 @@ async function login(ctx) {
   }
 }
 
-export default (routes: any, prefix: string) => {
+export default (routes, prefix) => {
   routes.get(prefix + '/public/test', test)
   routes.post(prefix + '/public/test', test)
   routes.post(prefix + '/public/login', login)

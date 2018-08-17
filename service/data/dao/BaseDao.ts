@@ -11,24 +11,24 @@ export class BaseDao<Model> {
     this.entityClass = entityClass
   }
 
-  public findOne(query: any): Promise<Model> {
+  findOne(query): Promise<Model> {
     const entityManager = getManager()
     return entityManager.findOne(this.entityClass , query)
   }
-  public find(options: any = {}) {
+  find(options: any = {}) {
     const entityManager = getManager()
     options.order = {addTime: 'ASC'}
     return entityManager.find(this.entityClass, options)
   }
-  public save(model: Model) {
+  save(model: Model) {
     const entityManager = getManager()
     return entityManager.save(this.entityClass, model)
   }
-  public delete(id: number) {
+  delete(id) {
     const entityManager = getManager()
     return entityManager.delete(this.entityClass, id)
   }
-  public async findPaged({pageNum = 1, pageSize = 10, ...where}) {
+  async findPaged({pageNum = 1, pageSize = 10, ...where}) {
     const repository = getRepository(this.entityClass)
     const total = await repository.count({where})
     const rows = await repository.find({
@@ -40,10 +40,10 @@ export class BaseDao<Model> {
     return {total, rows}
   }
 
-  public getManager() {
+  getManager() {
     return getManager()
   }
-  public getRepository() {
+  getRepository() {
     return getRepository<Model>(this.entityClass)
   }
 }

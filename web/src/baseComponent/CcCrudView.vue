@@ -8,32 +8,32 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
+<script>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
 
-  @Component
-  export default class CcCrudView extends Vue {
-    /*vue-props*/
-    @Prop() public data: any
-    @Prop() public fields: any[]
-    @Prop() public url: string
-    /*vue-vuex*/
-    @Action public formRequest: (url: string) => Promise<ActionReturn>
-    /*vue-data*/
-    public mData: any = this.data
-    public loading: boolean = false
-    /*vue-compute*/
-    get items() {
-      return this.fields.filter((field: any) => this.mData[field.prop]).map((field: any) => {
+@Component
+export default class CcCrudView extends Vue {
+    /* vue-props */
+    @Prop() data
+    @Prop() fields
+    @Prop() url
+    /* vue-vuex */
+    @Action formRequest
+    /* vue-data */
+    mData = this.data
+    loading = false
+    /* vue-compute */
+    get items () {
+      return this.fields.filter((field) => this.mData[field.prop]).map((field) => {
         const item = {label: field.label, value: this.mData[field.prop]}
         if (field.formProps && field.formProps.options) {
-          let rows: any = field.formProps.options
+          let rows = field.formProps.options
           let labelField = 'label'
           let valueField = 'value'
           if (['table', 'tree'].includes(field.formProps.type)) {
-            labelField = field.formProps.props && field.formProps.props.labelField || 'name'
-            valueField = field.formProps.props && field.formProps.props.valueField || 'id'
+            labelField = field.formProps.props ? (field.formProps.props.labelField || 'name') : 'name'
+            valueField = field.formProps.props ? (field.formProps.props.valueField || 'id') : 'id'
           }
           item.value = Array.isArray(item.value) ? item.value : [item.value]
           if (field.formProps.type === 'table') {
@@ -42,8 +42,8 @@
             rows = this.$utils.flatObject(field.formProps.options)
           }
           item.value = rows
-            .filter((row: any) => item.value.includes(row[valueField]))
-            .map((row: any) => row[labelField] || row.id).join(',')
+            .filter((row) => item.value.includes(row[valueField]))
+            .map((row) => row[labelField] || row.id).join(',')
         }
         // if (field.tableProps.formatFun) {
         //   const key = field.formatFun.replace('Render', 'Format')
@@ -54,21 +54,21 @@
         return item
       })
     }
-    /*vue-watch*/
+    /* vue-watch */
     @Watch('url', {immediate: true})
-    public urlChange(val: string) {
+    urlChange (val) {
       if (val) {
         this.initModel()
       }
     }
     @Watch('data')
-    public dataChange(val: any) {
+    dataChange (val) {
       this.mData = val
     }
-    /*vue-lifecycle*/
-    /*vue-method*/
+    /* vue-lifecycle */
+    /* vue-method */
     // 初始化model。用于更新表单从服务端获取完整数据
-    public async initModel() {
+    async initModel () {
       this.loading = true
       const {data} = await this.formRequest(this.url)
       this.loading = false
@@ -76,7 +76,7 @@
         this.mData = data
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

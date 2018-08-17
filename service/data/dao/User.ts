@@ -16,7 +16,7 @@ class UserDao extends BaseDao<User> {
     super(User)
   }
 
-  public async findPaged({pageNum = 1, pageSize = 10, ...where}) {
+  async findPaged({pageNum = 1, pageSize = 10, ...where}) {
     const repository = this.getRepository()
     const total = await repository.count({where})
     const list = await repository.find({
@@ -34,13 +34,13 @@ class UserDao extends BaseDao<User> {
     })
     return {total, rows}
   }
-  public save(user: User): Promise<any> {
+  save(user: User): any {
     if (user.roleIds) {
-      user.roles = user.roleIds.map((id: string) => new Role(id))
+      user.roles = user.roleIds.map((id) => new Role(id))
     }
     return this.getRepository().save(user)
   }
-  public async findOne(where: any) {
+  async findOne(where) {
     const repository = this.getRepository()
     const user = await repository.findOne({
       where,
@@ -52,7 +52,7 @@ class UserDao extends BaseDao<User> {
     }
     return user
   }
-  public async viewUser(where: any) {
+  async viewUser(where) {
     const repository = this.getRepository()
     const user = await repository.findOne({
       where,
@@ -64,7 +64,7 @@ class UserDao extends BaseDao<User> {
     }
     return user
   }
-  public async findUserAuth(userId: string): Promise<{menus: Menu[], resources: string | Resource[]}> {
+  async findUserAuth(userId): Promise<{menus: Menu[], resources: string | Resource[]}> {
     const repository = this.getRepository()
     const user = await repository.createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'role')
@@ -89,9 +89,9 @@ class UserDao extends BaseDao<User> {
       })
       // 去重复
       menus = menus
-        .filter((menu: Menu, index: number) => index === menus.findIndex((menu2: Menu) => menu2.id === menu.id))
+        .filter((menu: Menu, index) => index === menus.findIndex((menu2: Menu) => menu2.id === menu.id))
       auth.resources = resources
-        .filter((resource: Resource, index: number) => index === resources.findIndex((resource2: Resource) => resource2.id === resource.id))
+        .filter((resource: Resource, index) => index === resources.findIndex((resource2: Resource) => resource2.id === resource.id))
       // 把菜单转成树
       menus = listToTree(menus, null)
     }
@@ -101,7 +101,7 @@ class UserDao extends BaseDao<User> {
     delete user.roles
     return auth
   }
-  public async getUserDashboard(id: number) {
+  async getUserDashboard(id) {
     const repository = this.getRepository()
     const user = await repository.createQueryBuilder('user')
       .leftJoinAndSelect('user.userDashboards', 'userDashboard')
@@ -116,7 +116,7 @@ class UserDao extends BaseDao<User> {
     // 实际业务中，可以给Dashboard添加一个字段表示默认选中，当用户没有配置Dashboard的时候，取出默认选中的Dashboard返回
     return await this.getManager().find(Dashboard, {order: {addTime: 'ASC'}, take: 8})
   }
-  public async saveUserDashboard(userId: string, userDashboards: UserDashboard[]) {
+  async saveUserDashboard(userId, userDashboards: UserDashboard[]) {
     // 先删掉
     const user = new User(userId)
     await this.getManager().delete(UserDashboard, {user})

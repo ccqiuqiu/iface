@@ -11,38 +11,38 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
 
-  @Component
-  export default class DashboardSelector extends Vue {
-    /*vue-props*/
-    @Prop(Array) public value: number[]
-    /*vue-vuex*/
-    @Action public getAllDashboard: () => Promise<ActionReturn>
-    /*vue-data*/
-    public allDashboard: any[] = []
-    public mSelected: number[] = this.value
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    public created() {
+@Component
+export default class DashboardSelector extends Vue {
+    /* vue-props */
+    @Prop(Array) value
+    /* vue-vuex */
+    @Action getAllDashboard
+    /* vue-data */
+    allDashboard = []
+    mSelected = this.value
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    created () {
       this.initData()
     }
-    /*vue-method*/
-    public async initData() {
+    /* vue-method */
+    async initData () {
       const {data} = await this.getAllDashboard()
       if (data) {
-        this.allDashboard = data.map((dashboard: Dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
+        this.allDashboard = data.map((dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
       }
     }
-    public onSelected() {
-      const dashboards: Dashboard[] = this.allDashboard.filter((item: any) => this.mSelected.includes(item.key))
-        .map((item: any) => item.dashboard)
+    onSelected () {
+      const dashboards = this.allDashboard.filter((item) => this.mSelected.includes(item.key))
+        .map((item) => item.dashboard)
       this.$emit('selected', dashboards)
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

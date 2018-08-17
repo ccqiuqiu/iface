@@ -8,16 +8,16 @@
   </el-button>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  @Component
-  export default class CcButton extends Vue {
-    @Prop() public text: string
-    @Prop({default: 'primary'}) public type!: string
-    @Prop({default: 'small'}) public size!: string
-    @Prop() public icon!: string
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class CcButton extends Vue {
+    @Prop(String) text
+    @Prop({type: String, default: 'primary'}) type
+    @Prop({type: String, default: 'small'}) size
+    @Prop(String) icon
 
-    get iconSize() {
+    get iconSize () {
       if (this.size === 'medium') {
         return 10
       } else if (this.size === 'small') {
@@ -28,7 +28,7 @@
         return 16
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

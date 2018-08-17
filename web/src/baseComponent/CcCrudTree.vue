@@ -24,65 +24,64 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-  import {BaseMixin} from '@utils/mixins'
-  import {Action} from 'vuex-class'
-  import {MessageTypeEnum} from '@utils/enums'
+<script>
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
+import {BaseMixin} from '../assets/utils/mixins'
+import {Action} from 'vuex-class'
 
-  @Component({mixins: [BaseMixin]})
-  export default class CcCrudTree extends Vue {
-    /*vue-props*/
-    @Prop() public data: CRUDObject
-    @Prop() public page: Page
-    /*vue-vuex*/
-    @Action public formAction: (params: {url: string, params: any}) => Promise<ActionReturn>
-    @Action public formRequest: (url: string) => Promise<ActionReturn>
-    @Action public sortMenu: (params: {sourceId: string, targetId: string, location: string}) => Promise<ActionReturn>
-    /*vue-data*/
-    public filterText: string = ''
-    public currentRow: any = null
-    public expandedKeys: any[] = []
-    public treeData: any[] = []
-    public edit: boolean = false
-    public show: boolean = true
-    public treeProps: any = {children: 'children', label: 'name'}
-    /*vue-compute*/
-    get draggable() {
+@Component({mixins: [BaseMixin]})
+export default class CcCrudTree extends Vue {
+    /* vue-props */
+    @Prop() data
+    @Prop() page
+    /* vue-vuex */
+    @Action formAction
+    @Action formRequest
+    @Action sortMenu
+    /* vue-data */
+    filterText = ''
+    currentRow = null
+    expandedKeys = []
+    treeData = []
+    edit = false
+    show = true
+    treeProps = {children: 'children', label: 'name'}
+    /* vue-compute */
+    get draggable () {
       return this.$route.params['code'] === 'menu'
     }
-    get editForm(): FormObject | any {
+    get editForm () {
       if (this.data.editForm) {
         this.data.editForm.name = this.data.editForm.name || this.data.name
         if (!this.data.editForm.items) {
-          this.data.editForm.items = this.getItems('editForm') as FormItem[]
+          this.data.editForm.items = this.getItems('editForm')
         }
         return this.data.editForm
       }
       return {}
     }
     // 查询类表单的查询url，一般在action=search的按钮上面配置
-    get searchUrl(): string {
+    get searchUrl () {
       return this.page.searchUrl || 'search' + this.data.name
     }
-    get url() {
+    get url () {
       return this.edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
     }
-    get rowKey() {
-      return this.data.table.props && this.data.table.props.rowKey || 'id'
+    get rowKey () {
+      return this.data.table.props ? (this.data.table.props.rowKey || 'id') : 'id'
     }
-    /*vue-watch*/
+    /* vue-watch */
     @Watch('filterText')
-    public filterTextChange(val: string) {
-      (this.$refs.tree as Vue).filter(val)
+    filterTextChange (val) {
+      this.$refs.tree.filter(val)
     }
     @Watch('data', {immediate: true})
-    public dataChange() {
+    dataChange () {
       this.getData()
     }
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public async getData() {
+    /* vue-lifecycle */
+    /* vue-method */
+    async getData () {
       if (this.searchUrl) {
         this.loading = true
         const {data} = await this.formAction({url: this.searchUrl, params: {}})
@@ -96,14 +95,14 @@
       }
     }
 
-    public filterNode(value: string, data: any) {
+    filterNode (value, data) {
       if (!value) {
         return true
       }
       return data.name.indexOf(value) !== -1
     }
 
-    public changeSelected(node: any) {
+    changeSelected (node) {
       this.edit = true
       const clone = {...node}
       this.currentRow = clone
@@ -111,7 +110,7 @@
       this.forceUpdate()
     }
 
-    public saved(re: any) {
+    saved (re) {
       if (re.data) {
         this.$utils.message('保存成功！')
         this.selected = re.data
@@ -120,7 +119,7 @@
       }
     }
 
-    public onAdd() {
+    onAdd () {
       this.edit = false
       if (!this.currentRow) {
         this.currentRow = {}
@@ -130,15 +129,15 @@
       this.editForm.model = this.currentRow
       this.forceUpdate()
     }
-    public async onDel() {
+    async onDel () {
       if (!this.currentRow) {
-        this.$utils.message('请选择一行', MessageTypeEnum.warning)
+        this.$utils.message('请选择一行', this.$c.MessageType.warning)
         return
       }
       const re = await this.$utils.confirm('确定要删除这条数据吗？')
       if (re) {
         this.loading = true
-        const{error} = await this.formRequest(this.page.delUrl || this.getActionUrl('del'))
+        const {error} = await this.formRequest(this.page.delUrl || this.getActionUrl('del'))
         this.loading = false
         if (!error) {
           this.$utils.message('删除成功')
@@ -147,21 +146,21 @@
         }
       }
     }
-    public forceUpdate() {
+    forceUpdate () {
       this.show = false
-      this.$nextTick(() => this.show = true)
+      this.$nextTick(() => (this.show = true))
     }
-    public getActionUrl(action: string) {
+    getActionUrl (action) {
       if (this.currentRow) {
         return action + this.data.name + '/' + this.currentRow[this.rowKey]
       }
       return ''
     }
-    public getItems(val: string): FormItem[] | TableColumn[] {
-      return this.data.items ? this.data.items.filter((item: CRUDItem) => item.target.includes(val))
-        .map((item: CRUDItem) => {
+    getItems (val) {
+      return this.data.items ? this.data.items.filter((item) => item.target.includes(val))
+        .map((item) => {
           const {tableProps, formProps, target, ...props} = {...item}
-          let otherProps: any = {}
+          let otherProps = {}
           if (val === 'table' || val === 'view') {
             otherProps = {...(tableProps || {})}
             otherProps.formProps = formProps
@@ -175,7 +174,7 @@
         }) : []
     }
     // 判断是否可以拖动
-    public allowDrop(node: any, targetNode: any, location: string) {
+    allowDrop (node, targetNode, location) {
       // 有子节点的，只能拖动到一级节点的前后
       if (node.data.children && node.data.children.length && !targetNode.data.parentId && location !== 'inner') {
         return true
@@ -187,7 +186,7 @@
       return false
     }
     // 拖动成功后
-    public async nodeDrop(node: any, targetNode: any, location: string) {
+    async nodeDrop (node, targetNode, location) {
       this.loading = true
       // 修改一下parentId，防止后面的拖动出现问题
       if (location === 'inner') {
@@ -202,7 +201,7 @@
         this.forceUpdate()
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -13,39 +13,39 @@
   </el-dialog>
 </template>
 
-<script lang="tsx">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import {Getter} from 'vuex-class'
-  import CcRender from '@bc/CcRender.vue'
-  @Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
-  export default class CcDialog extends Vue {
-    /*vue-props*/
-    @Prop({default: false}) public inside: boolean
-    @Prop({default: false}) public appendToBody!: boolean
-    /*vue-vuex*/
-    @Getter('dialog') public getDialog: any
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import {Getter} from 'vuex-class'
+import CcRender from './CcRender.vue'
+@Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
+export default class CcDialog extends Vue {
+    /* vue-props */
+    @Prop({default: false}) inside
+    @Prop({default: false}) appendToBody
+    /* vue-vuex */
+    @Getter('dialog') getDialog
 
-    get dialog() {
+    get dialog () {
       return this.getDialog(this.inside)
     }
-    get width() {
+    get width () {
       if (this.dialog.options && this.dialog.options.width) {
         return this.dialog.options.width
       } else {
         return this.inside ? '60%' : '70%'
       }
     }
-    /*vue-data*/
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    /*vue-method*/
-    public onClose() {
+    /* vue-data */
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    /* vue-method */
+    onClose () {
       if (this.dialog.visible) {
         this.$utils.hideDialog()
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

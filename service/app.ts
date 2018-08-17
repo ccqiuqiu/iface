@@ -49,7 +49,7 @@ app.use(async (ctx, next) => {
   if (ctx.request.url.replace(/^(\/.*?\/)(.*)/, '/$2').indexOf('/public/') === 0) {
     return await next()
   }
-  let decoded: any = null
+  let decoded = null
   try {
     const token = ctx.headers['token']
     decoded = jwt.verify(token, jwtSecret)

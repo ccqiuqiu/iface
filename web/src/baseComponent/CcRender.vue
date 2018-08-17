@@ -1,14 +1,14 @@
 <!--Created by 熊超超 on 2018/5/21.-->
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class CcRender extends Vue {
-    @Prop(Function) public renderFun: any
-    @Prop() public scope?: any
-    @Prop() public column: any
+@Component
+export default class CcRender extends Vue {
+    @Prop(Function) renderFun
+    @Prop() scope
+    @Prop() column
 
-    public render(h: any) {
+    render (h) {
       if (this.renderFun) {
         return this.renderFun(h)
       }
@@ -24,12 +24,12 @@
       } else {
         let value = scope.row[scope.column['property']]
         if (this.column.formProps && this.column.formProps.options) {
-          let rows: any = this.column.formProps.options
+          let rows = this.column.formProps.options
           let labelField = 'label'
           let valueField = 'value'
           if (['table', 'tree'].includes(this.column.formProps.type)) {
-            labelField = this.column.formProps.props && this.column.formProps.props.labelField || 'name'
-            valueField = this.column.formProps.props && this.column.formProps.props.valueField || 'id'
+            labelField = this.column.formProps.props ? (this.column.formProps.props.labelField || 'name') : 'name'
+            valueField = this.column.formProps.props ? (this.column.formProps.props.valueField || 'id') : 'id'
           }
           value = Array.isArray(value) ? value : [value]
           if (this.column.formProps.type === 'table') {
@@ -38,13 +38,13 @@
             rows = this.$utils.flatObject(this.column.formProps.options)
           }
           value = rows
-            .filter((row: any) => value.includes(row[valueField]))
-            .map((row: any) => row[labelField] || row.id).join(',')
+            .filter((row) => value.includes(row[valueField]))
+            .map((row) => row[labelField] || row.id).join(',')
         }
         return h('span', value)
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -13,8 +13,8 @@ import {Context} from 'koa'
  * @returns []
  */
 export const listToTree = (source: any[], parentIdVal: any = undefined, id: string = 'id', parentId: string = '_parentId'): any[] => {
-  const target = source.filter((s) => s[parentId] === parentIdVal)
-  target.forEach((t) => {
+  const target: any[] = source.filter((s) => s[parentId] === parentIdVal)
+  target.forEach((t: any) => {
     const children = listToTree(source, t[id], id, parentId)
     if (children.length) {
       t.children = children
@@ -24,7 +24,7 @@ export const listToTree = (source: any[], parentIdVal: any = undefined, id: stri
 }
 
 export const sortTree = (source: any[], shotField: string = 'sort') => {
-  source.sort((a: any, b: any) => a[shotField] - b[shotField])
+  source.sort((a, b) => a[shotField] - b[shotField])
   source.forEach((item: any) => {
     if (item.children) {
       sortTree(item.children)
@@ -32,7 +32,7 @@ export const sortTree = (source: any[], shotField: string = 'sort') => {
   })
 }
 
-export const addParentId = (source: any[], parentId: any = null, sort: string): void => {
+export const addParentId = (source: any[], parentId: string = null, sort: string): void => {
   if (sort) {
     source.sort((a, b) => a[sort] - b[sort])
   }
@@ -43,7 +43,7 @@ export const addParentId = (source: any[], parentId: any = null, sort: string): 
     }
   })
 }
-export const hasAuth = (ctx: Context): boolean => {
+export const hasAuth = (ctx: Context) => {
   // 处理url url的格式必需为  /版本/模块/名称[/params|?query]
   let url = ctx.request.url
 
@@ -58,7 +58,7 @@ export const hasAuth = (ctx: Context): boolean => {
     if (!whiteList.includes(url)) {
       const resources = ctx.state.session.auth.resources
       if (resources !== 'all') {
-        return !!resources.find((role: any) => role.url === url)
+        return !!resources.find((role) => role.url === url)
       }
     }
   }

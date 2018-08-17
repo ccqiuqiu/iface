@@ -13,47 +13,46 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import {BaseMixin} from '../../../assets/utils/mixins'
-  import { codemirror } from 'vue-codemirror-lite'
-  // language
-  import 'codemirror/mode/vue/vue.js'
-  import {FormItemTypeEnum} from '../../../assets/utils/enums'
-  import {Action} from 'vuex-class'
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+import {BaseMixin} from '../../../assets/utils/mixins'
+import { codemirror } from 'vue-codemirror-lite'
+// language
+import 'codemirror/mode/vue/vue.js'
+import {Action} from 'vuex-class'
 
-  @Component({mixins: [BaseMixin], components: {codemirror}})
-  export default class PageEditor extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @Action public getPage: (code: string) => Promise<ActionReturn>
-    @Action public savePage: (page: Page) => Promise<ActionReturn>
-    /*vue-data*/
-    public formObj = {
+@Component({mixins: [BaseMixin], components: {codemirror}})
+export default class PageEditor extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @Action getPage
+    @Action savePage
+    /* vue-data */
+    formObj = {
       model: {},
       items: [
-        {label: `页面名称`, prop: 'pageName', type: FormItemTypeEnum.text, placeholder: '页面名称', verify: {required: true}},
-        {label: `页面代码`, prop: 'pageCode', type: FormItemTypeEnum.text, placeholder: '唯一编码', verify: {required: true}},
-        {label: `页面描述`, prop: 'pageDesc', type: FormItemTypeEnum.textarea, placeholder: ''},
+        {label: `页面名称`, prop: 'pageName', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
+        {label: `页面代码`, prop: 'pageCode', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
+        {label: `页面描述`, prop: 'pageDesc', type: this.$c.FormItemType.textarea, placeholder: ''}
       ],
       btns: [
-        {action: 'save', cb: this.save},
-      ],
+        {action: 'save', cb: this.save}
+      ]
     }
-    public options: any = {
+    options = {
       tabSize: 2,
       lineNumbers: true,
-      mode: 'text/x-vue',
+      mode: 'text/x-vue'
     }
-    public code: string = ``
-    /*vue-compute*/
-    /*vue-watch*/
-    /*vue-lifecycle*/
-    public created() {
+    code = ``
+    /* vue-compute */
+    /* vue-watch */
+    /* vue-lifecycle */
+    created () {
       this.initData()
     }
-    /*vue-method*/
-    public async initData() {
+    /* vue-method */
+    async initData () {
       if (this.$route.query['code']) {
         const {data} = await this.getPage(this.$route.query['code'])
         if (data) {
@@ -65,8 +64,8 @@
         this.code = decodeURIComponent(`%3Ctemplate%3E%0A%0A%3C%2Ftemplate%3E%0A%0A%3Cscript%3E%0A%20%20export%20default%20%7B%0A%20%20%20%20%0A%20%20%7D%0A%3C%2Fscript%3E%0A%0A%3Cstyle%3E%0A%20%20%0A%3C%2Fstyle%3E`)
       }
     }
-    public async save() {
-      const page: Page = this.formObj.model as Page
+    async save () {
+      const page = this.formObj.model
       if (!page.id) {
         page.type = this.$c.PageTypeV.表格页面
         page.category = this.$c.PageCategoryV.CODE
@@ -78,7 +77,7 @@
         this.$utils.closeTab('/baseData/pageList')
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

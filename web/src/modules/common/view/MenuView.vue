@@ -30,36 +30,35 @@
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Watch, Vue} from 'vue-property-decorator'
-  import { State, Action, Mutation, Getter} from 'vuex-class'
+<script>
+import {Component, Vue} from 'vue-property-decorator'
+import { State, Action, Mutation, Getter } from 'vuex-class'
 
-  @Component
-  export default class MenuView extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @State((state: State) => state.common.menus) public menus: any[]
-    @State((state: State) => state.common.menuExpand) public menuExpand: string
-    // @State((state: State) => state.common.menuTabs) public menuTabs: any[]
-    @State((state: State) => state.common.selectedTab) public selectedTab: string
-    // @Getter public nav: Menu[]
-    @Getter public flatMenu: Menu[]
-    @Action public getMenu: () => void
-    // @Mutation public updateTabs: (params: {key: string, url: string, menus: Menu[]}) => void
-    @Mutation public updateSelectedTab: (key: string) => void
-    /*vue-data*/
-    public perIndex = '0'
-    // public activeMenuIndexPath: string[] = []
-    // get activeMenu(): string {
+@Component
+export default class MenuView extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @State((state) => state.common.menus) menus
+    @State((state) => state.common.menuExpand) menuExpand
+    // @State((state) => state.common.menuTabs) menuTabs[]
+    @State((state) => state.common.selectedTab) selectedTab
+    @Getter flatMenu
+    @Action getMenu
+    // @Mutation updateTabs
+    @Mutation updateSelectedTab
+    /* vue-data */
+    perIndex = '0'
+    // activeMenuIndexPath[] = []
+    // get activeMenu() {
     //   return this.selectedTab
     // }
     // /*vue-compute*/
     // set activeMenu(val) {
     //   this.updateSelectedTab(val)
     // }
-    /*vue-watch*/
+    /* vue-watch */
     // @Watch('activeMenu')
-    // public activeMenuChange() {
+    // activeMenuChange() {
     //   // if (this.selectedTab === '0') {
     //   //   return
     //   // }
@@ -67,14 +66,14 @@
     //   // 并且把这个数组整体放到一个数组，用于tabs显示
     //   // 点击tabs的时候，取到点击的菜单层级数组， 替换nav显示
     //   // 数据结构类似 [{key: '1', menus: [{一级菜单}, {二级菜单}]}, {}...]
-    //   // const key: string = val.join('_')
+    //   // const key = val.join('_')
     //   const val = this.activeMenuIndexPath
-    //   const menus: Menu[] = val.map((id: string) => {
-    //     return this.flatMenu.find((m: Menu) => m.id === id) as Menu
+    //   const menus: Menu[] = val.map((id) => {
+    //     return this.flatMenu.find((m: Menu) => m.id === id)
     //   })
     //   if (menus.length) {
     //     // 如果menuTabs不存在，表示是新开一个标签
-    //     const item = this.menuTabs.find((o: any) => o.key === this.selectedTab)
+    //     const item = this.menuTabs.find((o) => o.key === this.selectedTab)
     //     if (!item) {
     //       this.updateTabs({key: this.selectedTab, url: menus[menus.length - 1].url, menus})
     //     }
@@ -84,15 +83,15 @@
     // 那跳转URL
     // 监听这个值跳转url而不是在菜单选择事件回调的时候跳转，是因为菜单可能在别的地方被改变
     // @Watch('nav')
-    // public publicNavChange(val: Menu[]) {
+    // publicNavChange(val: Menu[]) {
     //   if (val.length) {
     //     this.$router.push(val[val.length - 1].url)
     //   }
     // }
-    /*vue-lifecycle*/
-    /*vue-method*/
+    /* vue-lifecycle */
+    /* vue-method */
     // 菜单选择的回调
-    public selectMenu(index: string, indexPath: string[]): void {
+    selectMenu (index) {
       // 此处的处理同tab页一样，也是为了消除组件点击就切换了当前激活的item的效果
       // 实现页面真正跳转才激活
       this.perIndex = this.selectedTab
@@ -100,15 +99,15 @@
       this.$nextTick(() => {
         this.updateSelectedTab(this.perIndex)
         this.$el.focus()
-        const menu = this.flatMenu.find((m: Menu) => m.id === index)
+        const menu = this.flatMenu.find((m) => m.id === index)
         if (menu) {
-          this.$router.push((menu as Menu).url)
+          this.$router.push(menu.url)
         }
       })
       // this.activeMenuIndexPath = indexPath
       // this.activeMenu = index
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

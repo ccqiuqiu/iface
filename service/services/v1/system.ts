@@ -138,7 +138,7 @@ async function sortMenu(ctx) {
   ctx.body = createBody()
 }
 
-export default (routes: any, prefix: string) => {
+export default (routes, prefix) => {
   // 用户
   routes.post(prefix + '/page/searchUser', searchUser)
   routes.post(prefix + '/page/saveUser', saveUser)

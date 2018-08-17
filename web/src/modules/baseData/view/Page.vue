@@ -7,32 +7,32 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
-  import {Action} from 'vuex-class'
-  import {initOptions} from '@utils/crudUtils.tsx'
-  import {BaseMixin} from '@utils/mixins'
-  import CcRenderVue from '@bc/CcRenderVue.vue'
+<script>
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import {Action} from 'vuex-class'
+import {initOptions} from '../../../assets/utils/crudUtils.jsx'
+import {BaseMixin} from '../../../assets/utils/mixins'
+import CcRenderVue from '../../../baseComponent/CcRenderVue.vue'
 
-  @Component({mixins: [BaseMixin], components: {CcRenderVue}})
-  export default class Page extends Vue {
-    /*vue-props*/
-    /*vue-vuex*/
-    @Action('getPage') public getPage: (code: string) => Promise<ActionReturn>
-    /*vue-data*/
-    public data: CRUDObject | null = null
-    public code: string = ''
-    public page?: Page = undefined
-    /*vue-compute*/
-    /*vue-watch*/
+@Component({mixins: [BaseMixin], components: {CcRenderVue}})
+export default class Page extends Vue {
+    /* vue-props */
+    /* vue-vuex */
+    @Action('getPage') getPage
+    /* vue-data */
+    data = null
+    code = ''
+    page = undefined
+    /* vue-compute */
+    /* vue-watch */
     @Watch('$route', {immediate: true})
-    public routerChange() {
+    routerChange () {
       this.data = null
       this.code = ''
       this.getData()
     }
-    /*vue-lifecycle*/
-    public async getData() {
+    /* vue-lifecycle */
+    async getData () {
       this.loading = true
       const code = this.$route.params['code']
       const {data} = await this.getPage(code)
@@ -43,14 +43,14 @@
           const {value, ...page} = data
           const crud = JSON.parse(value)
           await initOptions(crud)
-          this.page = page as Page
+          this.page = page
           this.data = crud
         }
       }
       this.loading = false
     }
-    /*vue-method*/
-  }
+    /* vue-method */
+}
 </script>
 
 <style lang="scss" scoped>
