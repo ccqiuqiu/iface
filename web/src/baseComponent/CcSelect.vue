@@ -10,31 +10,31 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CcSelect extends Vue {
-    /* vue-props */
-    @Prop([Array, String, Number]) value
-    @Prop([Array, String]) options
-    // @Prop(Boolean) multiple
-    @Prop(Boolean) multiSelect
-    /* vue-vuex */
-    /* vue-data */
-    /* vue-compute */
-    get model () {
-      if (!this.value) {
-        return this.multiSelect ? [] : ''
+  /* vue-props */
+  @Prop([Array, String, Number]) value
+  @Prop([Array, String]) options
+  // @Prop(Boolean) multiple
+  @Prop(Boolean) multiSelect
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get model () {
+    if (!this.value) {
+      return this.multiSelect ? [] : ''
+    } else {
+      if (this.multiSelect) {
+        return Array.isArray(this.value) ? this.value : [this.value]
       } else {
-        if (this.multiSelect) {
-          return Array.isArray(this.value) ? this.value : [this.value]
-        } else {
-          return Array.isArray(this.value) ? (this.value[0] || '') : this.value
-        }
+        return Array.isArray(this.value) ? (this.value[0] || '') : this.value
       }
     }
-    set model (val) {
-      this.$emit('input', val)
-    }
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
+  }
+  set model (val) {
+    this.$emit('input', val)
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
 }
 </script>
 

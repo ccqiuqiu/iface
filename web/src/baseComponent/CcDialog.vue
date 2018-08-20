@@ -19,32 +19,32 @@ import {Getter} from 'vuex-class'
 import CcRender from './CcRender.vue'
 @Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
 export default class CcDialog extends Vue {
-    /* vue-props */
-    @Prop({default: false}) inside
-    @Prop({default: false}) appendToBody
-    /* vue-vuex */
-    @Getter('dialog') getDialog
+  /* vue-props */
+  @Prop({default: false}) inside
+  @Prop({default: false}) appendToBody
+  /* vue-vuex */
+  @Getter('dialog') getDialog
 
-    get dialog () {
-      return this.getDialog(this.inside)
+  get dialog () {
+    return this.getDialog(this.inside)
+  }
+  get width () {
+    if (this.dialog.options && this.dialog.options.width) {
+      return this.dialog.options.width
+    } else {
+      return this.inside ? '60%' : '70%'
     }
-    get width () {
-      if (this.dialog.options && this.dialog.options.width) {
-        return this.dialog.options.width
-      } else {
-        return this.inside ? '60%' : '70%'
-      }
+  }
+  /* vue-data */
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  onClose () {
+    if (this.dialog.visible) {
+      this.$utils.hideDialog()
     }
-    /* vue-data */
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    onClose () {
-      if (this.dialog.visible) {
-        this.$utils.hideDialog()
-      }
-    }
+  }
 }
 </script>
 

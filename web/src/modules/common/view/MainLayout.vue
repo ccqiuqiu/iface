@@ -30,50 +30,50 @@ import {Action, Mutation} from 'vuex-class'
   components: {HeaderView, MenuView, NavView, TabsView, CcDialog}
 })
 export default class MainLayout extends Vue {
-    /* vue-props */
-    /* vue-vuex */
-    @Mutation('updateUser') updateUser
-    @Action getAuth
-    /* vue-data */
-    /* vue-compute */
-    /* vue-watch */
-    /* 监听路由变化 */
-    @Watch('$route')
-    routerChange (val) {
-      this.$utils.toTab(val.fullPath)
+  /* vue-props */
+  /* vue-vuex */
+  @Mutation('updateUser') updateUser
+  @Action getAuth
+  /* vue-data */
+  /* vue-compute */
+  /* vue-watch */
+  /* 监听路由变化 */
+  @Watch('$route')
+  routerChange (val) {
+    this.$utils.toTab(val.fullPath)
+  }
+  /* vue-lifecycle */
+  created () {
+    this.initAuth()
+  }
+  /* vue-method */
+  async initAuth () {
+    // 获取权限
+    const {data} = await this.getAuth()
+    if (data) {
+      this.handlerData(data)
+      this.updateUser(data)
     }
-    /* vue-lifecycle */
-    created () {
-      this.initAuth()
+  }
+  handlerData (data) {
+    // 把菜单的id改为字符串
+    const menus = data.auth.menus
+    if (menus.length) {
+      this.number2string(menus)
     }
-    /* vue-method */
-    async initAuth () {
-      // 获取权限
-      const {data} = await this.getAuth()
-      if (data) {
-        this.handlerData(data)
-        this.updateUser(data)
+  }
+  number2string (list) {
+    list.forEach((item) => {
+      item.id = item.id + ''
+      // 将补全特殊的url
+      if (item.url && item.url.substr(0, 1) !== '/') {
+        item.url = '/baseData/page/' + item.url
       }
-    }
-    handlerData (data) {
-      // 把菜单的id改为字符串
-      const menus = data.auth.menus
-      if (menus.length) {
-        this.number2string(menus)
+      if (item.children) {
+        this.number2string(item.children)
       }
-    }
-    number2string (list) {
-      list.forEach((item) => {
-        item.id = item.id + ''
-        // 将补全特殊的url
-        if (item.url && item.url.substr(0, 1) !== '/') {
-          item.url = '/baseData/page/' + item.url
-        }
-        if (item.children) {
-          this.number2string(item.children)
-        }
-      })
-    }
+    })
+  }
 }
 </script>
 <style lang="scss">

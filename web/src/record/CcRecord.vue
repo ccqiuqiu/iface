@@ -12,36 +12,36 @@ import {Action} from 'vuex-class'
 
 @Component
 export default class CcRecord extends Vue {
-    /* vue-props */
-    /* vue-vuex */
-    @Action saveRecord
-    /* vue-data */
-    recordStatus = 1
-    /* vue-compute */
-    get recordText () {
-      if (this.recordStatus === 1) {
-        return '录制中...'
-      } else if (this.recordStatus === 2) {
-        return '保存中...'
-      } else if (this.recordStatus === 0) {
-        return '保存成功'
-      }
+  /* vue-props */
+  /* vue-vuex */
+  @Action saveRecord
+  /* vue-data */
+  recordStatus = 1
+  /* vue-compute */
+  get recordText () {
+    if (this.recordStatus === 1) {
+      return '录制中...'
+    } else if (this.recordStatus === 2) {
+      return '保存中...'
+    } else if (this.recordStatus === 0) {
+      return '保存成功'
     }
-    // 是否显示录制操作层
-    get record () {
-      return process.env.VUE_APP_RECORD
+  }
+  // 是否显示录制操作层
+  get record () {
+    return process.env.VUE_APP_RECORD
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  async onSaveRecord () {
+    if (this.recordStatus === 1) {
+      this.recordStatus = 2
+      await this.saveRecord()
+      this.recordStatus = 0
+      setTimeout(() => (this.recordStatus = 1), 2000)
     }
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    async onSaveRecord () {
-      if (this.recordStatus === 1) {
-        this.recordStatus = 2
-        await this.saveRecord()
-        this.recordStatus = 0
-        setTimeout(() => (this.recordStatus = 1), 2000)
-      }
-    }
+  }
 }
 </script>
 

@@ -66,196 +66,196 @@ import FormItemVerify from '../fragment/FormItemVerify.vue'
 
 @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
 export default class CreateCrud extends Vue {
-    /* vue-props */
-    /* vue-vuex */
-    @Action('getPage') getPage
-    @Action('savePage') savePage
-    /* vue-data */
-    controls = [
-      {type: 'text', label: '文本框'},
-      {type: 'select', label: '选择框'},
-      {type: 'date', label: '日期选择器'},
-      {type: 'daterange', label: '日期范围'},
-      {type: 'datetime', label: '日期时间'},
-      {type: 'datetimerange', label: '日期时间范围'},
-      {type: 'timeselect', label: '下拉时间选择'},
-      {type: 'timerange', label: '下拉时间范围'},
-      {type: 'switch', label: '开关'},
-      {type: 'radio', label: '单选组'},
-      {type: 'radiobutton', label: '单选按钮组'},
-      {type: 'checkbox', label: '多选组'},
-      {type: 'checkboxbutton', label: '多选按钮组'},
-      {type: 'cascader', label: '级联选择器'},
-      {type: 'number', label: '计数器'},
-      {type: 'slider', label: '滑块'},
-      {type: 'rate', label: '评分'},
-      {type: 'table', label: '表格选择器'},
-      {type: 'tree', label: '树选择器'},
-      {type: 'icon', label: '图标选择器'},
-      {type: 'color', label: '颜色选择器'},
-      {type: 'dialog', label: '弹窗选择器'}
-    ]
-    model = {}
-    items = []
-    activeNames = ['1', '4']
-    selectIndex = -1
-    pageModel = {type: 1, name: '', remark: '', modelName: ''}
-    /* vue-compute */
-    get typeName () {
-      return this.$c.PageTypeK[this.pageModel.type || 1]
+  /* vue-props */
+  /* vue-vuex */
+  @Action('getPage') getPage
+  @Action('savePage') savePage
+  /* vue-data */
+  controls = [
+    {type: 'text', label: '文本框'},
+    {type: 'select', label: '选择框'},
+    {type: 'date', label: '日期选择器'},
+    {type: 'daterange', label: '日期范围'},
+    {type: 'datetime', label: '日期时间'},
+    {type: 'datetimerange', label: '日期时间范围'},
+    {type: 'timeselect', label: '下拉时间选择'},
+    {type: 'timerange', label: '下拉时间范围'},
+    {type: 'switch', label: '开关'},
+    {type: 'radio', label: '单选组'},
+    {type: 'radiobutton', label: '单选按钮组'},
+    {type: 'checkbox', label: '多选组'},
+    {type: 'checkboxbutton', label: '多选按钮组'},
+    {type: 'cascader', label: '级联选择器'},
+    {type: 'number', label: '计数器'},
+    {type: 'slider', label: '滑块'},
+    {type: 'rate', label: '评分'},
+    {type: 'table', label: '表格选择器'},
+    {type: 'tree', label: '树选择器'},
+    {type: 'icon', label: '图标选择器'},
+    {type: 'color', label: '颜色选择器'},
+    {type: 'dialog', label: '弹窗选择器'}
+  ]
+  model = {}
+  items = []
+  activeNames = ['1', '4']
+  selectIndex = -1
+  pageModel = {type: 1, name: '', remark: '', modelName: ''}
+  /* vue-compute */
+  get typeName () {
+    return this.$c.PageTypeK[this.pageModel.type || 1]
+  }
+  get formObj () {
+    return {
+      model: this.pageModel,
+      items: [
+        {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType, verify: {required: true}},
+        {label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
+        {label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
+        {label: '实体名称', prop: 'modelName', type: this.$c.FormItemType.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
+        {label: '列表URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口'},
+        {label: '查找URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '编辑表单的数据初始化接口'},
+        {label: '新增URL', prop: 'addUrl', type: this.$c.FormItemType.text, placeholder: '新增对象的接口'},
+        {label: '更新URL', prop: 'updateUrl', type: this.$c.FormItemType.text, placeholder: '更新对象的接口'},
+        {label: '查看URL', prop: 'viewUrl', type: this.$c.FormItemType.text, placeholder: '查看对象详情的接口'},
+        {label: '删除URL', prop: 'delUrl', type: this.$c.FormItemType.text, placeholder: '删除对象的接口'},
+        {label: `描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: ''}
+      ],
+      btns: []
     }
-    get formObj () {
-      return {
-        model: this.pageModel,
-        items: [
-          {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType, verify: {required: true}},
-          {label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
-          {label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
-          {label: '实体名称', prop: 'modelName', type: this.$c.FormItemType.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
-          {label: '列表URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口'},
-          {label: '查找URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '编辑表单的数据初始化接口'},
-          {label: '新增URL', prop: 'addUrl', type: this.$c.FormItemType.text, placeholder: '新增对象的接口'},
-          {label: '更新URL', prop: 'updateUrl', type: this.$c.FormItemType.text, placeholder: '更新对象的接口'},
-          {label: '查看URL', prop: 'viewUrl', type: this.$c.FormItemType.text, placeholder: '查看对象详情的接口'},
-          {label: '删除URL', prop: 'delUrl', type: this.$c.FormItemType.text, placeholder: '删除对象的接口'},
-          {label: `描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: ''}
-        ],
-        btns: []
-      }
+  }
+  get selectItem () {
+    if (this.selectIndex >= 0) {
+      const item = this.items[this.selectIndex]
+      item.multiSelect = item.multiSelect || false
+      return item
     }
-    get selectItem () {
-      if (this.selectIndex >= 0) {
-        const item = this.items[this.selectIndex]
-        item.multiSelect = item.multiSelect || false
-        return item
-      }
-      return undefined
-    }
-    get needOptions () {
-      return this.selectItem ? ['select', 'checkbox', 'radio', 'checkboxbutton', 'radiobutton', 'cascader', 'table', 'tree', 'dialog']
-        .includes(this.selectItem.type) : false
-    }
-    /* vue-watch */
-    @Watch('$route')
-    routeChange () {
-      this.initPage()
-    }
-    /* vue-lifecycle */
-    created () {
-      this.initPage()
-    }
-    async initPage () {
-      if (this.$route.query['code']) {
-        const {data} = await this.getPage(this.$route.query['code'])
-        if (data) {
-          const {value, ...pageModel} = data
-          this.pageModel = pageModel
-          const valueObj = JSON.parse(value)
-          if (this.pageModel.type !== this.$c.PageTypeV.表单) {
-            valueObj.items = valueObj.items.map((item) => {
-              const temp = {}
-              const formProps = JSON.parse(JSON.stringify(item.formProps))
-              delete temp.formProps
-              const {tableProps, ...other} = item
-              return {...other, ...formProps, ...tableProps}
-            })
-          }
-          this.items = valueObj.items
+    return undefined
+  }
+  get needOptions () {
+    return this.selectItem ? ['select', 'checkbox', 'radio', 'checkboxbutton', 'radiobutton', 'cascader', 'table', 'tree', 'dialog']
+      .includes(this.selectItem.type) : false
+  }
+  /* vue-watch */
+  @Watch('$route')
+  routeChange () {
+    this.initPage()
+  }
+  /* vue-lifecycle */
+  created () {
+    this.initPage()
+  }
+  async initPage () {
+    if (this.$route.query['code']) {
+      const {data} = await this.getPage(this.$route.query['code'])
+      if (data) {
+        const {value, ...pageModel} = data
+        this.pageModel = pageModel
+        const valueObj = JSON.parse(value)
+        if (this.pageModel.type !== this.$c.PageTypeV.表单) {
+          valueObj.items = valueObj.items.map((item) => {
+            const temp = {}
+            const formProps = JSON.parse(JSON.stringify(item.formProps))
+            delete temp.formProps
+            const {tableProps, ...other} = item
+            return {...other, ...formProps, ...tableProps}
+          })
         }
+        this.items = valueObj.items
       }
     }
-    /* vue-method */
-    // 删除已经添加的表单项
-    delItem () {
-      if (this.selectIndex >= 0) {
-        const item = this.items[this.selectIndex]
-        delete this.model[item.prop]
-        this.items.splice(this.selectIndex, 1)
-        this.selectIndex = -1
-      }
+  }
+  /* vue-method */
+  // 删除已经添加的表单项
+  delItem () {
+    if (this.selectIndex >= 0) {
+      const item = this.items[this.selectIndex]
+      delete this.model[item.prop]
+      this.items.splice(this.selectIndex, 1)
+      this.selectIndex = -1
     }
-    // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
-    add (evt) {
-      const prop = 'p' + Math.floor(Math.random() * 1000000)
-      const item = {...this.controls[evt.oldIndex]}
-      item.prop = prop
-      // item.options = optionsDefaultData(item.type)
-      item.target = ['editForm']
-      this.items.splice(evt.newIndex, 1, item)
-    }
-    changeOptions () {
-      this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
-    }
-    onSave () {
-      this.$refs.form.submit(this.save)
-    }
-    async save () {
-      // model名首字母转大写
-      this.formObj.model.name = this.formObj.model.name.substr(0, 1).toUpperCase() + this.formObj.model.name.substr(1)
-      // 要删除propsStr
-      const items = this.items.map((item) => {
-        const temp = JSON.parse(JSON.stringify(item))
-        delete temp.propsStr
-        if (this.pageModel.type === this.$c.PageTypeV.表单) {
-          delete temp.target
-          delete temp.formProps
-          delete temp.tableProps
-        } else {
-          if (temp.target && temp.target.includes('table')) {
-            temp.tableProps = {}
-            temp.tableProps.width = temp.width
-            temp.tableProps.formatFun = temp.formatFun
-            delete temp.width
-            delete temp.formatFun
-          }
-          temp.formProps = {
-            type: temp.type
-          }
-          if (temp.props) {
-            temp.formProps.props = temp.props
-          }
-          if (temp.options) {
-            temp.formProps.options = temp.options
-          }
-          delete temp.type
-          delete temp.props
-          delete temp.options
-        }
-        this.$utils.delEmptyProp(temp)
-        return temp
-      })
-      let value = {}
+  }
+  // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
+  add (evt) {
+    const prop = 'p' + Math.floor(Math.random() * 1000000)
+    const item = {...this.controls[evt.oldIndex]}
+    item.prop = prop
+    // item.options = optionsDefaultData(item.type)
+    item.target = ['editForm']
+    this.items.splice(evt.newIndex, 1, item)
+  }
+  changeOptions () {
+    this.items.splice(this.selectIndex, 1, JSON.parse(JSON.stringify(this.selectItem)))
+  }
+  onSave () {
+    this.$refs.form.submit(this.save)
+  }
+  async save () {
+    // model名首字母转大写
+    this.formObj.model.name = this.formObj.model.name.substr(0, 1).toUpperCase() + this.formObj.model.name.substr(1)
+    // 要删除propsStr
+    const items = this.items.map((item) => {
+      const temp = JSON.parse(JSON.stringify(item))
+      delete temp.propsStr
       if (this.pageModel.type === this.$c.PageTypeV.表单) {
-        value = {
-          name: this.pageModel.modelName,
-          model: {},
-          items
-        }
+        delete temp.target
+        delete temp.formProps
+        delete temp.tableProps
       } else {
-        value = {
-          title: this.pageModel.name,
-          name: this.pageModel.modelName,
-          items,
-          searchForm: {
-            model: {}
-          },
-          editForm: {
-            model: {}
-          },
-          table: {
-            rows: []
-          }
+        if (temp.target && temp.target.includes('table')) {
+          temp.tableProps = {}
+          temp.tableProps.width = temp.width
+          temp.tableProps.formatFun = temp.formatFun
+          delete temp.width
+          delete temp.formatFun
         }
+        temp.formProps = {
+          type: temp.type
+        }
+        if (temp.props) {
+          temp.formProps.props = temp.props
+        }
+        if (temp.options) {
+          temp.formProps.options = temp.options
+        }
+        delete temp.type
+        delete temp.props
+        delete temp.options
       }
-
-      this.pageModel.value = JSON.stringify(value)
-      console.log(value)
-      const {error} = await this.savePage(this.pageModel)
-      if (!error) {
-        this.$utils.message('保存成功！')
-        this.$utils.closeTab('/baseData/pageList')
+      this.$utils.delEmptyProp(temp)
+      return temp
+    })
+    let value = {}
+    if (this.pageModel.type === this.$c.PageTypeV.表单) {
+      value = {
+        name: this.pageModel.modelName,
+        model: {},
+        items
+      }
+    } else {
+      value = {
+        title: this.pageModel.name,
+        name: this.pageModel.modelName,
+        items,
+        searchForm: {
+          model: {}
+        },
+        editForm: {
+          model: {}
+        },
+        table: {
+          rows: []
+        }
       }
     }
+
+    this.pageModel.value = JSON.stringify(value)
+    console.log(value)
+    const {error} = await this.savePage(this.pageModel)
+    if (!error) {
+      this.$utils.message('保存成功！')
+      this.$utils.closeTab('/baseData/pageList')
+    }
+  }
 }
 </script>
 

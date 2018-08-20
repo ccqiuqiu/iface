@@ -84,7 +84,7 @@ export class UiUtils extends Utils {
    * @param {string} url
    */
 
-  toTab (url, name) {
+  toTab (url, name = '') {
     if (url === '/' || url === '') {
       store.commit('updateSelectedTab', '0')
       return

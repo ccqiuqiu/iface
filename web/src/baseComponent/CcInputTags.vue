@@ -16,31 +16,31 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CcInputTags extends Vue {
-    /* vue-props */
-    @Prop() value
-    @Prop() placeholder
-    @Prop({default: 'name'}) label
-    @Prop(String) icon
-    @Prop(Boolean) collapseTags
-    /* vue-vuex */
-    /* vue-data */
-    /* vue-compute */
-    get myPlaceholder () {
-      return this.value.length === 0 ? this.placeholder : ''
+  /* vue-props */
+  @Prop() value
+  @Prop() placeholder
+  @Prop({default: 'name'}) label
+  @Prop(String) icon
+  @Prop(Boolean) collapseTags
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  get myPlaceholder () {
+    return this.value.length === 0 ? this.placeholder : ''
+  }
+  get showList () {
+    if (!this.collapseTags) {
+      return this.value.slice(0, Math.min(20, this.value.length))
+    } else {
+      return this.value.slice(0, 1)
     }
-    get showList () {
-      if (!this.collapseTags) {
-        return this.value.slice(0, Math.min(20, this.value.length))
-      } else {
-        return this.value.slice(0, 1)
-      }
-    }
-    get otherNum () {
-      return this.value.length - this.showList.length
-    }
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
+  }
+  get otherNum () {
+    return this.value.length - this.showList.length
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
 }
 </script>
 

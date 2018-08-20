@@ -127,67 +127,67 @@ const optionsDefaultData = (type) => {
 
 @Component
 export default class FormItemOptions extends Vue {
-    /* vue-props */
-    @Prop() item
-    @Prop(Boolean) needOptions
-    /* vue-vuex */
-    /* vue-data */
-    sourceType = 2
-    source1 = ''
-    source2 = ''
-    source3 = ''
-    dialogOptions = [{label: '资源管理', value: 'resource'}]
-    /* vue-compute */
-    get options () {
-      if (this.item.type === 'dialog') {
-        return this.dialogOptions
-      }
-      return this.$c.OptionsDataSource.filter((item) => {
-        if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(this.item.type)) {
-          return item.type === 'keyValue'
-        }
-        return item.type === this.item.type
-      })
+  /* vue-props */
+  @Prop() item
+  @Prop(Boolean) needOptions
+  /* vue-vuex */
+  /* vue-data */
+  sourceType = 2
+  source1 = ''
+  source2 = ''
+  source3 = ''
+  dialogOptions = [{label: '资源管理', value: 'resource'}]
+  /* vue-compute */
+  get options () {
+    if (this.item.type === 'dialog') {
+      return this.dialogOptions
     }
-    /* vue-watch */
-    @Watch('item')
-    itemChange (val, old) {
-      if (val && (!old || old.options !== val.options)) {
-        if (val.options && typeof val.options === 'object') {
-          this.sourceType = 1
-          this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type))
-          this.source2 = ''
-          this.source3 = ''
-        } else if (val.options && typeof val.options === 'string' && val.options.indexOf('/') === 0) {
-          this.sourceType = 3
-          this.source1 = ''
-          this.source2 = ''
-          this.source3 = val.options
-        } else {
-          this.sourceType = 2
-          this.source1 = ''
-          this.source2 = val.options
-          this.source3 = ''
-        }
+    return this.$c.OptionsDataSource.filter((item) => {
+      if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(this.item.type)) {
+        return item.type === 'keyValue'
       }
-    }
-    /* vue-lifecycle */
-    /* vue-method */
-    onChange () {
-      if (this.sourceType === 1) {
-        try {
-          const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type)
-          this.item.options = json
-        } catch (e) {
-          console.log(e.message)
-        }
-      } else if (this.sourceType === 2) {
-        this.item.options = this.source2
+      return item.type === this.item.type
+    })
+  }
+  /* vue-watch */
+  @Watch('item')
+  itemChange (val, old) {
+    if (val && (!old || old.options !== val.options)) {
+      if (val.options && typeof val.options === 'object') {
+        this.sourceType = 1
+        this.source1 = JSON.stringify(val.options || optionsDefaultData(this.item.type))
+        this.source2 = ''
+        this.source3 = ''
+      } else if (val.options && typeof val.options === 'string' && val.options.indexOf('/') === 0) {
+        this.sourceType = 3
+        this.source1 = ''
+        this.source2 = ''
+        this.source3 = val.options
       } else {
-        this.item.options = this.source3
+        this.sourceType = 2
+        this.source1 = ''
+        this.source2 = val.options
+        this.source3 = ''
       }
-      this.$emit('change')
     }
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+  onChange () {
+    if (this.sourceType === 1) {
+      try {
+        const json = this.source1 ? JSON.parse(this.source1) : optionsDefaultData(this.item.type)
+        this.item.options = json
+      } catch (e) {
+        console.log(e.message)
+      }
+    } else if (this.sourceType === 2) {
+      this.item.options = this.source2
+    } else {
+      this.item.options = this.source3
+    }
+    this.$emit('change')
+  }
 }
 </script>
 

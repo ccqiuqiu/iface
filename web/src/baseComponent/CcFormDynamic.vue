@@ -9,34 +9,34 @@ import {Action} from 'vuex-class'
 
 @Component
 export default class CcFormDynamic extends Vue {
-    /* vue-props */
-    @Prop() formCode
-    @Prop() model
-    /* vue-vuex */
-    @Action getPage
-    /* vue-data */
-    formObject = null
-    show = true
-    /* vue-compute */
-    get formData () {
-      return this.formObject && this.model ? {...this.formObject, model: this.model} : null
+  /* vue-props */
+  @Prop() formCode
+  @Prop() model
+  /* vue-vuex */
+  @Action getPage
+  /* vue-data */
+  formObject = null
+  show = true
+  /* vue-compute */
+  get formData () {
+    return this.formObject && this.model ? {...this.formObject, model: this.model} : null
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  created () {
+    this.getFormJson()
+  }
+  /* vue-method */
+  async getFormJson () {
+    const {data} = await this.getPage(this.formCode)
+    if (data) {
+      this.formObject = JSON.parse(data.value)
     }
-    /* vue-watch */
-    /* vue-lifecycle */
-    created () {
-      this.getFormJson()
-    }
-    /* vue-method */
-    async getFormJson () {
-      const {data} = await this.getPage(this.formCode)
-      if (data) {
-        this.formObject = JSON.parse(data.value)
-      }
-    }
-    forceUpdate () {
-      this.show = false
-      this.$nextTick(() => (this.show = true))
-    }
+  }
+  forceUpdate () {
+    this.show = false
+    this.$nextTick(() => (this.show = true))
+  }
 }
 </script>
 

@@ -16,20 +16,20 @@ import DashboardTitle from './DashboardTitle.vue'
 
 @Component({components: {DashboardTitle}})
 export default class DashboardItemTable extends Vue {
-    /* vue-props */
-    @Prop() dashboard
-    @Prop(Object) data
-    /* vue-vuex */
-    /* vue-data */
-    currentPage = 1
-    /* vue-compute */
-    /* vue-watch */
-    @Watch('currentPage')
-    currentPageChange () {
-      this.$emit('change-page', this.currentPage)
-    }
-    /* vue-lifecycle */
-    /* vue-method */
+  /* vue-props */
+  @Prop() dashboard
+  @Prop(Object) data
+  /* vue-vuex */
+  /* vue-data */
+  currentPage = 1
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('currentPage')
+  currentPageChange () {
+    this.$emit('change-page', this.currentPage)
+  }
+  /* vue-lifecycle */
+  /* vue-method */
 }
 </script>
 

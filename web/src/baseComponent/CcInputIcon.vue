@@ -25,24 +25,24 @@ import iconPath from '../assets/icons/icon'
 
 @Component
 export default class CcInputIcon extends Vue {
-    /* vue-props */
-    @Prop(String) value
-    @Prop({type: String, default: '请选择图标'}) placeholder
-    /* vue-vuex */
-    /* vue-data */
-    show = false
-    /* vue-compute */
-    get icons () {
-      const reg = /^.*\/(.*)\.svg$/
-      return iconPath.map((path) => path.replace(reg, '$1'))
-    }
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    select (name) {
-      this.$emit('input', name)
-      this.show = false
-    }
+  /* vue-props */
+  @Prop(String) value
+  @Prop({type: String, default: '请选择图标'}) placeholder
+  /* vue-vuex */
+  /* vue-data */
+  show = false
+  /* vue-compute */
+  get icons () {
+    const reg = /^.*\/(.*)\.svg$/
+    return iconPath.map((path) => path.replace(reg, '$1'))
+  }
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  select (name) {
+    this.$emit('input', name)
+    this.show = false
+  }
 }
 </script>
 

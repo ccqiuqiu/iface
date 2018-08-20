@@ -17,21 +17,21 @@ import DashboardTitle from './DashboardTitle.vue'
 
 @Component({components: {DashboardTitle}})
 export default class DashboardItemList extends Vue {
-    /* vue-props */
-    @Prop() dashboard
-    @Prop(Object) data
-    /* vue-vuex */
-    /* vue-data */
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    itemClick (item) {
-      this.$router.push(item.url)
-    }
-    titleClick () {
-      this.$router.push(this.data.link)
-    }
+  /* vue-props */
+  @Prop() dashboard
+  @Prop(Object) data
+  /* vue-vuex */
+  /* vue-data */
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  itemClick (item) {
+    this.$router.push(item.url)
+  }
+  titleClick () {
+    this.$router.push(this.data.link)
+  }
 }
 </script>
 

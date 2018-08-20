@@ -26,68 +26,68 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcRender from './CcRender.vue'
 @Component({components: {CcRender}})
 export default class CcTable extends Vue {
-    /* vue-prop */
-    @Prop() rows
-    @Prop({default: 'id'}) rowKey
-    @Prop() columns
-    @Prop(Boolean) multiSelect // 是否多选
-    @Prop() selectedRows // 选中的行的数组
-    @Prop() currentRow // 当前行
-    /* vue-data */
-    /* vue-computed */
-    get multi () {
-      return this.multiSelect
-    }
-    /**
-     * 结合selectionChange方法，实现selectedRows双向绑定
-     */
-    @Watch('selectedRows')
-    watchSelectedRows (val, old) {
-      this.$refs.table.clearSelection()
-      if (val) {
-        this.$nextTick(() => val.forEach((row) => {
-          this.$refs.table.toggleRowSelection(row, true)
-        }))
-      }
-    }
-    /**
-     * 结合currentChange方法，实现currentRow双向绑定
-     */
-    @Watch('currentRow')
-    watchCurrentRow (val, old) {
-      if (val) {
-        this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(val), 0))
-      } else {
-        this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(), 0))
-      }
-    }
-    currentChange (row) {
-      if (row) {
-        this.$emit('update:currentRow', row)
-      }
-    }
-    select (rows, row) {
-      this.$emit('update:selectedRows', rows)
-    }
-    // 多选的时候，让点击行的时候，也能选中和取消选中行
-    rowClick (row) {
-      if (this.multi) {
-        const index = this.selectedRows.findIndex((item) => item[this.rowKey] === row[this.rowKey])
-        if (index >= 0) {
-          this.selectedRows.splice(index, 1)
-        } else {
-          this.selectedRows.push(row)
-        }
-      } else {
-        this.$emit('single-click')
-      }
-    }
-    //
-    toggleRowSelection (rows) {
-      rows.forEach((row) => {
+  /* vue-prop */
+  @Prop() rows
+  @Prop({default: 'id'}) rowKey
+  @Prop() columns
+  @Prop(Boolean) multiSelect // 是否多选
+  @Prop() selectedRows // 选中的行的数组
+  @Prop() currentRow // 当前行
+  /* vue-data */
+  /* vue-computed */
+  get multi () {
+    return this.multiSelect
+  }
+  /**
+   * 结合selectionChange方法，实现selectedRows双向绑定
+   */
+  @Watch('selectedRows')
+  watchSelectedRows (val, old) {
+    this.$refs.table.clearSelection()
+    if (val) {
+      this.$nextTick(() => val.forEach((row) => {
         this.$refs.table.toggleRowSelection(row, true)
-      })
+      }))
     }
+  }
+  /**
+   * 结合currentChange方法，实现currentRow双向绑定
+   */
+  @Watch('currentRow')
+  watchCurrentRow (val, old) {
+    if (val) {
+      this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(val), 0))
+    } else {
+      this.$nextTick(() => setTimeout(this.$refs.table.setCurrentRow(), 0))
+    }
+  }
+  currentChange (row) {
+    if (row) {
+      this.$emit('update:currentRow', row)
+    }
+  }
+  select (rows, row) {
+    this.$emit('update:selectedRows', rows)
+  }
+  // 多选的时候，让点击行的时候，也能选中和取消选中行
+  rowClick (row) {
+    if (this.multi) {
+      const index = this.selectedRows.findIndex((item) => item[this.rowKey] === row[this.rowKey])
+      if (index >= 0) {
+        this.selectedRows.splice(index, 1)
+      } else {
+        this.selectedRows.push(row)
+      }
+    } else {
+      this.$emit('single-click')
+    }
+  }
+  //
+  toggleRowSelection (rows) {
+    rows.forEach((row) => {
+      this.$refs.table.toggleRowSelection(row, true)
+    })
+  }
 }
 </script>
 

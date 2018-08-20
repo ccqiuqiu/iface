@@ -11,22 +11,22 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class DashboardTitle extends Vue {
-    /* vue-props */
-    @Prop() dashboard
-    @Prop(Boolean) more
-    /* vue-vuex */
-    /* vue-data */
-    data () {
-      return {
-        styleObj: {
-          borderTop: `3px solid ${this.dashboard.color}`
-        }
+  /* vue-props */
+  @Prop() dashboard
+  @Prop(Boolean) more
+  /* vue-vuex */
+  /* vue-data */
+  data () {
+    return {
+      styleObj: {
+        borderTop: `3px solid ${this.dashboard.color}`
       }
     }
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
+  }
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
 }
 </script>
 

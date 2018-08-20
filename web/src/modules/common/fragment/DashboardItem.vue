@@ -19,31 +19,31 @@ import DashboardItemChart from './DashboardItemChart.vue'
 
 @Component({mixins: [BaseMixin], components: {DashboardItemInfo, DashboardItemList, DashboardItemTable, DashboardItemChart}})
 export default class DashboardItem extends Vue {
-    /* vue-props */
-    @Prop() dashboard
-    /* vue-vuex */
-    @Action getDashboardData
-    /* vue-data */
-    data = null
-    /* vue-compute */
-    /* vue-watch */
-    @Watch('dashboard.id', {immediate: true})
-    idChange () {
-      this.initData()
+  /* vue-props */
+  @Prop() dashboard
+  /* vue-vuex */
+  @Action getDashboardData
+  /* vue-data */
+  data = null
+  /* vue-compute */
+  /* vue-watch */
+  @Watch('dashboard.id', {immediate: true})
+  idChange () {
+    this.initData()
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+  async initData (params = {pageSize: 5}) {
+    this.loading = true
+    const {data} = await this.getDashboardData({url: this.dashboard.url, params})
+    this.loading = false
+    if (data) {
+      this.data = data
     }
-    /* vue-lifecycle */
-    /* vue-method */
-    async initData (params = {pageSize: 5}) {
-      this.loading = true
-      const {data} = await this.getDashboardData({url: this.dashboard.url, params})
-      this.loading = false
-      if (data) {
-        this.data = data
-      }
-    }
-    changePage (pageNum) {
-      this.initData({pageNum, pageSize: 5})
-    }
+  }
+  changePage (pageNum) {
+    this.initData({pageNum, pageSize: 5})
+  }
 }
 </script>
 

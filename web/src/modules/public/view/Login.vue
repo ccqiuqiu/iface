@@ -27,47 +27,47 @@ import { Action, Mutation } from 'vuex-class'
 
 @Component
 export default class Login extends Vue {
-    /* vue-props */
-    /* vue-vuex */
-    @Mutation('clearStore') clearStore
-    @Action('login') loginAction
-    /* vue-data */
-    user = {
-      name: 'admin',
-      password: '123456'
+  /* vue-props */
+  /* vue-vuex */
+  @Mutation('clearStore') clearStore
+  @Action('login') loginAction
+  /* vue-data */
+  user = {
+    name: 'admin',
+    password: '123456'
+  }
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  // 用户登录
+  async login () {
+    const {data} = await this.loginAction(this.user)
+    if (data) {
+      this.$ls.set('token', data.token)
+      this.$utils.message('登录成功')
+      this.$router.push('/')
     }
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    // 用户登录
-    async login () {
-      const {data} = await this.loginAction(this.user)
-      if (data) {
-        this.$ls.set('token', data.token)
-        this.$utils.message('登录成功')
-        this.$router.push('/')
+  }
+  handlerData (data) {
+    // 把菜单的id改为字符串
+    const menus = data.auth.menus
+    if (menus.length) {
+      this.number2string(menus)
+    }
+  }
+  number2string (list) {
+    list.forEach((item) => {
+      item.id = item.id + ''
+      // 将补全特殊的url
+      if (item.url && item.url.substr(0, 1) !== '/') {
+        item.url = '/baseData/page/' + item.url
       }
-    }
-    handlerData (data) {
-      // 把菜单的id改为字符串
-      const menus = data.auth.menus
-      if (menus.length) {
-        this.number2string(menus)
+      if (item.children) {
+        this.number2string(item.children)
       }
-    }
-    number2string (list) {
-      list.forEach((item) => {
-        item.id = item.id + ''
-        // 将补全特殊的url
-        if (item.url && item.url.substr(0, 1) !== '/') {
-          item.url = '/baseData/page/' + item.url
-        }
-        if (item.children) {
-          this.number2string(item.children)
-        }
-      })
-    }
+    })
+  }
 }
 
 </script>

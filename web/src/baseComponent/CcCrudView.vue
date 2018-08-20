@@ -14,68 +14,72 @@ import {Action} from 'vuex-class'
 
 @Component
 export default class CcCrudView extends Vue {
-    /* vue-props */
-    @Prop() data
-    @Prop() fields
-    @Prop() url
-    /* vue-vuex */
-    @Action formRequest
-    /* vue-data */
-    mData = this.data
-    loading = false
-    /* vue-compute */
-    get items () {
-      return this.fields.filter((field) => this.mData[field.prop]).map((field) => {
-        const item = {label: field.label, value: this.mData[field.prop]}
-        if (field.formProps && field.formProps.options) {
-          let rows = field.formProps.options
-          let labelField = 'label'
-          let valueField = 'value'
-          if (['table', 'tree'].includes(field.formProps.type)) {
-            labelField = field.formProps.props ? (field.formProps.props.labelField || 'name') : 'name'
-            valueField = field.formProps.props ? (field.formProps.props.valueField || 'id') : 'id'
-          }
-          item.value = Array.isArray(item.value) ? item.value : [item.value]
-          if (field.formProps.type === 'table') {
-            rows = field.formProps.options.rows
-          } else if (field.formProps.type === 'tree') {
-            rows = this.$utils.flatObject(field.formProps.options)
-          }
-          item.value = rows
-            .filter((row) => item.value.includes(row[valueField]))
-            .map((row) => row[labelField] || row.id).join(',')
+  /* vue-props */
+  @Prop() data
+  @Prop() fields
+  @Prop() url
+  /* vue-vuex */
+  @Action formRequest
+  /* vue-data */
+  data () {
+    return {
+      mData: this.data
+    }
+  }
+  loading = false
+  /* vue-compute */
+  get items () {
+    return this.fields.filter((field) => this.mData[field.prop]).map((field) => {
+      const item = {label: field.label, value: this.mData[field.prop]}
+      if (field.formProps && field.formProps.options) {
+        let rows = field.formProps.options
+        let labelField = 'label'
+        let valueField = 'value'
+        if (['table', 'tree'].includes(field.formProps.type)) {
+          labelField = field.formProps.props ? (field.formProps.props.labelField || 'name') : 'name'
+          valueField = field.formProps.props ? (field.formProps.props.valueField || 'id') : 'id'
         }
-        // if (field.tableProps.formatFun) {
-        //   const key = field.formatFun.replace('Render', 'Format')
-        //   if (CrudUtils[key]) {
-        //     item.value = CrudUtils[key].format(null, null, item.value)
-        //   }
-        // }
-        return item
-      })
-    }
-    /* vue-watch */
-    @Watch('url', {immediate: true})
-    urlChange (val) {
-      if (val) {
-        this.initModel()
+        item.value = Array.isArray(item.value) ? item.value : [item.value]
+        if (field.formProps.type === 'table') {
+          rows = field.formProps.options.rows
+        } else if (field.formProps.type === 'tree') {
+          rows = this.$utils.flatObject(field.formProps.options)
+        }
+        item.value = rows
+          .filter((row) => item.value.includes(row[valueField]))
+          .map((row) => row[labelField] || row.id).join(',')
       }
+      // if (field.tableProps.formatFun) {
+      //   const key = field.formatFun.replace('Render', 'Format')
+      //   if (CrudUtils[key]) {
+      //     item.value = CrudUtils[key].format(null, null, item.value)
+      //   }
+      // }
+      return item
+    })
+  }
+  /* vue-watch */
+  @Watch('url', {immediate: true})
+  urlChange (val) {
+    if (val) {
+      this.initModel()
     }
-    @Watch('data')
-    dataChange (val) {
-      this.mData = val
+  }
+  @Watch('data')
+  dataChange (val) {
+    this.mData = val
+  }
+  /* vue-lifecycle */
+  /* vue-method */
+  // 初始化model。用于更新表单从服务端获取完整数据
+  async initModel () {
+    this.loading = true
+    const {data} = await this.formRequest(this.url)
+    this.loading = false
+    if (data) {
+      this.mData = data
     }
-    /* vue-lifecycle */
-    /* vue-method */
-    // 初始化model。用于更新表单从服务端获取完整数据
-    async initModel () {
-      this.loading = true
-      const {data} = await this.formRequest(this.url)
-      this.loading = false
-      if (data) {
-        this.mData = data
-      }
-    }
+  }
 }
 </script>
 

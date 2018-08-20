@@ -12,22 +12,22 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component
 export default class CcButton extends Vue {
-    @Prop(String) text
-    @Prop({type: String, default: 'primary'}) type
-    @Prop({type: String, default: 'small'}) size
-    @Prop(String) icon
+  @Prop(String) text
+  @Prop({type: String, default: 'primary'}) type
+  @Prop({type: String, default: 'small'}) size
+  @Prop(String) icon
 
-    get iconSize () {
-      if (this.size === 'medium') {
-        return 10
-      } else if (this.size === 'small') {
-        return 12
-      } else if (this.size === 'mini') {
-        return 14
-      } else {
-        return 16
-      }
+  get iconSize () {
+    if (this.size === 'medium') {
+      return 10
+    } else if (this.size === 'small') {
+      return 12
+    } else if (this.size === 'mini') {
+      return 14
+    } else {
+      return 16
     }
+  }
 }
 </script>
 

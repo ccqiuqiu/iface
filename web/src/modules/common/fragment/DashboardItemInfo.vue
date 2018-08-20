@@ -20,25 +20,25 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class DashboardItemInfo extends Vue {
-    /* vue-props */
-    @Prop() dashboard
-    @Prop(Object) data
-    /* vue-vuex */
-    /* vue-data */
-    data () {
-      return {
-        styleObj: {
-          backgroundColor: this.dashboard.color
-        }
+  /* vue-props */
+  @Prop() dashboard
+  @Prop(Object) data
+  /* vue-vuex */
+  /* vue-data */
+  data () {
+    return {
+      styleObj: {
+        backgroundColor: this.dashboard.color
       }
     }
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    /* vue-method */
-    more () {
-      this.$router.push(this.data.link)
-    }
+  }
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  /* vue-method */
+  more () {
+    this.$router.push(this.data.link)
+  }
 }
 </script>
 

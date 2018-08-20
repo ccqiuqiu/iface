@@ -17,31 +17,31 @@ import {Action} from 'vuex-class'
 
 @Component
 export default class DashboardSelector extends Vue {
-    /* vue-props */
-    @Prop(Array) value
-    /* vue-vuex */
-    @Action getAllDashboard
-    /* vue-data */
-    allDashboard = []
-    mSelected = this.value
-    /* vue-compute */
-    /* vue-watch */
-    /* vue-lifecycle */
-    created () {
-      this.initData()
+  /* vue-props */
+  @Prop(Array) value
+  /* vue-vuex */
+  @Action getAllDashboard
+  /* vue-data */
+  allDashboard = []
+  mSelected = this.value
+  /* vue-compute */
+  /* vue-watch */
+  /* vue-lifecycle */
+  created () {
+    this.initData()
+  }
+  /* vue-method */
+  async initData () {
+    const {data} = await this.getAllDashboard()
+    if (data) {
+      this.allDashboard = data.map((dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
     }
-    /* vue-method */
-    async initData () {
-      const {data} = await this.getAllDashboard()
-      if (data) {
-        this.allDashboard = data.map((dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
-      }
-    }
-    onSelected () {
-      const dashboards = this.allDashboard.filter((item) => this.mSelected.includes(item.key))
-        .map((item) => item.dashboard)
-      this.$emit('selected', dashboards)
-    }
+  }
+  onSelected () {
+    const dashboards = this.allDashboard.filter((item) => this.mSelected.includes(item.key))
+      .map((item) => item.dashboard)
+    this.$emit('selected', dashboards)
+  }
 }
 </script>
 
