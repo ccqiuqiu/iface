@@ -140,7 +140,7 @@ export default class CcCrud extends Vue {
   async getData () {
     if (this.searchUrl) {
       this.loading = true
-      const params = {...this.searchForm.model, pageNum: this.pageNum, pageSize: this.pageSize}
+      const params = {...this.$utils.delEmptyProp(this.searchForm.model), pageNum: this.pageNum, pageSize: this.pageSize}
       const {data} = await this.formAction({url: this.searchUrl, params})
       this.loading = false
       if (data) {

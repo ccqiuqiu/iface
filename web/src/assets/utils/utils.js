@@ -34,10 +34,11 @@ export default class Utils {
       if (this.isObj(obj[key])) {
         this.delEmptyProp(obj[key])
       }
-      if ((obj[key] === null || obj[key] === undefined || this.isObj(obj[key])) && this.isEmptyObject(obj[key])) {
+      if (obj[key] === null || obj[key] === undefined || obj[key] === '' || (this.isObj(obj[key]) && this.isEmptyObject(obj[key]))) {
         delete obj[key]
       }
     }
+    return obj
   }
   // 对象转为数组
   objToArr (obj = {}, labelField = 'label', valueField = 'value') {
