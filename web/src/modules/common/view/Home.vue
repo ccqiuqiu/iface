@@ -10,7 +10,7 @@
                  :is-mirrored="false"
                  :vertical-compact="true"
                  :use-css-transforms="true"
-                 @layout-updated="layoutUpdated = true"
+                 @layout-updated="onLayoutUpdated"
     >
       <grid-item v-for="item in userDashboard"
                  :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.id"
@@ -44,6 +44,7 @@ export default class Home extends Vue {
   rowHight = 30
   colNum = 8
   userDashboard = []
+  userDashboardClone = []
   layoutUpdated = false
   /* vue-compute */
   get selected () {
@@ -72,6 +73,7 @@ export default class Home extends Vue {
     const {data} = await this.saveUserDashboard(list)
     if (data) {
       this.$utils.message('保存成功！')
+      this.userDashboardClone = JSON.parse(JSON.stringify(this.userDashboard))
       this.layoutUpdated = false
     }
   }
@@ -84,6 +86,8 @@ export default class Home extends Vue {
       } else {
         this.dashboard2UserDashboard(data)
       }
+      this.userDashboard.forEach(u => (u.moved = false))
+      this.userDashboardClone = JSON.parse(JSON.stringify(this.userDashboard))
     }
   }
   dashboard2UserDashboard (dashboard) {
@@ -118,9 +122,19 @@ export default class Home extends Vue {
         startY++
         startX = 0
       }
-      // 判断是否有dashboard的左上角的坐标落在了目标区域内
+      // 判断是否有dashboard和目标位置相交（中心点X的相对距离<宽度和的一半 && 中心点Y点距离<高度和的一半）
+      const center = {
+        x: startX + w / 2,
+        y: startY + h / 2
+      }
       const dashboard = userDashboard.find((ud) => {
-        return ud.x >= startX && ud.x <= startX + w && ud.y >= startY && ud.y <= startY + h
+        const centerTemp = {
+          x: ud.x + ud.w / 2,
+          y: ud.y + ud.h / 2
+        }
+        const xl = Math.abs(center.x - centerTemp.x)
+        const yl = Math.abs(center.y - centerTemp.y)
+        return xl < (w + ud.w) / 2 && yl < (h + ud.h) / 2
       })
       if (dashboard) {
         // 移动一格
@@ -149,6 +163,13 @@ export default class Home extends Vue {
     this.dashboard2UserDashboard(dashboards)
     this.save()
     this.$utils.hideDialog()
+  }
+  onLayoutUpdated () {
+    if (JSON.stringify(this.userDashboardClone) !== JSON.stringify(this.userDashboard)) {
+      this.layoutUpdated = true
+    } else {
+      this.layoutUpdated = false
+    }
   }
 }
 </script>
