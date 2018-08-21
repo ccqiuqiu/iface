@@ -64,6 +64,7 @@ axiosInstance.interceptors.response.use((response) => {
       app.$Progress.fail()
     }
     if (response.data.error.code === 401) {
+      store.commit('hideDialog')
       store.commit('clearStore')
       setTimeout(() => router.push('/login'), 0)
     }
