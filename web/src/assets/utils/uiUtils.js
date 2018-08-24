@@ -7,9 +7,15 @@ import Vue from 'vue'
 import Utils from './utils'
 import router from '../../global/router'
 
-const h = new Vue().$createElement
+const bus = new Vue()
+const h = bus.$createElement
 
 export class UiUtils extends Utils {
+  bus = null
+  constructor () {
+    super()
+    this.bus = bus
+  }
   // 消息框简单封装
   message (message, type = true) {
     if (typeof type === 'string') {
@@ -84,7 +90,7 @@ export class UiUtils extends Utils {
    * @param {string} url
    */
 
-  toTab (url, name = '') {
+  toTab (url, name = '', refresh) {
     if (url === '/' || url === '') {
       store.commit('updateSelectedTab', '0')
       return
@@ -93,9 +99,11 @@ export class UiUtils extends Utils {
     const menuTabs = store.state.common.menuTabs
     // 先根据url找到要跳转的菜单对象
     const menu = flatMenu.find((m) => m.url === url.split('?')[0])
+    let key = ''
     if (menu) {
+      key = menu.id
       // 判断菜单是否已经在tabs里面打开了
-      const item = menuTabs.find((item) => item.key === menu.id)
+      const item = menuTabs.find((item) => item.key === key)
       // 没有打开，要找到菜单的层级，加到menuTabs里面，然后再跳转
       if (!item) {
         const menus = [menu]
@@ -103,18 +111,19 @@ export class UiUtils extends Utils {
           const menuParent = flatMenu.find((item) => item.id === menu.parentId)
           menus.unshift(menuParent)
         }
-        store.commit('updateTabs', {key: menu.id, url, menus})
+        store.commit('updateTabs', {key, url, menus})
       } else {
         store.commit('updateTabUrl', {item, url})
       }
-      store.commit('updateSelectedTab', menu.id)
+      store.commit('updateSelectedTab', key)
     } else {
       const noMenuTabsMap = store.state.common.noMenuTabsMap
       const noMenuTabsMapReverse = this.reverse(noMenuTabsMap)
-      if (noMenuTabsMapReverse[url]) {
-        store.commit('updateSelectedTab', noMenuTabsMapReverse[url])
+      key = noMenuTabsMapReverse[url]
+      if (key) {
+        store.commit('updateSelectedTab', key)
       } else {
-        const key = Math.floor(Math.random() * 20130306) + ''
+        key = Math.floor(Math.random() * 20130306) + ''
         store.commit('updateTabs', {key, url, menus: [{name, url}]})
         store.commit('updateSelectedTab', key)
         noMenuTabsMap[key] = url
@@ -122,12 +131,25 @@ export class UiUtils extends Utils {
     }
     // 跳转一下页面
     router.push(url)
+    refresh && bus.$emit('refresh', key)
   }
-  closeTab (url) {
-    store.commit('removeTab')
+
+  closeTab (url, refresh) {
+    this.removeTab(store.state.common.selectedTab)
     if (url) {
-      this.toTab(url)
+      this.toTab(url, '', refresh)
     }
+  }
+  removeTab (key) {
+    bus.$emit('remove', key)
+    store.commit('removeTab', key)
+  }
+  removeTabs (command) {
+    const oldKeys = store.state.common.menuTabs.map(item => item.key)
+    store.commit('removeTabs', command)
+    const newKeys = store.state.common.menuTabs.map(item => item.key)
+    const delKeys = oldKeys.filter(item => !newKeys.includes(item))
+    delKeys.forEach(key => bus.$emit('remove', key))
   }
 
   hasAuth (binding) {
@@ -136,6 +158,20 @@ export class UiUtils extends Utils {
       return true
     } else {
       return resources.includes(binding.value)
+    }
+  }
+
+  destroyAndRemoveCache (component) {
+    // 先删掉缓存
+    if (component.$vnode.parent && component.$vnode.parent.componentInstance) {
+      const key = component.$vnode.componentOptions.Ctor.cid
+      const cache = component.$vnode.parent.componentInstance.cache
+      const keys = component.$vnode.parent.componentInstance.keys
+      delete cache[key]
+      const index = keys.findIndex(item => item === key)
+      keys.splice(index, 1)
+      // 再销毁组件
+      component.$destroy()
     }
   }
 }

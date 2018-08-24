@@ -1,55 +1,100 @@
 <!--Created by 熊超超 on 2018/6/5.-->
 <template>
   <div v-loading="loading">
-    <cc-crud :data="data" v-if="data && page.type === $c.PageTypeV.表格页面" :page="page"></cc-crud>
-    <cc-crud-tree :data="data" v-if="data && page.type === $c.PageTypeV.树页面" :page="page"></cc-crud-tree>
-    <cc-render-vue :code="code" v-if="code" id="render-page"></cc-render-vue>
+    <!--<cc-crud :data="data" v-if="data && page.type === $c.PageTypeV.表格页面" :page="page"></cc-crud>-->
+    <!--<cc-crud-tree :data="data" v-if="data && page.type === $c.PageTypeV.树页面" :page="page"></cc-crud-tree>-->
+    <!--<cc-render-vue :code="code" v-if="code" id="render-page"></cc-render-vue>-->
+    <keep-alive>
+      <component v-bind:is="component" v-if="component"></component>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
+import {Action, Getter} from 'vuex-class'
 import {initOptions} from '../../../assets/utils/crudUtils.jsx'
-import {BaseMixin} from '../../../assets/utils/mixins'
+import {BaseMixin, TabMixin} from '../../../assets/utils/mixins'
 import CcRenderVue from '../../../baseComponent/CcRenderVue.vue'
 
-@Component({mixins: [BaseMixin], components: {CcRenderVue}})
-export default class Page extends Vue {
+const cacheComponents = {}
+
+@Component({components: {CcRenderVue}})
+export default class Page extends Mixins(BaseMixin, TabMixin) {
   /* vue-props */
   /* vue-vuex */
+  @Getter flatMenu
   @Action('getPage') getPage
   /* vue-data */
   data = null
-  code = ''
-  page = undefined
+  page = null
   /* vue-compute */
+  get component () {
+    if (!this.data || this.$route.name !== 'page') {
+      return null
+    }
+    const key = 'page' + this.$route.path.replace(/\//g, '-')
+    if (cacheComponents[key]) {
+      return cacheComponents[key]
+    } else {
+      const data = typeof this.data === 'string' ? this.data : JSON.parse(JSON.stringify(this.data))
+      const page = JSON.parse(JSON.stringify(this.page))
+      const com = {
+        name: key,
+        data () {
+          return {data, page}
+        },
+        render: h => {
+          if (page.type === this.$c.PageTypeV.表格页面) {
+            return <cc-crud data={data} page={page}></cc-crud>
+          } else if (page.type === this.$c.PageTypeV.树页面) {
+            return <cc-crud-tree data={data} page={page}></cc-crud-tree>
+          } else if (page.type === this.$c.PageTypeV.CODE) {
+            return <CcRenderVue code={data} id="render-page"></CcRenderVue>
+          }
+        }
+      }
+      cacheComponents[key] = com
+      return com
+    }
+  }
   /* vue-watch */
   @Watch('$route', {immediate: true})
-  routerChange () {
-    this.data = null
-    this.code = ''
-    this.getData()
+  routerChange (val) {
+    if (val.name === 'page') {
+      this.data = null
+      this.getData()
+    }
   }
   /* vue-lifecycle */
+  /* vue-method */
   async getData () {
     this.loading = true
     const code = this.$route.params['code']
     const {data} = await this.getPage(code)
     if (data) {
-      if (data.category === this.$c.PageCategoryV.CODE) {
-        this.code = data.value
+      const {value, ...page} = data
+      this.page = page
+      if (data.type === this.$c.PageTypeV.CODE) {
+        this.data = value
       } else {
-        const {value, ...page} = data
         const crud = JSON.parse(value)
         await initOptions(crud)
-        this.page = page
         this.data = crud
       }
     }
     this.loading = false
   }
-  /* vue-method */
+  destroy (id) {
+    const menu = this.flatMenu.find(m => m.id === id)
+    if (menu) {
+      delete cacheComponents['page' + menu.url.replace(/\//g, '-')]
+    }
+    this.$utils.destroyAndRemoveCache(this.$children[0])
+    if (this.$utils.isEmptyObject(cacheComponents)) {
+      this.$utils.destroyAndRemoveCache(this)
+    }
+  }
 }
 </script>
 

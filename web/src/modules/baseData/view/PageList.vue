@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Mixins } from 'vue-property-decorator'
 import {Action} from 'vuex-class'
-import {BaseMixin, PageMixin} from '../../../assets/utils/mixins'
+import {BaseMixin, PageMixin, TabMixin} from '../../../assets/utils/mixins'
 
-@Component({mixins: [BaseMixin, PageMixin]})
-export default class PageList extends Vue {
+@Component
+export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action searchPage
@@ -70,10 +70,10 @@ export default class PageList extends Vue {
       this.$utils.message('请选择一行', this.$c.MessageType.warning)
       return
     }
-    if (this.currentRow.category === this.$c.PageCategoryV.CRUD) {
-      this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
-    } else {
+    if (this.currentRow.type === this.$c.PageTypeV.CODE) {
       this.$utils.toTab('/baseData/pageEditor?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
+    } else {
+      this.$utils.toTab('/baseData/createCrud?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
     }
     // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
   }

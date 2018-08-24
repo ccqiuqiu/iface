@@ -56,16 +56,17 @@
 </template>
 
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import {Action} from 'vuex-class'
 import draggable from 'vuedraggable'
-import CcFormItem from '../../../baseComponent/CcFromItem.vue'
+import CcFormItem from '../../../baseComponent/CcFormItem.vue'
 import FormItemProps from '../fragment/FormItemProps.vue'
 import FormItemOptions from '../fragment/FormItemOptions.vue'
 import FormItemVerify from '../fragment/FormItemVerify.vue'
+import {TabMixin} from '../../../assets/utils/mixins'
 
 @Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
-export default class CreateCrud extends Vue {
+export default class CreateCrud extends Mixins(TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action('getPage') getPage
@@ -108,7 +109,7 @@ export default class CreateCrud extends Vue {
     return {
       model: this.pageModel,
       items: [
-        {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType, verify: {required: true}},
+        {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType.filter(item => item.label !== 'CODE'), verify: {required: true}},
         {label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
         {label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
         {label: '实体名称', prop: 'modelName', type: this.$c.FormItemType.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
@@ -137,8 +138,10 @@ export default class CreateCrud extends Vue {
   }
   /* vue-watch */
   @Watch('$route')
-  routeChange () {
-    this.initPage()
+  routeChange (val) {
+    if (val.name === 'createCrud') {
+      this.initPage()
+    }
   }
   /* vue-lifecycle */
   created () {
@@ -249,7 +252,6 @@ export default class CreateCrud extends Vue {
     }
 
     this.pageModel.value = JSON.stringify(value)
-    console.log(value)
     const {error} = await this.savePage(this.pageModel)
     if (!error) {
       this.$utils.message('保存成功！')

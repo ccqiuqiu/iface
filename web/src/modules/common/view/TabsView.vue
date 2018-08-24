@@ -11,7 +11,7 @@
       </el-tab-pane>
     </el-tabs>
     <el-dropdown trigger="click" class="action" flex="cross:center"
-                 @command="closeTab" @visible-change="toggleMenuVisible">
+                 @command="removeTabs" @visible-change="toggleMenuVisible">
       <span class="p-h-4 p-v-6 cp" :class="{'menu-visible': menuVisible}"><i class="el-icon-arrow-down"></i></span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="noActive">关闭未激活</el-dropdown-item>
@@ -34,8 +34,6 @@ export default class TabsView extends Vue {
   @State((state) => state.common.menuTabs) menuTabs
   @State((state) => state.common.selectedTab) selectedTab
   @Mutation updateSelectedTab
-  @Mutation removeTab
-  @Mutation closeTab
   /* vue-data */
   perTab = '0'
   menuVisible = false
@@ -78,6 +76,12 @@ export default class TabsView extends Vue {
   }
   toggleMenuVisible (visible) {
     this.menuVisible = visible
+  }
+  removeTab (key) {
+    this.$utils.removeTab(key)
+  }
+  removeTabs (command) {
+    this.$utils.removeTabs(command)
   }
 }
 </script>

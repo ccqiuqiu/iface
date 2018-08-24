@@ -15,13 +15,13 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import {BaseMixin} from '../../../assets/utils/mixins'
+import {BaseMixin, TabMixin} from '../../../assets/utils/mixins'
 import { codemirror } from 'vue-codemirror-lite'
 // language
 import 'codemirror/mode/vue/vue.js'
 import {Action} from 'vuex-class'
 
-@Component({mixins: [BaseMixin], components: {codemirror}})
+@Component({mixins: [BaseMixin, TabMixin], components: {codemirror}})
 export default class PageEditor extends Vue {
   /* vue-props */
   /* vue-vuex */
@@ -67,14 +67,13 @@ export default class PageEditor extends Vue {
   async save () {
     const page = this.formObj.model
     if (!page.id) {
-      page.type = this.$c.PageTypeV.表格页面
-      page.category = this.$c.PageCategoryV.CODE
+      page.type = this.$c.PageTypeV.CODE
     }
     page.value = this.code
     const {error} = await this.savePage(page)
     if (!error) {
       this.$utils.message('保存成功！')
-      this.$utils.closeTab('/baseData/pageList')
+      this.$utils.closeTab('/baseData/pageList', true)
     }
   }
 }

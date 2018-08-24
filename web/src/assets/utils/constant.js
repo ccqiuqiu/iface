@@ -57,16 +57,12 @@ export default class Constant {
   PageTypeV = {
     表格页面: 1,
     树页面: 2,
-    表单: 9
+    表单: 9,
+    CODE: 10
   }
   // 反转key-value的页面类型
   PageTypeK = null
 
-  // 页面生成方式
-  PageCategoryV = {
-    CRUD: 1,
-    CODE: 2
-  }
   // DashboardType
   DashboardTypeV = {
     '信息面板': 'info',

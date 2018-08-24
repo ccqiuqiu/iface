@@ -75,7 +75,7 @@ import CcSelect from './CcSelect.vue'
 import {Action} from 'vuex-class'
 
 @Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
-export default class CcFromItem extends Vue {
+export default class CcFormItem extends Vue {
   /* vue-props */
   @Prop({required: true, type: [Object]}) model
   @Prop({required: true}) item

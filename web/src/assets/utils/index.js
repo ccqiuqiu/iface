@@ -13,6 +13,7 @@ export default {
     Vue.prototype.$utils = utils
     Vue.prototype.$c = constant
     Vue.prototype.$ls = ls
+    Vue.prototype.$bus = utils.bus
 
     /**
      * 验证资源权限指令

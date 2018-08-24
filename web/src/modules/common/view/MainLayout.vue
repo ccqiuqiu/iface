@@ -9,7 +9,9 @@
         <nav-view flex-box="0"></nav-view>
         <tabs-view flex-box="0"></tabs-view>
         <div class="main-view" flex-box="1">
-          <router-view class="content-view"/>
+          <keep-alive>
+            <router-view class="content-view"/>
+          </keep-alive>
         </div>
       </div>
     </div>

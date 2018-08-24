@@ -78,7 +78,7 @@ const mutations = {
       router.push(state.menuTabs[newIndex].url)
     }
   },
-  closeTab (state, command) {
+  removeTabs (state, command) {
     const index = state.menuTabs.findIndex((tab) => tab.key === state.selectedTab)
     if (command === 'noActive') {
       state.menuTabs.splice(index + 1)

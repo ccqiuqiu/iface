@@ -20,7 +20,7 @@
 
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import CcFormItem from './CcFromItem.vue'
+import CcFormItem from './CcFormItem.vue'
 import {Action} from 'vuex-class'
 
 // 按钮的动作map，在用户简单传入action的时候，设置默认的text等属性

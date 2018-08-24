@@ -11,11 +11,8 @@ export default class Page extends BaseEntity {
   @Column({length: 32}) // 页面名称
   public name: string
 
-  @Column('tinyint') // 页面类型 1-crud页面 2-tree页面  9-表单
+  @Column('tinyint') // 页面类型 1-crud页面 2-tree页面  9-表单  10-code
   public type: number
-
-  @Column({type: 'tinyint', default: 1}) // 生成方式 1.crud  2.code
-  public category: number
 
   @Column({unique: true}) // 页面唯一标识
   public code: string

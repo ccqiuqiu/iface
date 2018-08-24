@@ -8,6 +8,9 @@
     <el-menu ref="menu" :default-active="selectedTab"
          :collapse="!menuExpand"
          @select="selectMenu" flex-box="1">
+      <el-menu-item :index="'0'" key="0" v-show="false">
+        <!--这个隐藏的菜单为了解决首页的时候，高亮的菜单项不挣钱-->
+      </el-menu-item>
       <template v-for="menu in menus">
         <el-submenu :index="menu.id" v-if="menu.children" :key="menu.id">
           <template slot="title">
