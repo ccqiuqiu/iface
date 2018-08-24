@@ -26,7 +26,6 @@ export class TabMixin extends Vue {
       })
     }
     this.$bus.$on('remove', (id) => {
-      debugger
       const menu = this.flatMenu.find(m => m.id === id)
       if (menu && menu.url.indexOf('/baseData/page/') === 0) {
         this.$bus.$emit('removePage', id)
