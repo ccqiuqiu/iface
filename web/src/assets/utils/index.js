@@ -2,8 +2,8 @@
  * Created by 熊超超 on 2018/4/27.
  */
 
+import constant from './constant'
 import utils from './uiUtils'
-import {constant} from './constant'
 import ls from './lsUtils'
 
 export {utils, ls}

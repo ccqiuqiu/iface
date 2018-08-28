@@ -5,7 +5,7 @@
  * 属性值是一个对象，包含label（显示在下拉列表中的名称）和format（实际格式化的方法）
  */
 
-import {constant} from './constant'
+import constant from './constant'
 import store from '../../global/store'
 
 const CrudUtils = {

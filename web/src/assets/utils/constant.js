@@ -1,9 +1,9 @@
 /**
  * Created by 熊超超 on 2018/5/3.
  */
-import utils from './uiUtils'
+import {utils} from './utils'
 
-export default class Constant {
+class Constant {
   MessageType = {
     success: 'success',
     warning: 'warning',
@@ -110,4 +110,5 @@ export default class Constant {
     this.DashboardTypeK = utils.reverse(this.DashboardTypeV)
   }
 }
-export const constant = new Constant()
+const constant = new Constant()
+export default constant

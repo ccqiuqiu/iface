@@ -6,23 +6,21 @@ import { Message, MessageBox } from 'element-ui'
 import Vue from 'vue'
 import Utils from './utils'
 import router from '../../global/router'
+import constant from './constant'
 
+// 这个bus对象用作全局的事件总线,用于一些特殊场景下的组件通讯
 const bus = new Vue()
 const h = bus.$createElement
 
-export class UiUtils extends Utils {
+class UiUtils extends Utils {
   bus = null
   constructor () {
     super()
     this.bus = bus
   }
   // 消息框简单封装
-  message (message, type = true) {
-    if (typeof type === 'string') {
-      Message({message, type})
-    } else {
-      Message({message, type: type ? 'success' : 'error'})
-    }
+  message (message, type = constant.MessageType.success, duration = 3000) {
+    Message({message, type, duration})
   }
   // alert
   alert (content, title = '提示信息', options) {
@@ -89,7 +87,6 @@ export class UiUtils extends Utils {
    * 跳转到tab，左侧菜单和顶部标签之外的地方跳转页面
    * @param {string} url
    */
-
   toTab (url, name = '', refresh) {
     if (url === '/' || url === '') {
       store.commit('updateSelectedTab', '0')
@@ -134,27 +131,33 @@ export class UiUtils extends Utils {
     refresh && bus.$emit('refresh', key)
   }
 
+  /**
+   * 关闭当前tab页
+   * @param url，关闭后要跳转到哪个页面
+   * @param refresh 是否要刷新目标页面
+   */
   closeTab (url, refresh) {
     this.removeTab(store.state.common.selectedTab)
     if (url) {
       this.toTab(url, '', refresh)
     }
   }
+  // 从tabs移除tab，一般用于单独关闭某个tab页的场景
   removeTab (key) {
     bus.$emit('remove', key)
     store.commit('removeTab', key)
   }
+  // 从tabs移除多个tabs，一般用于批量关闭tab页的场景
   removeTabs (command) {
     const oldKeys = store.state.common.menuTabs.map(item => item.key)
     store.commit('removeTabs', command)
     const newKeys = store.state.common.menuTabs.map(item => item.key)
     const delKeys = oldKeys.filter(item => !newKeys.includes(item))
     delKeys.forEach(key => {
-      console.log(1, key)
       bus.$emit('remove', key)
     })
   }
-
+  // 资源权限验证
   hasAuth (binding) {
     const resources = store.state.common.resources
     if (resources === 'all') {
@@ -164,6 +167,9 @@ export class UiUtils extends Utils {
     }
   }
 
+  // 销毁通过keep-alive缓存的组件并删除缓存
+  // vue在组件销毁的时候，并不会删除缓存，这会导致再次显示相同组件的时候，会使用上次的缓存
+  // 经过查找，发现了keep-alive的缓存所在的位置，所以暴力删除
   destroyAndRemoveCache (component) {
     // 先删掉缓存
     if (component && component.$vnode.parent && component.$vnode.parent.componentInstance) {
@@ -178,5 +184,5 @@ export class UiUtils extends Utils {
     }
   }
 }
-
-export default new UiUtils()
+const uiUtils = new UiUtils()
+export default uiUtils

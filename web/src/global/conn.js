@@ -5,7 +5,7 @@
 import router from './router'
 import store from './store'
 import {utils, ls} from '../assets/utils/index'
-import {constant} from '../assets/utils/constant'
+import constant from '../assets/utils/constant'
 import app from '../main'
 import axios from 'axios'
 
