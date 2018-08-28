@@ -16,8 +16,8 @@ export default class CcInputDialog extends Vue {
   @Prop() dialog
   @Prop(String) title
   @Prop({type: [Array, Object]}) value
-  @Prop({default: 'id'}) valueField
-  @Prop({default: 'name'}) labelField
+  @Prop({type: String, default: 'id'}) valueField
+  @Prop({type: String, default: 'name'}) labelField
   @Prop(Boolean) collapseTags
   @Prop(Boolean) multiSelect
   /* vue-vuex */

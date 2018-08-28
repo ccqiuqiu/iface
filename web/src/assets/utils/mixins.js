@@ -21,10 +21,12 @@ export class TabMixin extends Vue {
   created () {
     this.pageId = this.selectedTab
     if (this.$route.name === 'page') {
+      this.$bus.$off('removePage')
       this.$bus.$on('removePage', (id) => {
         this.destroy && this.destroy(id)
       })
     }
+    this.$bus.$off('remove')
     this.$bus.$on('remove', (id) => {
       const menu = this.flatMenu.find(m => m.id === id)
       if (menu && menu.url.indexOf('/baseData/page/') === 0) {
@@ -42,12 +44,8 @@ export class TabMixin extends Vue {
       }
     })
   }
-  destroyed () {
-    this.$bus.$off('removePage')
-    this.$bus.$off('remove')
-    this.$bus.$off('refresh')
-  }
   deactivated () {
+    this.$bus.$off('refresh')
     this.$bus.$on('refresh', (id) => {
       if (id === this.pageId) {
         if (this.refresh) {

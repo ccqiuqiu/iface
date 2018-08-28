@@ -28,11 +28,11 @@ export default class CcInputTree extends Vue {
   /* vue-props */
   @Prop({type: [String, Number, Array]}) value
   @Prop({type: Array, default: () => []}) options
-  @Prop({default: 'children'}) childrenField
-  @Prop({default: 'id'}) valueField
-  @Prop({default: 'name'}) labelField
+  @Prop({type: String, default: 'children'}) childrenField
+  @Prop({type: String, default: 'id'}) valueField
+  @Prop({type: String, default: 'name'}) labelField
   @Prop(Boolean) multiSelect // 是否多选
-  @Prop() placeholder
+  @Prop(String) placeholder
 
   /* vue-vuex */
   /* vue-data */

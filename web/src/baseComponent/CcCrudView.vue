@@ -16,8 +16,8 @@ import {Action} from 'vuex-class'
 export default class CcCrudView extends Vue {
   /* vue-props */
   @Prop() data
-  @Prop() fields
-  @Prop() url
+  @Prop(Array) fields
+  @Prop(String) url
   /* vue-vuex */
   @Action formRequest
   /* vue-data */

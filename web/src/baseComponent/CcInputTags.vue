@@ -18,8 +18,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class CcInputTags extends Vue {
   /* vue-props */
   @Prop() value
-  @Prop() placeholder
-  @Prop({default: 'name'}) label
+  @Prop(String) placeholder
+  @Prop({type: String, default: 'name'}) label
   @Prop(String) icon
   @Prop(Boolean) collapseTags
   /* vue-vuex */
@@ -51,6 +51,9 @@ export default class CcInputTags extends Vue {
   }
   .el-form-item.is-success .input-con{
     border-color: $color-success;
+  }
+  .el-form-item .input-con:focus{
+    border-color: $color-primary;
   }
   .input-con {
     position: relative;

@@ -18,7 +18,7 @@ export default class CcCheckBoxGroup extends Vue {
   /* vue-props */
   @Prop(Array) value
   @Prop([Array, String]) options
-  @Prop() type
+  @Prop(String) type
   /* vue-vuex */
   /* vue-data */
   data () {

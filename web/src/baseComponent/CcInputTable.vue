@@ -24,8 +24,8 @@ export default class CcInputTable extends Vue {
   /* vue-props */
   @Prop({type: [String, Number, Array]}) value
   @Prop() options
-  @Prop({default: 'id'}) valueField
-  @Prop({default: 'name'}) labelField
+  @Prop({type: String, default: 'id'}) valueField
+  @Prop({type: String, default: 'name'}) labelField
   @Prop(Boolean) multiSelect // 是否多选
   /* vue-vuex */
   /* vue-data */

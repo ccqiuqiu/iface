@@ -149,7 +149,10 @@ export class UiUtils extends Utils {
     store.commit('removeTabs', command)
     const newKeys = store.state.common.menuTabs.map(item => item.key)
     const delKeys = oldKeys.filter(item => !newKeys.includes(item))
-    delKeys.forEach(key => bus.$emit('remove', key))
+    delKeys.forEach(key => {
+      console.log(1, key)
+      bus.$emit('remove', key)
+    })
   }
 
   hasAuth (binding) {
@@ -163,7 +166,7 @@ export class UiUtils extends Utils {
 
   destroyAndRemoveCache (component) {
     // 先删掉缓存
-    if (component.$vnode.parent && component.$vnode.parent.componentInstance) {
+    if (component && component.$vnode.parent && component.$vnode.parent.componentInstance) {
       const key = component.$vnode.componentOptions.Ctor.cid
       const cache = component.$vnode.parent.componentInstance.cache
       const keys = component.$vnode.parent.componentInstance.keys

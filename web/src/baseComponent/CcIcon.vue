@@ -10,7 +10,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CcIcon extends Vue {
-  @Prop({required: true}) name
+  @Prop({required: true, type: String}) name
   @Prop(String) className
   @Prop({type: Number, default: 0}) rotate
   @Prop({type: [String, Number], default: 24}) size

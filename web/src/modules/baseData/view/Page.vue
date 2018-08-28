@@ -87,10 +87,14 @@ export default class Page extends Mixins(BaseMixin, TabMixin) {
   }
   destroy (id) {
     const menu = this.flatMenu.find(m => m.id === id)
-    if (menu) {
-      delete cacheComponents['page' + menu.url.replace(/\//g, '-')]
+    if (menu && menu.url.indexOf('/baseData/page/') === 0) {
+      const key = 'page' + menu.url.replace(/\//g, '-')
+      const component = this.$children.find(c => c.$vnode.tag.indexOf(key) >= 0)
+      if (component) {
+        this.$utils.destroyAndRemoveCache(component)
+        delete cacheComponents[key]
+      }
     }
-    this.$utils.destroyAndRemoveCache(this.$children[0])
     if (this.$utils.isEmptyObject(cacheComponents)) {
       this.$utils.destroyAndRemoveCache(this)
     }

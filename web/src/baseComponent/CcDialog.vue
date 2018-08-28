@@ -20,8 +20,8 @@ import CcRender from './CcRender.vue'
 @Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
 export default class CcDialog extends Vue {
   /* vue-props */
-  @Prop({default: false}) inside
-  @Prop({default: false}) appendToBody
+  @Prop({type: Boolean, default: false}) inside
+  @Prop({type: Boolean, default: false}) appendToBody
   /* vue-vuex */
   @Getter('dialog') getDialog
 
