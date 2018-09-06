@@ -7,7 +7,7 @@
 
 [演示](http://207.148.92.80/iface)
 
-[文档](https://ccqiuqiu.gitbook.io/iface/)
+[文档](http://207.148.92.80/iface-doc)
 
 ## 主要功能
 - 基础组件

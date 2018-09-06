@@ -133,8 +133,8 @@ async function optionsDemo(ctx) {
 }
 
 export default (routes, prefix) => {
-  routes.post(prefix + '/base/getUserDashboard', getUserDashboard)
-  routes.post(prefix + '/base/getAllDashboard', getAllDashboard)
+  routes.get(prefix + '/base/getUserDashboard', getUserDashboard)
+  routes.get(prefix + '/base/getAllDashboard', getAllDashboard)
   routes.post(prefix + '/base/saveUserDashboard', saveUserDashboard)
   routes.post(prefix + '/base/newOrder', newOrder)
   routes.post(prefix + '/base/userNum', userNum)
@@ -143,9 +143,9 @@ export default (routes, prefix) => {
   routes.post(prefix + '/base/todoList', todoList)
   routes.post(prefix + '/base/messageList', messageList)
   routes.post(prefix + '/base/chartDemo', chartDemo)
-  routes.post(prefix + '/base/getOptions', getOptions)
+  routes.get(prefix + '/base/getOptions', getOptions)
   routes.post(prefix + '/base/getPageOptions/:code', getPageOptions)
   routes.post(prefix + '/base/optionsDemo', optionsDemo)
   // 获取权限
-  routes.post(prefix + '/base/getAuth', getAuth)
+  routes.get(prefix + '/base/getAuth', getAuth)
 }

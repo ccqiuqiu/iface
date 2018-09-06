@@ -25,7 +25,7 @@ export default {
   // 表单按钮的统一方法
   formAction: (url, params, config = {}) => request('post', formBaseUrl + url, params, config),
   // 查询表单options
-  getOptions: (url, config = {}) => request('post', '/v1/base/' + url, {}, config),
+  getOptions: (url, config = {}) => request('get', '/v1/base/' + url, {}, config),
   // 查询表单options,类型为dialog的
   getPageOptions: (code, config = {}) => request('post', '/v1/base/getPageOptions/' + code, {}, config),
   // 传url直接请求接口
@@ -35,7 +35,7 @@ export default {
   // 登录
   login: (params = {}, config = {}) => request('post', '/v1/public/login', params, config),
   // 获取权限
-  getAuth: (params = {}, config = {}) => request('post', '/v1/base/getAuth', params, config),
+  getAuth: (params = {}, config = {}) => request('get', '/v1/base/getAuth', params, config),
   // 获取菜单树
   menuTree: (params = {}, config = {}) => request('post', '/v1/system/menuTree', params, config),
   // 删除菜单
@@ -43,9 +43,9 @@ export default {
   // 删除菜单
   sortMenu: (params = {}, config = {}) => request('post', '/v1/system/sortMenu', params, config),
   // 获取用户首页的仪表盘信息
-  getUserDashboard: (params = {}, config = {}) => request('post', '/v1/base/getUserDashboard', params, config),
+  getUserDashboard: (params = {}, config = {}) => request('get', '/v1/base/getUserDashboard', params, config),
   // 获取所有的仪表盘
-  getAllDashboard: (params = {}, config = {}) => request('post', '/v1/base/getAllDashboard', params, config),
+  getAllDashboard: (params = {}, config = {}) => request('get', '/v1/base/getAllDashboard', params, config),
   // 保存用户的仪表盘布局
   saveUserDashboard: (params = {}, config = {}) => request('post', '/v1/base/saveUserDashboard', params, config),
   //
