@@ -27,7 +27,7 @@ app.use(async (ctx) => {
     try {
       let text = 'import Mock from \'mockjs\'\n\n'
       text += 'Mock.setup({\n' + '  timeout: \'300-600\',\n' + '})\n\n'
-      for ([key, value] of Object.entries(cache)) {
+      for (let [key, value] of Object.entries(cache)) {
         const data = {data: value, success: true}
         let url = key.replace(/^(\/.*?)(\?.*)/, '$1')
         if (!/^\/.*?\/page\/getPage/.test(url)) {

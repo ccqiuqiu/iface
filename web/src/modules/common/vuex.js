@@ -7,7 +7,7 @@ const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
-  menuTabs: defaultTabs, // tabs
+  menuTabs: [...defaultTabs], // tabs
   selectedTab: '0', // 当前激活的tab
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
@@ -122,7 +122,7 @@ const mutations = {
   clearStore (state) {
     state.menus = []
     state.resources = []
-    state.menuTabs = defaultTabs
+    state.menuTabs = [...defaultTabs]
     state.selectedTab = '0'
     state.noMenuTabsMap = {}
     state.user = {}
