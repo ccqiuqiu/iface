@@ -53,7 +53,7 @@ export async function initOptions (data) {
           if (type === 'dialog') {
             data = await store.dispatch('getPageOptions', formProps.options)
           } else {
-            data = await store.dispatch('getOptions', 'getOptions?code=' + formProps.options + '&type=' + type)
+            data = await store.dispatch('getOptions', 'options?code=' + formProps.options + '&type=' + type)
           }
         }
       }

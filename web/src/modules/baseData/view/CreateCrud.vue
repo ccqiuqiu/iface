@@ -112,12 +112,10 @@ export default class CreateCrud extends Mixins(TabMixin) {
         {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType.filter(item => item.label !== 'CODE'), verify: {required: true}},
         {label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
         {label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
-        {label: '实体名称', prop: 'modelName', type: this.$c.FormItemType.text, placeholder: '表单对应的model对象名称', verify: {required: true}},
-        {label: '列表URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口'},
-        {label: '查找URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '编辑表单的数据初始化接口'},
-        {label: '新增URL', prop: 'addUrl', type: this.$c.FormItemType.text, placeholder: '新增对象的接口'},
-        {label: '更新URL', prop: 'updateUrl', type: this.$c.FormItemType.text, placeholder: '更新对象的接口'},
-        {label: '查看URL', prop: 'viewUrl', type: this.$c.FormItemType.text, placeholder: '查看对象详情的接口'},
+        {label: '资源路径', prop: 'resource', type: this.$c.FormItemType.text, placeholder: '模块/资源', verify: {required: true}},
+        {label: '搜索URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口'},
+        {label: '详情URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '获取详情的接口'},
+        {label: '保存URL', prop: 'saveUrl', type: this.$c.FormItemType.text, placeholder: '新增/更新对象的接口'},
         {label: '删除URL', prop: 'delUrl', type: this.$c.FormItemType.text, placeholder: '删除对象的接口'},
         {label: `描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: ''}
       ],
@@ -194,7 +192,7 @@ export default class CreateCrud extends Mixins(TabMixin) {
   }
   async save () {
     // model名首字母转大写
-    this.formObj.model.name = this.formObj.model.name.substr(0, 1).toUpperCase() + this.formObj.model.name.substr(1)
+    // this.formObj.model.name = this.formObj.model.name.substr(0, 1).toUpperCase() + this.formObj.model.name.substr(1)
     // 要删除propsStr
     const items = this.items.map((item) => {
       const temp = JSON.parse(JSON.stringify(item))
@@ -230,14 +228,14 @@ export default class CreateCrud extends Mixins(TabMixin) {
     let value = {}
     if (this.pageModel.type === this.$c.PageTypeV.表单) {
       value = {
-        name: this.pageModel.modelName,
+        name: this.pageModel.resource,
         model: {},
         items
       }
     } else {
       value = {
         title: this.pageModel.name,
-        name: this.pageModel.modelName,
+        name: this.pageModel.resource,
         items,
         searchForm: {
           model: {}
@@ -255,7 +253,7 @@ export default class CreateCrud extends Mixins(TabMixin) {
     const {error} = await this.savePage(this.pageModel)
     if (!error) {
       this.$utils.message('保存成功！')
-      this.$utils.closeTab('/baseData/pageList')
+      this.$utils.closeTab('/baseData/pageList', true)
     }
   }
 }

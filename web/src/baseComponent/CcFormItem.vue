@@ -160,7 +160,7 @@ export default class CcFormItem extends Vue {
           if (type === 'dialog') {
             data = await this.getPageOptions(this.mItem.options)
           } else {
-            data = await this.getOptions('getOptions?code=' + this.mItem.options + '&type=' + type)
+            data = await this.getOptions('options?code=' + this.mItem.options + '&type=' + type)
           }
         }
       }

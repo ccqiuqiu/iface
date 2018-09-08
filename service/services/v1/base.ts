@@ -8,6 +8,7 @@ import {jwtExp} from '../config'
 import * as redis from '../../utils/redis'
 import User from '../../data/entity/User'
 import {Context} from 'koa'
+import Resource from '../../data/entity/Resource'
 
 async function getUserDashboard(ctx: Context) {
   const re = await Dao.User.getUserDashboard(ctx.state.session.user.id)
@@ -45,8 +46,7 @@ async function todoList(ctx) {
 }
 
 async function messageList(ctx) {
-
-  const re: any = await Dao.Dashboard.findPaged(ctx.request.body)
+  const re: any = await Dao.Dashboard.findPaged(ctx.request.query)
   re.columns = [
     {prop: 'name', label: '名称'},
     {prop: 'color', label: '颜色'},
@@ -111,9 +111,12 @@ async function getAuth(ctx: Context) {
   const user: User = await Dao.User.findOne({id: userId})
   const auth = await Dao.User.findUserAuth(userId)
   await redis.set(user.id, {user, auth}, jwtExp)
-  let resources = auth.resources
-  if (typeof resources !== 'string') {
-    resources = (resources as any[]).map((res) => res.url/*.replace(/^\/.*?\/(.*)/, '$1')*/)
+  let userResources = auth.resources
+  let resources: any = []
+  if (typeof userResources !== 'string') {
+    resources = (userResources as Resource[]).map((res) => res.method + '-' + res.url)
+  } else {
+    resources = userResources
   }
   ctx.body = createBody({user, auth: {resources, menus: auth.menus}})
 }
@@ -133,19 +136,19 @@ async function optionsDemo(ctx) {
 }
 
 export default (routes, prefix) => {
-  routes.get(prefix + '/base/getUserDashboard', getUserDashboard)
-  routes.get(prefix + '/base/getAllDashboard', getAllDashboard)
-  routes.post(prefix + '/base/saveUserDashboard', saveUserDashboard)
-  routes.post(prefix + '/base/newOrder', newOrder)
-  routes.post(prefix + '/base/userNum', userNum)
-  routes.post(prefix + '/base/messageNum', messageNum)
-  routes.post(prefix + '/base/workNum', workNum)
-  routes.post(prefix + '/base/todoList', todoList)
-  routes.post(prefix + '/base/messageList', messageList)
-  routes.post(prefix + '/base/chartDemo', chartDemo)
-  routes.get(prefix + '/base/getOptions', getOptions)
-  routes.post(prefix + '/base/getPageOptions/:code', getPageOptions)
-  routes.post(prefix + '/base/optionsDemo', optionsDemo)
+  routes.get(prefix + '/base/userDashboard', getUserDashboard)
+  routes.get(prefix + '/base/allDashboard', getAllDashboard)
+  routes.put(prefix + '/base/userDashboard', saveUserDashboard)
+  routes.get(prefix + '/base/newOrder', newOrder)
+  routes.get(prefix + '/base/userNum', userNum)
+  routes.get(prefix + '/base/messageNum', messageNum)
+  routes.get(prefix + '/base/workNum', workNum)
+  routes.get(prefix + '/base/todoList', todoList)
+  routes.get(prefix + '/base/messageList', messageList)
+  routes.get(prefix + '/base/chartDemo', chartDemo)
+  routes.get(prefix + '/base/options', getOptions)
+  routes.get(prefix + '/base/pageOptions/:code', getPageOptions)
+  routes.get(prefix + '/base/optionsDemo', optionsDemo)
   // 获取权限
-  routes.get(prefix + '/base/getAuth', getAuth)
+  routes.get(prefix + '/base/auth', getAuth)
 }

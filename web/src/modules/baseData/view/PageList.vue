@@ -32,11 +32,11 @@ export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action searchPage
-  @Action formRequest
+  @Action requestUrl
   /* vue-data */
   columns = [
     {prop: 'name', label: '名称', width: '120px'},
-    {prop: 'modelName', label: '实体对象', width: '100px'},
+    {prop: 'resource', label: '资源路径', width: '200px'},
     {prop: 'type',
       label: '类型',
       width: '80px',
@@ -85,7 +85,7 @@ export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.formRequest('delPage/' + this.currentRow.id)
+      const {error} = await this.requestUrl({url: 'page/' + this.currentRow.id, method: 'delete'})
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')

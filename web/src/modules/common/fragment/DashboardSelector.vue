@@ -23,7 +23,11 @@ export default class DashboardSelector extends Vue {
   @Action getAllDashboard
   /* vue-data */
   allDashboard = []
-  mSelected = this.value
+  data () {
+    return {
+      mSelected: this.value
+    }
+  }
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */

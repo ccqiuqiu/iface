@@ -9,6 +9,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcInputTags from './CcInputTags.vue'
 import {Action} from 'vuex-class'
+import {initOptions} from '../assets/utils/crudUtils.jsx'
 
 @Component({components: {CcInputTags}})
 export default class CcInputDialog extends Vue {
@@ -21,7 +22,7 @@ export default class CcInputDialog extends Vue {
   @Prop(Boolean) collapseTags
   @Prop(Boolean) multiSelect
   /* vue-vuex */
-  @Action formAction
+  @Action requestUrl
   /* vue-data */
   selectData = []
   selectTag = []
@@ -52,7 +53,8 @@ export default class CcInputDialog extends Vue {
   /* vue-lifecycle */
   /* vue-method */
   async getTableData (name) {
-    const {data} = await this.formAction({url: 'search' + name, params: {pageSize: 0}})
+    await initOptions(this.dialog)
+    const {data} = await this.requestUrl({url: name, params: {pageSize: 0}})
     if (data) {
       this.rows = data.rows
       this.updateSelectTag()
@@ -70,7 +72,7 @@ export default class CcInputDialog extends Vue {
     }
   }
   // 显示弹窗
-  show () {
+  async show () {
     if (this.dialog) {
       this.selectData = JSON.parse(JSON.stringify(this.selectTag))
       this.$utils.dialog(this.title, (h) => <div>

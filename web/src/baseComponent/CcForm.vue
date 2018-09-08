@@ -49,12 +49,10 @@ export default class CcForm extends Vue {
   @Prop({required: true, type: Object}) data
   @Prop(Boolean) isSearch
   @Prop(String) url
-  @Prop(String) addUrl
-  @Prop(String) updateUrl
+  @Prop(String) saveUrl
   @Prop(Boolean) fullWidth
   /* vue-vuex */
-  @Action formRequest
-  @Action('formAction') formAction
+  @Action requestUrl
   /* vue-data */
   loading = false
   items = []
@@ -123,9 +121,8 @@ export default class CcForm extends Vue {
               }
               if (pass) {
                 this.loading = true
-                const action = this.data.model.id ? 'update' : 'add'
-                const url = this[action + 'Url'] || btn.action + this.data.name
-                const re = await this.formAction({url, params: this.data.model})
+                const url = this.saveUrl || this.data.name
+                const re = await this.requestUrl({url, params: this.data.model, method: 'put'})
                 this.loading = false
                 this.$emit(btn.action, re)
               }
@@ -138,7 +135,7 @@ export default class CcForm extends Vue {
   // 初始化model。用于更新表单从服务端获取完整数据
   async initModel () {
     this.loading = true
-    const {data} = await this.formRequest(this.url)
+    const {data} = await this.requestUrl({url: this.url})
     this.loading = false
     if (data) {
       this.data.model = data

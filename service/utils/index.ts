@@ -48,17 +48,29 @@ export const hasAuth = (ctx: Context) => {
   let url = ctx.request.url
 
   // 处理url url的格式必需为  /版本/模块/名称[/params|?query]  => /模块/名称
-  // url = url.replace(/^(\/.*?)(\/.*?)(\/[^\/|\?]*).*/, '$1$2$3')
-  url = url.replace(/^(\/.*?)(\/.*?)(\/[^\/|\?]*).*/, '$2$3')
+  // url = url.replace(/^(\/.*?)(\/.*?)(\/[^\/|\?]*).*/, '$2$3')
+
+
+  // 去除接口版本号  /版本/模块/名称[/params|?query] => /模块/名称[/params|?query]
+  url = url.replace(/^(\/.*?\/)(.*)/, '$2')
+  // 去除query /模块/名称[/params|?query]  => /模块/名称[/params]
+  url = url.replace(/^(.*?)(\?.*)/, '$1')
+  // 去除params /模块/名称[/params] =>  /模块/名称/*
+  url = url.replace(/^(.*?\/)(.*?\/)(.*)/, '$1$2*')
+
+  console.log(url)
   // '/base'开头的url是只要登录了就能访问的，比如用户的权限、站内通知、首页的一些数据等
-  if (url.indexOf('/base/') !== 0) {
+  if (url.indexOf('base/') !== 0) {
     // 白名单
-    const whiteList: string[] = ['/page/getPage']
+    const whiteList: string[] = ['baseData/page/*']
     // 不在白名单的url要校验资源权限
     if (!whiteList.includes(url)) {
       const resources = ctx.state.session.auth.resources
       if (resources !== 'all') {
-        return !!resources.find((role) => role.url === url)
+        return resources.some((res) => {
+          const resUrl = res.url.replace(/^(\/.*?\/)*(.*)/, '$2')
+          return url === resUrl && res.method.toUpperCase() === ctx.request.method.toUpperCase()
+        })
       }
     }
   }

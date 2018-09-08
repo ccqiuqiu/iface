@@ -37,6 +37,14 @@ class Constant {
     password: 'password',
     textarea: 'textarea'
   }
+
+  MethodsV = {
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE'
+  }
+
   // 状态
   StatusV = {
     禁用: 2,
@@ -92,6 +100,7 @@ class Constant {
     {label: '性别', value: 'sex', type: 'keyValue'},
     {label: '状态', value: 'status', type: 'keyValue'},
     {label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue'},
+    {label: '请求方法', value: 'methods', type: 'keyValue'},
     {label: '菜单树', value: 'menuTree', type: 'tree'},
     {label: '角色', value: 'role', type: 'table'},
     {label: '资源表格', value: 'resource', type: 'table'}
@@ -101,7 +110,8 @@ class Constant {
     sex: utils.objToArr(this.SexV),
     status: utils.objToArr(this.StatusV),
     dashboardType: utils.objToArr(this.DashboardTypeV),
-    pageType: utils.objToArr(this.PageTypeV)
+    pageType: utils.objToArr(this.PageTypeV),
+    methods: utils.objToArr(this.MethodsV)
   }
   constructor () {
     this.StatusK = utils.reverse(this.StatusV)

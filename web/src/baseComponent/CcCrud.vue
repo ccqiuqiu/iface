@@ -5,10 +5,10 @@
     <el-card shadow="never" class="p">
       <div slot="header" flex="cross:center" v-if="type === 'crud'">
         <span flex-box="1" class="f-16">{{data.title || ''}}</span>
-        <cc-button v-auth="this.page.addUrl || '/page/save' + data.name" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="this.page.updateUrl || '/page/save' + data.name" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="this.page.viewUrl || '/page/view' + data.name" icon="view" text="查看" @click="onView"/>
-        <cc-button v-auth="this.page.delUrl || '/page/del' + data.name" icon="delete" text="删除" @click="onDel"/>
+        <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="add" text="添加" @click="onAdd"/>
+        <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="edit" text="修改" @click="onEdit"/>
+        <cc-button v-auth="'GET-' + (this.page.getUrl || data.name) + '/*'" icon="view" text="查看" @click="onView"/>
+        <cc-button v-auth="'DELETE-' + (this.page.delUrl || data.name) + '/*'" icon="delete" text="删除" @click="onDel"/>
       </div>
       <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
                 :row-key="rowKey"
@@ -40,8 +40,7 @@ export default class CcCrud extends Vue {
   @Prop({type: String, default: 'crud'}) type // 类型，目前支持crud和dialog，主要控制一些样式差异
   @Prop({type: [Array, Object]}) value // 用于dialog时，需要绑定value，crud时不需要
   /* vue-vuex */
-  @Action formAction
-  @Action formRequest
+  @Action requestUrl
   /* vue-data */
   total = 0 // 总条数
   loading = false
@@ -101,7 +100,7 @@ export default class CcCrud extends Vue {
   }
   // 查询类表单的查询url，一般在action=search的按钮上面配置
   get searchUrl () {
-    return this.page.searchUrl || 'search' + this.data.name
+    return this.page.searchUrl || this.data.name
   }
   // 分页组件的样式
   get layout () {
@@ -141,7 +140,7 @@ export default class CcCrud extends Vue {
     if (this.searchUrl) {
       this.loading = true
       const params = {...this.$utils.delEmptyProp(this.searchForm.model), pageNum: this.pageNum, pageSize: this.pageSize}
-      const {data} = await this.formAction({url: this.searchUrl, params})
+      const {data} = await this.requestUrl({url: this.searchUrl, params, method: 'get'})
       this.loading = false
       if (data) {
         this.data.table.rows = data.rows
@@ -183,9 +182,9 @@ export default class CcCrud extends Vue {
     } else {
       this.editForm.model = {...this.defaultModel}
     }
-    const url = edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
+    const url = edit ? (this.page.getUrl || this.getActionUrl()) : ''
     this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h) =>
-      <cc-form data={this.editForm} addUrl={this.page.addUrl} updateUrl={this.page.updateUrl} onSave={this.saved} url={url}></cc-form>)
+      <cc-form data={this.editForm} saveUrl={this.page.saveUrl} onSave={this.saved} url={url}></cc-form>)
   }
   // 点击编辑按钮
   onEdit () {
@@ -204,7 +203,7 @@ export default class CcCrud extends Vue {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.formRequest(this.page.delUrl || this.getActionUrl('del'))
+      const {error} = await this.requestUrl({url: this.getActionUrl('del'), method: 'delete'})
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')
@@ -218,7 +217,7 @@ export default class CcCrud extends Vue {
       this.$utils.message('请选择一行', this.$c.MessageType.warning)
       return
     }
-    const url = this.page.viewUrl || this.getActionUrl('view')
+    const url = this.getActionUrl('get')
     this.$utils.dialog('查看', (h) =>
       <CcCrudView data={this.currentRow} fields={this.viewFields} url={url}></CcCrudView>, {showBtn: true})
   }
@@ -232,7 +231,7 @@ export default class CcCrud extends Vue {
   }
   getActionUrl (action) {
     if (this.currentRow) {
-      return action + this.data.name + '/' + this.currentRow[this.rowKey]
+      return (this.page[action + 'Url'] || this.data.name) + '/' + this.currentRow[this.rowKey]
     }
     return ''
   }

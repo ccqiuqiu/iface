@@ -19,7 +19,7 @@ export default class CcCrudView extends Vue {
   @Prop(Array) fields
   @Prop(String) url
   /* vue-vuex */
-  @Action formRequest
+  @Action requestUrl
   /* vue-data */
   data () {
     return {
@@ -74,7 +74,7 @@ export default class CcCrudView extends Vue {
   // 初始化model。用于更新表单从服务端获取完整数据
   async initModel () {
     this.loading = true
-    const {data} = await this.formRequest(this.url)
+    const {data} = await this.requestUrl({url: this.url})
     this.loading = false
     if (data) {
       this.mData = data

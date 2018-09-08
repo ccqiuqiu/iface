@@ -17,8 +17,8 @@ export default class Page extends BaseEntity {
   @Column({unique: true}) // 页面唯一标识
   public code: string
 
-  @Column({length: 32, nullable: true}) // 页面表单对应的model
-  public modelName: string
+  @Column({length: 32, nullable: true}) // 页面表单对应的资源路径
+  public resource: string
 
   @Column({type: 'text'}) // 配置数据
   public value?: string
@@ -26,20 +26,14 @@ export default class Page extends BaseEntity {
   @Column({length: 128, nullable: true}) // 列表或树的数据url
   public searchUrl: string
 
-  @Column({length: 128, nullable: true}) // 查询URL
+  @Column({length: 128, nullable: true}) // 查询详情URL
   public getUrl: string
 
-  @Column({length: 128, nullable: true}) // 添加URL
-  public addUrl: string
-
-  @Column({length: 128, nullable: true}) // 更新URL
-  public updateUrl: string
+  @Column({length: 128, nullable: true}) // 添加/更新URL
+  public saveUrl: string
 
   @Column({length: 128, nullable: true}) // 删除URL
   public delUrl: string
-
-  @Column({length: 128, nullable: true}) // 详情URL
-  public viewUrl: string
 
   @Column({length: 255, nullable: true}) // 页面/表单描述
   public remark?: string

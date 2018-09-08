@@ -10,6 +10,12 @@ export default class Resource extends BaseEntity {
   @Column({length: 32})
   public name: string
 
-  @Column({length: 64, unique: true})
+  @Column({length: 64})
   public url: string
+
+  @Column({length: 64})
+  public method: string
+
+  @Column({type: 'tinyint', default: 1})
+  public edit: number  // 是否可以编辑  1-可以  2-不可以
 }

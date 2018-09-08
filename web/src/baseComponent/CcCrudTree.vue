@@ -16,7 +16,7 @@
                    @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
         </div>
         <div>
-          <cc-form ref="form" class="full-width" v-if="currentRow && show" :data="editForm" :addUrl="page.addUrl" :updateUrl="page.updateUrl"
+          <cc-form ref="form" class="full-width" v-if="currentRow && show" :data="editForm" :save="page.saveUrl"
                    @save="this.saved" :url="url"></cc-form>
         </div>
       </div>
@@ -35,8 +35,7 @@ export default class CcCrudTree extends Vue {
   @Prop() data
   @Prop() page
   /* vue-vuex */
-  @Action formAction
-  @Action formRequest
+  @Action requestUrl
   @Action sortMenu
   /* vue-data */
   filterText = ''
@@ -62,10 +61,10 @@ export default class CcCrudTree extends Vue {
   }
   // 查询类表单的查询url，一般在action=search的按钮上面配置
   get searchUrl () {
-    return this.page.searchUrl || 'search' + this.data.name
+    return this.page.searchUrl || this.data.name
   }
   get url () {
-    return this.edit ? (this.page.getUrl || this.getActionUrl('get')) : ''
+    return this.edit ? this.getActionUrl('get') : ''
   }
   get rowKey () {
     return this.data.table.props ? (this.data.table.props.rowKey || 'id') : 'id'
@@ -84,7 +83,7 @@ export default class CcCrudTree extends Vue {
   async getData () {
     if (this.searchUrl) {
       this.loading = true
-      const {data} = await this.formAction({url: this.searchUrl, params: {}})
+      const {data} = await this.requestUrl({url: this.searchUrl, params: {}})
       this.loading = false
       if (data) {
         this.treeData = data['rows'] || data
@@ -137,7 +136,7 @@ export default class CcCrudTree extends Vue {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.formRequest(this.page.delUrl || this.getActionUrl('del'))
+      const {error} = await this.requestUrl({url: this.getActionUrl('del'), method: 'delete'})
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')
@@ -152,7 +151,7 @@ export default class CcCrudTree extends Vue {
   }
   getActionUrl (action) {
     if (this.currentRow) {
-      return action + this.data.name + '/' + this.currentRow[this.rowKey]
+      return (this.page[action + 'Url'] || this.data.name) + '/' + this.currentRow[this.rowKey]
     }
     return ''
   }

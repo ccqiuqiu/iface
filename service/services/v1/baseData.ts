@@ -20,17 +20,17 @@ async function getPage(ctx) {
 }
 async function savePage(ctx) {
   const params = ctx.request.body
-  await Dao.Page.save(params)
+  await Dao.Page.savePage(params)
   ctx.body = createBody()
 }
 async function delPage(ctx) {
-  await Dao.Page.delete(ctx.params.id)
+  await Dao.Page.delPage(ctx.params.id)
   ctx.body = createBody()
 }
 
 export default (routes, prefix) => {
-  routes.post(prefix + '/page/searchPage', searchPage)
-  routes.post(prefix + '/page/getPage/:code', getPage)
-  routes.post(prefix + '/page/delPage/:id', delPage)
-  routes.post(prefix + '/page/savePage', savePage)
+  routes.get(prefix + '/baseData/page', searchPage)
+  routes.get(prefix + '/baseData/page/:code', getPage)
+  routes.delete(prefix + '/baseData/page/:id', delPage)
+  routes.put(prefix + '/baseData/page', savePage)
 }

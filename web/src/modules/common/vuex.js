@@ -160,14 +160,8 @@ const actions = {
       return JSON.parse(data.value)
     }
   },
-  async requestUrl (context, url) {
-    const {data} = await api.requestUrl(url)
-    if (data) {
-      return data
-    }
-  },
-  formRequest (context, url) {
-    return api.formRequest(url)
+  requestUrl (context, params) {
+    return api.requestUrl(params.method, params.url, params.params)
   },
   // 获取首页用户仪表盘数据
   getUserDashboard (context) {
@@ -183,7 +177,7 @@ const actions = {
   },
   // 获取仪表盘的数据
   getDashboardData (context, params) {
-    return api.requestUrl(params.url, params.params)
+    return api.requestUrl(params.method, params.url, params.params)
   }
 }
 
