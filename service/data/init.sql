@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 16/08/2018 13:29:45
+ Date: 13/09/2018 09:30:43
 */
 
 SET NAMES utf8mb4;
@@ -90,19 +90,16 @@ CREATE TABLE `page` (
   `id` varchar(255) NOT NULL,
   `name` varchar(32) NOT NULL,
   `type` tinyint(4) NOT NULL,
-  `category` tinyint(4) NOT NULL DEFAULT '1',
   `code` varchar(255) NOT NULL,
-  `modelName` varchar(32) DEFAULT NULL,
+  `resource` varchar(32) DEFAULT NULL,
   `value` text NOT NULL,
   `searchUrl` varchar(128) DEFAULT NULL,
   `getUrl` varchar(128) DEFAULT NULL,
-  `addUrl` varchar(128) DEFAULT NULL,
-  `updateUrl` varchar(128) DEFAULT NULL,
   `delUrl` varchar(128) DEFAULT NULL,
-  `viewUrl` varchar(128) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   `addTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `saveUrl` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_fd5e6bf52f1f8d30e0df56c0e6` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -111,12 +108,12 @@ CREATE TABLE `page` (
 -- Records of page
 -- ----------------------------
 BEGIN;
-INSERT INTO `page` VALUES ('09bf1fd2-8254-4f61-b9b9-22c5b45f3a90', '资源管理', 1, 1, 'resource', 'Resource', '{\"title\":\"资源管理\",\"name\":\"Resource\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"multiSelect\":false,\"placeholder\":\"请输入资源名称\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"}},{\"label\":\"URL\",\"prop\":\"url\",\"multiSelect\":false,\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入资源URL\",\"verify\":{\"required\":true,\"maxLength\":64},\"formProps\":{\"type\":\"text\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', '', '', '', '', '', '', '资源管理页面', '2018-07-24 14:44:57.797222', '2018-08-14 11:05:59.000000');
-INSERT INTO `page` VALUES ('5faeacfb-81e1-4f8d-8534-802fb8b5e979', '测试', 1, 2, 'test', NULL, '<template>\n  <div class=\"bb\">\n    <div>这是在线编辑的VUE渲染示例</div>\n    <div>{{b}}</div>\n  </div>\n</template>\n\n<script>\n  export default {\n    components: {},\n    data () {\n      return {\n        a: \'hello\'\n      }\n    },\n    computed: {\n      b() {\n        return this.a + \' word\'\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .bb{\n    color: #ff0000;\n  }\n</style>', NULL, NULL, NULL, NULL, NULL, NULL, '测试VUE渲染', '2018-08-08 10:09:08.384518', '2018-08-09 10:04:19.000000');
-INSERT INTO `page` VALUES ('66ca46ad-fbf0-4594-8727-08e0345a21c4', '用户管理', 1, 1, 'user', 'User', '{\"title\":\"用户管理\",\"name\":\"User\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"placeholder\":\"请输入用户名\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":64},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"密码\",\"prop\":\"password\",\"target\":[\"editForm\"],\"placeholder\":\"请输入密码\",\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"电话\",\"prop\":\"tel\",\"multiSelect\":false,\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入电话号码\",\"formProps\":{\"type\":\"text\"}},{\"label\":\"性别\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"prop\":\"sex\",\"formProps\":{\"type\":\"select\",\"options\":\"sex\"},\"multiSelect\":false,\"verify\":{\"required\":true},\"tableProps\":{\"width\":\"\"}},{\"label\":\"角色\",\"prop\":\"roleIds\",\"multiSelect\":true,\"placeholder\":\"请选择角色\",\"target\":[\"editForm\",\"view\",\"table\"],\"formProps\":{\"type\":\"table\",\"options\":\"role\"},\"verify\":{\"required\":true}},{\"label\":\"状态\",\"prop\":\"status\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"formProps\":{\"type\":\"select\",\"options\":\"status\"},\"multiSelect\":false,\"verify\":{\"required\":true}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]},\"needQuery\":true}', NULL, NULL, NULL, NULL, NULL, NULL, '用户管理的页面', '2018-07-24 14:44:57.797222', '2018-08-07 16:07:01.000000');
-INSERT INTO `page` VALUES ('95344dce-a30a-4a19-a126-d8279d42ed88', 'Dashboard管理', 1, 1, 'dashboard', 'Dashboard', '{\"title\":\"Dashboard管理\",\"name\":\"Dashboard\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"target\":[\"editForm\",\"searchForm\",\"view\",\"table\"],\"multiSelect\":false,\"placeholder\":\"请输入名称\",\"verify\":{\"required\":true},\"formProps\":{\"type\":\"text\"}},{\"label\":\"类型\",\"prop\":\"type\",\"target\":[\"editForm\",\"view\",\"searchForm\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"select\",\"options\":\"dashboardType\"},\"tableProps\":{\"formatFun\":\"dashboardTypeFormat\"}},{\"label\":\"图标\",\"prop\":\"icon\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"icon\"}},{\"label\":\"颜色\",\"prop\":\"color\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"color\"},\"tableProps\":{\"formatFun\":\"colorRender\"}},{\"label\":\"数据源\",\"prop\":\"url\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"placeholder\":\"请输入数据源的URL\",\"formProps\":{\"type\":\"text\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]},\"needQuery\":true}', NULL, NULL, NULL, NULL, NULL, NULL, 'Dashboard管理页面', '2018-07-24 14:44:57.797222', '2018-07-24 16:20:19.000000');
-INSERT INTO `page` VALUES ('9945eb06-3f09-4b9a-b6b5-b9a45a30876b', '角色管理', 1, 1, 'role', 'Role', '{\"title\":\"角色管理\",\"name\":\"Role\",\"items\":[{\"label\":\"角色名称\",\"prop\":\"name\",\"placeholder\":\"请输入角色名称\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"角色代码\",\"prop\":\"code\",\"multiSelect\":false,\"target\":[\"editForm\",\"searchForm\",\"table\",\"view\"],\"placeholder\":\"请输入角色代码\",\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"}},{\"label\":\"菜单权限\",\"prop\":\"menuIds\",\"target\":[\"editForm\"],\"multiSelect\":true,\"formProps\":{\"type\":\"tree\",\"options\":\"menuTree\"}},{\"label\":\"资源权限\",\"prop\":\"resourceIds\",\"target\":[\"editForm\"],\"multiSelect\":true,\"formProps\":{\"type\":\"dialog\",\"options\":\"resource\"}},{\"label\":\"描述\",\"prop\":\"remark\",\"target\":[\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入觉得描述\",\"formProps\":{\"type\":\"textarea\"},\"multiSelect\":false,\"verify\":{\"maxLength\":32}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', '2018-07-24 14:44:57.797222', '2018-08-15 11:20:07.000000');
-INSERT INTO `page` VALUES ('f4b5dc60-fa82-493a-be85-76f03e0e53d5', '菜单管理', 2, 1, 'menu', 'Menu', '{\"title\":\"菜单管理\",\"name\":\"Menu\",\"items\":[{\"label\":\"菜单名称\",\"prop\":\"name\",\"placeholder\":\"请输入菜单名称\",\"verify\":{\"required\":true,\"maxLength\":32},\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"text\"}},{\"label\":\"菜单URL\",\"prop\":\"url\",\"placeholder\":\"请输入菜单URL\",\"verify\":{\"maxLength\":64,\"required\":true},\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"text\"}},{\"label\":\"上级菜单\",\"prop\":\"parentId\",\"multiSelect\":false,\"placeholder\":\"无\",\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"tree\",\"options\":\"menuTree\"}},{\"label\":\"菜单图标\",\"prop\":\"icon\",\"placeholder\":\"选择菜单图标\",\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"icon\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, NULL, NULL, NULL, '菜单管理的页面', '2018-07-24 14:44:57.797222', '2018-08-14 14:29:26.000000');
+INSERT INTO `page` VALUES ('09bf1fd2-8254-4f61-b9b9-22c5b45f3a90', '资源管理', 1, 'resource', 'system/resource', '{\"title\":\"资源管理\",\"name\":\"system/resource\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"multiSelect\":false,\"placeholder\":\"请输入资源名称\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"}},{\"label\":\"请求方法\",\"prop\":\"method\",\"target\":[\"editForm\",\"searchForm\",\"table\",\"view\"],\"multiSelect\":false,\"formProps\":{\"type\":\"select\",\"options\":\"methods\"}},{\"label\":\"URL\",\"prop\":\"url\",\"multiSelect\":false,\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入资源URL\",\"verify\":{\"required\":true,\"maxLength\":64},\"formProps\":{\"type\":\"text\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', '', '', '', '资源管理页面', '2018-07-24 14:44:57.797222', '2018-09-07 10:56:20.000000', '');
+INSERT INTO `page` VALUES ('5faeacfb-81e1-4f8d-8534-802fb8b5e979', '测试', 10, 'test', NULL, '<template>\n  <div class=\"bb\">\n    <div>这是在线编辑的VUE渲染示例</div>\n    <div>{{b}}</div>\n  </div>\n</template>\n\n<script>\n  export default {\n    components: {},\n    data () {\n      return {\n        a: \'hello\'\n      }\n    },\n    computed: {\n      b() {\n        return this.a + \' word\'\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .bb{\n    color: #ff0000;\n  }\n</style>', NULL, NULL, NULL, '测试VUE渲染', '2018-08-08 10:09:08.384518', '2018-08-28 14:12:35.000000', NULL);
+INSERT INTO `page` VALUES ('66ca46ad-fbf0-4594-8727-08e0345a21c4', '用户管理', 1, 'user', 'system/user', '{\"title\":\"用户管理\",\"name\":\"system/user\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"placeholder\":\"请输入用户名\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":64},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"密码\",\"prop\":\"password\",\"target\":[\"editForm\"],\"placeholder\":\"请输入密码\",\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"电话\",\"prop\":\"tel\",\"multiSelect\":false,\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入电话号码\",\"formProps\":{\"type\":\"text\"}},{\"label\":\"性别\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"prop\":\"sex\",\"formProps\":{\"type\":\"select\",\"options\":\"sex\"},\"multiSelect\":false,\"verify\":{\"required\":true}},{\"label\":\"角色\",\"prop\":\"roleIds\",\"multiSelect\":true,\"placeholder\":\"请选择角色\",\"target\":[\"editForm\",\"view\",\"table\"],\"formProps\":{\"type\":\"table\",\"options\":\"role\"},\"verify\":{\"required\":true}},{\"label\":\"状态\",\"prop\":\"status\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"formProps\":{\"type\":\"select\",\"options\":\"status\"},\"multiSelect\":false,\"verify\":{\"required\":true}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, '用户管理的页面', '2018-07-24 14:44:57.797222', '2018-09-07 10:41:06.000000', NULL);
+INSERT INTO `page` VALUES ('95344dce-a30a-4a19-a126-d8279d42ed88', 'Dashboard管理', 1, 'dashboard', 'system/dashboard', '{\"title\":\"Dashboard管理\",\"name\":\"system/dashboard\",\"items\":[{\"label\":\"名称\",\"prop\":\"name\",\"target\":[\"editForm\",\"searchForm\",\"view\",\"table\"],\"multiSelect\":false,\"placeholder\":\"请输入名称\",\"verify\":{\"required\":true},\"formProps\":{\"type\":\"text\"}},{\"label\":\"类型\",\"prop\":\"type\",\"target\":[\"editForm\",\"view\",\"searchForm\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"select\",\"options\":\"dashboardType\"},\"tableProps\":{\"formatFun\":\"dashboardTypeFormat\"}},{\"label\":\"图标\",\"prop\":\"icon\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"icon\"}},{\"label\":\"颜色\",\"prop\":\"color\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"formProps\":{\"type\":\"color\"},\"tableProps\":{\"formatFun\":\"colorRender\"}},{\"label\":\"数据源\",\"prop\":\"url\",\"target\":[\"editForm\",\"view\",\"table\"],\"multiSelect\":false,\"placeholder\":\"请输入数据源的URL\",\"formProps\":{\"type\":\"text\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, 'Dashboard管理页面', '2018-07-24 14:44:57.797222', '2018-09-07 10:41:15.000000', NULL);
+INSERT INTO `page` VALUES ('9945eb06-3f09-4b9a-b6b5-b9a45a30876b', '角色管理', 1, 'role', 'system/role', '{\"title\":\"角色管理\",\"name\":\"system/role\",\"items\":[{\"label\":\"角色名称\",\"prop\":\"name\",\"placeholder\":\"请输入角色名称\",\"target\":[\"searchForm\",\"editForm\",\"table\",\"view\"],\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"},\"multiSelect\":false},{\"label\":\"角色代码\",\"prop\":\"code\",\"multiSelect\":false,\"target\":[\"editForm\",\"searchForm\",\"table\",\"view\"],\"placeholder\":\"请输入角色代码\",\"verify\":{\"required\":true,\"maxLength\":32},\"formProps\":{\"type\":\"text\"}},{\"label\":\"菜单权限\",\"prop\":\"menuIds\",\"target\":[\"editForm\"],\"multiSelect\":true,\"formProps\":{\"type\":\"tree\",\"options\":\"menuTree\"}},{\"label\":\"资源权限\",\"prop\":\"resourceIds\",\"target\":[\"editForm\"],\"multiSelect\":true,\"formProps\":{\"type\":\"dialog\",\"options\":\"resource\"}},{\"label\":\"描述\",\"prop\":\"remark\",\"target\":[\"editForm\",\"table\",\"view\"],\"placeholder\":\"请输入觉得描述\",\"formProps\":{\"type\":\"textarea\"},\"multiSelect\":false,\"verify\":{\"maxLength\":32}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, '角色管理', '2018-07-24 14:44:57.797222', '2018-09-07 10:41:57.000000', NULL);
+INSERT INTO `page` VALUES ('f4b5dc60-fa82-493a-be85-76f03e0e53d5', '菜单管理', 2, 'menu', 'system/menu', '{\"title\":\"菜单管理\",\"name\":\"system/menu\",\"items\":[{\"label\":\"菜单名称\",\"prop\":\"name\",\"placeholder\":\"请输入菜单名称\",\"verify\":{\"required\":true,\"maxLength\":32},\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"text\"}},{\"label\":\"菜单URL\",\"prop\":\"url\",\"placeholder\":\"请输入菜单URL\",\"verify\":{\"maxLength\":64,\"required\":true},\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"text\"}},{\"label\":\"上级菜单\",\"prop\":\"parentId\",\"multiSelect\":false,\"placeholder\":\"无\",\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"tree\",\"options\":\"menuTree\"}},{\"label\":\"菜单图标\",\"prop\":\"icon\",\"placeholder\":\"选择菜单图标\",\"multiSelect\":false,\"target\":[\"editForm\",\"view\"],\"formProps\":{\"type\":\"icon\"}}],\"searchForm\":{\"model\":{}},\"editForm\":{\"model\":{}},\"table\":{\"rows\":[]}}', NULL, NULL, NULL, '菜单管理的页面', '2018-07-24 14:44:57.797222', '2018-09-07 10:42:21.000000', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -126,21 +123,22 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `id` varchar(255) NOT NULL,
   `name` varchar(32) NOT NULL,
+  `method` varchar(64) NOT NULL,
   `url` varchar(64) NOT NULL,
+  `edit` tinyint(4) NOT NULL DEFAULT '1',
   `addTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `IDX_bf4d6e40b46b30a330654c047c` (`url`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
 BEGIN;
-INSERT INTO `resource` VALUES ('03caff38-ee64-47c8-99be-d5c8faacefac', '删除用户', '/page/delUser', '2018-07-24 14:54:04.625762', '2018-08-14 11:00:52.000000');
-INSERT INTO `resource` VALUES ('60e0495f-f78e-4554-b75b-592ccf81752d', '用户列表', '/page/searchUser', '2018-07-24 14:52:25.793239', '2018-08-14 11:00:42.000000');
-INSERT INTO `resource` VALUES ('91a19ec2-faba-4422-9c05-131f0fef2566', '保存用户', '/page/saveUser', '2018-07-24 14:53:33.989483', '2018-08-14 11:00:47.000000');
-INSERT INTO `resource` VALUES ('dea2098b-1f31-45b4-a1f6-5fd1144e4d7e', '查看用户', '/page/viewUser', '2018-07-24 14:55:14.953581', '2018-08-14 11:00:57.000000');
+INSERT INTO `resource` VALUES ('50e3f000-419a-4345-b155-e5a5416c22c0', '资源管理 删除', 'DELETE', 'system/resource/*', 2, '2018-09-07 14:07:04.263528', '2018-09-07 14:07:04.263528');
+INSERT INTO `resource` VALUES ('908f19a4-8f88-43a6-bec2-0a2134a4d923', '资源管理 保存', 'PUT', 'system/resource', 2, '2018-09-07 14:07:04.263528', '2018-09-07 14:07:04.263528');
+INSERT INTO `resource` VALUES ('dc13197d-4832-4490-a970-2e2c8ab45e1b', '资源管理 详情', 'GET', 'system/resource/*', 2, '2018-09-07 14:07:04.263528', '2018-09-07 14:07:04.263528');
+INSERT INTO `resource` VALUES ('fa0c6d8f-1739-4021-a589-12da2a511c22', '资源管理 搜索', 'GET', 'system/resource', 2, '2018-09-07 14:07:04.263528', '2018-09-07 14:07:04.263528');
 COMMIT;
 
 -- ----------------------------
@@ -184,12 +182,12 @@ CREATE TABLE `role-menu` (
 -- Records of role-menu
 -- ----------------------------
 BEGIN;
+INSERT INTO `role-menu` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '24f832d8-9da6-4715-ad25-f4f74a21ae36');
+INSERT INTO `role-menu` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', '24f832d8-9da6-4715-ad25-f4f74a21ae36');
 INSERT INTO `role-menu` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '2e4d1f07-d34a-4698-9b6b-9109febc927c');
 INSERT INTO `role-menu` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', 'bd4e1000-e934-44f1-be7e-ceac5f73f80e');
 INSERT INTO `role-menu` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd');
 INSERT INTO `role-menu` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd');
-INSERT INTO `role-menu` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', 'e096b9c3-2c21-4f1c-8af9-3ce55c49559c');
-INSERT INTO `role-menu` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', 'e096b9c3-2c21-4f1c-8af9-3ce55c49559c');
 COMMIT;
 
 -- ----------------------------
@@ -209,10 +207,10 @@ CREATE TABLE `role-resource` (
 -- Records of role-resource
 -- ----------------------------
 BEGIN;
-INSERT INTO `role-resource` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '03caff38-ee64-47c8-99be-d5c8faacefac');
-INSERT INTO `role-resource` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', '60e0495f-f78e-4554-b75b-592ccf81752d');
-INSERT INTO `role-resource` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '91a19ec2-faba-4422-9c05-131f0fef2566');
-INSERT INTO `role-resource` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', 'dea2098b-1f31-45b4-a1f6-5fd1144e4d7e');
+INSERT INTO `role-resource` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '50e3f000-419a-4345-b155-e5a5416c22c0');
+INSERT INTO `role-resource` VALUES ('3e597db4-046b-4f99-8937-3591dd39b51d', '908f19a4-8f88-43a6-bec2-0a2134a4d923');
+INSERT INTO `role-resource` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', 'dc13197d-4832-4490-a970-2e2c8ab45e1b');
+INSERT INTO `role-resource` VALUES ('5634f861-7725-44f1-ba8b-976f772ef2d9', 'fa0c6d8f-1739-4021-a589-12da2a511c22');
 COMMIT;
 
 -- ----------------------------

@@ -6,7 +6,7 @@ import * as redis from '../../utils/redis'
 
 async function test(ctx) {
   // ctx.body = createBody('请求成功')
-  ctx.body = {code: 200, object: 3, count: 400}
+  ctx.body = createBody({code: 200, object: 3, count: 400})
 }
 
 async function login(ctx) {
