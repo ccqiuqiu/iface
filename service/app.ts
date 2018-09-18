@@ -63,9 +63,10 @@ app.use(async (ctx, next) => {
       success: false,
       error: {
         code: 401,
-        message: '未登录或已登录，请重新登录',
+        message: '未登录或已过期，请重新登录',
       },
     }
+    return
   }
   if (decoded) {
     // 鉴权
