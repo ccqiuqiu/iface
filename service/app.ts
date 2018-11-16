@@ -68,17 +68,19 @@ app.use(async (ctx, next) => {
     }
     return
   }
+  //
+  // weFace项目用，不用鉴权
+  if (ctx.request.url.indexOf('/v1/weFace/') === 0) {
+    // 重设过期时间
+    await redis.expire(decoded.data.id, 20 * 24 * 60 * 60)
+    return await next()
+  }
   if (decoded) {
     // 鉴权
     if (hasAuth(ctx)) {
+      // 重设过期时间
+      await redis.expire(decoded.data.id, jwtExp)
       await next()
-      // 如果token快过期，刷新token
-      const time = decoded.exp - new Date().getTime() / 1000
-      if (time <= jwtReTime) {
-        const tokenNew = jwt.sign({data: decoded.data}, jwtSecret, { expiresIn: jwtExp })
-        await redis.expire(decoded.data.id, jwtExp)
-        ctx.body.token = tokenNew
-      }
     } else {
       ctx.body = {
         success: false,

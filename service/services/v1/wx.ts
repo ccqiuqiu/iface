@@ -22,6 +22,8 @@ const weAppId = 'wx2fafc9a75f35ea91'
 const weAppSecret = '89913db6c700449eda58f59808b339eb'
 const weAppLoginUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=${weAppId}&secret=${weAppSecret}&js_code=$CODE&grant_type=authorization_code`
 
+import airPort from '../../utils/airPort'
+import * as mock from '../../mock'
 
 async function auth(ctx) {
   const code = ctx.request.query.code
@@ -132,7 +134,7 @@ async function wxLogin(ctx) {
 
 // 保存用户信息到redis
 async function saveUserToRedis(user, session_key) {
-  const token = jwt.sign({data: user}, jwtSecret, { expiresIn: jwtExp})
+  const token = jwt.sign({data: user}, jwtSecret)
   // 获取用户权限保存redis
   await redis.set(user.id, {user, session_key}, 20 * 24 * 60 * 60) // 20天
   return token
@@ -151,6 +153,14 @@ async function wxService(url) {
   }
 }
 
+async function getAirPort(ctx) {
+  ctx.body = createBody({airPort})
+}
+
+async function searchFlight(ctx) {
+  ctx.body = createBody(mock.searchFlight.data)
+}
+
 export default (routes, prefix) => {
   // 整车物流测试接口
   routes.get(prefix + '/public/oauth2getAccessToken.do', auth)
@@ -159,5 +169,7 @@ export default (routes, prefix) => {
   // 微信小程序测试接口
   routes.post(prefix + '/public/wxReg', wxReg)
   routes.post(prefix + '/public/wxLogin', wxLogin)
+  routes.get(prefix + '/weFace/airPort', getAirPort)
+  routes.post(prefix + '/weFace/searchFlight', searchFlight)
 
 }

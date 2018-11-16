@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://gitee.com/HTPMO/iface/issues/new"
   },
-  "homepage": "https://gitee.com/HTPMO/iface"
+  "homepage": "https://gitee.com/HTPMO/iface",
+  "devDependencies": {
+    "@types/mockjs": "^1.0.1",
+    "mockjs": "^1.0.1-beta3"
+  }
 }
