@@ -25,14 +25,15 @@ app.use(async (ctx) => {
   } else if (ctx.request.url === '/save') {
     // 保存数据
     try {
-      let text = 'import Mock from \'mockjs\'\n\n'
+      let text = '/*eslint-disable*/\n\n'
+      text += 'import Mock from \'mockjs\'\n\n'
       text += 'Mock.setup({\n' + '  timeout: \'300-600\',\n' + '})\n\n'
       for (let [key, value] of Object.entries(cache)) {
         const data = {data: value, success: true}
         let url = key.replace(/^(\/.*?)(\?.*)/, '$1')
-        if (!/^\/.*?\/page\/getPage/.test(url)) {
-          url = url.replace(/^(\/.*?\/)(.*?\/)(.*?\/)(.*)/, '$1$2$3')
-        }
+        // if (!/^\/.*?\/page\/getPage/.test(url)) {
+        //   url = url.replace(/^(\/.*?\/)(.*?\/)(.*?\/)(.*)/, '$1$2$3')
+        // }
         text += 'Mock.mock(new RegExp(\'' + url + '\'), ' + JSON.stringify(data) + ')'
         text += '\n'
       }

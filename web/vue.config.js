@@ -67,7 +67,7 @@ module.exports = {
     port: 9088,
     proxy: {
       '/v1': {
-        target: 'http://127.0.0.1:3000',
+        target: 'https://demo.ccqiuqiu.win/iface-api',
         changeOrigin: true
       }
     }
