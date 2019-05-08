@@ -13,8 +13,7 @@
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
-@Component
-export default class CcCheckBoxGroup extends Vue {
+export default @Component class CcCheckBoxGroup extends Vue {
   /* vue-props */
   @Prop(Array) value
   @Prop([Array, String]) options

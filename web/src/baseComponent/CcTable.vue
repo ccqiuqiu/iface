@@ -24,11 +24,10 @@
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcRender from './CcRender.vue'
-@Component({components: {CcRender}})
-export default class CcTable extends Vue {
+export default @Component({ components: { CcRender } }) class CcTable extends Vue {
   /* vue-prop */
   @Prop() rows
-  @Prop({default: 'id'}) rowKey
+  @Prop({ default: 'id' }) rowKey
   @Prop() columns
   @Prop(Boolean) multiSelect // 是否多选
   @Prop() selectedRows // 选中的行的数组

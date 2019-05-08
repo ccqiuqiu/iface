@@ -13,10 +13,9 @@
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component
-export default class DashboardSelector extends Vue {
+export default @Component class DashboardSelector extends Vue {
   /* vue-props */
   @Prop(Array) value
   /* vue-vuex */
@@ -36,9 +35,9 @@ export default class DashboardSelector extends Vue {
   }
   /* vue-method */
   async initData () {
-    const {data} = await this.getAllDashboard()
+    const { data } = await this.getAllDashboard()
     if (data) {
-      this.allDashboard = data.map((dashboard) => ({key: dashboard.id, label: dashboard.name, dashboard}))
+      this.allDashboard = data.map((dashboard) => ({ key: dashboard.id, label: dashboard.name, dashboard }))
     }
   }
   onSelected () {

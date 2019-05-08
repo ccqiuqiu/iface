@@ -2,7 +2,7 @@
  * Created by 熊超超 on 2018/6/21.
  */
 import { Component, Vue } from 'vue-property-decorator'
-import {Getter, State} from 'vuex-class'
+import { Getter, State } from 'vuex-class'
 
 @Component
 export class BaseMixin extends Vue {

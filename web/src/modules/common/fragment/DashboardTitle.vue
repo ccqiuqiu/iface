@@ -9,8 +9,7 @@
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class DashboardTitle extends Vue {
+export default @Component class DashboardTitle extends Vue {
   /* vue-props */
   @Prop() dashboard
   @Prop(Boolean) more

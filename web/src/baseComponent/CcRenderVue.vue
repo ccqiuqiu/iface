@@ -8,8 +8,8 @@
 /* eslint-disable no-new-func  */
 
 import { Component, Vue, Prop } from 'vue-property-decorator'
-@Component
-export default class CcRendeVue extends Vue {
+
+export default @Component class CcRendeVue extends Vue {
   /* vue-props */
   @Prop(String) code
   @Prop(String) id // id是为了给增加的style做一个标识，防止重复添加
@@ -19,7 +19,7 @@ export default class CcRendeVue extends Vue {
   script = {}
   /* vue-compute */
   get component () {
-    return {...this.script, template: this.template}
+    return { ...this.script, template: this.template }
   }
   /* vue-watch */
   /* vue-lifecycle */

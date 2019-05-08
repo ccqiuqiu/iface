@@ -10,15 +10,15 @@
 
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
-import {BaseMixin} from '../../../assets/utils/mixins'
+import { Action } from 'vuex-class'
+import { BaseMixin } from '../../../assets/utils/mixins'
 import DashboardItemInfo from './DashboardItemInfo.vue'
 import DashboardItemList from './DashboardItemList.vue'
 import DashboardItemTable from './DashboardItemTable.vue'
 import DashboardItemChart from './DashboardItemChart.vue'
 
-@Component({mixins: [BaseMixin], components: {DashboardItemInfo, DashboardItemList, DashboardItemTable, DashboardItemChart}})
-export default class DashboardItem extends Vue {
+export default @Component({ mixins: [BaseMixin], components: { DashboardItemInfo, DashboardItemList, DashboardItemTable, DashboardItemChart } })
+class DashboardItem extends Vue {
   /* vue-props */
   @Prop() dashboard
   /* vue-vuex */
@@ -27,22 +27,22 @@ export default class DashboardItem extends Vue {
   data = null
   /* vue-compute */
   /* vue-watch */
-  @Watch('dashboard.id', {immediate: true})
+  @Watch('dashboard.id', { immediate: true })
   idChange () {
     this.initData()
   }
   /* vue-lifecycle */
   /* vue-method */
-  async initData (params = {pageSize: 5}) {
+  async initData (params = { pageSize: 5 }) {
     this.loading = true
-    const {data} = await this.getDashboardData({url: this.dashboard.url, params})
+    const { data } = await this.getDashboardData({ url: this.dashboard.url, params })
     this.loading = false
     if (data) {
       this.data = data
     }
   }
   changePage (pageNum) {
-    this.initData({pageNum, pageSize: 5})
+    this.initData({ pageNum, pageSize: 5 })
   }
 }
 </script>

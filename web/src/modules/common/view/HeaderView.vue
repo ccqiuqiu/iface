@@ -8,8 +8,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
-export default class HeaderView extends Vue {
+export default @Component class HeaderView extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

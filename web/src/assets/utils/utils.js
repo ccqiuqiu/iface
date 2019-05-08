@@ -44,7 +44,7 @@ export default class Utils {
   objToArr (obj = {}, labelField = 'label', valueField = 'value') {
     const arr = []
     for (const key of Object.keys(obj)) {
-      arr.push({[labelField]: key, [valueField]: obj[key]})
+      arr.push({ [labelField]: key, [valueField]: obj[key] })
     }
     return arr
   }
@@ -69,6 +69,11 @@ export default class Utils {
         delete s[children]
       }
     })
+  }
+  url2Obj (url) {
+    const q = {}
+    url.replace(/([^?&=]+)=([^&]+)/g, (_, k, v) => (q[k] = v))
+    return q
   }
 }
 export const utils = new Utils()

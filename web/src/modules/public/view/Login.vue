@@ -22,11 +22,10 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { Action, Mutation } from 'vuex-class'
 
-@Component
-export default class Login extends Vue {
+export default @Component class Login extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Mutation('clearStore') clearStore
@@ -42,7 +41,7 @@ export default class Login extends Vue {
   /* vue-method */
   // 用户登录
   async login () {
-    const {data} = await this.loginAction(this.user)
+    const { data } = await this.loginAction(this.user)
     if (data) {
       this.$ls.set('token', data.token)
       this.$utils.message('登录成功')

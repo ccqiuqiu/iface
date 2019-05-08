@@ -25,11 +25,10 @@
 
 <script>
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import {BaseMixin} from '../../../assets/utils/mixins'
-import {Action} from 'vuex-class'
+import { BaseMixin } from '../../../assets/utils/mixins'
+import { Action } from 'vuex-class'
 
-@Component({mixins: [BaseMixin]})
-export default class MenuTree extends Vue {
+export default @Component({ mixins: [BaseMixin] }) class MenuTree extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action menuTree
@@ -52,7 +51,7 @@ export default class MenuTree extends Vue {
   }
   /* vue-method */
   async initData () {
-    const {data} = await this.menuTree()
+    const { data } = await this.menuTree()
     if (data) {
       this.data = data
       if (this.selected) {
@@ -67,7 +66,7 @@ export default class MenuTree extends Vue {
     return data.name.indexOf(value) !== -1
   }
   changeSelected (menu) {
-    const clone = {...menu}
+    const clone = { ...menu }
     delete clone['children']
     this.selected = clone
     if (this.$refs.form) {
@@ -90,9 +89,9 @@ export default class MenuTree extends Vue {
   }
   onAdd () {
     if (!this.selected) {
-      this.selected = {parentId: null, name: '', url: '', icon: ''}
+      this.selected = { parentId: null, name: '', url: '', icon: '' }
     } else {
-      this.selected = {parentId: this.selected.id, name: '', url: '', icon: ''}
+      this.selected = { parentId: this.selected.id, name: '', url: '', icon: '' }
     }
     if (this.$refs.form) {
       this.$refs.form.forceUpdate()
@@ -106,7 +105,7 @@ export default class MenuTree extends Vue {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.delMenu(this.selected.id)
+      const { error } = await this.delMenu(this.selected.id)
       this.loading = false
       if (!error) {
         this.$refs.tree.setCurrentKey(null)
@@ -137,7 +136,7 @@ export default class MenuTree extends Vue {
     } else {
       node.data.parentId = targetNode.data.parentId
     }
-    const {data} = await this.sortMenu({sourceId: node.data.id, targetId: targetNode.data.id, location})
+    const { data } = await this.sortMenu({ sourceId: node.data.id, targetId: targetNode.data.id, location })
     this.loading = false
     if (data) {
       this.$utils.message('修改顺序成功！')

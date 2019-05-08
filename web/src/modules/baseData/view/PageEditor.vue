@@ -15,14 +15,13 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import {BaseMixin, TabMixin} from '../../../assets/utils/mixins'
+import { BaseMixin, TabMixin } from '../../../assets/utils/mixins'
 import { codemirror } from 'vue-codemirror-lite'
 // language
 import 'codemirror/mode/vue/vue.js'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component({mixins: [BaseMixin, TabMixin], components: {codemirror}})
-export default class PageEditor extends Vue {
+export default @Component({ mixins: [BaseMixin, TabMixin], components: { codemirror } }) class PageEditor extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action getPage
@@ -31,12 +30,12 @@ export default class PageEditor extends Vue {
   formObj = {
     model: {},
     items: [
-      {label: `页面名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
-      {label: `页面代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
-      {label: `页面描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: ''}
+      { label: `页面名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: { required: true } },
+      { label: `页面代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: { required: true } },
+      { label: `页面描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: '' }
     ],
     btns: [
-      {action: 'save', cb: this.save}
+      { action: 'save', cb: this.save }
     ]
   }
   options = {
@@ -54,9 +53,9 @@ export default class PageEditor extends Vue {
   /* vue-method */
   async initData () {
     if (this.$route.query['code']) {
-      const {data} = await this.getPage(this.$route.query['code'])
+      const { data } = await this.getPage(this.$route.query['code'])
       if (data) {
-        const {value, ...model} = data
+        const { value, ...model } = data
         this.code = value
         this.formObj.model = model
       }
@@ -70,7 +69,7 @@ export default class PageEditor extends Vue {
       page.type = this.$c.PageTypeV.CODE
     }
     page.value = this.code
-    const {error} = await this.savePage(page)
+    const { error } = await this.savePage(page)
     if (!error) {
       this.$utils.message('保存成功！')
       this.$utils.closeTab('/baseData/pageList', true)

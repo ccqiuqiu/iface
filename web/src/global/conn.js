@@ -4,7 +4,7 @@
  */
 import router from './router'
 import store from './store'
-import {utils, ls} from '../assets/utils/index'
+import { utils, ls } from '../assets/utils/index'
 import constant from '../assets/utils/constant'
 import app from '../main'
 import axios from 'axios'
@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use((config) => {
   // 加公共请求参数
   config.headers.token = ls.get('token', '')
   // 从请求参数里面取出一些控制参数, 控制loading和error的显示
-  const {_loading, _hideGlobalError, ...data} = config.data
+  const { _loading, _hideGlobalError, ...data } = config.data
   config.headers._loading = _loading !== false
   config.headers._hideGlobalError = _hideGlobalError
   if (config.method === 'get') {
@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use((config) => {
 // 注册响应拦截器
 axiosInstance.interceptors.response.use((response) => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const {_loading, _hideGlobalError} = response.config.headers
+  const { _loading, _hideGlobalError } = response.config.headers
   // if (_loading) {
   //   store.commit('hideLoading')
   // }
@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use((response) => {
     // 如果是录制模式，每个请求返回后，将结果发送到录制服务器
     if (process.env.VUE_APP_RECORD) {
       const url = response.config.url.replace(response.config.baseURL, '')
-      requestRecord('', {url, data: response.data.data})
+      requestRecord('', { url, data: response.data.data })
     }
     return Promise.resolve(response.data.data)
   } else {
@@ -76,13 +76,13 @@ axiosInstance.interceptors.response.use((response) => {
   }
 }, (error) => {
   // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const {_loading} = error.config.headers
+  const { _loading } = error.config.headers
   if (_loading) {
     // store.commit('hideLoading')
     app.$Progress.fail()
   }
   utils.message('服务端异常', constant.MessageType.error)
-  return Promise.reject({code: error.response.status, message: error.response.data})
+  return Promise.reject({ code: error.response.status, message: error.response.data })
 })
 
 export default axiosInstance

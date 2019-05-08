@@ -10,11 +10,11 @@
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
-@Component
-export default class CcButton extends Vue {
+
+export default @Component class CcButton extends Vue {
   @Prop(String) text
-  @Prop({type: String, default: 'primary'}) type
-  @Prop({type: String, default: 'small'}) size
+  @Prop({ type: String, default: 'primary' }) type
+  @Prop({ type: String, default: 'small' }) size
   @Prop(String) icon
 
   get iconSize () {

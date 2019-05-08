@@ -16,11 +16,10 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
-import {State, Mutation, Getter} from 'vuex-class'
+import { Component, Vue } from 'vue-property-decorator'
+import { State, Mutation, Getter } from 'vuex-class'
 
-@Component
-export default class NavView extends Vue {
+export default @Component class NavView extends Vue {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menuExpand) menuExpand

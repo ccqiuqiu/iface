@@ -20,7 +20,7 @@ class UiUtils extends Utils {
   }
   // 消息框简单封装
   message (message, type = constant.MessageType.success, duration = 3000) {
-    Message({message, type, duration})
+    Message({ message, type, duration })
   }
   // alert
   alert (content, title = '提示信息', options) {
@@ -108,9 +108,9 @@ class UiUtils extends Utils {
           const menuParent = flatMenu.find((item) => item.id === menu.parentId)
           menus.unshift(menuParent)
         }
-        store.commit('updateTabs', {key, url, menus})
+        store.commit('updateTabs', { key, url, menus })
       } else {
-        store.commit('updateTabUrl', {item, url})
+        store.commit('updateTabUrl', { item, url })
       }
       store.commit('updateSelectedTab', key)
     } else {
@@ -121,7 +121,7 @@ class UiUtils extends Utils {
         store.commit('updateSelectedTab', key)
       } else {
         key = Math.floor(Math.random() * 20130306) + ''
-        store.commit('updateTabs', {key, url, menus: [{name, url}]})
+        store.commit('updateTabs', { key, url, menus: [{ name, url }] })
         store.commit('updateSelectedTab', key)
         noMenuTabsMap[key] = url
       }

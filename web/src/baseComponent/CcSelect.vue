@@ -8,8 +8,7 @@
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class CcSelect extends Vue {
+export default @Component class CcSelect extends Vue {
   /* vue-props */
   @Prop([Array, String, Number]) value
   @Prop([Array, String]) options

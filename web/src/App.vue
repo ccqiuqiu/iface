@@ -10,8 +10,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import CcRecord from './record/CcRecord.vue'
 
-@Component({components: {CcRecord}})
-export default class App extends Vue {}
+export default @Component({ components: { CcRecord } }) class App extends Vue {}
 </script>
 <style lang="scss">
 </style>

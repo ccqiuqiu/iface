@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import conn, {requestRecord} from './conn'
+import conn, { requestRecord } from './conn'
 
 const formBaseUrl = '/v1/'
 
@@ -14,8 +14,8 @@ const formBaseUrl = '/v1/'
  * @returns {Promise<any>}
  */
 const request = (method, url, data = {}, config = {}) => {
-  data = {...data, ...config}
-  return conn.request({method, url, data}).then((data) => ({data})).catch((error) => ({error}))
+  data = { ...data, ...config }
+  return conn.request({ method, url, data }).then((data) => ({ data })).catch((error) => ({ error }))
 }
 
 export default {

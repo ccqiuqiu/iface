@@ -15,13 +15,12 @@
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import {Getter} from 'vuex-class'
+import { Getter } from 'vuex-class'
 import CcRender from './CcRender.vue'
-@Component({components: {CcRender, CcDialog: () => import('./CcDialog.vue')}})
-export default class CcDialog extends Vue {
+export default @Component({ components: { CcRender, CcDialog: () => import('./CcDialog.vue') } }) class CcDialog extends Vue {
   /* vue-props */
-  @Prop({type: Boolean, default: false}) inside
-  @Prop({type: Boolean, default: false}) appendToBody
+  @Prop({ type: Boolean, default: false }) inside
+  @Prop({ type: Boolean, default: false }) appendToBody
   /* vue-vuex */
   @Getter('dialog') getDialog
 

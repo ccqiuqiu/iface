@@ -57,50 +57,50 @@
 
 <script>
 import { Component, Watch, Mixins } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 import draggable from 'vuedraggable'
 import CcFormItem from '../../../baseComponent/CcFormItem.vue'
 import FormItemProps from '../fragment/FormItemProps.vue'
 import FormItemOptions from '../fragment/FormItemOptions.vue'
 import FormItemVerify from '../fragment/FormItemVerify.vue'
-import {TabMixin} from '../../../assets/utils/mixins'
+import { TabMixin } from '../../../assets/utils/mixins'
 
-@Component({components: {draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify}})
-export default class CreateCrud extends Mixins(TabMixin) {
+export default @Component({ components: { draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify } })
+class CreateCrud extends Mixins(TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action('getPage') getPage
   @Action('savePage') savePage
   /* vue-data */
   controls = [
-    {type: 'text', label: '文本框'},
-    {type: 'select', label: '选择框'},
-    {type: 'date', label: '日期选择器'},
-    {type: 'daterange', label: '日期范围'},
-    {type: 'datetime', label: '日期时间'},
-    {type: 'datetimerange', label: '日期时间范围'},
-    {type: 'timeselect', label: '下拉时间选择'},
-    {type: 'timerange', label: '下拉时间范围'},
-    {type: 'switch', label: '开关'},
-    {type: 'radio', label: '单选组'},
-    {type: 'radiobutton', label: '单选按钮组'},
-    {type: 'checkbox', label: '多选组'},
-    {type: 'checkboxbutton', label: '多选按钮组'},
-    {type: 'cascader', label: '级联选择器'},
-    {type: 'number', label: '计数器'},
-    {type: 'slider', label: '滑块'},
-    {type: 'rate', label: '评分'},
-    {type: 'table', label: '表格选择器'},
-    {type: 'tree', label: '树选择器'},
-    {type: 'icon', label: '图标选择器'},
-    {type: 'color', label: '颜色选择器'},
-    {type: 'dialog', label: '弹窗选择器'}
+    { type: 'text', label: '文本框' },
+    { type: 'select', label: '选择框' },
+    { type: 'date', label: '日期选择器' },
+    { type: 'daterange', label: '日期范围' },
+    { type: 'datetime', label: '日期时间' },
+    { type: 'datetimerange', label: '日期时间范围' },
+    { type: 'timeselect', label: '下拉时间选择' },
+    { type: 'timerange', label: '下拉时间范围' },
+    { type: 'switch', label: '开关' },
+    { type: 'radio', label: '单选组' },
+    { type: 'radiobutton', label: '单选按钮组' },
+    { type: 'checkbox', label: '多选组' },
+    { type: 'checkboxbutton', label: '多选按钮组' },
+    { type: 'cascader', label: '级联选择器' },
+    { type: 'number', label: '计数器' },
+    { type: 'slider', label: '滑块' },
+    { type: 'rate', label: '评分' },
+    { type: 'table', label: '表格选择器' },
+    { type: 'tree', label: '树选择器' },
+    { type: 'icon', label: '图标选择器' },
+    { type: 'color', label: '颜色选择器' },
+    { type: 'dialog', label: '弹窗选择器' }
   ]
   model = {}
   items = []
   activeNames = ['1', '4']
   selectIndex = -1
-  pageModel = {type: 1, name: '', remark: '', modelName: ''}
+  pageModel = { type: 1, name: '', remark: '', modelName: '' }
   /* vue-compute */
   get typeName () {
     return this.$c.PageTypeK[this.pageModel.type || 1]
@@ -109,15 +109,15 @@ export default class CreateCrud extends Mixins(TabMixin) {
     return {
       model: this.pageModel,
       items: [
-        {label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType.filter(item => item.label !== 'CODE'), verify: {required: true}},
-        {label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: {required: true}},
-        {label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: {required: true}},
-        {label: '资源路径', prop: 'resource', type: this.$c.FormItemType.text, placeholder: '模块/资源', verify: {required: true}},
-        {label: '搜索URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口'},
-        {label: '详情URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '获取详情的接口'},
-        {label: '保存URL', prop: 'saveUrl', type: this.$c.FormItemType.text, placeholder: '新增/更新对象的接口'},
-        {label: '删除URL', prop: 'delUrl', type: this.$c.FormItemType.text, placeholder: '删除对象的接口'},
-        {label: `描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: ''}
+        { label: `类型`, prop: 'type', type: this.$c.FormItemType.select, options: this.$c.options.pageType.filter(item => item.label !== 'CODE'), verify: { required: true } },
+        { label: `名称`, prop: 'name', type: this.$c.FormItemType.text, placeholder: '页面名称', verify: { required: true } },
+        { label: `代码`, prop: 'code', type: this.$c.FormItemType.text, placeholder: '唯一编码', verify: { required: true } },
+        { label: '资源路径', prop: 'resource', type: this.$c.FormItemType.text, placeholder: '模块/资源', verify: { required: true } },
+        { label: '搜索URL', prop: 'searchUrl', type: this.$c.FormItemType.text, placeholder: '表格或树的数据接口' },
+        { label: '详情URL', prop: 'getUrl', type: this.$c.FormItemType.text, placeholder: '获取详情的接口' },
+        { label: '保存URL', prop: 'saveUrl', type: this.$c.FormItemType.text, placeholder: '新增/更新对象的接口' },
+        { label: '删除URL', prop: 'delUrl', type: this.$c.FormItemType.text, placeholder: '删除对象的接口' },
+        { label: `描述`, prop: 'remark', type: this.$c.FormItemType.textarea, placeholder: '' }
       ],
       btns: []
     }
@@ -147,9 +147,9 @@ export default class CreateCrud extends Mixins(TabMixin) {
   }
   async initPage () {
     if (this.$route.query['code']) {
-      const {data} = await this.getPage(this.$route.query['code'])
+      const { data } = await this.getPage(this.$route.query['code'])
       if (data) {
-        const {value, ...pageModel} = data
+        const { value, ...pageModel } = data
         this.pageModel = pageModel
         const valueObj = JSON.parse(value)
         if (this.pageModel.type !== this.$c.PageTypeV.表单) {
@@ -157,8 +157,8 @@ export default class CreateCrud extends Mixins(TabMixin) {
             const temp = {}
             const formProps = JSON.parse(JSON.stringify(item.formProps))
             delete temp.formProps
-            const {tableProps, ...other} = item
-            return {...other, ...formProps, ...tableProps}
+            const { tableProps, ...other } = item
+            return { ...other, ...formProps, ...tableProps }
           })
         }
         this.items = valueObj.items
@@ -178,7 +178,7 @@ export default class CreateCrud extends Mixins(TabMixin) {
   // 当添加到字段列表的时候触发，增加prop属性，特殊组件要初始化一些options
   add (evt) {
     const prop = 'p' + Math.floor(Math.random() * 1000000)
-    const item = {...this.controls[evt.oldIndex]}
+    const item = { ...this.controls[evt.oldIndex] }
     item.prop = prop
     // item.options = optionsDefaultData(item.type)
     item.target = ['editForm']
@@ -250,7 +250,7 @@ export default class CreateCrud extends Mixins(TabMixin) {
     }
 
     this.pageModel.value = JSON.stringify(value)
-    const {error} = await this.savePage(this.pageModel)
+    const { error } = await this.savePage(this.pageModel)
     if (!error) {
       this.$utils.message('保存成功！')
       this.$utils.closeTab('/baseData/pageList', true)

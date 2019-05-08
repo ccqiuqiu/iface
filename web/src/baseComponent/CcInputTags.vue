@@ -14,12 +14,11 @@
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class CcInputTags extends Vue {
+export default @Component class CcInputTags extends Vue {
   /* vue-props */
   @Prop() value
   @Prop(String) placeholder
-  @Prop({type: String, default: 'name'}) label
+  @Prop({ type: String, default: 'name' }) label
   @Prop(String) icon
   @Prop(Boolean) collapseTags
   /* vue-vuex */

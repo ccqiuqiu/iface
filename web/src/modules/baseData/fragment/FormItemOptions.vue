@@ -21,8 +21,8 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 const optionsDefaultData = (type) => {
   if (['select', 'radio', 'radiobutton', 'checkbox', 'checkboxbutton'].includes(type)) {
     return [
-      {label: '选项1', value: 1},
-      {label: '选项2', value: 2}
+      { label: '选项1', value: 1 },
+      { label: '选项2', value: 2 }
     ]
   } else if (type === 'cascader') {
     return [
@@ -58,12 +58,12 @@ const optionsDefaultData = (type) => {
   } else if (type === 'table') {
     return {
       columns: [
-        {prop: 'id', label: '编号'},
-        {prop: 'name', label: '名称'}
+        { prop: 'id', label: '编号' },
+        { prop: 'name', label: '名称' }
       ],
       rows: [
-        {id: 1, name: '用户1'},
-        {id: 2, name: '用户2'}
+        { id: 1, name: '用户1' },
+        { id: 2, name: '用户2' }
       ]
     }
   } else if (type === 'tree') {
@@ -125,8 +125,7 @@ const optionsDefaultData = (type) => {
   }
 }
 
-@Component
-export default class FormItemOptions extends Vue {
+export default @Component class FormItemOptions extends Vue {
   /* vue-props */
   @Prop() item
   @Prop(Boolean) needOptions
@@ -136,7 +135,7 @@ export default class FormItemOptions extends Vue {
   source1 = ''
   source2 = ''
   source3 = ''
-  dialogOptions = [{label: '资源管理', value: 'resource'}]
+  dialogOptions = [{ label: '资源管理', value: 'resource' }]
   /* vue-compute */
   get options () {
     if (this.item.type === 'dialog') {

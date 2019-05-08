@@ -27,8 +27,7 @@
 import {Component, Vue} from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 
-@Component
-export default class TabsView extends Vue {
+export default @Component class TabsView extends Vue {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menuTabs) menuTabs

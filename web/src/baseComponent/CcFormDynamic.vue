@@ -5,10 +5,9 @@
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component
-export default class CcFormDynamic extends Vue {
+export default @Component class CcFormDynamic extends Vue {
   /* vue-props */
   @Prop() formCode
   @Prop() model
@@ -19,7 +18,7 @@ export default class CcFormDynamic extends Vue {
   show = true
   /* vue-compute */
   get formData () {
-    return this.formObject && this.model ? {...this.formObject, model: this.model} : null
+    return this.formObject && this.model ? { ...this.formObject, model: this.model } : null
   }
   /* vue-watch */
   /* vue-lifecycle */
@@ -28,7 +27,7 @@ export default class CcFormDynamic extends Vue {
   }
   /* vue-method */
   async getFormJson () {
-    const {data} = await this.getPage(this.formCode)
+    const { data } = await this.getPage(this.formCode)
     if (data) {
       this.formObject = JSON.parse(data.value)
     }

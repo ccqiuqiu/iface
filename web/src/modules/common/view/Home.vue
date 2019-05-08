@@ -26,16 +26,16 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import VueGridLayout from 'vue-grid-layout'
 import DashboardItem from '../fragment/DashboardItem.vue'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 import DashboardSelector from '../fragment/DashboardSelector.vue'
 
 Component.registerHooks(['beforeRouteLeave'])
 
-@Component({components: {GridLayout: VueGridLayout.GridLayout, GridItem: VueGridLayout.GridItem, DashboardItem}})
-export default class Home extends Vue {
+export default @Component({ components: { GridLayout: VueGridLayout.GridLayout, GridItem: VueGridLayout.GridItem, DashboardItem } })
+class Home extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action getUserDashboard
@@ -66,11 +66,11 @@ export default class Home extends Vue {
   async save () {
     const list = []
     this.userDashboard.forEach((userDashboard) => {
-      const clone = {...userDashboard}
+      const clone = { ...userDashboard }
       clone.dashboardId = userDashboard.dashboard.id
       list.push(clone)
     })
-    const {data} = await this.saveUserDashboard(list)
+    const { data } = await this.saveUserDashboard(list)
     if (data) {
       this.$utils.message('保存成功！')
       this.userDashboardClone = JSON.parse(JSON.stringify(this.userDashboard))
@@ -78,7 +78,7 @@ export default class Home extends Vue {
     }
   }
   async initData () {
-    const {data} = await this.getUserDashboard()
+    const { data } = await this.getUserDashboard()
     if (data && data.length) {
       // 返回的是用户的dashboard配置数据，直接赋值给userDashboard
       if (data[0].dashboard) {
@@ -104,8 +104,8 @@ export default class Home extends Vue {
         h = 8
       }
       // 计算位置
-      const {x, y} = this.getLocation(startX, startY, w, h)
-      this.userDashboard.push({x, y, w, h, i: index + '', dashboard})
+      const { x, y } = this.getLocation(startX, startY, w, h)
+      this.userDashboard.push({ x, y, w, h, i: index + '', dashboard })
       startX = x + w
       startY = y
     })
@@ -142,7 +142,7 @@ export default class Home extends Vue {
         return this.getLocation(startX, startY, w, h)
       }
     }
-    return {x: startX, y: startY}
+    return { x: startX, y: startY }
   }
   // 所有的
   action () {

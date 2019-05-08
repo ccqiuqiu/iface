@@ -18,8 +18,7 @@
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class DashboardItemInfo extends Vue {
+export default @Component class DashboardItemInfo extends Vue {
   /* vue-props */
   @Prop() dashboard
   @Prop(Object) data

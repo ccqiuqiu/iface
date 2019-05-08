@@ -23,14 +23,13 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcInputTags from './CcInputTags.vue'
 
-@Component({components: {CcInputTags}})
-export default class CcInputTree extends Vue {
+export default @Component({ components: { CcInputTags } }) class CcInputTree extends Vue {
   /* vue-props */
-  @Prop({type: [String, Number, Array]}) value
-  @Prop({type: Array, default: () => []}) options
-  @Prop({type: String, default: 'children'}) childrenField
-  @Prop({type: String, default: 'id'}) valueField
-  @Prop({type: String, default: 'name'}) labelField
+  @Prop({ type: [String, Number, Array] }) value
+  @Prop({ type: Array, default: () => [] }) options
+  @Prop({ type: String, default: 'children' }) childrenField
+  @Prop({ type: String, default: 'id' }) valueField
+  @Prop({ type: String, default: 'name' }) labelField
   @Prop(Boolean) multiSelect // 是否多选
   @Prop(String) placeholder
 
@@ -41,7 +40,7 @@ export default class CcInputTree extends Vue {
   selectedKeys = []
   /* vue-compute */
   get props () {
-    return {children: this.childrenField, label: this.labelField}
+    return { children: this.childrenField, label: this.labelField }
   }
   get multi () {
     return this.multiSelect

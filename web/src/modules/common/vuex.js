@@ -1,8 +1,8 @@
-import {utils} from '../../assets/utils/index'
+import { utils } from '../../assets/utils/index'
 import router from '../../global/router'
 import api from '../../global/api'
 
-const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
+const defaultTabs = []
 const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
@@ -55,7 +55,7 @@ const mutations = {
     }
   },
   // 更新当前选择的tab的url
-  updateTabUrl (state, {item, url}) {
+  updateTabUrl (state, { item, url }) {
     item.url = url
   },
   // 关闭tab
@@ -136,7 +136,7 @@ const actions = {
   },
   // 获取表单控件的选择项，下拉、单选、多选等
   async getOptions (context, url) {
-    const {data} = await api.getOptions(url)
+    const { data } = await api.getOptions(url)
     if (data) {
       return data
     }
@@ -155,7 +155,7 @@ const actions = {
     // }
   },
   async getPageOptions (context, code) {
-    const {data} = await api.getPageOptions(code)
+    const { data } = await api.getPageOptions(code)
     if (data) {
       return JSON.parse(data.value)
     }
@@ -173,7 +173,7 @@ const actions = {
   },
   // 保存用户的仪表盘布局
   saveUserDashboard (context, userDashboards) {
-    return api.saveUserDashboard({userDashboards})
+    return api.saveUserDashboard({ userDashboards })
   },
   // 获取仪表盘的数据
   getDashboardData (context, params) {
@@ -181,4 +181,4 @@ const actions = {
   }
 }
 
-export default {state, getters, mutations, actions}
+export default { state, getters, mutations, actions }

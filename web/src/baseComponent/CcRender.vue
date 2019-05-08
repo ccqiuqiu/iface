@@ -2,8 +2,7 @@
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
-export default class CcRender extends Vue {
+export default @Component class CcRender extends Vue {
   @Prop(Function) renderFun
   @Prop() scope
   @Prop() column

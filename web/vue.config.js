@@ -6,7 +6,7 @@ function resolve (dir) {
 
 module.exports = {
   runtimeCompiler: true, // 包含编译器
-  baseUrl: process.env.BASE_URL || '/',
+  publicPath: process.env.BASE_URL || '/',
   // lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: [
@@ -67,7 +67,8 @@ module.exports = {
     port: 9088,
     proxy: {
       '/v1': {
-        target: 'https://demo.ccqiuqiu.win/iface-api',
+        // target: 'https://demo.ccqiuqiu.win/iface-api',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true
       }
     }

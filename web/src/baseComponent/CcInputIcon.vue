@@ -23,11 +23,10 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import iconPath from '../assets/icons/icon'
 
-@Component
-export default class CcInputIcon extends Vue {
+export default @Component class CcInputIcon extends Vue {
   /* vue-props */
   @Prop(String) value
-  @Prop({type: String, default: '请选择图标'}) placeholder
+  @Prop({ type: String, default: '请选择图标' }) placeholder
   /* vue-vuex */
   /* vue-data */
   show = false

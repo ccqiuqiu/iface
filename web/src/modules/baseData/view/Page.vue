@@ -12,15 +12,14 @@
 
 <script>
 import { Component, Watch, Mixins } from 'vue-property-decorator'
-import {Action, Getter} from 'vuex-class'
-import {initOptions} from '../../../assets/utils/crudUtils.jsx'
-import {BaseMixin, TabMixin} from '../../../assets/utils/mixins'
+import { Action, Getter } from 'vuex-class'
+import { initOptions } from '../../../assets/utils/crudUtils.jsx'
+import { BaseMixin, TabMixin } from '../../../assets/utils/mixins'
 import CcRenderVue from '../../../baseComponent/CcRenderVue.vue'
 
 const cacheComponents = {}
 
-@Component({components: {CcRenderVue}})
-export default class Page extends Mixins(BaseMixin, TabMixin) {
+export default @Component({ components: { CcRenderVue } }) class Page extends Mixins(BaseMixin, TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Getter flatMenu
@@ -29,7 +28,7 @@ export default class Page extends Mixins(BaseMixin, TabMixin) {
   component = null
   /* vue-compute */
   /* vue-watch */
-  @Watch('$route', {immediate: true})
+  @Watch('$route', { immediate: true })
   routerChange (val) {
     if (val.name === 'page') {
       // this.data = null
@@ -43,9 +42,9 @@ export default class Page extends Mixins(BaseMixin, TabMixin) {
     if (!cacheComponents[key]) {
       this.loading = true
       const code = this.$route.params['code']
-      let {data} = await this.getPage(code)
+      let { data } = await this.getPage(code)
       if (data) {
-        let {value, ...page} = data
+        let { value, ...page } = data
         if (data.type === this.$c.PageTypeV.CODE) {
           data = value
         } else {
@@ -60,7 +59,7 @@ export default class Page extends Mixins(BaseMixin, TabMixin) {
         cacheComponents[key] = {
           name: key,
           data () {
-            return {data, page}
+            return { data, page }
           },
           render: h => {
             if (page.type === this.$c.PageTypeV.表格页面) {

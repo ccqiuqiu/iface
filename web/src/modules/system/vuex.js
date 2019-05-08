@@ -20,4 +20,4 @@ const actions = {
   }
 }
 
-export default {state, mutations, actions}
+export default { state, mutations, actions }

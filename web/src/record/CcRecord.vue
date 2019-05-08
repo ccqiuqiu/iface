@@ -8,10 +8,9 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component
-export default class CcRecord extends Vue {
+export default @Component class CcRecord extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action saveRecord

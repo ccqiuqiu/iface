@@ -21,7 +21,7 @@
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcFormItem from './CcFormItem.vue'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
 // 按钮的动作map，在用户简单传入action的时候，设置默认的text等属性
 const btnActionMap = {
@@ -43,10 +43,9 @@ const btnActionMap = {
   }
 }
 
-@Component({components: {CcFormItem}})
-export default class CcForm extends Vue {
+export default @Component({ components: { CcFormItem } }) class CcForm extends Vue {
   /* vue-props */
-  @Prop({required: true, type: Object}) data
+  @Prop({ required: true, type: Object }) data
   @Prop(Boolean) isSearch
   @Prop(String) url
   @Prop(String) saveUrl
@@ -83,13 +82,13 @@ export default class CcForm extends Vue {
   // modelChange(val) {
   //   this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
   // }
-  @Watch('url', {immediate: true})
+  @Watch('url', { immediate: true })
   urlChange (val) {
     if (val) {
       this.initModel()
     }
   }
-  @Watch('data', {immediate: true})
+  @Watch('data', { immediate: true })
   dataChange (val) {
     if (val.items) {
       this.items = val.items
@@ -122,7 +121,7 @@ export default class CcForm extends Vue {
               if (pass) {
                 this.loading = true
                 const url = this.saveUrl || this.data.name
-                const re = await this.requestUrl({url, params: this.data.model, method: 'put'})
+                const re = await this.requestUrl({ url, params: this.data.model, method: 'put' })
                 this.loading = false
                 this.$emit(btn.action, re)
               }
@@ -135,7 +134,7 @@ export default class CcForm extends Vue {
   // 初始化model。用于更新表单从服务端获取完整数据
   async initModel () {
     this.loading = true
-    const {data} = await this.requestUrl({url: this.url})
+    const { data } = await this.requestUrl({ url: this.url })
     this.loading = false
     if (data) {
       this.data.model = data

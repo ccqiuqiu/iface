@@ -26,11 +26,10 @@
 
 <script>
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-import {BaseMixin} from '../assets/utils/mixins'
-import {Action} from 'vuex-class'
+import { BaseMixin } from '../assets/utils/mixins'
+import { Action } from 'vuex-class'
 
-@Component({mixins: [BaseMixin]})
-export default class CcCrudTree extends Vue {
+export default @Component({ mixins: [BaseMixin] }) class CcCrudTree extends Vue {
   /* vue-props */
   @Prop() data
   @Prop() page
@@ -44,7 +43,7 @@ export default class CcCrudTree extends Vue {
   treeData = []
   edit = false
   show = true
-  treeProps = {children: 'children', label: 'name'}
+  treeProps = { children: 'children', label: 'name' }
   /* vue-compute */
   get draggable () {
     return this.$route.params['code'] === 'menu'
@@ -74,7 +73,7 @@ export default class CcCrudTree extends Vue {
   filterTextChange (val) {
     this.$refs.tree.filter(val)
   }
-  @Watch('data', {immediate: true})
+  @Watch('data', { immediate: true })
   dataChange () {
     this.getData()
   }
@@ -83,7 +82,7 @@ export default class CcCrudTree extends Vue {
   async getData () {
     if (this.searchUrl) {
       this.loading = true
-      const {data} = await this.requestUrl({url: this.searchUrl, params: {}})
+      const { data } = await this.requestUrl({ url: this.searchUrl, params: {} })
       this.loading = false
       if (data) {
         this.treeData = data['rows'] || data
@@ -103,7 +102,7 @@ export default class CcCrudTree extends Vue {
 
   changeSelected (node) {
     this.edit = true
-    const clone = {...node}
+    const clone = { ...node }
     this.currentRow = clone
     this.editForm.model = this.currentRow
     this.forceUpdate()
@@ -123,7 +122,7 @@ export default class CcCrudTree extends Vue {
     if (!this.currentRow) {
       this.currentRow = {}
     } else {
-      this.currentRow = {parentId: this.currentRow[this.rowKey]}
+      this.currentRow = { parentId: this.currentRow[this.rowKey] }
     }
     this.editForm.model = this.currentRow
     this.forceUpdate()
@@ -136,7 +135,7 @@ export default class CcCrudTree extends Vue {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.requestUrl({url: this.getActionUrl('del'), method: 'delete'})
+      const { error } = await this.requestUrl({ url: this.getActionUrl('del'), method: 'delete' })
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')
@@ -158,10 +157,10 @@ export default class CcCrudTree extends Vue {
   getItems (val) {
     return this.data.items ? this.data.items.filter((item) => item.target.includes(val))
       .map((item) => {
-        const {tableProps, formProps, target, ...props} = {...item}
+        const { tableProps, formProps, target, ...props } = { ...item }
         let otherProps = {}
         if (val === 'table' || val === 'view') {
-          otherProps = {...(tableProps || {})}
+          otherProps = { ...(tableProps || {}) }
           otherProps.formProps = formProps
         } else {
           otherProps = formProps || {}
@@ -169,7 +168,7 @@ export default class CcCrudTree extends Vue {
         if (val === 'searchForm' || val === 'view') {
           delete otherProps.verify
         }
-        return {...props, ...otherProps}
+        return { ...props, ...otherProps }
       }) : []
   }
   // 判断是否可以拖动
@@ -193,7 +192,7 @@ export default class CcCrudTree extends Vue {
     } else {
       node.data.parentId = targetNode.data.parentId
     }
-    const {data} = await this.sortMenu({sourceId: node.data.id, targetId: targetNode.data.id, location})
+    const { data } = await this.sortMenu({ sourceId: node.data.id, targetId: targetNode.data.id, location })
     this.loading = false
     if (data) {
       this.$utils.message('修改顺序成功！')

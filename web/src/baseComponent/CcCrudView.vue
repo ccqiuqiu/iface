@@ -10,10 +10,9 @@
 
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component
-export default class CcCrudView extends Vue {
+export default @Component class CcCrudView extends Vue {
   /* vue-props */
   @Prop() data
   @Prop(Array) fields
@@ -30,7 +29,7 @@ export default class CcCrudView extends Vue {
   /* vue-compute */
   get items () {
     return this.fields.filter((field) => this.mData[field.prop]).map((field) => {
-      const item = {label: field.label, value: this.mData[field.prop]}
+      const item = { label: field.label, value: this.mData[field.prop] }
       if (field.formProps && field.formProps.options) {
         let rows = field.formProps.options
         let labelField = 'label'
@@ -59,7 +58,7 @@ export default class CcCrudView extends Vue {
     })
   }
   /* vue-watch */
-  @Watch('url', {immediate: true})
+  @Watch('url', { immediate: true })
   urlChange (val) {
     if (val) {
       this.initModel()
@@ -74,7 +73,7 @@ export default class CcCrudView extends Vue {
   // 初始化model。用于更新表单从服务端获取完整数据
   async initModel () {
     this.loading = true
-    const {data} = await this.requestUrl({url: this.url})
+    const { data } = await this.requestUrl({ url: this.url })
     this.loading = false
     if (data) {
       this.mData = data

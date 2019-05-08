@@ -10,8 +10,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
-export default class Page404 extends Vue {
+export default @Component class Page404 extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

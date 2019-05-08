@@ -15,8 +15,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
-export default class CcChart extends Vue {
+export default @Component class CcChart extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */

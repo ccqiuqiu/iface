@@ -27,18 +27,17 @@
 
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 import CrudUtils from '../assets/utils/crudUtils.jsx'
 import CcCrudView from './CcCrudView.vue'
 
-@Component
-export default class CcCrud extends Vue {
+export default @Component class CcCrud extends Vue {
   /* vue-props */
   @Prop() data
-  @Prop({default: () => ({})}) page
+  @Prop({ default: () => ({}) }) page
   @Prop(Boolean) multiSelect
-  @Prop({type: String, default: 'crud'}) type // 类型，目前支持crud和dialog，主要控制一些样式差异
-  @Prop({type: [Array, Object]}) value // 用于dialog时，需要绑定value，crud时不需要
+  @Prop({ type: String, default: 'crud' }) type // 类型，目前支持crud和dialog，主要控制一些样式差异
+  @Prop({ type: [Array, Object] }) value // 用于dialog时，需要绑定value，crud时不需要
   /* vue-vuex */
   @Action requestUrl
   /* vue-data */
@@ -46,7 +45,7 @@ export default class CcCrud extends Vue {
   loading = false
   pageNum = 1 // 当前页
   pageSize = 10 // 每页显示条数
-  defaultModel = {...this.editForm.model} // 保存一份原始数据的拷贝，用于新增的时候清空model
+  defaultModel = { ...this.editForm.model } // 保存一份原始数据的拷贝，用于新增的时候清空model
   selectedRows = []
   currentRow = null
   /* vue-compute */
@@ -119,7 +118,7 @@ export default class CcCrud extends Vue {
       this.$emit('input', val)
     }
   }
-  @Watch('data', {immediate: true})
+  @Watch('data', { immediate: true })
   dataChange () {
     this.init()
     this.getData()
@@ -139,8 +138,8 @@ export default class CcCrud extends Vue {
   async getData () {
     if (this.searchUrl) {
       this.loading = true
-      const params = {...this.$utils.delEmptyProp(this.searchForm.model), pageNum: this.pageNum, pageSize: this.pageSize}
-      const {data} = await this.requestUrl({url: this.searchUrl, params, method: 'get'})
+      const params = { ...this.$utils.delEmptyProp(this.searchForm.model), pageNum: this.pageNum, pageSize: this.pageSize }
+      const { data } = await this.requestUrl({ url: this.searchUrl, params, method: 'get' })
       this.loading = false
       if (data) {
         this.data.table.rows = data.rows
@@ -178,9 +177,9 @@ export default class CcCrud extends Vue {
   // 点击添加按钮
   onAdd (edit) {
     if (edit) {
-      this.editForm.model = {...this.currentRow}
+      this.editForm.model = { ...this.currentRow }
     } else {
-      this.editForm.model = {...this.defaultModel}
+      this.editForm.model = { ...this.defaultModel }
     }
     const url = edit ? (this.page.getUrl || this.getActionUrl()) : ''
     this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h) =>
@@ -203,7 +202,7 @@ export default class CcCrud extends Vue {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.requestUrl({url: this.getActionUrl('del'), method: 'delete'})
+      const { error } = await this.requestUrl({ url: this.getActionUrl('del'), method: 'delete' })
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')
@@ -219,7 +218,7 @@ export default class CcCrud extends Vue {
     }
     const url = this.getActionUrl('get')
     this.$utils.dialog('查看', (h) =>
-      <CcCrudView data={this.currentRow} fields={this.viewFields} url={url}></CcCrudView>, {showBtn: true})
+      <CcCrudView data={this.currentRow} fields={this.viewFields} url={url}></CcCrudView>, { showBtn: true })
   }
   // 保存完成
   async saved (re) {
@@ -238,10 +237,10 @@ export default class CcCrud extends Vue {
   getItems (val) {
     return this.data.items ? this.data.items.filter((item) => item.target.includes(val))
       .map((item) => {
-        const {tableProps, formProps, target, ...props} = {...item}
+        const { tableProps, formProps, target, ...props } = { ...item }
         let otherProps = {}
         if (val === 'table' || val === 'view') {
-          otherProps = {...(tableProps || {})}
+          otherProps = { ...(tableProps || {}) }
           otherProps.formProps = formProps
         } else {
           otherProps = formProps || {}
@@ -249,7 +248,7 @@ export default class CcCrud extends Vue {
         if (val === 'searchForm' || val === 'view') {
           delete otherProps.verify
         }
-        return {...props, ...otherProps}
+        return { ...props, ...otherProps }
       }) : []
   }
 }

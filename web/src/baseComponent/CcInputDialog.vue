@@ -8,17 +8,16 @@
 <script>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcInputTags from './CcInputTags.vue'
-import {Action} from 'vuex-class'
-import {initOptions} from '../assets/utils/crudUtils.jsx'
+import { Action } from 'vuex-class'
+import { initOptions } from '../assets/utils/crudUtils.jsx'
 
-@Component({components: {CcInputTags}})
-export default class CcInputDialog extends Vue {
+export default @Component({ components: { CcInputTags } }) class CcInputDialog extends Vue {
   /* vue-props */
   @Prop() dialog
   @Prop(String) title
-  @Prop({type: [Array, Object]}) value
-  @Prop({type: String, default: 'id'}) valueField
-  @Prop({type: String, default: 'name'}) labelField
+  @Prop({ type: [Array, Object] }) value
+  @Prop({ type: String, default: 'id' }) valueField
+  @Prop({ type: String, default: 'name' }) labelField
   @Prop(Boolean) collapseTags
   @Prop(Boolean) multiSelect
   /* vue-vuex */
@@ -34,7 +33,7 @@ export default class CcInputDialog extends Vue {
   valueChange (val) {
     this.updateSelectTag()
   }
-  @Watch('dialog', {immediate: true})
+  @Watch('dialog', { immediate: true })
   dialogChange (val) {
     if (val && val.name && this.rows.length === 0) {
       this.getTableData(val.name)
@@ -54,7 +53,7 @@ export default class CcInputDialog extends Vue {
   /* vue-method */
   async getTableData (name) {
     await initOptions(this.dialog)
-    const {data} = await this.requestUrl({url: name, params: {pageSize: 0}})
+    const { data } = await this.requestUrl({ url: name, params: { pageSize: 0 } })
     if (data) {
       this.rows = data.rows
       this.updateSelectTag()

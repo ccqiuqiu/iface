@@ -10,7 +10,7 @@ import utils from './assets/utils/index'
 import regComponents from './global/regComponents'
 import formVerify from './global/formVerify'
 
-Vue.use(ElementUI, {size: 'small'})
+Vue.use(ElementUI, { size: 'small' })
 Vue.use(formVerify)
 
 // 注册一些全局组件

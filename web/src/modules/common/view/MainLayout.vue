@@ -26,12 +26,12 @@ import MenuView from './MenuView.vue'
 import NavView from '../../common/view/NavView.vue'
 import TabsView from '../../common/view/TabsView.vue'
 import CcDialog from '../../../baseComponent/CcDialog.vue'
-import {Action, Mutation} from 'vuex-class'
+import { Action, Mutation } from 'vuex-class'
 
-@Component({
-  components: {HeaderView, MenuView, NavView, TabsView, CcDialog}
+export default @Component({
+  components: { HeaderView, MenuView, NavView, TabsView, CcDialog }
 })
-export default class MainLayout extends Vue {
+class MainLayout extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Mutation('updateUser') updateUser
@@ -51,7 +51,7 @@ export default class MainLayout extends Vue {
   /* vue-method */
   async initAuth () {
     // 获取权限
-    const {data} = await this.getAuth()
+    const { data } = await this.getAuth()
     if (data) {
       this.handlerData(data)
       this.updateUser(data)

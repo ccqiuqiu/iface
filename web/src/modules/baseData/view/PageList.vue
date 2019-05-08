@@ -24,27 +24,26 @@
 
 <script>
 import { Component, Mixins } from 'vue-property-decorator'
-import {Action} from 'vuex-class'
-import {BaseMixin, PageMixin, TabMixin} from '../../../assets/utils/mixins'
+import { Action } from 'vuex-class'
+import { BaseMixin, PageMixin, TabMixin } from '../../../assets/utils/mixins'
 
-@Component
-export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
+export default @Component class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action searchPage
   @Action requestUrl
   /* vue-data */
   columns = [
-    {prop: 'name', label: '名称', width: '120px'},
-    {prop: 'resource', label: '资源路径', width: '200px'},
-    {prop: 'type',
+    { prop: 'name', label: '名称', width: '120px' },
+    { prop: 'resource', label: '资源路径', width: '200px' },
+    { prop: 'type',
       label: '类型',
       width: '80px',
       formatter: (row, column, cellValue) => {
         return this.$c.PageTypeK[cellValue]
       }
     },
-    {prop: 'remark', label: '描述'}
+    { prop: 'remark', label: '描述' }
   ]
   /* vue-compute */
   /* vue-watch */
@@ -52,7 +51,7 @@ export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
   /* vue-method */
   async getData () {
     this.loading = true
-    const {data} = await this.searchPage({pageNum: this.pageNum, pageSize: this.pageSize})
+    const { data } = await this.searchPage({ pageNum: this.pageNum, pageSize: this.pageSize })
     this.loading = false
     if (data) {
       this.total = data.total
@@ -85,7 +84,7 @@ export default class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const {error} = await this.requestUrl({url: 'page/' + this.currentRow.id, method: 'delete'})
+      const { error } = await this.requestUrl({ url: 'page/' + this.currentRow.id, method: 'delete' })
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')

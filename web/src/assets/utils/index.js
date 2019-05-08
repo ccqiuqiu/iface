@@ -6,7 +6,7 @@ import constant from './constant'
 import utils from './uiUtils'
 import ls from './lsUtils'
 
-export {utils, ls}
+export { utils, ls }
 
 export default {
   install (Vue, $i18n) {

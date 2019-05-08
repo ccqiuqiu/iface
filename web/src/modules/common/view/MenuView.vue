@@ -34,11 +34,10 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { State, Action, Mutation, Getter } from 'vuex-class'
 
-@Component
-export default class MenuView extends Vue {
+export default @Component class MenuView extends Vue {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menus) menus

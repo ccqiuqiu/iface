@@ -15,8 +15,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import DashboardTitle from './DashboardTitle.vue'
 
-@Component({components: {DashboardTitle}})
-export default class DashboardItemList extends Vue {
+export default @Component({ components: { DashboardTitle } }) class DashboardItemList extends Vue {
   /* vue-props */
   @Prop() dashboard
   @Prop(Object) data

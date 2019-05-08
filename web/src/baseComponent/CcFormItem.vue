@@ -72,13 +72,13 @@ import CcInputDialog from './CcInputDialog.vue'
 import CcInputIcon from './CcInputIcon.vue'
 import CcCheckboxGroup from './CcCheckboxGroup.vue'
 import CcSelect from './CcSelect.vue'
-import {Action} from 'vuex-class'
+import { Action } from 'vuex-class'
 
-@Component({components: {CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect}})
-export default class CcFormItem extends Vue {
+export default @Component({ components: { CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect } })
+class CcFormItem extends Vue {
   /* vue-props */
-  @Prop({required: true, type: [Object]}) model
-  @Prop({required: true}) item
+  @Prop({ required: true, type: [Object] }) model
+  @Prop({ required: true }) item
   @Prop(Boolean) noVerify
   /* vue-vuex */
   @Action('getOptions') getOptions
@@ -97,7 +97,7 @@ export default class CcFormItem extends Vue {
   itemChange () {
     this.mItem = JSON.parse(JSON.stringify(this.item))
   }
-  @Watch('mItem', {immediate: true})
+  @Watch('mItem', { immediate: true })
   mItemChange () {
     this.initOptions()
   }
@@ -105,7 +105,7 @@ export default class CcFormItem extends Vue {
   /* vue-method */
   // 过滤form-item的props
   itemProps (item) {
-    const {options, props, dialog, verify, placeholder, multiSelect, ...itemProps} = item
+    const { options, props, dialog, verify, placeholder, multiSelect, ...itemProps } = item
     item.props = item.props || {}
     if (placeholder) {
       item.props.placeholder = placeholder
@@ -114,7 +114,7 @@ export default class CcFormItem extends Vue {
       item.props.multiSelect = multiSelect
     }
     if (this.noVerify) {
-      return {...itemProps}
+      return { ...itemProps }
     } else {
       // 处理表单校验
       if (verify) {
@@ -124,7 +124,7 @@ export default class CcFormItem extends Vue {
           verify.canBeEmpty = ''
         }
       }
-      return {...itemProps, ...verify}
+      return { ...itemProps, ...verify }
     }
   }
   // 日期控件默认格式

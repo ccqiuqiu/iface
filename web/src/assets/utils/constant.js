@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/5/3.
  */
-import {utils} from './utils'
+import { utils } from './utils'
 
 class Constant {
   MessageType = {
@@ -97,13 +97,13 @@ class Constant {
 
   // 自定义表单组件的时候，选择类组件的数据源
   OptionsDataSource = [
-    {label: '性别', value: 'sex', type: 'keyValue'},
-    {label: '状态', value: 'status', type: 'keyValue'},
-    {label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue'},
-    {label: '请求方法', value: 'methods', type: 'keyValue'},
-    {label: '菜单树', value: 'menuTree', type: 'tree'},
-    {label: '角色', value: 'role', type: 'table'},
-    {label: '资源表格', value: 'resource', type: 'table'}
+    { label: '性别', value: 'sex', type: 'keyValue' },
+    { label: '状态', value: 'status', type: 'keyValue' },
+    { label: 'Dashboard类型', value: 'dashboardType', type: 'keyValue' },
+    { label: '请求方法', value: 'methods', type: 'keyValue' },
+    { label: '菜单树', value: 'menuTree', type: 'tree' },
+    { label: '角色', value: 'role', type: 'table' },
+    { label: '资源表格', value: 'resource', type: 'table' }
   ]
   // options是为type为keyValue的选择组件提供选项，key对应OptionsDataSource的value
   options = {

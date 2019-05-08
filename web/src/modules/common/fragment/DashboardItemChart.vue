@@ -10,8 +10,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import DashboardTitle from './DashboardTitle.vue'
 
-@Component({components: {DashboardTitle}})
-export default class DashboardItemChart extends Vue {
+export default @Component({ components: { DashboardTitle } }) class DashboardItemChart extends Vue {
   /* vue-props */
   @Prop() dashboard
   @Prop() size
@@ -40,14 +39,14 @@ export default class DashboardItemChart extends Vue {
     }
     const data = {}
     data.data = this.data.data
-    data.settings = {type: this.dashboard.type, ...this.data.settings}
+    data.settings = { type: this.dashboard.type, ...this.data.settings }
     data.height = this.height
     data.width = 'auto'
     data.judgeWidth = true
     return data
   }
   /* vue-watch */
-  @Watch('size', {deep: true})
+  @Watch('size', { deep: true })
   sizeChange () {
     if (this.$refs.chart) {
       this.$refs.chart.resize()

@@ -19,13 +19,12 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import CcInputTags from './CcInputTags.vue'
 
-@Component({components: {CcInputTags}})
-export default class CcInputTable extends Vue {
+export default @Component({ components: { CcInputTags } }) class CcInputTable extends Vue {
   /* vue-props */
-  @Prop({type: [String, Number, Array]}) value
+  @Prop({ type: [String, Number, Array] }) value
   @Prop() options
-  @Prop({type: String, default: 'id'}) valueField
-  @Prop({type: String, default: 'name'}) labelField
+  @Prop({ type: String, default: 'id' }) valueField
+  @Prop({ type: String, default: 'name' }) labelField
   @Prop(Boolean) multiSelect // 是否多选
   /* vue-vuex */
   /* vue-data */

@@ -33,7 +33,7 @@ const CrudUtils = {
   },
   colorRender: {
     label: 'JSX-颜色',
-    format: (h, val) => <div style={{width: '24px', height: '24px', backgroundColor: val}}></div>
+    format: (h, val) => <div style={{ width: '24px', height: '24px', backgroundColor: val }}></div>
   }
 }
 
