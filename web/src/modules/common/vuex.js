@@ -2,7 +2,7 @@ import { utils } from '../../assets/utils/index'
 import router from '../../global/router'
 import api from '../../global/api'
 
-const defaultTabs = []
+const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
 const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
