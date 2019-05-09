@@ -1,15 +1,15 @@
 <!--Created by 熊超超 on 2018/6/6.-->
 <template>
-  <div class="input-icon" flex="cross:center">
+  <div class="input-icon" data-flex="cross:center">
     <el-popover ref="popover" placement="bottom" trigger="click" v-model="show">
       <div class="icon-con">
-        <span v-for="name in icons" :key="name" flex="dir:top cross:center" :class="['icon-warp', {select: name === value}]" @click="select(name)">
-          <span class="icon" flex="cross:center"><cc-icon :name="name"></cc-icon></span>
+        <span v-for="name in icons" :key="name" data-flex="dir:top cross:center" :class="['icon-warp', {select: name === value}]" @click="select(name)">
+          <span class="icon" data-flex="cross:center"><cc-icon :name="name"></cc-icon></span>
           <span class="to">{{name}}</span>
         </span>
       </div>
     </el-popover>
-    <div v-popover:popover flex="cross:center box:last" flex-box="1" class="content">
+    <div v-popover:popover data-flex="cross:center box:last" data-flex-box="1" class="content">
       <span v-if="value">
         <cc-icon :name="value" size="20"></cc-icon>
       </span>

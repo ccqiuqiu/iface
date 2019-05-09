@@ -1,13 +1,13 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div class="left" flex="dir:top" tabindex="1">
-    <div class="logo" flex-box="0" flex="cross:center main:center">
+  <div class="left" data-flex="dir:top" tabindex="1">
+    <div class="logo" data-flex-box="0" data-flex="cross:center main:center">
       <span v-if="menuExpand" class="f-24">iFace-Admin</span>
       <span v-else class="f-18">iFace</span>
     </div>
     <el-menu ref="menu" :default-active="selectedTab"
          :collapse="!menuExpand"
-         @select="selectMenu" flex-box="1">
+         @select="selectMenu" data-flex-box="1">
       <el-menu-item :index="'0'" key="0" v-show="false">
         <!--这个隐藏的菜单为了解决首页的时候，高亮的菜单项不挣钱-->
       </el-menu-item>

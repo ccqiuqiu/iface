@@ -1,11 +1,11 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <div flex="cross:center box:justify" class="nav p-h-10">
+  <div data-flex="cross:center box:justify" class="nav p-h-10">
     <cc-icon name="menu" :rotate="menuExpand? 0 : 90" @click="toggleMenu" class="cp"/>
     <el-breadcrumb separator="/" class="m-l-10">
       <el-breadcrumb-item v-for="menu in nav" :key="menu.id">{{menu.name}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div flex="cross:center">
+    <div data-flex="cross:center">
       <cc-icon name="user" size="18" class="m-r-5"/>
       <span>{{user.name}}</span>
       <span class="m-h-5">|</span>

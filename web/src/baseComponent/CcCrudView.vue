@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/6/8.-->
 <template>
   <div v-loading="loading" class="crud-view">
-    <div v-for="(item, index) in items" :key="index" flex="cross:center" class="item">
+    <div v-for="(item, index) in items" :key="index" data-flex="cross:center" class="item">
       <div class="label">{{item.label}}</div>
       <div class="value">{{item.value}}</div>
     </div>

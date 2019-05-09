@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <div flex="box:last">
+  <div data-flex="box:last">
     <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
       <el-tab-pane
           :key="item.name"
@@ -10,7 +10,7 @@
           :name="item.name">
       </el-tab-pane>
     </el-tabs>
-    <el-dropdown trigger="click" class="action" flex="cross:center"
+    <el-dropdown trigger="click" class="action" data-flex="cross:center"
                  @command="removeTabs" @visible-change="toggleMenuVisible">
       <span class="p-h-4 p-v-6 cp" :class="{'menu-visible': menuVisible}"><i class="el-icon-arrow-down"></i></span>
       <el-dropdown-menu slot="dropdown">
@@ -25,7 +25,7 @@
 
 <script>
 import {Component, Vue} from 'vue-property-decorator'
-import { State, Mutation } from 'vuex-class'
+import {State, Mutation} from 'vuex-class'
 
 export default @Component class TabsView extends Vue {
   /* vue-props */

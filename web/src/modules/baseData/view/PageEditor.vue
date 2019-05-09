@@ -1,11 +1,11 @@
 <!--Created by 熊超超 on 2018/8/7.-->
 <template>
-  <div flex="dir:top">
-    <el-card shadow="never" class="p flex" flex-box="1">
-      <div slot="header" flex="cross:center">
-        <span flex-box="1">{{pageTitle}}</span>
+  <div data-flex="dir:top">
+    <el-card shadow="never" class="p flex" data-flex-box="1">
+      <div slot="header" data-flex="cross:center">
+        <span data-flex-box="1">{{pageTitle}}</span>
       </div>
-      <codemirror v-model="code" :options="options" flex-box="1" class="b-t b-l b-r"></codemirror>
+      <codemirror v-model="code" :options="options" data-flex-box="1" class="b-t b-l b-r"></codemirror>
       <div class="p-10 b-t">
         <cc-form :data="formObj" full-width/>
       </div>

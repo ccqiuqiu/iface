@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div flex="cross:center" class="header">
+  <div data-flex="cross:center" class="header">
     <div class="logo">logo</div>
   </div>
 </template>

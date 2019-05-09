@@ -11,8 +11,24 @@
             @current-change="currentChange">
     <el-table-column type="selection" width="55" v-if="multi" />
     <template v-for="(column, index) in columns">
-      <el-table-column v-bind="column" :key="index">
+      <el-table-column v-if="column.type=='index'" width="50" align="center" type="index" :label="column.label||'序号'" :key="index"></el-table-column>
+      <el-table-column v-else v-bind="column"
+                       :showOverflowTooltip="isShowTooltip(column)" :key="index">
         <template slot-scope="scope">
+          <div v-if="column.btns" class="action">
+            <span  v-for="(btn, index) in column.btns" :key="index"><el-button
+              plain
+              size="mini"
+              type="primary"
+              :icon="btn.icon"
+              v-bind="btn.props"
+              @click.stop="btn.cb({value: scope.row[scope.column['property']], row: scope.row, index: scope.$index})"
+            >{{btn.text}}</el-button>
+              </span>
+          </div>
+          <div v-else-if="column.template">
+            {{ column.template ? column.template(scope.row[column.key]) : scope.row[column.key] }}
+          </div>
           <cc-render :column="column" :scope="scope"></cc-render>
         </template>
       </el-table-column>
@@ -86,6 +102,15 @@ export default @Component({ components: { CcRender } }) class CcTable extends Vu
     rows.forEach((row) => {
       this.$refs.table.toggleRowSelection(row, true)
     })
+  }
+  isShowTooltip (column) {
+    if (column.showOverflowTooltip === undefined) {
+      if (column.btns || column.renderCell || column.formatter) {
+        return false
+      }
+      return true
+    }
+    return column.showOverflowTooltip
   }
 }
 </script>

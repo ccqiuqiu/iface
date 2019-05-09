@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/7/25.-->
 <template>
-  <div class="record" flex="cross:center" v-if="record">
+  <div class="record" data-flex="cross:center" v-if="record">
     <span>{{recordText}}</span>
     <span :class="['save', {disable: recordStatus !== 1}]" @click="onSaveRecord">保存</span>
   </div>

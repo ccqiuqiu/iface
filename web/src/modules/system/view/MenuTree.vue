@@ -2,12 +2,12 @@
 <template>
   <div>
     <el-card shadow="never" class="p" v-loading="loading">
-      <div slot="header" flex="cross:center">
-        <span flex-box="1">{{pageTitle}}</span>
+      <div slot="header" data-flex="cross:center">
+        <span data-flex-box="1">{{pageTitle}}</span>
         <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
         <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
       </div>
-      <div flex="box:first">
+      <div data-flex="box:first">
         <div class="left">
           <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
           <el-tree ref="tree" :data="data" :props="{children: 'children', label: 'name'}" default-expand-all

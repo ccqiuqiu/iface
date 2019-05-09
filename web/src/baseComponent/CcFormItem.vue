@@ -1,8 +1,14 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <el-form-item v-bind="itemProps(mItem)" :class="{'is-required': !noVerify && mItem.verify && mItem.verify.canBeEmpty === undefined}" v-loading="loading">
+<el-form-item :label="itemProps(mItem).label" :prop="itemProps(mItem).label" :label-wisdth="itemProps(mItem).labelWidth"
+                :class="[
+                {'is-required': !noVerify && mItem.verify && mItem.verify.canBeEmpty === undefined},
+                mItem.col ? 'col-' + mItem.col : '', mItem.prop, mItem.class,
+                {'is-disabled': mItem.props && mItem.props.disabled}
+                ]"
+                v-loading="loading">
     <!--选择框-->
-    <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners"></cc-select>
+    <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners" @change="val => selectChange(val, mItem)"></cc-select>
     <!--日期，范围-->
     <el-date-picker v-model="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type"
                     v-else-if="['date', 'datetime', 'daterange', 'datetimerange'].includes(mItem.type)"
@@ -34,10 +40,11 @@
                        v-else-if="['checkbox', 'checkboxbutton'].includes(mItem.type)" v-on="$listeners"></cc-checkbox-group>
     <!--级联选择器-->
     <template v-else-if="mItem.type === 'cascader'">
-      <el-cascader v-model="model[mItem.prop]" :options="mItem.options" v-bind="mItem.props" v-if="mItem.options" v-on="$listeners"/>
+      <el-cascader @change="val => cascaderChange(val, mItem)" v-model="model[mItem.prop]" :options="typeof mItem.options === 'string' ? [] : mItem.options" v-bind="mItem.props" v-if="mItem.options" v-on="$listeners"/>
     </template>
     <!--计数器-->
-    <el-input-number v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'number'" v-on="$listeners"></el-input-number>
+    <!--<el-input-number v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'number'" v-on="$listeners"></el-input-number>-->
+    <cc-input-number v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'number'" v-on="$listeners"></cc-input-number>
     <!--滑块-->
     <el-slider v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'slider'" v-on="$listeners"></el-slider>
     <!--评分-->
@@ -56,10 +63,25 @@
     <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
     <!--color-->
     <el-color-picker v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'color'" v-on="$listeners" :predefine="['#53beea', '#49a361', '#e79f3c', '#cd5542']"></el-color-picker>
+    <div v-else-if="mItem.type === 'view'">
+      <template v-if="item.formatter">
+        {{item.formatter(model, mItem.prop, model[mItem.prop])}}
+      </template>
+      <template v-else-if="item.renderCell">
+        <cc-render :renderFun="item.renderCell"></cc-render>
+      </template>
+      <template v-else>{{mItem.value || model[mItem.prop]}}</template>
+    </div>
+    <el-autocomplete v-model="model[mItem.prop]" v-bind="mItem.props" :fetch-suggestions="item.props.fetchSuggestions"  v-else-if="mItem.type === 'autocomplete'" v-on="$listeners"></el-autocomplete>
+    <cc-input-tags :label="mItem.props.label" v-else-if="mItem.type === 'tags'" v-model="model[mItem.prop]" v-bind="mItem.props" v-on="$listeners" icon="table"></cc-input-tags>
     <!--input-->
     <template v-else>
-      <el-input v-model.number="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-if="isNumber(mItem.verify)" clearable v-on="$listeners"></el-input>
-      <el-input v-model="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-else clearable v-on="$listeners"></el-input>
+      <el-input v-model.number="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-if="isNumber(mItem.verify)" clearable v-on="$listeners">
+        <template v-if="mItem.props.append" slot="append">{{mItem.props.append}}</template>
+      </el-input>
+      <el-input v-model="model[mItem.prop]" @click.native="$emit('click')" v-bind="mItem.props" :type="mItem.type" v-else clearable v-on="$listeners">
+        <template v-if="mItem.props.append" slot="append">{{mItem.props.append}}</template>
+      </el-input>
     </template>
   </el-form-item>
 </template>

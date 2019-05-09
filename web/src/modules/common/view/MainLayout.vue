@@ -1,14 +1,14 @@
 <!--Created by 熊超超 on 2018/4/26.-->
 <template>
-  <div flex="dir:top">
+  <div data-flex="dir:top">
     <vue-progress-bar></vue-progress-bar>
-    <header-view flex-box="0" v-if="false"/>
-    <div flex="box:first" flex-box="1">
-      <div flex=""><menu-view/></div>
-      <div flex="dir:top">
-        <nav-view flex-box="0"></nav-view>
-        <tabs-view flex-box="0"></tabs-view>
-        <div class="main-view" flex-box="1">
+    <header-view data-flex-box="0" v-if="false"/>
+    <div data-flex="box:first" data-flex-box="1">
+      <div data-flex=""><menu-view/></div>
+      <div data-flex="dir:top">
+        <nav-view data-flex-box="0"></nav-view>
+        <tabs-view data-flex-box="0"></tabs-view>
+        <div class="main-view" data-flex-box="1">
           <keep-alive>
             <router-view class="content-view"/>
           </keep-alive>

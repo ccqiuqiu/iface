@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/5/18.-->
 <template>
   <el-button v-bind="$attrs" :type="type" @click.native="$emit('click')">
-    <span flex="cross:center">
+    <span data-flex="cross:center">
       <cc-icon v-if="icon" v-bind="$attrs" :name="icon" :size="iconSize"/>
       <span v-if="text" class="m-l-6">{{text}}</span>
     </span>

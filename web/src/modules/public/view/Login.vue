@@ -1,8 +1,8 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div class="login" flex="main:center cross:center">
+  <div class="login" data-flex="main:center cross:center">
     <el-card class="card">
-      <div slot="header" flex="cross:center box:last">
+      <div slot="header" data-flex="cross:center box:last">
         <span>用户登录</span>
       </div>
       <el-form label-width="60px" class="m-h-20 full-width">
@@ -13,7 +13,7 @@
           <el-input type="password" v-model="user.password"></el-input>
         </el-form-item>
       </el-form>
-      <div flex="main:right">
+      <div data-flex="main:right">
         <el-button type="primary" @click="login">登录</el-button>
       </div>
       <div class="c-info">测试账号：admin/test  密码：123456</div>

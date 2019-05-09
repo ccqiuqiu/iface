@@ -2,16 +2,23 @@
 <template>
   <el-form v-loading="loading" ref="form" :model="data.model"
            :label-width="data.labelWidth || '100px'"
+           :label-position="data.labelPosition || 'right'"
            v-bind="data.props"
            :class="{'full-width': fullWidth}"
-           :inline="isSearch">
-    <cc-form-item
-        @blur="$emit('blur', item.prop)"
-        @keyup.native="$emit('keyup', item.prop)"
-        @change="$emit('change', item.prop)"
-        :model="data.model"
-        :no-verify="isSearch"
-        :item="item" @value-change="onValueChange" v-for="(item, index) in items" :key="item.prop || index"></cc-form-item>
+           :inline="isSearch" v-if="show">
+    <template v-for="(item, index) in items">
+      <cc-form-item :class="{'cc-form-item-full':item.full}"
+                    @blur="$emit('blur', item.prop)"
+                    @focus="$emit('focus', item.prop)"
+                    @keyup.native="$emit('keyup', item.prop)"
+                    @change="(value) => $emit('change', item.prop, value)"
+                    @halfChecked="(value) => $emit('halfChecked', item.prop, value)"
+                    @selected-obj="(value) => $emit('selected-obj', item.prop, value)"
+                    v-if="!item.if || item.if(data.model)"
+                    :model="data.model"
+                    :no-verify="isSearch || noVerify"
+                    :item="item" @value-change="onValueChange" :key="item.prop || index"></cc-form-item>
+    </template>
     <div class="action" v-if="btns && btns.length">
       <cc-button v-bind="btn" v-for="(btn, index) in btns" :key="index" @click="btnClick(btn)"/>
     </div>
@@ -49,11 +56,13 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
   @Prop(Boolean) isSearch
   @Prop(String) url
   @Prop(String) saveUrl
+  @Prop(Boolean) noVerify
   @Prop(Boolean) fullWidth
   /* vue-vuex */
   @Action requestUrl
   /* vue-data */
   loading = false
+  show = true
   items = []
   data () {
     return {
@@ -101,6 +110,9 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
     if (btn.action === 'reset') {
       this.$refs.form.resetFields()
       this.data.model = JSON.parse(JSON.stringify(this.defaultModel))
+    } else if (btn.action === 'back') {
+      // this.$router.back()
+      btn.cb()
     } else {
       // 点击的不是重置按钮，先校验表单
       this.$refs.form.validate(async (valid) => {
@@ -150,6 +162,16 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
         cb()
       }
     })
+  }
+  validate (func) {
+    this.$refs.form.validate(func)
+  }
+  clearValidate () {
+    this.$nextTick(() => this.$refs.form.clearValidate())
+  }
+  forceUpdate () {
+    this.show = false
+    this.$nextTick(() => (this.show = true))
   }
 }
 </script>
