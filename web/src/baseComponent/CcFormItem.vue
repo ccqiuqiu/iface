@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-<el-form-item :label="itemProps(mItem).label" :prop="itemProps(mItem).label" :label-wisdth="itemProps(mItem).labelWidth"
+<el-form-item v-bind="itemProps(mItem)"
                 :class="[
                 {'is-required': !noVerify && mItem.verify && mItem.verify.canBeEmpty === undefined},
                 mItem.col ? 'col-' + mItem.col : '', mItem.prop, mItem.class,
@@ -127,7 +127,7 @@ class CcFormItem extends Vue {
   /* vue-method */
   // 过滤form-item的props
   itemProps (item) {
-    const { options, props, dialog, verify, placeholder, multiSelect, ...itemProps } = item
+    const { options, props, dialog, verify, placeholder, multiSelect, formatter, renderCell, ...itemProps } = item
     item.props = item.props || {}
     if (placeholder) {
       item.props.placeholder = placeholder
