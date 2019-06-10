@@ -12,7 +12,7 @@
                     @focus="$emit('focus', item.prop)"
                     @keyup.native="$emit('keyup', item.prop)"
                     @change="(value) => $emit('change', item.prop, value)"
-                    @halfChecked="(value) => $emit('halfChecked', item.prop, value)"
+                    @halfChecked="(value) => halfChecked(item.prop, value)"
                     @selected-obj="(value) => $emit('selected-obj', item.prop, value)"
                     v-if="!item.if || item.if(data.model)"
                     :model="data.model"
@@ -47,132 +47,151 @@ const btnActionMap = {
     action: 'search',
     text: '搜索',
     icon: 'search'
+  },
+  close: {
+    action: 'close',
+    text: '关闭',
+    icon: 'close'
   }
 }
 
 export default @Component({ components: { CcFormItem } }) class CcForm extends Vue {
-  /* vue-props */
-  @Prop({ required: true, type: Object }) data
-  @Prop(Boolean) isSearch
-  @Prop(String) url
-  @Prop(String) saveUrl
-  @Prop(Boolean) noVerify
-  @Prop(Boolean) fullWidth
-  /* vue-vuex */
-  @Action requestUrl
-  /* vue-data */
-  loading = false
-  show = true
-  items = []
-  data () {
-    return {
-      defaultModel: JSON.parse(JSON.stringify(this.data.model)) // 保存一份原始数据的拷贝，用于重置表单
+    /* vue-props */
+    @Prop({ required: true, type: Object }) data
+    @Prop(Boolean) isSearch
+    @Prop(Function) getModelMethod
+    @Prop(String) saveUrl
+    @Prop(Boolean) noVerify
+    @Prop(Boolean) fullWidth
+    /* vue-vuex */
+    @Action requestUrl
+    /* vue-data */
+    loading = false
+    show = true
+    items = []
+    halfCheckedList = {}
+    data () {
+      return {
+        defaultModel: JSON.parse(JSON.stringify(this.data.model)) // 保存一份原始数据的拷贝，用于重置表单
+      }
     }
-  }
-  /* vue-compute */
-  // 处理按钮数组
-  get btns () {
-    if (this.data.btns) {
-      return this.data.btns.map((btn) => {
-        btn.text = btn.text || btnActionMap[btn.action].text
-        btn.icon = btn.icon || btnActionMap[btn.action].icon
-        btn.type = btn.type || btnActionMap[btn.action].type
-        return btn
-      })
-    } else {
-      return [
-        btnActionMap[this.isSearch ? 'search' : 'save'],
-        btnActionMap.reset
-      ]
+    /* vue-compute */
+    // 处理按钮数组
+    get btns () {
+      if (this.data.btns) {
+        return this.data.btns
+      } else {
+        return [
+          btnActionMap[this.isSearch ? 'search' : 'save'],
+          btnActionMap['reset']
+        ]
+      }
     }
-  }
-  /* vue-watch */
-  // @Watch('data.model')
-  // modelChange(val) {
-  //   this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
-  // }
-  @Watch('url', { immediate: true })
-  urlChange (val) {
-    if (val) {
-      this.initModel()
+    /* vue-watch */
+    // @Watch('data.model')
+    // modelChange(val) {
+    //   this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
+    // }
+    @Watch('getModelMethod', { immediate: true })
+    getModelMethodChange (val) {
+      if (val) {
+        this.initModel()
+      }
     }
-  }
-  @Watch('data', { immediate: true })
-  dataChange (val) {
-    if (val.items) {
-      this.items = val.items
+    @Watch('data', { immediate: true })
+    dataChange (val) {
+      if (val.items) {
+        this.items = val.items
+        this.defaultModel = JSON.parse(JSON.stringify(val.model)) // 保存一份原始数据的拷贝，用于重置表单
+      }
     }
-  }
-  /* vue-lifecycle */
-  /* vue-method */
-  // 按钮点击事件
-  async btnClick (btn) {
-    if (btn.action === 'reset') {
-      this.$refs.form.resetFields()
-      this.data.model = JSON.parse(JSON.stringify(this.defaultModel))
-    } else if (btn.action === 'back') {
-      // this.$router.back()
-      btn.cb()
-    } else {
-      // 点击的不是重置按钮，先校验表单
-      this.$refs.form.validate(async (valid) => {
-        if (valid) {
-          // 校验通过后，如果按钮有回调，直接执行回调
-          if (btn.cb) {
-            btn.cb()
-          } else { // 没有回调的情况
-            // 搜索按钮直接发送事件
-            if (btn.action === 'search') {
-              this.$emit(btn.action)
-            } else { // 非搜索按钮，执行action
-              let pass = true
-              // 先执行before-*方法，如果返回true，继续执行否则不执行
-              if (this.$attrs['before-' + btn.action]) {
-                pass = (this.$attrs)['before-' + btn.action]()
-              }
-              if (pass) {
-                this.loading = true
-                const url = this.saveUrl || this.data.name
-                const re = await this.requestUrl({ url, params: this.data.model, method: 'put' })
-                this.loading = false
-                this.$emit(btn.action, re)
+    /* vue-lifecycle */
+    /* vue-method */
+    // 按钮点击事件
+    async btnClick (btn) {
+      if (btn.action === 'reset') {
+        this.$refs.form.resetFields()
+        this.data.model = JSON.parse(JSON.stringify(this.defaultModel))
+      } else if (btn.action === 'back') {
+        // this.$router.back()
+        btn.cb()
+      } else {
+        // 点击的不是重置按钮，先校验表单
+        this.$refs.form.validate(async (valid) => {
+          if (valid) {
+            // 校验通过后，如果按钮有回调，直接执行回调
+            if (btn.cb) {
+              btn.cb()
+            } else { // 没有回调的情况
+              // 搜索按钮直接发送事件
+              if (btn.action === 'search') {
+                this.$emit(btn.action)
+              } else { // 非搜索按钮，执行action
+                let pass = true
+                // 先执行before-*方法，如果返回true，继续执行否则不执行
+                if (this.$attrs['before-' + btn.action]) {
+                  pass = (this.$attrs)['before-' + btn.action]()
+                }
+                if (pass) {
+                  this.loading = true
+                  const url = this.saveUrl || this.data.name
+                  const params = JSON.parse(JSON.stringify(this.data.model))
+                  // 处理半选节点
+                  for (let [key, value] of Object.entries(this.halfCheckedList)) {
+                    if (params[key] && Array.isArray(params[key])) {
+                      params[key] = params[key].concat(value)
+                    }
+                  }
+                  // 支持传递按钮的处理函数
+                  if (this.$attrs[btn.action + 'Handler']) {
+                    await this.$attrs[btn.action + 'Handler'](this.data.model)
+                    this.loading = false
+                    return
+                  }
+                  const re = await this.requestUrl({ url, params: params, method: this.data.model.id ? 'put' : 'post' })
+                  this.loading = false
+                  this.$emit(btn.action, re)
+                }
               }
             }
           }
+        })
+      }
+    }
+    // 初始化model。用于更新表单从服务端获取完整数据
+    async initModel () {
+      this.loading = true
+      // const { data } = await this.requestUrl({ url: this.url })
+      const model = await this.getModelMethod()
+      this.loading = false
+      this.data.model = model
+      this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
+    }
+    // 在dialog的值变化的时候，触发一次校验
+    onValueChange (prop) {
+      this.$refs.form.validateField(prop, () => null)
+    }
+    submit (cb) {
+      this.$refs.form.validate(async (valid) => {
+        if (valid && cb) {
+          cb()
         }
       })
     }
-  }
-  // 初始化model。用于更新表单从服务端获取完整数据
-  async initModel () {
-    this.loading = true
-    const { data } = await this.requestUrl({ url: this.url })
-    this.loading = false
-    if (data) {
-      this.data.model = data
+    validate (func) {
+      this.$refs.form.validate(func)
     }
-  }
-  // 在dialog的值变化的时候，触发一次校验
-  onValueChange (prop) {
-    this.$refs.form.validateField(prop, () => null)
-  }
-  submit (cb) {
-    this.$refs.form.validate(async (valid) => {
-      if (valid && cb) {
-        cb()
-      }
-    })
-  }
-  validate (func) {
-    this.$refs.form.validate(func)
-  }
-  clearValidate () {
-    this.$nextTick(() => this.$refs.form.clearValidate())
-  }
-  forceUpdate () {
-    this.show = false
-    this.$nextTick(() => (this.show = true))
-  }
+    clearValidate () {
+      this.$nextTick(() => this.$refs.form.clearValidate())
+    }
+    forceUpdate () {
+      this.show = false
+      this.$nextTick(() => (this.show = true))
+    }
+    halfChecked (prop, value) {
+      this.halfCheckedList[prop] = value
+      this.$emit('halfChecked', prop, value)
+    }
 }
 </script>
 

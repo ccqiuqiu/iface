@@ -69,7 +69,8 @@ module.exports = {
       '/v1': {
         // target: 'https://demo.ccqiuqiu.win/iface-api',
         target: 'http://127.0.0.1:3000',
-        changeOrigin: true
+        changeOrigin: true,
+        ws: false
       }
     }
   }
