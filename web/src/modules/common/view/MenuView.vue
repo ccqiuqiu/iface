@@ -103,7 +103,11 @@ export default @Component class MenuView extends Vue {
       this.$el.focus()
       const menu = this.flatMenu.find((m) => m.id === index)
       if (menu) {
-        this.$router.push(menu.url)
+        if (menu.url.startsWith('/baseData/iframe')) {
+          this.$utils.toTab(encodeURI(menu.url), menu.name)
+        } else {
+          this.$router.push(menu.url)
+        }
       }
     })
     // this.activeMenuIndexPath = indexPath

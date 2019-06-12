@@ -6,6 +6,7 @@ const PageList = () => import(/* webpackChunkName: "m1" */ './view/PageList.vue'
 const CreateCrud = () => import(/* webpackChunkName: "m1" */ './view/CreateCrud.vue')
 const Page = () => import(/* webpackChunkName: "m1" */ './view/Page.vue')
 const PageEditor = () => import(/* webpackChunkName: "m1" */ './view/PageEditor.vue')
+const IframePage = () => import(/* webpackChunkName: "m1" */ './view/IframePage.vue')
 
 export default [
   {
@@ -27,5 +28,10 @@ export default [
     path: '/baseData/page/:code',
     name: 'page',
     component: Page
+  },
+  {
+    path: '/baseData/iframe',
+    name: 'iframePage',
+    component: IframePage
   }
 ]

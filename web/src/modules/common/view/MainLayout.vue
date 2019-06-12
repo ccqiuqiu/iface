@@ -68,8 +68,12 @@ class MainLayout extends Vue {
     list.forEach((item) => {
       item.id = item.id + ''
       // 将补全特殊的url
-      if (item.url && item.url.substr(0, 1) !== '/') {
-        item.url = '/baseData/page/' + item.url
+      if (item.url.startsWith('http')) {
+        item.url = '/baseData/iframe?url=' + encodeURIComponent(item.url)
+      } else {
+        if (item.url && !item.url.startsWith('/')) {
+          item.url = '/baseData/page/' + item.url
+        }
       }
       if (item.children) {
         this.number2string(item.children)
