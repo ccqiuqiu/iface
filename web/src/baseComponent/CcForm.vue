@@ -63,6 +63,7 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
     @Prop(String) saveUrl
     @Prop(Boolean) noVerify
     @Prop(Boolean) fullWidth
+    @Prop(String) getUrl
     /* vue-vuex */
     @Action requestUrl
     /* vue-data */
@@ -92,6 +93,12 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
     // modelChange(val) {
     //   this.defaultModel = JSON.parse(JSON.stringify(this.data.model))
     // }
+    @Watch('getUrl', { immediate: true })
+    getUrlChange (val) {
+      if (val) {
+        this.initModel()
+      }
+    }
     @Watch('getModelMethod', { immediate: true })
     getModelMethodChange (val) {
       if (val) {
@@ -148,7 +155,7 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
                     this.loading = false
                     return
                   }
-                  const re = await this.requestUrl({ url, params: params, method: this.data.model.id ? 'put' : 'put' })
+                  const re = await this.requestUrl({ url, params: params, method: this.data.model.id ? 'put' : 'post' })
                   this.loading = false
                   this.$emit(btn.action, re)
                 }
@@ -161,8 +168,16 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
     // 初始化model。用于更新表单从服务端获取完整数据
     async initModel () {
       this.loading = true
-      // const { data } = await this.requestUrl({ url: this.url })
-      const model = await this.getModelMethod()
+      let model = this.model
+      if (this.getUrl) {
+        const { data } = await this.requestUrl({ url: this.getUrl })
+        if (data) {
+          model = data
+        }
+      } else {
+        model = await this.getModelMethod()
+      }
+      this.model = model
       this.loading = false
       this.data.model = model
       this.defaultModel = JSON.parse(JSON.stringify(this.data.model))

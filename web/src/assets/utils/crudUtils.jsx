@@ -58,7 +58,7 @@ export async function initOptions (data) {
         }
       }
       if (data) {
-        formProps.options = data
+        formProps.options = data.data || data
       }
       resolve()
     } else {
