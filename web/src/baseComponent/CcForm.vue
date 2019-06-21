@@ -168,7 +168,7 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
     // 初始化model。用于更新表单从服务端获取完整数据
     async initModel () {
       this.loading = true
-      let model = this.model
+      let model = this.data.model
       if (this.getUrl) {
         const { data } = await this.requestUrl({ url: this.getUrl })
         if (data) {
@@ -177,7 +177,6 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
       } else {
         model = await this.getModelMethod()
       }
-      this.model = model
       this.loading = false
       this.data.model = model
       this.defaultModel = JSON.parse(JSON.stringify(this.data.model))

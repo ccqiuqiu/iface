@@ -1,4 +1,6 @@
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, dir)
@@ -12,7 +14,33 @@ module.exports = {
   transpileDependencies: [
     'element-ui-verify/dist'
   ],
+  configureWebpack: config => {
+    // 配置代码压缩
+    if (process.env.NODE_ENV === 'production') {
+      config.plugins.push(
+        // 生产环境自动删除console
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            warnings: false,
+            compress: {
+              drop_debugger: true,
+              drop_console: true,
+            },
+          },
+          sourceMap: false,
+          parallel: true,
+        })
+      )
+    }
+  },
   chainWebpack: config => {
+    // 增加打包分析
+    if (process.env.IS_ANALYZ) {
+      config.plugin('webpack-report')
+        .use(BundleAnalyzerPlugin, [{
+          analyzerMode: 'static',
+        }])
+    }
     // config.optimization.minimize(false)
 
     const svgRule = config.module.rule('svg')
@@ -26,42 +54,19 @@ module.exports = {
       .options({
         symbolId: 'icon-[name]'
       })
-
-    // 单独打包vue相关库
-    // config.entry('lib')
-    //   .add('vue')
-    //   .add('vuex')
-    //   .add('vue-router')
-    //   .end()
-    // config.optimization.splitChunks({
-    //   cacheGroups: {
-    //     lib: {
-    //       name: `lib`,
-    //       priority: 1,
-    //       chunks: 'initial',
-    //       test: 'lib',
-    //     },
-    //     vendors: {
-    //       name: `chunk-vendors`,
-    //       test: /[\\/]node_modules[\\/]/,
-    //       priority: -10,
-    //       chunks: 'initial'
-    //     },
-    //     common: {
-    //       name: `chunk-common`,
-    //       minChunks: 2,
-    //       priority: -20,
-    //       chunks: 'initial',
-    //       reuseExistingChunk: true
-    //     }
-    //   }
-    // })
     // 设置一些别名
     // config.resolve.alias
     //   .set('@g', resolve('src/global'))
     //   .set('@bc', resolve('src/baseComponent'))
     //   .set('@common', resolve('src/modules/common/view'))
     //   .set('@utils', resolve('src/assets/utils'))
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `$aaa: #FF0000;`
+      }
+    }
   },
   devServer: {
     port: 9088,

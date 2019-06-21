@@ -48,8 +48,10 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^4.1.6",
+    "uglifyjs-webpack-plugin": "^2.1.3",
     "vue-template-compiler": "^2.5.21",
-    "vuepress": "^0.14.11"
+    "vuepress": "^0.14.11",
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "postcss": {
     "plugins": {
