@@ -44,10 +44,11 @@ class MainLayout extends Vue {
   }
   /* vue-lifecycle */
   async created () {
+    // 登录验证
     const token = sessionStorage.getItem('token')
-    let ticket = sessionStorage.getItem('ticket') || this.$utils.url2Obj(document.URL)['ticket']
+    let ticket = this.$utils.url2Obj(document.URL)['ticket']
     if (!token && !ticket) {
-      this.$router.push({name: 'login', params: {url: document.URL}})
+      this.$router.push({name: 'login', query: {url: document.URL}})
       return
     }
     if (!token && ticket) {
@@ -55,9 +56,12 @@ class MainLayout extends Vue {
       if (data) {
         sessionStorage.setItem('token', data.token)
         this.$utils.message('登录成功')
-        // 去除url上面的ticket
-        this.$router.replace({name: this.$route.name})
       }
+    }
+    if (ticket) {
+      // 去除url上面的ticket
+      const {name, params, query: {ticket: ticket2, ...newQuery}} = this.$route
+      this.$router.replace({name, params, query: newQuery})
     }
     this.initAuth()
   }

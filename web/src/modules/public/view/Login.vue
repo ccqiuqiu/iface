@@ -34,12 +34,14 @@ export default @Component class Login extends Vue {
   }
   isRedirect = true
   /* vue-compute */
+  get redirectUrl () {
+    return this.$route.query['url']
+  }
   /* vue-watch */
   /* vue-lifecycle */
   created () {
-    const redirectUrl = this.$route.params['url']
-    if (redirectUrl && this.$env.ssoUrl) {
-      window.location.href = this.$env.ssoUrl + '/login?service=' + encodeURIComponent(redirectUrl)
+    if (this.redirectUrl && this.$env.ssoUrl) {
+      window.location.href = this.$env.ssoUrl + '/login?service=' + encodeURIComponent(this.redirectUrl)
     } else {
       this.isRedirect = false
     }
@@ -52,7 +54,8 @@ export default @Component class Login extends Vue {
       // this.$ls.set('token', data.token)
       sessionStorage.setItem('token', data.token)
       this.$utils.message('登录成功')
-      this.$router.push('/')
+      const path = this.redirectUrl ? this.redirectUrl.replace(location.origin, '') : '/'
+      this.$router.push(path)
     }
   }
   handlerData (data) {

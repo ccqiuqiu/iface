@@ -66,7 +66,7 @@ axiosInstance.interceptors.response.use((response) => {
     if (response.data.error.code === 401) {
       store.commit('hideDialog')
       store.commit('clearStore')
-      setTimeout(() => router.push('/login'), 0)
+      setTimeout(() => router.push({name: 'login', query: {url: document.URL}}), 0)
     }
     // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
     if (!_hideGlobalError || [401, 403].includes(response.data.error.code)) {

@@ -6,7 +6,7 @@ const Login = () => import(/* webpackChunkName: "m1" */ './view/Login.vue')
 
 export default [
   {
-    path: '/login/:url?',
+    path: '/login',
     name: 'login',
     component: Login
   }

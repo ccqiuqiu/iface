@@ -8,16 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitee.com/HTPMO/iface.git"
+    "url": "https://github.com/ccqiuqiu/iface.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitee.com/HTPMO/iface/issues/new"
+    "url": "https://gitee.com/ccqiuqiu/iface/issues/new"
   },
-  "homepage": "https://gitee.com/HTPMO/iface",
-  "devDependencies": {
-    "@types/mockjs": "^1.0.1",
-    "mockjs": "^1.0.1-beta3"
-  }
+  "homepage": "https://github.com/ccqiuqiu/iface"
 }
