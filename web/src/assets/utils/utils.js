@@ -70,10 +70,13 @@ export default class Utils {
       }
     })
   }
-  url2Obj (url) {
+  url2Obj (url = document.URL) {
     const q = {}
     url.replace(/([^?&=]+)=([^&]+)/g, (_, k, v) => (q[k] = v))
     return q
+  }
+  getUrlParams (name, url) {
+    return this.url2Obj(url)[name]
   }
 }
 export const utils = new Utils()

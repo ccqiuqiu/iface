@@ -46,7 +46,7 @@ class MainLayout extends Vue {
   async created () {
     // 登录验证
     const token = sessionStorage.getItem('token')
-    let ticket = this.$utils.url2Obj(document.URL)['ticket']
+    let ticket = this.$utils.getUrlParams('ticket')
     if (!token && !ticket) {
       this.$router.push({name: 'login', query: {url: document.URL}})
       return

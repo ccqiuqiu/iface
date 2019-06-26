@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2019-06-12.-->
 <template>
-  <div>
-    <iframe :src="decodeURIComponent($route.query.url)" frameborder="0"></iframe>
+  <div v-loading="loading">
+    <iframe @load="loading = false" :src="decodeURIComponent($route.query.url)" frameborder="0"></iframe>
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default @Component class IframePage extends Vue {
   /* vue-props */
   /* vue-vuex */
   /* vue-data */
+  loading = true
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
