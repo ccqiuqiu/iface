@@ -5,6 +5,9 @@
 import constant from './constant'
 import utils from './uiUtils'
 import ls from './lsUtils'
+const env = {
+  ssoUrl: process.env.VUE_APP_SSO_URL
+}
 
 export { utils, ls }
 
@@ -14,6 +17,7 @@ export default {
     Vue.prototype.$c = constant
     Vue.prototype.$ls = ls
     Vue.prototype.$bus = utils.bus
+    Vue.prototype.$env = env
 
     /**
      * 验证资源权限指令

@@ -30,6 +30,8 @@ export default {
   requestUrl: (method = 'get', url, params, config = {}) => request(method, url.indexOf('/') === 0 ? url : formBaseUrl + url, params, config),
   // 登录
   login: (params = {}, config = {}) => request('post', '/v1/public/login', params, config),
+  // ticket登录
+  ticketLogin: (params, config = {}) => request('post', '/v1/public/ticketLogin', params, config),
   // 获取权限
   getAuth: (params = {}, config = {}) => request('get', '/v1/base/auth', params, config),
   // 获取菜单树

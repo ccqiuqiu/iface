@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div class="login" data-flex="main:center cross:center">
+  <div class="login" data-flex="main:center cross:center" v-if="!isRedirect">
     <el-card class="card">
       <div slot="header" data-flex="cross:center box:last">
         <span>用户登录</span>
@@ -23,27 +23,34 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import { Action, Mutation } from 'vuex-class'
 
 export default @Component class Login extends Vue {
   /* vue-props */
   /* vue-vuex */
-  @Mutation('clearStore') clearStore
-  @Action('login') loginAction
   /* vue-data */
   user = {
     name: 'admin',
     password: '123456'
   }
+  isRedirect = true
   /* vue-compute */
   /* vue-watch */
   /* vue-lifecycle */
+  created () {
+    const redirectUrl = this.$route.params['url']
+    if (redirectUrl && this.$env.ssoUrl) {
+      window.location.href = this.$env.ssoUrl + '/login?service=' + encodeURIComponent(redirectUrl)
+    } else {
+      this.isRedirect = false
+    }
+  }
   /* vue-method */
   // 用户登录
   async login () {
-    const { data } = await this.loginAction(this.user)
+    const { data } = await this.$store.dispatch('login', this.user)
     if (data) {
-      this.$ls.set('token', data.token)
+      // this.$ls.set('token', data.token)
+      sessionStorage.setItem('token', data.token)
       this.$utils.message('登录成功')
       this.$router.push('/')
     }

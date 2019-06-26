@@ -11,6 +11,7 @@
       <span class="m-h-5">|</span>
       <span>{{user.roleString}}</span>
       <cc-icon name="logout" size="18" class="m-l-16 cp" @click="onLogout"/>
+<!--      <cc-theme-picker></cc-theme-picker>-->
     </div>
   </div>
 </template>
@@ -18,8 +19,9 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import { State, Mutation, Getter } from 'vuex-class'
+// import CcThemePicker from '../../../baseComponent/CcThemePicker'
 
-export default @Component class NavView extends Vue {
+export default @Component(/* {components: {CcThemePicker}} */) class NavView extends Vue {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menuExpand) menuExpand
@@ -28,7 +30,6 @@ export default @Component class NavView extends Vue {
   @State((state) => state.common.user) user
   @Getter nav
   @Mutation toggleMenu
-  @Mutation('clearStore') clearStore
   /* vue-data */
   /* vue-compute */
   /* vue-watch */
@@ -36,13 +37,18 @@ export default @Component class NavView extends Vue {
   /* vue-method */
   // 退出登录
   async onLogout () {
-    this.$ls.remove('token')
+    // this.$ls.remove('token')
+    sessionStorage.removeItem('token')
     this.$utils.message('退出登录成功')
     // 清除store里面缓存的数据
-    this.clearStore()
-    // clearStore里面会改动selected,将导致url跳转到一次'/'
-    // 在下一个$nextTick跳转，保证会跳转到登录页
-    this.$nextTick(() => this.$router.push('/login'))
+    this.$store.commit('clearStore')
+    if (this.$env.ssoUrl) {
+      window.location.href = this.$env.ssoUrl + '/logout?service=' + location.origin
+    } else {
+      // clearStore里面会改动selected,将导致url跳转到一次'/'
+      // 所以在下一个$nextTick跳转，保证会跳转到登录页
+      this.$nextTick(() => this.$router.push('/login'))
+    }
   }
 }
 

@@ -5,7 +5,7 @@
 @import "./theme";
 
 html {
-  /* 标准字体大小设置 14 像素 */
+  /* 标准字体大小 */
   font-size: $baseFontSize;
   height: 100%;
 }
@@ -23,7 +23,7 @@ html, body {
 
 body {
   /*设置网页基本字体颜色*/
-  color: $baseFontSize;
+  color: $baseFontColor;
   background: $bg;
 }
 

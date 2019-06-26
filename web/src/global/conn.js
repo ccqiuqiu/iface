@@ -21,7 +21,7 @@ const axiosInstance = axios.create({
 // 注册请求拦截器
 axiosInstance.interceptors.request.use((config) => {
   // 加公共请求参数
-  config.headers.token = ls.get('token', '')
+  config.headers.token = sessionStorage.getItem('token') || ''
   // 从请求参数里面取出一些控制参数, 控制loading和error的显示
   const { _loading, _hideGlobalError, ...data } = config.data
   config.headers._loading = _loading !== false

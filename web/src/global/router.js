@@ -10,6 +10,7 @@ import Page404 from '../modules/common/view/Page404.vue'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     ...publicRouter,
     {

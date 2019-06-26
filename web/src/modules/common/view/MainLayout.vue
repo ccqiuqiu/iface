@@ -1,9 +1,9 @@
 <!--Created by 熊超超 on 2018/4/26.-->
 <template>
-  <div data-flex="dir:top">
+  <div data-flex="dir:top" v-loading="!authSuccess">
     <vue-progress-bar></vue-progress-bar>
     <header-view data-flex-box="0" v-if="false"/>
-    <div data-flex="box:first" data-flex-box="1">
+    <div data-flex="box:first" data-flex-box="1" v-if="authSuccess" >
       <div data-flex=""><menu-view/></div>
       <div data-flex="dir:top">
         <nav-view data-flex-box="0"></nav-view>
@@ -26,7 +26,6 @@ import MenuView from './MenuView.vue'
 import NavView from '../../common/view/NavView.vue'
 import TabsView from '../../common/view/TabsView.vue'
 import CcDialog from '../../../baseComponent/CcDialog.vue'
-import { Action, Mutation } from 'vuex-class'
 
 export default @Component({
   components: { HeaderView, MenuView, NavView, TabsView, CcDialog }
@@ -34,9 +33,8 @@ export default @Component({
 class MainLayout extends Vue {
   /* vue-props */
   /* vue-vuex */
-  @Mutation('updateUser') updateUser
-  @Action getAuth
   /* vue-data */
+  authSuccess = false
   /* vue-compute */
   /* vue-watch */
   /* 监听路由变化 */
@@ -45,16 +43,32 @@ class MainLayout extends Vue {
     this.$utils.toTab(val.fullPath)
   }
   /* vue-lifecycle */
-  created () {
+  async created () {
+    const token = sessionStorage.getItem('token')
+    let ticket = sessionStorage.getItem('ticket') || this.$utils.url2Obj(document.URL)['ticket']
+    if (!token && !ticket) {
+      this.$router.push({name: 'login', params: {url: document.URL}})
+      return
+    }
+    if (!token && ticket) {
+      const { data } = await this.$store.dispatch('ticketLogin', {ticket})
+      if (data) {
+        sessionStorage.setItem('token', data.token)
+        this.$utils.message('登录成功')
+        // 去除url上面的ticket
+        this.$router.replace({name: this.$route.name})
+      }
+    }
     this.initAuth()
   }
   /* vue-method */
   async initAuth () {
     // 获取权限
-    const { data } = await this.getAuth()
+    const { data } = await this.$store.dispatch('getAuth')
+    this.authSuccess = true
     if (data) {
       this.handlerData(data)
-      this.updateUser(data)
+      this.$store.commit('updateUser', data)
     }
   }
   handlerData (data) {
