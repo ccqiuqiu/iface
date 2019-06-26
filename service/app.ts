@@ -11,7 +11,7 @@ import { dbInit } from './data/db'
 import {existsSync, mkdirSync} from 'fs'
 import {hasAuth} from './utils'
 import * as jwt from 'jsonwebtoken'
-import {jwtSecret, jwtExp, jwtReTime} from './services/config'
+import {jwtSecret, jwtExp} from './services/config'
 import * as redis from './utils/redis'
 
 // 创建日志目录
@@ -23,8 +23,8 @@ if (!existsSync(logPath)) {
 log4js.configure({
   appenders: {
     console: {type: 'console'},
-    app: { type: 'file', filename: logPath + '/app.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
-    db: { type: 'file', filename: logPath + '/db.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
+    app: {type: 'file', filename: logPath + '/app.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
+    db: {type: 'file', filename: logPath + '/db.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false, usefsync: true},
   },
   categories: {
     default: { appenders: ['console', 'app'], level: 'ALL' },

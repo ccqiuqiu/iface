@@ -64,6 +64,7 @@
     "not ie <= 8"
   ],
   "eslintIgnore": [
-    "src/record/mock.js"
+    "src/record/mock.js",
+    "../service"
   ]
 }
