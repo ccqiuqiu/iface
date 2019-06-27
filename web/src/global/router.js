@@ -11,7 +11,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  base: '/iface/',
+  base: process.env.BASE_URL || '/',
   routes: [
     ...publicRouter,
     {
