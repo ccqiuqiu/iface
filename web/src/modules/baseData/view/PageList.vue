@@ -25,9 +25,9 @@
 <script>
 import { Component, Mixins } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
-import { BaseMixin, PageMixin, TabMixin } from '../../../assets/utils/mixins'
+import { BaseMixin, PageMixin } from '../../../assets/utils/mixins'
 
-export default @Component class PageList extends Mixins(BaseMixin, TabMixin, PageMixin) {
+export default @Component class PageList extends Mixins(BaseMixin, PageMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action searchPage

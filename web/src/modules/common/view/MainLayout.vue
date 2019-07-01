@@ -3,16 +3,11 @@
   <div data-flex="dir:top" v-loading="!authSuccess">
     <vue-progress-bar></vue-progress-bar>
     <header-view data-flex-box="0" v-if="false"/>
-    <div data-flex="box:first" data-flex-box="1" v-if="authSuccess" >
+    <div data-flex="box:first" class="h-100" data-flex-box="1" v-if="authSuccess" >
       <div data-flex=""><menu-view/></div>
       <div data-flex="dir:top">
         <nav-view data-flex-box="0"></nav-view>
-        <tabs-view data-flex-box="0"></tabs-view>
-        <div class="main-view" data-flex-box="1">
-          <keep-alive>
-            <router-view class="content-view"/>
-          </keep-alive>
-        </div>
+        <tabs-view data-flex-box="1"></tabs-view>
       </div>
     </div>
     <cc-dialog></cc-dialog>
@@ -40,7 +35,7 @@ class MainLayout extends Vue {
   /* 监听路由变化 */
   @Watch('$route')
   routerChange (val) {
-    this.$utils.toTab(val.fullPath)
+    // this.$tab.toTab(val.fullPath)
   }
   /* vue-lifecycle */
   async created () {
@@ -71,32 +66,8 @@ class MainLayout extends Vue {
     const { data } = await this.$store.dispatch('getAuth')
     this.authSuccess = true
     if (data) {
-      this.handlerData(data)
       this.$store.commit('updateUser', data)
     }
-  }
-  handlerData (data) {
-    // 把菜单的id改为字符串
-    const menus = data.auth.menus
-    if (menus.length) {
-      this.number2string(menus)
-    }
-  }
-  number2string (list) {
-    list.forEach((item) => {
-      item.id = item.id + ''
-      // 将补全特殊的url
-      if (item.url.startsWith('http')) {
-        item.url = '/baseData/iframe?url=' + encodeURIComponent(item.url)
-      } else {
-        if (item.url && !item.url.startsWith('/')) {
-          item.url = '/baseData/page/' + item.url
-        }
-      }
-      if (item.children) {
-        this.number2string(item.children)
-      }
-    })
   }
 }
 </script>

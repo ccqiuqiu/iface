@@ -25,7 +25,7 @@ export default [
     component: PageEditor
   },
   {
-    path: '/baseData/page/:code',
+    path: '/baseData/page/*',
     name: 'page',
     component: Page
   },

@@ -1,7 +1,7 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
   <div class="home">
-    <grid-layout v-if="userDashboard.length"
+    <grid-layout ref="gridLayout" v-if="userDashboard.length"
                  :layout="userDashboard"
                  :col-num="colNum"
                  :row-height="rowHight"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import VueGridLayout from 'vue-grid-layout'
 import DashboardItem from '../fragment/DashboardItem.vue'
 import { Action } from 'vuex-class'
@@ -47,10 +47,12 @@ class Home extends Vue {
   userDashboardClone = []
   layoutUpdated = false
   /* vue-compute */
-  get selected () {
-    return this.userDashboard.map((userDashboard) => userDashboard.dashboard.id)
-  }
   /* vue-watch */
+  @Watch('menuExpand')
+  menuExpandWatch () {
+    console.log(111)
+    this.$nextTick(() => this.$refs.gridLayout.layoutUpdate())
+  }
   /* vue-lifecycle */
   created () {
     this.initData()

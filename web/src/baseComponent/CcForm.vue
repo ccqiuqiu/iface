@@ -155,7 +155,7 @@ export default @Component({ components: { CcFormItem } }) class CcForm extends V
                     this.loading = false
                     return
                   }
-                  const re = await this.requestUrl({ url, params: params, method: this.data.model.id ? 'put' : 'put' })
+                  const re = await this.requestUrl({ url, params: params, method: this.data.model.id ? 'put' : 'post' })
                   this.loading = false
                   this.$emit(btn.action, re)
                 }

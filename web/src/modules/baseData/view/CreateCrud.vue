@@ -56,17 +56,16 @@
 </template>
 
 <script>
-import { Component, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Watch, Vue } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
 import draggable from 'vuedraggable'
 import CcFormItem from '../../../baseComponent/CcFormItem.vue'
 import FormItemProps from '../fragment/FormItemProps.vue'
 import FormItemOptions from '../fragment/FormItemOptions.vue'
 import FormItemVerify from '../fragment/FormItemVerify.vue'
-import { TabMixin } from '../../../assets/utils/mixins'
 
 export default @Component({ components: { draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify } })
-class CreateCrud extends Mixins(TabMixin) {
+class CreateCrud extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action('getPage') getPage

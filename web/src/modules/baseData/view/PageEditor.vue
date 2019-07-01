@@ -15,13 +15,13 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import { BaseMixin, TabMixin } from '../../../assets/utils/mixins'
+import { BaseMixin } from '../../../assets/utils/mixins'
 import { codemirror } from 'vue-codemirror-lite'
 // language
 import 'codemirror/mode/vue/vue.js'
 import { Action } from 'vuex-class'
 
-export default @Component({ mixins: [BaseMixin, TabMixin], components: { codemirror } }) class PageEditor extends Vue {
+export default @Component({ mixins: [BaseMixin], components: { codemirror } }) class PageEditor extends Vue {
   /* vue-props */
   /* vue-vuex */
   @Action getPage

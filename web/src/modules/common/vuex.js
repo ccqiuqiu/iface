@@ -1,8 +1,9 @@
 import { utils } from '../../assets/utils/index'
-import router from '../../global/router'
+// import router from '../../global/router'
 import api from '../../global/api'
+import {Base64} from 'js-base64'
 
-const defaultTabs = [{key: '0', url: '/', menus: [{id: '0', name: '首页', url: '/', noClose: true}]}]
+const defaultTabs = [{id: '0', title: '首页', components: [''], noClose: true}]
 const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
@@ -13,9 +14,12 @@ const state = {
   insideDialog: {}, // 内部dialog弹窗
   user: {},
   optionsCache: {},
-  noMenuTabsMap: {} // 非menu的tab
 }
 const getters = {
+  // 打平的菜单，只有一个层级
+  flatMenu (state) {
+    return utils.flatObject(state.menus)
+  },
   // 面包屑导航对象
   nav (state) {
     const item = state.menuTabs.find((item) => item.key === state.selectedTab)
@@ -32,69 +36,19 @@ const getters = {
   dialog: (state) => (inside) => {
     return inside ? state.insideDialog : state.outsideDialog
   },
-  // 打平的菜单，只有一个层级
-  flatMenu (state) {
-    return utils.flatObject(state.menus)
-  }
 }
 const mutations = {
+  openTab (state, params) {
+    debugger
+    const title = params.title || params.menu.name
+    const id = Base64.encode(params.url)
+    state.menuTabs.push({
+      id, title, components: [params.url]
+    })
+  },
   // 切换左边菜单的大小
   toggleMenu (state) {
     state.menuExpand = !state.menuExpand
-  },
-  // 更新tab页
-  updateTabs (state, params) {
-    if (params.key) {
-      state.menuTabs.push(params)
-    }
-  },
-  // 更新当前选择的tab
-  updateSelectedTab (state, key) {
-    if (key) {
-      state.selectedTab = key
-    }
-  },
-  // 更新当前选择的tab的url
-  updateTabUrl (state, { item, url }) {
-    item.url = url
-  },
-  // 关闭tab
-  removeTab (state, key) {
-    if (!key) {
-      key = state.selectedTab
-    }
-    // 从menuTabs里面删除tab
-    const index = state.menuTabs.findIndex((o) => o.key === key)
-    if (index >= 0) {
-      state.menuTabs.splice(index, 1)
-    }
-    delete state.noMenuTabsMap[key]
-    // 如果删除的是当前激活的，要重新激活一个标签
-    // 暂定激活下一个
-    if (key === state.selectedTab) {
-      const newIndex = state.menuTabs[index] ? index : index - 1
-      // state.selectedTab = state.menuTabs[newIndex].key
-      // 跳转url
-      router.push(state.menuTabs[newIndex].url)
-    }
-  },
-  removeTabs (state, command) {
-    const index = state.menuTabs.findIndex((tab) => tab.key === state.selectedTab)
-    if (command === 'noActive') {
-      state.menuTabs.splice(index + 1)
-      if (index > 0) {
-        state.menuTabs.splice(1, index - 1)
-      }
-    } else if (command === 'all') {
-      state.menuTabs = [state.menuTabs[0]]
-      router.push('/')
-    } else if (command === 'left') {
-      if (index > 0) {
-        state.menuTabs.splice(1, index - 1)
-      }
-    } else if (command === 'right') {
-      state.menuTabs.splice(index + 1)
-    }
   },
   // 更新Dialog弹窗
   updateDialog (state, dialog) {
@@ -124,7 +78,6 @@ const mutations = {
     state.resources = []
     state.menuTabs = [...defaultTabs]
     state.selectedTab = '0'
-    state.noMenuTabsMap = {}
     state.user = {}
   }
 }

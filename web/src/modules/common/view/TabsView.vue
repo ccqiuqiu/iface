@@ -1,18 +1,19 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <div data-flex="box:last">
-    <el-tabs v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
+  <div class="tab-view">
+    <el-tabs class="h-100" v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
       <el-tab-pane
-          :key="item.name"
-          v-for="item in tabs"
+          :key="item.id"
+          v-for="item in menuTabs"
           :label="item.title"
           :closable="!item.noClose"
-          :name="item.name">
+          :name="item.id">
+        <component :is="$tab.getComponent(item)"></component>
       </el-tab-pane>
     </el-tabs>
     <el-dropdown trigger="click" class="action" data-flex="cross:center"
                  @command="removeTabs" @visible-change="toggleMenuVisible">
-      <span class="p-h-4 p-v-6 cp" :class="{'menu-visible': menuVisible}"><i class="el-icon-arrow-down"></i></span>
+      <span class="p-h-4 p-v-10 cp" :class="{'menu-visible': menuVisible}"><i class="el-icon-arrow-down"></i></span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="noActive">关闭未激活</el-dropdown-item>
         <el-dropdown-item command="left">关闭左边</el-dropdown-item>
@@ -43,18 +44,6 @@ export default @Component class TabsView extends Vue {
   set activeTab (val) {
     this.perTab = this.activeTab
     this.updateSelectedTab(val)
-  }
-  get tabs () {
-    const menus = this.menuTabs.map((o) => {
-      const menu = o.menus[o.menus.length - 1]
-      return {
-        title: menu.name,
-        name: o.key,
-        noClose: menu.noClose
-      }
-    })
-    // menus.unshift({title: '首页', name: '0', noClose: true})
-    return menus
   }
   /* vue-watch */
   /* vue-lifecycle */
@@ -88,16 +77,37 @@ export default @Component class TabsView extends Vue {
 <style lang="scss" scoped>
   @import '../../../assets/css/vars';
 
-  .el-tabs--border-card{
-    border-left: 0;
-    border-right: 0;
-    /deep/ .el-tabs__content{
-      padding: 0;
+  .tab-view {
+    position: relative;
+    overflow: hidden;
+
+    .el-tabs {
+      display: flex;
+      flex-direction: column;
+
+      /deep/ .el-tabs__header{
+        padding: 0;
+        flex: 0 0 39px;
+      }
+      /deep/ .el-tabs__content{
+        padding: 0;
+        flex: 1 1 auto;
+        overflow: auto;
+      }
     }
   }
-  .action{
+  .el-tabs--border-card{
+    background: transparent;
+    border-left: 0;
+    border-right: 0;
+  }
+  .action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 39px;
     background-color: #f5f7fa;
-    border-bottom: 1px solid #e4e7ed;
+    /*border-bottom: 1px solid #e4e7ed;*/
     border-left: 1px solid #e4e7ed;
   }
   .el-dropdown {

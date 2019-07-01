@@ -34,6 +34,10 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+    // 移除 prefetch 插件
+    config.plugins.delete('prefetch')
+    // 移除 preload 插件
+    config.plugins.delete('preload')
     // 增加打包分析
     if (process.env.IS_ANALYZ) {
       config.plugin('webpack-report')

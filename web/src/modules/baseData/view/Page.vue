@@ -14,12 +14,12 @@
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import { initOptions } from '../../../assets/utils/crudUtils.jsx'
-import { BaseMixin, TabMixin } from '../../../assets/utils/mixins'
+import { BaseMixin } from '../../../assets/utils/mixins'
 import CcRenderVue from '../../../baseComponent/CcRenderVue.vue'
 
 const cacheComponents = {}
 
-export default @Component({ components: { CcRenderVue } }) class Page extends Mixins(BaseMixin, TabMixin) {
+export default @Component({ components: { CcRenderVue } }) class Page extends Mixins(BaseMixin) {
   /* vue-props */
   /* vue-vuex */
   @Getter flatMenu
