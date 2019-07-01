@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 13/09/2018 09:30:43
+ Date: 30/06/2019 21:29:23
 */
 
 SET NAMES utf8mb4;
@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `id` varchar(255) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `url` varchar(64) NOT NULL,
+  `url` varchar(256) DEFAULT NULL,
   `icon` varchar(32) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   `parentId` varchar(255) DEFAULT NULL,
@@ -71,15 +71,15 @@ CREATE TABLE `menu` (
 -- Records of menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `menu` VALUES ('0043e434-ad00-4920-b2c6-417be5a98e77', 'Dashboard管理', 'dashboard', '', 10, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2018-08-15 11:25:07.000000');
-INSERT INTO `menu` VALUES ('24f832d8-9da6-4715-ad25-f4f74a21ae36', '资源管理', 'resource', '', 4, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2018-08-15 11:25:07.000000');
-INSERT INTO `menu` VALUES ('2b437fe2-b053-4076-b4b2-d5ddd5289089', '菜单管理', 'menu', '', 3, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2018-08-14 13:22:44.000000');
+INSERT INTO `menu` VALUES ('0043e434-ad00-4920-b2c6-417be5a98e77', 'Dashboard管理', '/baseData/page/dashboard', '', 10, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2019-06-30 21:27:33.000000');
+INSERT INTO `menu` VALUES ('24f832d8-9da6-4715-ad25-f4f74a21ae36', '资源管理', '/baseData/page/resource', '', 4, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2019-06-30 21:27:19.000000');
+INSERT INTO `menu` VALUES ('2b437fe2-b053-4076-b4b2-d5ddd5289089', '菜单管理', '/baseData/page/menu', '', 3, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2019-06-30 21:27:16.000000');
 INSERT INTO `menu` VALUES ('2e4d1f07-d34a-4698-9b6b-9109febc927c', '基础数据', '', 'form', 3, NULL, NULL, '', '2018-07-24 14:44:57.376540', '2018-08-14 13:22:55.000000');
 INSERT INTO `menu` VALUES ('55d167cf-00be-4dbd-ba85-3475318269a0', '角色管理', '/baseData/page/role', '', 6, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2018-08-15 11:25:07.000000');
-INSERT INTO `menu` VALUES ('87e6454f-770e-476f-8bbe-da702ec81a96', '在线渲染页面', 'test', '', 11, '2e4d1f07-d34a-4698-9b6b-9109febc927c', '2e4d1f07-d34a-4698-9b6b-9109febc927c', '87e6454f-770e-476f-8bbe-da702ec81a96.', '2018-08-08 10:17:41.152700', '2018-08-15 10:23:45.000000');
+INSERT INTO `menu` VALUES ('87e6454f-770e-476f-8bbe-da702ec81a96', '在线渲染页面', '/baseData/page/test', '', 11, '2e4d1f07-d34a-4698-9b6b-9109febc927c', '2e4d1f07-d34a-4698-9b6b-9109febc927c', '87e6454f-770e-476f-8bbe-da702ec81a96.', '2018-08-08 10:17:41.152700', '2019-06-30 21:27:46.000000');
 INSERT INTO `menu` VALUES ('bd4e1000-e934-44f1-be7e-ceac5f73f80e', '动态页面', '/baseData/pageList', '', 10, '2e4d1f07-d34a-4698-9b6b-9109febc927c', '2e4d1f07-d34a-4698-9b6b-9109febc927c', '', '2018-07-24 14:44:57.376540', '2018-08-15 10:23:39.000000');
 INSERT INTO `menu` VALUES ('d19c4517-37ad-4496-bce6-f62fdc5aeebd', '系统管理', '', 'system', 2, NULL, NULL, '', '2018-07-24 14:44:57.376540', '2018-08-14 13:22:55.000000');
-INSERT INTO `menu` VALUES ('e096b9c3-2c21-4f1c-8af9-3ce55c49559c', '用户管理', 'user', 'user', 7, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2018-08-15 11:25:07.000000');
+INSERT INTO `menu` VALUES ('e096b9c3-2c21-4f1c-8af9-3ce55c49559c', '用户管理', '/baseData/page/user', 'user', 7, 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', 'd19c4517-37ad-4496-bce6-f62fdc5aeebd', '', '2018-07-24 14:44:57.376540', '2019-06-30 21:27:27.000000');
 COMMIT;
 
 -- ----------------------------
@@ -222,7 +222,7 @@ CREATE TABLE `user` (
   `name` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `tel` varchar(32) DEFAULT NULL,
-  `sex` tinyint(4) NOT NULL,
+  `sex` tinyint(4) NOT NULL DEFAULT '1',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `addTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),

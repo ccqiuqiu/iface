@@ -7,7 +7,7 @@ import {addParentId} from '../../utils'
 
 // 用户
 async function searchUser(ctx) {
-  const re = await Dao.User.findPaged(ctx.request.body)
+  const re = await Dao.User.findPaged(ctx.query)
   ctx.body = createBody(re)
 }
 
@@ -66,7 +66,7 @@ async function getMenu(ctx) {
 }
 // 角色
 async function searchRole(ctx) {
-  const re = await Dao.Role.findPaged(ctx.request.body)
+  const re = await Dao.Role.findPaged(ctx.query)
   re.rows = re.rows.filter((role: any) => role.code !== 'admin')
   ctx.body = createBody(re)
 }
@@ -90,7 +90,7 @@ async function getRole(ctx) {
 }
 // 资源
 async function searchResource(ctx) {
-  const re = await Dao.Resource.findPaged(ctx.request.body)
+  const re = await Dao.Resource.findPaged(ctx.query)
   ctx.body = createBody(re)
 }
 
@@ -113,7 +113,7 @@ async function getResource(ctx) {
 }
 // Dashboard
 async function searchDashboard(ctx) {
-  const re = await Dao.Dashboard.findPaged(ctx.request.body)
+  const re = await Dao.Dashboard.findPaged(ctx.query)
   ctx.body = createBody(re)
 }
 async function saveDashboard(ctx) {

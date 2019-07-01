@@ -12,7 +12,7 @@ export default class Menu extends BaseEntity {
   @Column({length: 32})
   public name: string
 
-  @Column({length: 64})
+  @Column({length: 256, nullable: true})
   public url: string
 
   @Column({length: 32, nullable: true})
