@@ -10,6 +10,14 @@ import { Getter } from 'vuex-class'
   get pageTitle () {
     return this.nav && this.nav.length ? this.nav[this.nav.length - 1].name : ''
   }
+  created () {
+    // 注册刷新数据的监听
+    this.name && this.$bus.$on('refresh-' + this.name, () => this.getData && this.getData())
+  }
+  destroyed () {
+    // 取消刷新数据的监听
+    this.name && this.$bus.$off('refresh-' + this.name)
+  }
 }
 
 @Component class PageMixin extends Vue {

@@ -30,6 +30,7 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin) {
   @Action searchPage
   @Action requestUrl
   /* vue-data */
+  name = 'pageList'
   columns = [
     { prop: 'name', label: '名称', width: '120px' },
     { prop: 'resource', label: '资源路径', width: '200px' },

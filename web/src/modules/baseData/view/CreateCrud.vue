@@ -253,6 +253,7 @@ class CreateCrud extends Vue {
     if (!error) {
       this.$utils.message('保存成功！')
       this.$tab.close('/baseData/pageList')
+      this.$bus.$emit('refresh-pageList')
     }
   }
 }
