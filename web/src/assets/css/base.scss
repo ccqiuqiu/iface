@@ -102,32 +102,26 @@ input::-moz-focus-inner {
   .app-view{
     height: 100%;
 
-    .main-view{
-      position: relative;
+    .tab-view{
+      overflow: hidden;
 
-      .content-view{
-        padding: 10px;
-        position: absolute;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-        overflow-x: hidden;
-        overflow-y: auto;
+      .main-tab{
+        height: 100%;
 
-        &.full{
-          padding: 0;
+        .el-tabs__content{
           height: 100%;
-          width: 100%;
-        }
+          overflow: hidden;
 
-        &:not(.h) {
-          >div {
-            margin: 10px 0;
+          .el-tab-pane{
+            height: 100%;
+            overflow: auto;
+            position: relative;
           }
-          >div:first-child{
-            margin-top: 0;
-          }
-          >div:last-child{
-            margin-bottom: 0;
+          .content-view{
+            margin: 10px;
+            &.full{
+              margin: 0;
+            }
           }
         }
       }
@@ -224,6 +218,21 @@ input::-moz-focus-inner {
 }
 .b-l{
   border-left: 1px solid $border-color;
+}
+.bb.p{
+  border-top: 3px solid $color-primary;
+}
+.bb.s{
+  border-top: 3px solid $color-success;
+}
+.bb.d{
+  border-top: 3px solid $color-danger;
+}
+.bb.w{
+  border-top: 3px solid $color-warning;
+}
+.bb.i{
+  border-top: 3px solid $color-info;
 }
 .c-info{
   color: $color-info;

@@ -32,10 +32,10 @@ class MainLayout extends Vue {
   authSuccess = false
   /* vue-compute */
   /* vue-watch */
-  /* 监听路由变化 */
-  @Watch('$route')
+  /* 监听路由变化,用于路由改变的时候定位到正确的tab页 */
+  @Watch('$route', {immediate: true})
   routerChange (val) {
-    // this.$tab.toTab(val.fullPath)
+    this.$tab.toTab(val.fullPath)
   }
   /* vue-lifecycle */
   async created () {

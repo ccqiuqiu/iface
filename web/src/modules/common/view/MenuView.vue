@@ -6,7 +6,7 @@
       <span v-else class="f-18">iFace</span>
     </div>
     <el-menu ref="menu" :default-active="selectedTab"
-         :collapse="!menuExpand" router
+         :collapse="!menuExpand"
          @select="selectMenu" data-flex-box="1">
       <el-menu-item :index="'0'" key="0" v-show="false">
         <!--这个隐藏的菜单为了解决首页的时候，高亮的菜单项不正确-->

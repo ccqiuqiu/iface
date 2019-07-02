@@ -2,7 +2,7 @@
  * Created by 熊超超 on 2018/4/20.
  */
 
-const Login = () => import(/* webpackChunkName: "m1" */ './view/Login.vue')
+const Login = () => import(/* webpackChunkName: "common" */ './view/Login.vue')
 
 export default [
   {

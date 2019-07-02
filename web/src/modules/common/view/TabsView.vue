@@ -1,14 +1,15 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
   <div class="tab-view">
-    <el-tabs class="h-100" v-model="activeTab" type="border-card" @tab-remove="removeTab" @tab-click="clickTab">
+    <el-tabs class="main-tab" v-model="activeTab" type="border-card" @tab-remove="removeTab">
       <el-tab-pane
           :key="item.id"
           v-for="item in menuTabs"
           :label="item.title"
           :closable="!item.noClose"
           :name="item.id">
-        <component :is="$tab.getComponent(item)"></component>
+        <span slot="label" class="label">{{item.title}} <i @click="refresh(item.id)" v-if="selectedTab === item.id" class="el-icon-refresh"></i></span>
+          <component :is="$tab.getComponent(item)" class="content-view"></component>
       </el-tab-pane>
     </el-tabs>
     <el-dropdown trigger="click" class="action" data-flex="cross:center"
@@ -35,41 +36,31 @@ export default @Component class TabsView extends Vue {
   @State((state) => state.common.selectedTab) selectedTab
   @Mutation updateSelectedTab
   /* vue-data */
-  perTab = '0'
   menuVisible = false
   /* vue-compute */
   get activeTab () {
     return this.selectedTab
   }
   set activeTab (val) {
-    this.perTab = this.activeTab
     this.updateSelectedTab(val)
+    // 切换一下url
+    const url = this.$tab.getCurUrl(val)
+    url && this.$router.push(this.$tab.getCurUrl(val))
   }
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
-  // 点击tab的时候，要跳转相应的url
-  clickTab (tab) {
-    const perTab = this.perTab // 保存住跳转前的tab
-    this.$nextTick(() => {
-      // 此时，激活的选项卡已经改变，再手动改回去，
-      // 此处理是为了实现，点击选项卡后，如果页面被拦截没有跳转的话，tab页应该也不能改变激活的选项卡
-      // 而只有当路由真的跳转后，再更新激活的选项卡。
-      this.updateSelectedTab(perTab)
-      const item = this.menuTabs.find((item) => item.key === tab.name)
-      if (item) {
-        this.$router.push(item.url)
-      }
-    })
-  }
   toggleMenuVisible (visible) {
     this.menuVisible = visible
   }
   removeTab (key) {
-    this.$utils.removeTab(key)
+    this.$tab.closeTab(key)
   }
   removeTabs (command) {
-    this.$utils.removeTabs(command)
+    this.$tab.closeTabs(command)
+  }
+  refresh (id) {
+    this.$tab.refresh(id)
   }
 }
 </script>
@@ -79,8 +70,6 @@ export default @Component class TabsView extends Vue {
 
   .tab-view {
     position: relative;
-    overflow: hidden;
-
     .el-tabs {
       display: flex;
       flex-direction: column;
@@ -118,7 +107,11 @@ export default @Component class TabsView extends Vue {
       transition: all 0.3s;
     }
     .menu-visible i{
-      transform: rotate(180deg);
+      transform: rotate(180deg) translateZ(0);
     }
+  }
+  .label i:hover{
+    transform:rotate(180deg) translateZ(0);
+    transition:transform 0.5s linear;
   }
 </style>

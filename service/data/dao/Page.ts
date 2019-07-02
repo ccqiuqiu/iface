@@ -43,7 +43,7 @@ class PageDao extends BaseDao<Page> {
         manager.delete(Resource, {url: page.resource})
         manager.delete(Resource, {url: page.resource + '/*'})
       }
-      manager.delete(Page, page)
+      manager.delete(Page, {id: id})
     })
   }
 }

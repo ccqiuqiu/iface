@@ -1,26 +1,24 @@
 <!--Created by 熊超超 on 2018/8/14.-->
 <template>
-  <div>
-    <el-card shadow="never" class="p" v-loading="loading">
-      <div slot="header" data-flex="cross:center">
-        <span data-flex-box="1">{{pageTitle}}</span>
-        <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
+  <div class="div" v-loading="loading">
+    <div class="p-10" data-flex="cross:center">
+      <span data-flex-box="1">{{pageTitle}}</span>
+      <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
+      <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
+    </div>
+    <div data-flex="box:first">
+      <div class="left m-h-10 m-b-10">
+        <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
+        <el-tree ref="tree" :data="treeData" :props="treeProps" default-expand-all
+                 :filter-node-method="filterNode" highlight-current node-key="id"
+                 :draggable="draggable" @node-drop="nodeDrop" :allow-drop="allowDrop"
+                 @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
       </div>
-      <div data-flex="box:first">
-        <div class="left">
-          <el-input placeholder="输入关键字进行过滤" v-model="filterText" class="m-b-20"></el-input>
-          <el-tree ref="tree" :data="treeData" :props="treeProps" default-expand-all
-                   :filter-node-method="filterNode" highlight-current node-key="id"
-                   :draggable="draggable" @node-drop="nodeDrop" :allow-drop="allowDrop"
-                   @current-change="changeSelected" :default-expanded-keys="expandedKeys"></el-tree>
-        </div>
-        <div>
-          <cc-form ref="form" class="full-width" v-if="currentRow && show" :data="editForm" :save="page.saveUrl"
-                   @save="this.saved" :url="url"></cc-form>
-        </div>
+      <div class="m-h-10">
+        <cc-form ref="form" class="full-width" v-if="currentRow && show" :data="editForm" :save="page.saveUrl"
+                 @save="this.saved" :url="url"></cc-form>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 

@@ -1,9 +1,11 @@
 import { utils } from '../../assets/utils/index'
-// import router from '../../global/router'
+import router from '../../global/router'
 import api from '../../global/api'
 import {Base64} from 'js-base64'
+import store from '../../global/store'
+import Vue from 'vue'
 
-const defaultTabs = [{id: '0', title: '首页', components: [''], noClose: true}]
+const defaultTabs = [{id: '0', title: '首页', components: ['/'], noClose: true}]
 const state = {
   menus: [], // 左侧菜单
   resources: [], // 资源权限
@@ -39,12 +41,62 @@ const getters = {
 }
 const mutations = {
   openTab (state, params) {
-    debugger
-    const title = params.title || params.menu.name
-    const id = Base64.encode(params.url)
-    state.menuTabs.push({
+    const title = params.url === '/' ? '首页' : (params.title || params.menu.name)
+    const id = params.url === '/' ? '0' : Base64.encode(params.url)
+    // 先查看是否已经打开
+    const isOpen = state.menuTabs.some(t => t.id === id)
+    !isOpen && state.menuTabs.push({
       id, title, components: [params.url]
     })
+    // 切换到新打开的标签
+    store.commit('updateSelectedTab', id)
+    // 更新一下url
+    router.push(params.url)
+  },
+  closeTab (state, params) {
+    const index = state.menuTabs.findIndex(t => t.id === params.id)
+    const id = state.menuTabs[index].id
+    state.menuTabs.splice(index, 1)
+    // 如果关闭的是当前tab
+    if (id === state.selectedTab) {
+      if (params.url) {
+        router.push(params.url)
+      } else {
+        store.commit('updateSelectedTab', state.menuTabs[index - 1].id)
+      }
+    }
+  },
+  closeTabs (state, command) {
+    const index = state.menuTabs.findIndex((t) => t.id === state.selectedTab)
+    if (command === 'noActive') {
+      state.menuTabs.splice(index + 1)
+      if (index > 0) {
+        state.menuTabs.splice(1, index - 1)
+      }
+    } else if (command === 'all') {
+      state.menuTabs = [state.menuTabs[0]]
+      store.commit('updateSelectedTab', '0')
+    } else if (command === 'left') {
+      if (index > 0) {
+        state.menuTabs.splice(1, index - 1)
+      }
+    } else if (command === 'right') {
+      state.menuTabs.splice(index + 1)
+    }
+  },
+  refreshTab (state, id) {
+    const index = state.menuTabs.findIndex(t => t.id === id)
+    const tab = state.menuTabs[index]
+    const clone = JSON.parse(JSON.stringify(tab))
+    clone.components = []
+    state.menuTabs.splice(index, 1, clone)
+    Vue.nextTick(() => store.commit('updateMenuTabs', {index, tab}))
+  },
+  updateMenuTabs (state, params) {
+    state.menuTabs.splice(params.index, 1, params.tab)
+  },
+  updateSelectedTab (state, id) {
+    state.selectedTab = id
   },
   // 切换左边菜单的大小
   toggleMenu (state) {

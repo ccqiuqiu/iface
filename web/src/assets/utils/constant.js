@@ -66,7 +66,7 @@ class Constant {
     表格页面: 1,
     树页面: 2,
     表单: 9,
-    CODE: 10
+    代码: 10
   }
   // 反转key-value的页面类型
   PageTypeK = null

@@ -50,7 +50,6 @@ export const hasAuth = (ctx: Context) => {
   // 处理url url的格式必需为  /版本/模块/名称[/params|?query]  => /模块/名称
   // url = url.replace(/^(\/.*?)(\/.*?)(\/[^\/|\?]*).*/, '$2$3')
 
-
   // 去除接口版本号  /版本/模块/名称[/params|?query] => /模块/名称[/params|?query]
   url = url.replace(/^(\/.*?\/)(.*)/, '$2')
   // 去除query /模块/名称[/params|?query]  => /模块/名称[/params]
@@ -58,7 +57,6 @@ export const hasAuth = (ctx: Context) => {
   // 去除params /模块/名称[/params] =>  /模块/名称/*
   url = url.replace(/^(.*?\/)(.*?\/)(.*)/, '$1$2*')
 
-  console.log(url)
   // '/base'开头的url是只要登录了就能访问的，比如用户的权限、站内通知、首页的一些数据等
   if (url.indexOf('base/') !== 0) {
     // 白名单

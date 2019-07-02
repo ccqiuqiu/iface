@@ -1,27 +1,24 @@
 <!--Created by 熊超超 on 2018/6/4.-->
 <template>
-  <div>
-    <cc-form :data="searchForm" class="p-t-10 div p-h-10" is-search :show-message="false" @search="getData"></cc-form>
-    <el-card shadow="never" class="p">
-      <div slot="header" data-flex="cross:center" v-if="type === 'crud'">
-        <span data-flex-box="1" class="f-16">{{data.title || ''}}</span>
-        <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="add" text="添加" @click="onAdd"/>
-        <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="edit" text="修改" @click="onEdit"/>
-        <cc-button v-auth="'GET-' + (this.page.getUrl || data.name) + '/*'" icon="view" text="查看" @click="onView"/>
-        <cc-button v-auth="'DELETE-' + (this.page.delUrl || data.name) + '/*'" icon="delete" text="删除" @click="onDel"/>
-      </div>
-      <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
-                :row-key="rowKey"
-                :multiSelect="multi"
-                @single-click="$emit('rowClick')"
-                :selected-rows.sync="selectedRows"
-                :current-row.sync="currentRow">
-      </cc-table>
-      <el-pagination class="m-t-16 a-c" background
-                     @current-change="pageNumChange" @size-change="pageSizeChange"
-                     :layout='layout' :total="total">
-      </el-pagination>
-    </el-card>
+  <div class="div">
+    <cc-form :data="searchForm" class="p-t-10 b-b p-h-10" is-search :show-message="false" @search="getData"></cc-form>
+    <div class="p-v-6 p-h-10 b-b" data-flex="cross:center main:right" v-if="type === 'crud'">
+      <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="add" text="添加" @click="onAdd"/>
+      <cc-button v-auth="'PUT-' + (this.page.saveUrl || data.name)" icon="edit" text="修改" @click="onEdit"/>
+      <cc-button v-auth="'GET-' + (this.page.getUrl || data.name) + '/*'" icon="view" text="查看" @click="onView"/>
+      <cc-button v-auth="'DELETE-' + (this.page.delUrl || data.name) + '/*'" icon="delete" text="删除" @click="onDel"/>
+    </div>
+    <cc-table class="bb p" ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
+              :row-key="rowKey"
+              :multiSelect="multi"
+              @single-click="$emit('rowClick')"
+              :selected-rows.sync="selectedRows"
+              :current-row.sync="currentRow">
+    </cc-table>
+    <el-pagination class="m-t-16 a-c p-b-10" background
+                   @current-change="pageNumChange" @size-change="pageSizeChange"
+                   :layout='layout' :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -137,7 +134,7 @@ export default @Component class CcCrud extends Vue {
   // 查询数据
   async getData () {
     if (this.searchUrl) {
-      this.loading = true
+      // this.loading = true
       const params = { ...this.$utils.delEmptyProp(this.searchForm.model), pageNum: this.pageNum, pageSize: this.pageSize }
       const { data } = await this.requestUrl({ url: this.searchUrl, params, method: 'get' })
       this.loading = false

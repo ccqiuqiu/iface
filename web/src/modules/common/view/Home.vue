@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/24.-->
 <template>
-  <div class="home">
+  <div class="home full">
     <grid-layout ref="gridLayout" v-if="userDashboard.length"
                  :layout="userDashboard"
                  :col-num="colNum"
@@ -178,11 +178,6 @@ class Home extends Vue {
 
 <style lang="scss" scoped>
   @import "../../../assets/css/vars";
-  .home.content-view{
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
   .home /deep/ .vue-grid-item{
     overflow: hidden;
     background-color: white;

@@ -19,6 +19,7 @@ class UiUtils extends Utils {
   }
   // 消息框简单封装
   message (message, type = constant.MessageType.success, duration = 3000) {
+    Message.closeAll()
     Message({ message, type, duration })
   }
   // alert

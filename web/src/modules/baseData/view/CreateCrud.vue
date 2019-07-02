@@ -1,11 +1,11 @@
 <!--Created by 熊超超 on 2018/6/11.-->
 <template>
-  <div class="crud h bg-white full" data-flex="">
+  <div class="crud bg-white full" data-flex="">
     <div data-flex="dir:top" class="left b-r" data-flex-box="0">
       <div data-flex-box="0" class="p-10 b-b f-b" data-flex="box:last">
         <span>可选组件</span>
       </div>
-      <draggable v-model="controls" :options="{group: {name: 'g', pull: 'clone', put: false}, sort: false}">
+      <draggable v-model="controls" v-bind="{group: {name: 'g', pull: 'clone', put: false}, sort: false}">
         <div v-for="item in controls" :key="item.type" class="item p-h-10" data-flex="cross:center">
           <cc-icon :name="item.type" size="18"></cc-icon><span class="m-l-10">{{item.label}}</span>
         </div>
@@ -18,7 +18,7 @@
         <cc-icon name="delete" @click="delItem" size="20" :class="['cp', {'c-danger': selectIndex >= 0}]"/>
       </div>
       <el-form ref="form" :model="model" data-flex-box="1" class="form m-10" data-flex="dir:top" label-width="100px">
-        <draggable v-model="items" :options="{group: {name: 'g'}, filter:'.tips'}" data-flex-box="1" @add="add" class="form-item-draggable">
+        <draggable v-model="items" v-bind="{group: {name: 'g'}, filter:'.tips'}" data-flex-box="1" @add="add" class="form-item-draggable">
           <template v-if="items.length">
             <cc-form-item no-verify @click.native="selectIndex = index" :class="['draggable-item', {'select': selectIndex === index}]"
                           :model="model" :item="item" :key="index"  v-for="(item, index) in items"></cc-form-item>
@@ -252,7 +252,7 @@ class CreateCrud extends Vue {
     const { error } = await this.savePage(this.pageModel)
     if (!error) {
       this.$utils.message('保存成功！')
-      this.$utils.closeTab('/baseData/pageList', true)
+      this.$tab.close('/baseData/pageList')
     }
   }
 }
@@ -261,6 +261,8 @@ class CreateCrud extends Vue {
 <style lang="scss" scoped>
   @import "../../../assets/css/vars";
   .crud{
+    height: 100%;
+    overflow: hidden;
     .left{
       width: 160px;
       overflow-y: auto;
