@@ -5,7 +5,6 @@ import {BaseDao} from './BaseDao'
 import Role from '../entity/Role'
 import Menu from '../entity/Menu'
 import Resource from '../entity/Resource'
-import {getManager} from 'typeorm'
 
 class RoleDao extends BaseDao<Role> {
   constructor() {

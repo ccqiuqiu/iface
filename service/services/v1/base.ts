@@ -78,6 +78,10 @@ async function getOptions(ctx) {
     case 'menuTree':
       options = await Dao.Menu.findTrees()
       break
+    case 'roleTree':
+      options = await Dao.Role.find({ where: {parentId: null}, relations: ['children'] })
+      options.forEach(o => o.disabled = o.isGroup === 1)
+      break
     case 'role':
       const roles = await Dao.Role.find()
       options = {

@@ -27,6 +27,11 @@ export default class Role extends BaseEntity {
   @Column({nullable: true})
   public parentId?: string
 
+  @OneToMany((type) => Role, (role) => role.parent)
+  public children: Role[]
+  @ManyToOne((type) => Role, (role) => role.children)
+  public parent: Role
+
   @ManyToMany((type) => Menu)
   @JoinTable({name: 'role-menu'})
   public menus: Menu[]
