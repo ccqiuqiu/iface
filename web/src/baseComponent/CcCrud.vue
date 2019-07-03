@@ -180,7 +180,7 @@ export default @Component class CcCrud extends Vue {
     }
     const url = edit ? (this.page.getUrl || this.getActionUrl()) : ''
     this.$utils.dialog(`${edit ? '修改' : '新增'}`, (h) =>
-      <cc-form data={this.editForm} saveUrl={this.page.saveUrl} onSave={this.saved} url={url}></cc-form>)
+      <cc-form data={this.editForm} saveUrl={this.page.saveUrl} onSave={this.saved} getUrl={url}></cc-form>)
   }
   // 点击编辑按钮
   onEdit () {

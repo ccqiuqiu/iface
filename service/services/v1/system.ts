@@ -78,7 +78,6 @@ async function searchRole(ctx) {
       }
     }
   })
-  console.log(re)
   ctx.body = createBody(re)
 }
 

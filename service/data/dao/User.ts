@@ -5,6 +5,7 @@ import {BaseDao} from './BaseDao'
 import User from '../entity/User'
 import Role from '../entity/Role'
 import MenuDao from './Menu'
+import RoleDao from './Role'
 import Menu from '../entity/Menu'
 import Resource from '../entity/Resource'
 import {listToTree, sortTree} from '../../utils/index'
@@ -68,8 +69,8 @@ class UserDao extends BaseDao<User> {
     const repository = this.getRepository()
     const user = await repository.createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'role')
-      .leftJoinAndSelect('role.menus', 'menu')
-      .leftJoinAndSelect('role.resources', 'resource')
+      // .leftJoinAndSelect('role.menus', 'menu')
+      // .leftJoinAndSelect('role.resources', 'resource')
       .where('user.id = :id', {id: userId})
       .getOne()
     if (!user) {
@@ -82,8 +83,19 @@ class UserDao extends BaseDao<User> {
       menus = await MenuDao.findTrees()
       auth.resources = 'all'
     } else {
+      const roleIds = new Set()
+      user.roles.forEach(r => {
+        roleIds.add(r.id)
+        r.parentId && roleIds.add(r.parentId)
+      })
+      const mergeRoleIds: string[] = [...roleIds]
+      const mergeRoles = await RoleDao.getRepository().createQueryBuilder('role')
+        .leftJoinAndSelect('role.menus', 'menu')
+        .leftJoinAndSelect('role.resources', 'resource')
+        .whereInIds(mergeRoleIds)
+        .getMany()
       const resources: Resource[] = []
-      user.roles.forEach((role: Role) => {
+      mergeRoles.forEach((role: Role) => {
         menus.push(...role.menus)
         resources.push(...role.resources)
       })
