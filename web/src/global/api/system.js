@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import request from './conn'
+import request from '../conn'
 
 const formBaseUrl = '/v1/'
 
@@ -33,4 +33,6 @@ export default {
   getAllDashboard: (params = {}, config = {}) => request('get', '/v1/base/allDashboard', params, config),
   // 保存用户的仪表盘布局
   saveUserDashboard: (params = {}, config = {}) => request('put', '/v1/base/userDashboard', params, config),
+  // 获取角色组
+  getRoleGroup: (params = {}, config = {}) => request('get', '/v1/system/roleGroup', params, config),
 }

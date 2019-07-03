@@ -8,7 +8,11 @@
                 ]"
                 v-loading="loading">
     <!--选择框-->
-    <cc-select v-model="model[mItem.prop]" v-bind="mItem.props" :options="mItem.options" v-if="mItem.type === 'select'" v-on="$listeners"></cc-select>
+    <cc-select v-model="model[mItem.prop]"
+               v-bind="mItem.props"
+               :options="mItem.options"
+               v-if="mItem.type === 'select' || isSearch && mItem.type === 'radio'" v-on="$listeners"
+    ></cc-select>
     <!--日期，范围-->
     <el-date-picker v-model="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type"
                     v-else-if="['date', 'datetime', 'daterange', 'datetimerange'].includes(mItem.type)"
@@ -97,6 +101,7 @@ import CcInputIcon from './CcInputIcon.vue'
 import CcCheckboxGroup from './CcCheckboxGroup.vue'
 import CcSelect from './CcSelect.vue'
 import { Action } from 'vuex-class'
+import { getOptions } from '../assets/utils/crudUtils.jsx'
 
 export default @Component({ components: { CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect } })
 class CcFormItem extends Vue {
@@ -104,6 +109,7 @@ class CcFormItem extends Vue {
     @Prop({ required: true, type: [Object] }) model
     @Prop({ required: true }) item
     @Prop(Boolean) noVerify
+    @Prop(Boolean) isSearch
     /* vue-vuex */
     @Action('getOptions') getOptions
     @Action getPageOptions
@@ -134,6 +140,9 @@ class CcFormItem extends Vue {
     itemProps (item) {
       const { options, props, dialog, verify, placeholder, multiSelect, formatter, renderCell, ...itemProps } = item
       item.props = item.props || {}
+      if (item.props.clearable === undefined) {
+        item.props.clearable = true
+      }
       if (placeholder) {
         item.props.placeholder = placeholder
       }
@@ -176,28 +185,7 @@ class CcFormItem extends Vue {
     async initOptions () {
       if (this.mItem.options && typeof this.mItem.options === 'string') {
         this.loading = true
-        const type = this.mItem.type
-        let data = null
-
-        // 先在常量表里面找有没有值
-        if (this.$c.options[this.mItem.options]) {
-          data = this.$c.options[this.mItem.options]
-        } else {
-          if (this.mItem.options.indexOf('/') === 0) {
-            // data = await this.requestUrl(this.mItem.options)
-            data = await this.requestUrl({url: this.mItem.options, params: this.mItem.optionsProps})
-          } else {
-            if (type === 'dialog') {
-              data = await this.getPageOptions(this.mItem.options)
-            } else if (this.mItem.options.startsWith('action:')) {
-              data = await this.$store.dispatch(this.mItem.options.substr(7))
-            } else if (this.mItem.options === 'action') {
-              data = await this.$store.dispatch(this.mItem.optionsProps.actionName, this.mItem.optionsProps.actionParams)
-            } else {
-              data = await this.getOptions('options?code=' + this.mItem.options + '&type=' + type)
-            }
-          }
-        }
+        let data = await getOptions(this.mItem)
         this.loading = false
         if (data) {
           data = data.data || data

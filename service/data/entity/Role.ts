@@ -19,6 +19,12 @@ export default class Role extends BaseEntity {
   @Column({length: 64, nullable: true})
   public remark?: string
 
+  @Column({type: 'tinyint', default: 0})
+  public isGroup: number
+
+  @Column({nullable: true})
+  public parentId?: string
+
   @ManyToMany((type) => Menu)
   @JoinTable({name: 'role-menu'})
   public menus: Menu[]

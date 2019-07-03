@@ -54,6 +54,11 @@ class Constant {
     DELETE: 'DELETE'
   }
 
+  // 是否
+  YesOrNoV = {
+    是: 1,
+    否: 0
+  }
   // 状态
   StatusV = {
     禁用: 2,
@@ -111,7 +116,8 @@ class Constant {
     { label: '菜单树', value: 'menuTree', type: 'tree' },
     { label: '角色', value: 'role', type: 'table' },
     { label: '资源表格', value: 'resource', type: 'table' },
-    { label: '菜单打开类型', value: 'menuOpenType', type: 'keyValue' }
+    { label: '菜单打开类型', value: 'menuOpenType', type: 'keyValue' },
+    { label: '是否', value: 'yesOrNo', type: 'keyValue' },
   ]
   // options是为type为keyValue的选择组件提供选项，key对应OptionsDataSource的value
   options = {}

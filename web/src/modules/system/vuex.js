@@ -17,6 +17,13 @@ const actions = {
   },
   sortMenu (context, params) {
     return api.sortMenu(params)
+  },
+  async getRoleGroup (context, params) {
+    const {data} = await api.getRoleGroup(params, {hideError: true})
+    if (data) {
+      return data.map(item => ({label: item.name, value: item.id}))
+    }
+    return []
   }
 }
 

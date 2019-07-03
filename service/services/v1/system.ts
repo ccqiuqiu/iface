@@ -66,8 +66,19 @@ async function getMenu(ctx) {
 }
 // 角色
 async function searchRole(ctx) {
-  const re = await Dao.Role.findPaged(ctx.query)
+  const re = await Dao.Role.findPaged({...ctx.query, parentId: null})
+  const all = await Dao.Role.find()
   re.rows = re.rows.filter((role: any) => role.code !== 'admin')
+  re.total--
+  re.rows.forEach(r => {
+    if (r['isGroup'] === 1) {
+      const children: any[] = all.filter(r2 => r2['parentId'] === r['id'])
+      if (children.length) {
+        r['children'] = children
+      }
+    }
+  })
+  console.log(re)
   ctx.body = createBody(re)
 }
 
@@ -87,6 +98,15 @@ async function getRole(ctx) {
   } else {
     ctx.body = createBody(null, false, '暂无数据')
   }
+}
+async function getRoleGroup(ctx) {
+  const re = await Dao.Role.find({where: {isGroup: 1}})
+  console.log(re)
+  ctx.body = createBody(re)
+}
+async function getRoleChildren(ctx) {
+  const re = await Dao.Role.find({parentId: ctx.params.id})
+  ctx.body = createBody(re)
 }
 // 资源
 async function searchResource(ctx) {
@@ -155,8 +175,11 @@ export default (routes, prefix) => {
   // 角色
   routes.get(prefix + '/system/role', searchRole)
   routes.put(prefix + '/system/role', saveRole)
+  routes.post(prefix + '/system/role', saveRole)
   routes.delete(prefix + '/system/role/:id', delRole)
+  routes.get(prefix + '/system/roleGroup', getRoleGroup)
   routes.get(prefix + '/system/role/:id', getRole)
+  routes.get(prefix + '/system/roleChildren/:id', getRoleChildren)
   // 资源
   routes.get(prefix + '/system/resource', searchResource)
   routes.put(prefix + '/system/resource', saveResource)

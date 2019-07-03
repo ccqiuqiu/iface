@@ -40,23 +40,8 @@ const CrudUtils = {
 export async function initOptions (data) {
   const ps = data.items.map((item) => new Promise(async (resolve, reject) => {
     const formProps = item.formProps
-    if (formProps.options && typeof formProps.options === 'string') {
-      const type = formProps.type
-      let data = null
-      // 先在常量表里面找有没有值
-      if (constant.options[formProps.options]) {
-        data = constant.options[formProps.options]
-      } else {
-        if (formProps.options.indexOf('/') === 0) {
-          data = await store.dispatch('requestUrl', formProps.options)
-        } else {
-          if (type === 'dialog') {
-            data = await store.dispatch('getPageOptions', formProps.options)
-          } else {
-            data = await store.dispatch('getOptions', 'options?code=' + formProps.options + '&type=' + type)
-          }
-        }
-      }
+    if (formProps.options && typeof !Array.isArray(formProps.options)) {
+      let data = await getOptions(formProps)
       if (data) {
         formProps.options = data.data || data
       }
@@ -66,6 +51,33 @@ export async function initOptions (data) {
     }
   }))
   return Promise.all(ps)
+}
+
+export async function getOptions (item) {
+  let data = null
+  if (item.options['actionName']) {
+    item.optionsProps = item.options
+    item.options = 'action'
+  }
+  // 先在常量表里面找有没有值
+  if (constant.options[item.options]) {
+    data = constant.options[item.options]
+  } else {
+    if (item.options.indexOf('/') === 0) {
+      data = await store.dispatch('requestUrl', {url: item.options, params: item.optionsProps})
+    } else {
+      if (item.type === 'dialog') {
+        data = await store.dispatch('getPageOptions', item.options)
+      } else if (item.options.startsWith('action:')) {
+        data = await store.dispatch(item.options.substr(7))
+      } else if (item.options === 'action') {
+        data = await store.dispatch(item.optionsProps.actionName, item.optionsProps.actionParams || {})
+      } else {
+        data = await store.dispatch('getOptions', 'options?code=' + item.options + '&type=' + item.type)
+      }
+    }
+  }
+  return data
 }
 
 export default CrudUtils

@@ -15,7 +15,7 @@
                     @halfChecked="(value) => halfChecked(item.prop, value)"
                     @selected-obj="(value) => $emit('selected-obj', item.prop, value)"
                     v-if="!item.if || item.if(data.model)"
-                    :model="data.model"
+                    :model="data.model" :isSearch="isSearch"
                     :no-verify="isSearch || noVerify"
                     :item="item" @value-change="onValueChange" :key="item.prop || index"></cc-form-item>
     </template>
