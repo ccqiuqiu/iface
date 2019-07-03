@@ -10,6 +10,12 @@ class Constant {
     info: 'info',
     error: 'error'
   }
+  RefreshType = {
+    自动: 'auto',
+    更新数据: 'getData',
+    重载页面: 'reLoad',
+    刷新标签: 'refresh',
+  }
 
   FormItemType = {
     text: 'text',

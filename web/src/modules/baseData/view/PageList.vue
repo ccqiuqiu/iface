@@ -22,15 +22,14 @@
 <script>
 import { Component, Mixins } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
-import { BaseMixin, PageMixin } from '../../../assets/utils/mixins'
+import { BaseMixin, PageMixin, TabMixin } from '../../../assets/utils/mixins'
 
-export default @Component class PageList extends Mixins(BaseMixin, PageMixin) {
+export default @Component class PageList extends Mixins(BaseMixin, PageMixin, TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action searchPage
   @Action requestUrl
   /* vue-data */
-  name = 'pageList'
   columns = [
     { prop: 'name', label: '名称', width: '120px' },
     { prop: 'resource', label: '资源路径', width: '200px' },

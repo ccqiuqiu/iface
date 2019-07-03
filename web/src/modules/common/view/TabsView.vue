@@ -60,7 +60,8 @@ export default @Component class TabsView extends Vue {
     this.$tab.closeTabs(command)
   }
   refresh (id) {
-    this.$tab.refresh(id)
+    this.$bus.$emit('refresh-' + id)
+    // this.$tab.refresh(id)
   }
 }
 </script>

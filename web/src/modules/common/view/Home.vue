@@ -29,7 +29,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import VueGridLayout from 'vue-grid-layout'
 import DashboardItem from '../fragment/DashboardItem.vue'
-import { Action } from 'vuex-class'
+import { Action, State } from 'vuex-class'
 import DashboardSelector from '../fragment/DashboardSelector.vue'
 
 Component.registerHooks(['beforeRouteLeave'])
@@ -38,6 +38,7 @@ export default @Component({ components: { GridLayout: VueGridLayout.GridLayout, 
 class Home extends Vue {
   /* vue-props */
   /* vue-vuex */
+  @State((state) => state.common.menuExpand) menuExpand
   @Action getUserDashboard
   @Action saveUserDashboard
   /* vue-data */
@@ -50,8 +51,13 @@ class Home extends Vue {
   /* vue-watch */
   @Watch('menuExpand')
   menuExpandWatch () {
-    console.log(111)
-    this.$nextTick(() => this.$refs.gridLayout.layoutUpdate())
+    // 解决左侧菜单展开缩起的时候，首页的grid-layout不会自适应宽度的问题
+    // 可能是grid-layout的bug，暂时用这种方式解决，后面跟进一下，看看grid-layout库会不会修复
+    setTimeout(() => {
+      this.contentDom = this.contentDom || document.querySelector('.tab-view')
+      this.gridDom = this.gridDom || document.querySelector('.vue-grid-layout')
+      this.gridDom.style.width = this.contentDom.clientWidth + 'px'
+    }, 500)
   }
   /* vue-lifecycle */
   created () {

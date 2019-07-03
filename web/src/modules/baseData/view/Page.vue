@@ -12,10 +12,10 @@
 import { Component, Mixins } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import { initOptions } from '../../../assets/utils/crudUtils.jsx'
-import { BaseMixin } from '../../../assets/utils/mixins'
+import { BaseMixin, TabMixin } from '../../../assets/utils/mixins'
 import CcRenderVue from '../../../baseComponent/CcRenderVue.vue'
 
-export default @Component({ components: { CcRenderVue } }) class Page extends Mixins(BaseMixin) {
+export default @Component({ components: { CcRenderVue } }) class Page extends Mixins(BaseMixin, TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Getter flatMenu
@@ -31,8 +31,8 @@ export default @Component({ components: { CcRenderVue } }) class Page extends Mi
   /* vue-method */
   async getData () {
     this.loading = true
-    const params = this.$tab.getParams(this.$parent.name)
-    let { data } = await this.getPage(params.code)
+    console.log(this.params)
+    let { data } = await this.getPage(this.params['p1'])
     if (data) {
       let { value, ...page } = data
       if (data.type === this.$c.PageTypeV.代码) {

@@ -7,7 +7,7 @@ import system from '../modules/system/router'
 import baseData from '../modules/baseData/router'
 import Page404 from '../modules/common/view/Page404.vue'
 import store from './store'
-import {utils} from '../assets/utils/utils'
+import utils from '../assets/utils/uiUtils'
 import {Base64} from 'js-base64'
 
 Vue.use(Router)
@@ -18,7 +18,7 @@ const router = new Router({
   routes: [
     ...publicRouter,
     {
-      path: '/:module?/:name?/:code?',
+      path: '/:module?/:name?/:p1?',
       component: MainLayout,
     },
     {
@@ -39,20 +39,32 @@ export const components = [
  *
  */
 Vue.prototype.$tab = {
+  getTabId (url, ignoreQuery = false) {
+    if (ignoreQuery) {
+      url = url.replace(/(.*)?\?.*/, '$1')
+    }
+    return Base64.encode(url)
+  },
   getComponent (tab) {
     const name = tab.components[tab.components.length - 1]
     const r = components.find(c => c.path === name || c.path !== '/' && new RegExp(c.path).test(name))
     return r ? r.component : null
   },
   // 打开新的 tab 页
-  open (url, title) {
+  open (url, title, ignoreQuery) {
+    const id = this.getTabId(url, ignoreQuery)
     const menu = store.getters.flatMenu.find(m => m.url === url)
-    store.commit('openTab', {url, title, menu})
+    store.commit('openTab', {url, title, menu, id})
+    // 如果忽略query，需要发送刷新事件通知目标页面。
+    if (ignoreQuery) {
+      utils.bus.$emit('refresh-' + id)
+    }
   },
   // 根据路由地址跳转到正确的tab页, 一般用于浏览器地址直接输入网址
   toTab (url) {
-    const id = Base64.encode(url)
-    const tab = store.state.common.menuTabs.find(t => t.id === id)
+    const id = this.getTabId(url)
+    const ignoreQueryId = this.getTabId(url, true)
+    const tab = store.state.common.menuTabs.find(t => t.id === id || t.id === ignoreQueryId)
     if (tab) {
       // 如果当前tab已经打开，那么直接定位到tab
       store.commit('updateSelectedTab', tab.id)
@@ -66,15 +78,16 @@ Vue.prototype.$tab = {
     store.commit('closeTab', {id, url})
   },
   // 关闭tab页
-  close (url) {
+  close (url, refreshTab) {
     this.closeTab(store.state.common.selectedTab, url)
+    utils.bus.$emit('refresh-' + this.getTabId(url), refreshTab)
   },
   // 关闭tab页
   closeTabs (command) {
     store.commit('closeTabs', command)
   },
-  // 刷洗tab页
-  refresh (id) {
+  // 刷新tab页
+  refresh (id = store.state.common.selectedTab) {
     store.commit('refreshTab', id)
   },
   // 在当前tab页里面打开新页面
@@ -95,7 +108,7 @@ Vue.prototype.$tab = {
     return {
       module: arr[1] || '',
       name: arr[2] || '',
-      code: arr[3] || ''
+      p1: arr[3] || ''
     }
   },
   getQuery (id) {

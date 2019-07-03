@@ -1,7 +1,6 @@
 import { utils } from '../../assets/utils/index'
 import router from '../../global/router'
 import api from '../../global/api'
-import {Base64} from 'js-base64'
 import store from '../../global/store'
 import Vue from 'vue'
 
@@ -42,7 +41,7 @@ const getters = {
 const mutations = {
   openTab (state, params) {
     const title = params.url === '/' ? '首页' : (params.title || params.menu.name)
-    const id = params.url === '/' ? '0' : Base64.encode(params.url)
+    const id = params.url === '/' ? '0' : params.id
     // 先查看是否已经打开
     const isOpen = state.menuTabs.some(t => t.id === id)
     !isOpen && state.menuTabs.push({
@@ -51,7 +50,7 @@ const mutations = {
     // 切换到新打开的标签
     store.commit('updateSelectedTab', id)
     // 更新一下url
-    router.push(params.url)
+    // router.push(params.url)
   },
   closeTab (state, params) {
     const index = state.menuTabs.findIndex(t => t.id === params.id)

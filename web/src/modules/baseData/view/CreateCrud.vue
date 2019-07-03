@@ -56,16 +56,17 @@
 </template>
 
 <script>
-import { Component, Watch, Vue } from 'vue-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
 import draggable from 'vuedraggable'
 import CcFormItem from '../../../baseComponent/CcFormItem.vue'
 import FormItemProps from '../fragment/FormItemProps.vue'
 import FormItemOptions from '../fragment/FormItemOptions.vue'
 import FormItemVerify from '../fragment/FormItemVerify.vue'
+import { TabMixin } from '../../../assets/utils/mixins'
 
 export default @Component({ components: { draggable, CcFormItem, FormItemProps, FormItemOptions, FormItemVerify } })
-class CreateCrud extends Vue {
+class CreateCrud extends Mixins(TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @Action('getPage') getPage
@@ -146,7 +147,7 @@ class CreateCrud extends Vue {
   }
   async initPage () {
     if (this.$route.query['code']) {
-      const { data } = await this.getPage(this.$route.query['code'])
+      const { data } = await this.getPage(this.query['code'])
       if (data) {
         const { value, ...pageModel } = data
         this.pageModel = pageModel
@@ -252,8 +253,7 @@ class CreateCrud extends Vue {
     const { error } = await this.savePage(this.pageModel)
     if (!error) {
       this.$utils.message('保存成功！')
-      this.$tab.close('/baseData/pageList')
-      this.$bus.$emit('refresh-pageList')
+      this.$tab.close('/baseData/pageList', this.$c.RefreshType.更新数据)
     }
   }
 }

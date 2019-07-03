@@ -10,14 +10,6 @@ import { Getter } from 'vuex-class'
   get pageTitle () {
     return this.nav && this.nav.length ? this.nav[this.nav.length - 1].name : ''
   }
-  created () {
-    // 注册刷新数据的监听
-    this.name && this.$bus.$on('refresh-' + this.name, () => this.getData && this.getData())
-  }
-  destroyed () {
-    // 取消刷新数据的监听
-    this.name && this.$bus.$off('refresh-' + this.name)
-  }
 }
 
 @Component class PageMixin extends Vue {
@@ -43,4 +35,33 @@ import { Getter } from 'vuex-class'
     this.getData()
   }
 }
-export {BaseMixin, PageMixin}
+
+@Component class TabMixin extends Vue {
+  tabId = this.$parent['name']
+  params = this.$tab.getParams(this.$parent['name'])
+  query = this.$tab.getQuery(this.$parent['name'])
+  created () {
+    // 注册刷新数据的监听
+    this.$bus.$on('refresh-' + this.tabId, (type = this.$c.RefreshType.自动) => {
+      if (type === this.$c.RefreshType.更新数据) {
+        this.getData && this.getData()
+      } else if (type === this.$c.RefreshType.重载页面) {
+        this.reLoad && this.reLoad()
+      } else if (type === this.$c.RefreshType.刷新标签) {
+        this.$tab.refresh(this.tabId)
+      } else {
+        // 自动的情况，按照reLoad, this.$tab.refresh的优先级执行
+        if (this.reLoad) {
+          this.reLoad()
+        } else {
+          this.$tab.refresh(this.tabId)
+        }
+      }
+    })
+  }
+  destroyed () {
+    // 取消刷新数据的监听
+    this.$bus.$off('refresh-' + this.tabId)
+  }
+}
+export {BaseMixin, PageMixin, TabMixin}
