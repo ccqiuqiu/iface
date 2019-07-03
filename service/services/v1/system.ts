@@ -148,6 +148,7 @@ export default (routes, prefix) => {
   routes.get(prefix + '/system/menuTree', menuTree)
   routes.get(prefix + '/system/menu', menuTree)
   routes.put(prefix + '/system/menu', saveMenu)
+  routes.post(prefix + '/system/menu', saveMenu)
   routes.delete(prefix + '/system/menu/:id', delMenu)
   routes.get(prefix + '/system/menu/:id', getMenu)
   routes.put(prefix + '/system/sortMenu', sortMenu)

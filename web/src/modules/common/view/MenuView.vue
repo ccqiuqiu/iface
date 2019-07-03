@@ -40,7 +40,20 @@ export default @Component({components: {MyMenu}}) class MenuView extends Vue {
   // 菜单选择的回调
   selectMenu (index) {
     const menu = this.flatMenu.find((m) => m.id === index)
-    this.$tab.open(menu.url)
+    if (menu.openType === this.$c.MenuOpenTypeV.内部) {
+      this.$tab.open(menu.url)
+    } else if (menu.openType === this.$c.MenuOpenTypeV.Iframe) {
+      this.$tab.open('/baseData/iframe?url=' + encodeURIComponent(menu.url), menu.name)
+    } else if (menu.openType === this.$c.MenuOpenTypeV.新窗口) {
+      // 不用window.open 是因为可能被拦截
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = menu.url
+      link.target = '_blank'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
   }
 }
 </script>

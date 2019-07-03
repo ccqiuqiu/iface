@@ -119,6 +119,9 @@ input::-moz-focus-inner {
           }
           .content-view{
             margin: 10px;
+            &.h-100{
+              height: calc(100% - 20px);
+            }
             &.full{
               margin: 0;
             }

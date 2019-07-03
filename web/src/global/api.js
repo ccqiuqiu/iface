@@ -1,22 +1,9 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import conn, { requestRecord } from './conn'
+import request from './conn'
 
 const formBaseUrl = '/v1/'
-
-/**
- * 所有请求的通用方法，此方法才会调用axios的方法
- * @param {string} method
- * @param {string} url
- * @param data  用户的请求数据，post、get一样传参就行，axios的请求拦截会分开处理
- * @param config  非业务参数，主要是配置loading、error信息的显示等
- * @returns {Promise<any>}
- */
-const request = (method, url, data = {}, config = {}) => {
-  data = { ...data, ...config }
-  return conn.request({ method, url, data }).then((data) => ({ data })).catch((error) => ({ error }))
-}
 
 export default {
   searchPage: (params, config = {}) => request('get', '/v1/baseData/page', params, config),
@@ -46,7 +33,4 @@ export default {
   getAllDashboard: (params = {}, config = {}) => request('get', '/v1/base/allDashboard', params, config),
   // 保存用户的仪表盘布局
   saveUserDashboard: (params = {}, config = {}) => request('put', '/v1/base/userDashboard', params, config),
-  //
-  // 保存接口录制的数据
-  saveRecord: () => requestRecord('/save')
 }

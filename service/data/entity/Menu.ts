@@ -21,6 +21,9 @@ export default class Menu extends BaseEntity {
   @Column()
   public sort: number
 
+  @Column({type: 'tinyint', default: 1})
+  public openType: number
+
   @TreeChildren()
   public children: Menu[]
 

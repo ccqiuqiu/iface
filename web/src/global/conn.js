@@ -2,11 +2,10 @@
 /**
  * Created by 熊超超 on 2018/4/20.
  */
-import router from './router'
 import store from './store'
-import { utils, ls } from '../assets/utils/index'
+import router from './router'
+import { utils } from '../assets/utils/index'
 import constant from '../assets/utils/constant'
-import app from '../main'
 import axios from 'axios'
 
 // 创建一个axios实例
@@ -22,78 +21,82 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   // 加公共请求参数
   config.headers.token = sessionStorage.getItem('token') || ''
-  // 从请求参数里面取出一些控制参数, 控制loading和error的显示
-  const { _loading, _hideGlobalError, ...data } = config.data
-  config.headers._loading = _loading !== false
-  config.headers._hideGlobalError = _hideGlobalError
-  if (config.method === 'get') {
-    config.params = data
-  } else {
-    config.data = data
-  }
-  if (config.headers._loading) {
-    app.$Progress.start()
-    // store.commit('showLoading', _loading)
-  }
   return config
 })
 
 // 注册响应拦截器
 axiosInstance.interceptors.response.use((response) => {
-  // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const { _loading, _hideGlobalError } = response.config.headers
-  // if (_loading) {
-  //   store.commit('hideLoading')
-  // }
+  if (response.config.responseType === 'blob') {
+    let url = window.URL.createObjectURL(response.data)
+    const link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
+    const contentDisposition = response.headers['content-disposition']
+    let fileName = ''
+    if (contentDisposition) {
+      fileName = contentDisposition.replace(/.*filename=(.*)/, '$1')
+    }
+    fileName = decodeURI(fileName)
+    link.setAttribute('download', fileName)
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    return
+  }
   if (response.data.success) {
-    if (_loading) {
-      app.$Progress.finish()
-    }
-    // 如果服务端刷新了token，更新
-    if (response.data.token) {
-      ls.set('token', response.data.token)
-    }
-    // 如果是录制模式，每个请求返回后，将结果发送到录制服务器
-    if (process.env.VUE_APP_RECORD) {
-      const url = response.config.url.replace(response.config.baseURL, '')
-      requestRecord('', { url, data: response.data.data })
-    }
     return Promise.resolve(response.data.data)
   } else {
-    if (_loading) {
-      app.$Progress.fail()
-    }
     if (response.data.error.code === 401) {
       sessionStorage.removeItem('token')
       store.commit('hideDialog')
       store.commit('clearStore')
       setTimeout(() => location.pathname !== '/login' && router.push({name: 'login', query: {url: document.URL}}), 0)
     }
-    // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了_hideGlobalError为true
-    if (!_hideGlobalError || [401, 403].includes(response.data.error.code)) {
-      utils.message(response.data.error.message, constant.MessageType.error)
-    }
     return Promise.reject(response.data.error)
   }
 }, (error) => {
-  // 从请求参数里面取出一些控制参数, 控制loading的显示,err的处理
-  const { _loading } = error.config.headers
-  if (_loading) {
-    // store.commit('hideLoading')
-    app.$Progress.fail()
-  }
-  utils.message('服务端异常', constant.MessageType.error)
-  return Promise.reject({ code: error.response.status, message: error.response.data })
+  return Promise.reject({ code: error.response.status, message: '服务器异常，请稍候再试' })
 })
 
-export default axiosInstance
-
-const axiosRecord = axios.create({
-  baseURL: process.env.VUE_APP_RECORD_URL,
-  headers: {
-    'Content-Type': 'application/json'
+/**
+ * 所有请求的通用方法，此方法才会调用axios的方法
+ * @param {string} method
+ * @param {string} url
+ * @param data  用户的请求数据，post、get一样传参就行，axios的请求拦截会分开处理
+ * @param myConfig  非业务参数，主要是配置loading、error信息的显示等
+ * @returns {Promise<any>}
+ */
+export default (method, url, data = {}, myConfig = {}) => {
+  const config = {
+    method, url
   }
-})
-export function requestRecord (url, data) {
-  return axiosRecord.post(url, data)
+  if (config.method === 'get') {
+    config.params = data
+  } else {
+    config.data = data
+  }
+  if (myConfig.download) {
+    config.responseType = 'blob'
+  }
+  if (myConfig.loading !== false) {
+    utils.bus.$Progress.start()
+  }
+  return axiosInstance.request(config)
+    .then((data) => {
+      if (myConfig.loading !== false) {
+        utils.bus.$Progress.finish()
+      }
+      return { data }
+    })
+    .catch((error) => {
+      if (myConfig.loading !== false) {
+        utils.bus.$Progress.fail()
+      }
+      // 默认情况下，此处统一提示服务端的错误信息，除非请求的时候设置了hideError为true
+      if (!myConfig.hideError || [401, 403].includes(error.code)) {
+        utils.message(error.message, constant.MessageType.error)
+      }
+      return { error }
+    })
 }
