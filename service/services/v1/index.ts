@@ -8,5 +8,4 @@ export default (routes, prefix) => {
   require('./system').default(routes, prefix)
   require('./base').default(routes, prefix)
   require('./wx').default(routes, prefix)
-
 }
