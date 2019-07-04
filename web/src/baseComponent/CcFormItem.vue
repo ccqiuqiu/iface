@@ -68,6 +68,10 @@
     <cc-input-icon v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'icon'" v-on="$listeners"></cc-input-icon>
     <!--color-->
     <el-color-picker v-model="model[mItem.prop]" v-bind="mItem.props" v-else-if="mItem.type === 'color'" v-on="$listeners" :predefine="['#53beea', '#49a361', '#e79f3c', '#cd5542']"></el-color-picker>
+    <el-autocomplete v-model="model[mItem.prop]" v-bind="mItem.props" :fetch-suggestions="item.props.fetchSuggestions"  v-else-if="mItem.type === 'autocomplete'" v-on="$listeners"></el-autocomplete>
+    <cc-input-tags :label="mItem.props.label" v-else-if="mItem.type === 'tags'" v-model="model[mItem.prop]" v-bind="mItem.props" v-on="$listeners" icon="table"></cc-input-tags>
+    <!--input-->
+    <cc-upload v-else-if="mItem.type === 'upload'" v-model="model[mItem.prop]" v-bind="mItem.props"></cc-upload>
     <div v-else-if="mItem.type === 'view'">
       <template v-if="item.formatter">
         {{item.formatter(model, mItem.prop, model[mItem.prop])}}
@@ -77,10 +81,6 @@
       </template>
       <template v-else>{{mItem.value || model[mItem.prop]}}</template>
     </div>
-    <el-autocomplete v-model="model[mItem.prop]" v-bind="mItem.props" :fetch-suggestions="item.props.fetchSuggestions"  v-else-if="mItem.type === 'autocomplete'" v-on="$listeners"></el-autocomplete>
-    <cc-input-tags :label="mItem.props.label" v-else-if="mItem.type === 'tags'" v-model="model[mItem.prop]" v-bind="mItem.props" v-on="$listeners" icon="table"></cc-input-tags>
-    <!--input-->
-    <oss-upload ref="upload" v-else-if="mItem.type === 'upload'" v-model="model[mItem.prop]" v-bind="mItem.props"></oss-upload>
     <template v-else>
       <el-input v-model.number="model[mItem.prop]" v-bind="mItem.props" :type="mItem.type" v-if="isNumber(mItem.verify)" clearable v-on="$listeners">
         <template v-if="mItem.props.append" slot="append">{{mItem.props.append}}</template>
@@ -100,10 +100,11 @@ import CcInputDialog from './CcInputDialog.vue'
 import CcInputIcon from './CcInputIcon.vue'
 import CcCheckboxGroup from './CcCheckboxGroup.vue'
 import CcSelect from './CcSelect.vue'
+import CcUpload from './CcUpload.vue'
 import { Action } from 'vuex-class'
 import { getOptions } from '../assets/utils/crudUtils.jsx'
 
-export default @Component({ components: { CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect } })
+export default @Component({ components: { CcInputTable, CcInputTree, CcInputDialog, CcInputIcon, CcCheckboxGroup, CcSelect, CcUpload } })
 class CcFormItem extends Vue {
     /* vue-props */
     @Prop({ required: true, type: [Object] }) model

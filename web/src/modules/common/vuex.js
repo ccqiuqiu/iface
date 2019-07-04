@@ -182,7 +182,7 @@ const actions = {
   // 获取仪表盘的数据
   getDashboardData (context, params) {
     return api.requestUrl(params.method, params.url, params.params)
-  }
+  },
 }
 
 export default { state, getters, mutations, actions }

@@ -91,6 +91,20 @@ class UiUtils extends Utils {
       return resources.includes(binding.value)
     }
   }
+  toLink (url, attr, target = '_self') {
+    const link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
+    link.target = target
+    if (attr) {
+      for (let [key, value] of Object.entries(attr)) {
+        link.setAttribute[key] = value
+      }
+    }
+    // document.body.appendChild(link)
+    link.click()
+  // document.body.removeChild(link)
+  }
 }
 const uiUtils = new UiUtils()
 export default uiUtils

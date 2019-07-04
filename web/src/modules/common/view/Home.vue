@@ -22,6 +22,7 @@
       <cc-icon name="layout" class="c-white" v-if="!layoutUpdated"></cc-icon>
       <cc-icon name="save" class="c-white" v-if="layoutUpdated"></cc-icon>
     </div>
+    <cc-form :data="{model: {}, items: [{label: '上传', prop: 'list', type: 'upload'}]}"></cc-form>
   </div>
 </template>
 

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ccqiuqiu/iface",
   "dependencies": {
+    "ali-oss": "^6.1.1",
     "js-base64": "^2.5.1"
   }
 }

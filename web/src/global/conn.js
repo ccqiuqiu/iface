@@ -28,20 +28,21 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use((response) => {
   if (response.config.responseType === 'blob') {
     let url = window.URL.createObjectURL(response.data)
-    const link = document.createElement('a')
-    link.style.display = 'none'
-    link.href = url
     const contentDisposition = response.headers['content-disposition']
     let fileName = ''
     if (contentDisposition) {
       fileName = contentDisposition.replace(/.*filename=(.*)/, '$1')
     }
     fileName = decodeURI(fileName)
+    utils.toLink(url, {download: fileName})
+    const link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
     link.setAttribute('download', fileName)
 
-    document.body.appendChild(link)
+    // document.body.appendChild(link)
     link.click()
-    document.body.removeChild(link)
+    // document.body.removeChild(link)
     return
   }
   if (response.data.success || response.data.code === 200) {

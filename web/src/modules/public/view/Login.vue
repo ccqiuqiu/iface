@@ -14,7 +14,7 @@
         </el-form-item>
       </el-form>
       <div data-flex="main:right">
-        <el-button type="primary" @click="login">登录</el-button>
+        <el-button type="primary" @click="login" :loading="loading">登录</el-button>
       </div>
       <div class="c-info">测试账号：admin/test  密码：123456</div>
     </el-card>
@@ -32,6 +32,7 @@ export default @Component class Login extends Vue {
     userName: 'admin',
     password: '123456'
   }
+  loading = false
   isRedirect = true
   /* vue-compute */
   get redirectUrl () {
@@ -49,7 +50,9 @@ export default @Component class Login extends Vue {
   /* vue-method */
   // 用户登录
   async login () {
+    this.loading = true
     const { data } = await this.$store.dispatch('login', this.user)
+    this.loading = false
     if (data) {
       // this.$ls.set('token', data.token)
       sessionStorage.setItem('token', data.token)
