@@ -88,18 +88,9 @@ async function getMenu(ctx) {
 }
 // 角色
 async function searchRole(ctx) {
-  const re = await Dao.Role.findPaged({...ctx.query, parentId: null})
-  const all = await Dao.Role.find()
+  const re = await Dao.Role.findPaged({...ctx.query, parentId: null}, {relations: ['children']})
   re.rows = re.rows.filter((role: any) => role.code !== 'admin')
   re.total--
-  re.rows.forEach(r => {
-    if (r['isGroup'] === 1) {
-      const children: any[] = all.filter(r2 => r2['parentId'] === r['id'])
-      if (children.length) {
-        r['children'] = children
-      }
-    }
-  })
   ctx.body = createBody(re)
 }
 

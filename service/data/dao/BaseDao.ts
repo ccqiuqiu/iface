@@ -28,7 +28,7 @@ export class BaseDao<Model> {
     const entityManager = getManager()
     return entityManager.delete(this.entityClass, id)
   }
-  async findPaged({pageNum = 1, pageSize = 10, ...where}) {
+  async findPaged({pageNum = 1, pageSize = 10, ...where}, options = {}) {
     const repository = getRepository(this.entityClass)
     const total = await repository.count({where})
     const rows = await repository.find({
@@ -36,6 +36,7 @@ export class BaseDao<Model> {
       where,
       skip: pageSize * (pageNum - 1),
       take: pageSize,
+      ...options,
     })
     return {total, rows}
   }
