@@ -23,11 +23,10 @@
 </template>
 
 <script>
-import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-import { TabMixin } from '../assets/utils/mixins'
+import { Component, Vue, Watch, Prop, Inject } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
 
-export default @Component({ mixins: [TabMixin] }) class CcCrudTree extends Vue {
+export default @Component class CcCrudTree extends Vue {
   /* vue-props */
   @Prop() data
   @Prop() page
@@ -35,6 +34,7 @@ export default @Component({ mixins: [TabMixin] }) class CcCrudTree extends Vue {
   @Action requestUrl
   @Action sortMenu
   /* vue-data */
+  @Inject() params
   filterText = ''
   currentRow = null
   expandedKeys = []

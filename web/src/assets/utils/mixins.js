@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/6/21.
  */
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Provide } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 
 @Component class BaseMixin extends Vue {
@@ -37,9 +37,10 @@ import { Getter } from 'vuex-class'
 }
 
 @Component class TabMixin extends Vue {
-  tabId = this.$parent['name']
-  params = this.$tab.getParams(this.$parent['name'])
-  query = this.$tab.getQuery(this.$parent['name'])
+  @Provide() tabId = this.$parent['name']
+  @Provide() params = this.$tab.getParams(this.$parent['name'])
+  @Provide() query = this.$tab.getQuery(this.$parent['name'])
+
   created () {
     // 注册刷新数据的监听
     this.$bus.$on('refresh-' + this.tabId, (type = this.$c.RefreshType.自动) => {
