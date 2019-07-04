@@ -45,7 +45,7 @@ export default @Component class TabsView extends Vue {
     this.updateSelectedTab(val)
     // 切换一下url
     const url = this.$tab.getCurUrl(val)
-    url && this.$router.push(this.$tab.getCurUrl(val))
+    url && this.$router.push(url)
   }
   /* vue-watch */
   /* vue-lifecycle */

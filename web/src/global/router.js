@@ -63,8 +63,11 @@ Vue.prototype.$tab = {
   // 根据路由地址跳转到正确的tab页, 一般用于浏览器地址直接输入网址
   toTab (url) {
     const id = this.getTabId(url)
-    const ignoreQueryId = this.getTabId(url, true)
-    const tab = store.state.common.menuTabs.find(t => t.id === id || t.id === ignoreQueryId)
+    let tab = store.state.common.menuTabs.find(t => t.id === id)
+    if (!tab) {
+      const ignoreQueryId = this.getTabId(url, true)
+      tab = store.state.common.menuTabs.find(t => t.id === ignoreQueryId)
+    }
     if (tab) {
       // 如果当前tab已经打开，那么直接定位到tab
       store.commit('updateSelectedTab', tab.id)

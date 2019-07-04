@@ -146,8 +146,9 @@ class CreateCrud extends Mixins(TabMixin) {
     this.initPage()
   }
   async initPage () {
-    if (this.$route.query['code']) {
-      const { data } = await this.getPage(this.query['code'])
+    const code = this.query.code
+    if (code) {
+      const { data } = await this.getPage(code)
       if (data) {
         const { value, ...pageModel } = data
         this.pageModel = pageModel
