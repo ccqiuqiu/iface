@@ -1,8 +1,8 @@
 <!--Created by 熊超超 on 2018/8/14.-->
 <template>
   <div class="div p-b-10" v-loading="loading">
-    <div class="p-10" data-flex="cross:center">
-      <span data-flex-box="1">{{pageTitle}}</span>
+    <div class="p-10" data-flex="cross:center main:right">
+<!--      <span data-flex-box="1">{{pageTitle}}</span>-->
       <cc-button v-auth="'addMenu'" icon="add" text="添加" @click="onAdd"/>
       <cc-button v-auth="'delMenu'" icon="delete" text="删除" @click="onDel"/>
     </div>
@@ -24,10 +24,10 @@
 
 <script>
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-import { BaseMixin } from '../assets/utils/mixins'
+import { TabMixin } from '../assets/utils/mixins'
 import { Action } from 'vuex-class'
 
-export default @Component({ mixins: [BaseMixin] }) class CcCrudTree extends Vue {
+export default @Component({ mixins: [TabMixin] }) class CcCrudTree extends Vue {
   /* vue-props */
   @Prop() data
   @Prop() page
@@ -44,7 +44,7 @@ export default @Component({ mixins: [BaseMixin] }) class CcCrudTree extends Vue 
   treeProps = { children: 'children', label: 'name' }
   /* vue-compute */
   get draggable () {
-    return this.$route.params['code'] === 'menu'
+    return this.params && this.params['p1'] === 'menu'
   }
   get editForm () {
     if (this.data.editForm) {

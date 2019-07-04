@@ -100,6 +100,7 @@ Vue.prototype.$tab = {
   },
   getCurUrl (id) {
     const tab = store.state.common.menuTabs.find(t => t.id === id)
+    if (!tab) return ''
     return tab.components[tab.components.length - 1]
   },
   getParams (id) {
