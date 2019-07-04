@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 03/07/2019 16:14:25
+ Date: 04/07/2019 11:29:52
 */
 
 SET NAMES utf8mb4;
@@ -246,7 +246,7 @@ COMMIT;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` varchar(255) NOT NULL,
-  `name` varchar(32) NOT NULL,
+  `userName` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `tel` varchar(32) DEFAULT NULL,
   `sex` tinyint(4) NOT NULL DEFAULT '1',
@@ -254,7 +254,7 @@ CREATE TABLE `user` (
   `addTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `IDX_065d4d8f3b5adb4a08841eae3c` (`name`),
+  UNIQUE KEY `IDX_da5934070b5f2726ebfd3122c8` (`userName`),
   UNIQUE KEY `IDX_ff716f76b4bf8176aa40d0c87c` (`tel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
