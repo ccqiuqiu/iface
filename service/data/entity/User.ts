@@ -25,6 +25,12 @@ export default class User extends BaseEntity {
   @Column({type: 'tinyint', default: 1})
   public status: number
 
+  @Column({length: 256, nullable: true})
+  public openId: string
+
+  @Column({length: 256, nullable: true})
+  public unionId: string
+
   @ManyToMany((type) => Role)
   @JoinTable({name: 'user-role'})
   public roles: Role[]

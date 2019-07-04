@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 04/07/2019 11:29:52
+ Date: 04/07/2019 13:42:55
 */
 
 SET NAMES utf8mb4;
@@ -253,6 +253,8 @@ CREATE TABLE `user` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `addTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `openId` varchar(256) DEFAULT NULL,
+  `unionId` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_da5934070b5f2726ebfd3122c8` (`userName`),
   UNIQUE KEY `IDX_ff716f76b4bf8176aa40d0c87c` (`tel`)
@@ -262,8 +264,8 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('314e3e04-cb2f-46f7-83a1-013a728ef2db', 'admin', '123456', '18888888888', 1, 1, '2018-07-24 14:44:57.703238', '2018-07-24 14:44:57.752295');
-INSERT INTO `user` VALUES ('8870a871-da7d-4bf7-bfe1-f0bd684905e4', 'test', '123456', '13333333333', 2, 1, '2018-07-24 14:44:57.703238', '2018-07-24 14:44:57.752295');
+INSERT INTO `user` VALUES ('314e3e04-cb2f-46f7-83a1-013a728ef2db', 'admin', '123456', '18888888888', 1, 1, '2018-07-24 14:44:57.703238', '2018-07-24 14:44:57.752295', NULL, NULL);
+INSERT INTO `user` VALUES ('8870a871-da7d-4bf7-bfe1-f0bd684905e4', 'test', '123456', '13333333333', 2, 1, '2018-07-24 14:44:57.703238', '2018-07-24 14:44:57.752295', NULL, NULL);
 COMMIT;
 
 -- ----------------------------

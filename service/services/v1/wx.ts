@@ -96,7 +96,7 @@ async function wxReg(ctx) {
     console.log('解密后 data: ', data2)
     // 注册
     const user = new User()
-    user.name = query.name
+    user.userName = query.name
     user.password = query.password
     user.openId = data.openid
     if (data2 && data2.unionId) {
