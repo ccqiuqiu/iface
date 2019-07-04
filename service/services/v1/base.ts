@@ -108,23 +108,6 @@ async function getOptions(ctx) {
   ctx.body = createBody(options)
 }
 
-
-async function getAuth(ctx: Context) {
-  const userId = ctx.state.session.user.id
-  // 更新重新查询一下用户的权限，为了解决用户权限变化后一定要重新登录才能生效的问题
-  const user: User = await Dao.User.findOne({id: userId})
-  const auth = await Dao.User.findUserAuth(userId)
-  await redis.set(user.id, {user, auth}, jwtExp)
-  let userResources = auth.resources
-  let resources: any = []
-  if (typeof userResources !== 'string') {
-    resources = (userResources as Resource[]).map((res) => res.method + '-' + res.url)
-  } else {
-    resources = userResources
-  }
-  ctx.body = createBody({user, auth: {resources, menus: auth.menus}})
-}
-
 async function getPageOptions(ctx) {
   const pageCode = ctx.params.code
   const re = await Dao.Page.findOne({pageCode})
@@ -153,6 +136,4 @@ export default (routes, prefix) => {
   routes.get(prefix + '/base/options', getOptions)
   routes.get(prefix + '/base/pageOptions/:code', getPageOptions)
   routes.get(prefix + '/base/optionsDemo', optionsDemo)
-  // 获取权限
-  routes.get(prefix + '/base/auth', getAuth)
 }

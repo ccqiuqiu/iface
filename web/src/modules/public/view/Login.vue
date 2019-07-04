@@ -7,7 +7,7 @@
       </div>
       <el-form label-width="60px" class="m-h-20 full-width">
         <el-form-item label="用户名">
-          <el-input type="text" v-model="user.name"></el-input>
+          <el-input type="text" v-model="user.userName"></el-input>
         </el-form-item>
         <el-form-item label="密码">
           <el-input type="password" v-model="user.password"></el-input>
@@ -29,7 +29,7 @@ export default @Component class Login extends Vue {
   /* vue-vuex */
   /* vue-data */
   user = {
-    name: 'admin',
+    userName: 'admin',
     password: '123456'
   }
   isRedirect = true

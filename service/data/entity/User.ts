@@ -11,7 +11,7 @@ import UserDashboard from './UserDashboard'
 export default class User extends BaseEntity {
 
   @Column({length: 32, unique: true})
-  public name: string
+  public userName: string
 
   @Column({length: 32})
   public password: string

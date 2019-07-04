@@ -9,6 +9,7 @@ export default {
   searchPage: (params, config = {}) => request('get', '/v1/baseData/page', params, config),
   getPage: (pageCode, config = {}) => request('get', '/v1/baseData/page/' + pageCode, config),
   savePage: (params = {}, config = {}) => request('put', '/v1/baseData/page', params, config),
+  delPage: (id, config = {}) => request('delete', `/v1/baseData/page/${id}`, {}, config),
   // 查询表单options
   getOptions: (url, config = {}) => request('get', '/v1/base/' + url, {}, config),
   // 查询表单options,类型为dialog的
@@ -20,7 +21,7 @@ export default {
   // ticket登录
   ticketLogin: (params, config = {}) => request('post', '/v1/public/ticketLogin', params, config),
   // 获取权限
-  getAuth: (params = {}, config = {}) => request('get', '/v1/base/auth', params, config),
+  getAuth: (params = {}, config = {}) => request('get', '/v1/system/auth', params, config),
   // 获取菜单树
   menuTree: (params = {}, config = {}) => request('get', '/v1/system/menuTree', params, config),
   // 删除菜单

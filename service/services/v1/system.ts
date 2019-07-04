@@ -4,6 +4,28 @@
 import createBody from './createBody'
 import * as Dao from '../../data/dao/index'
 import {addParentId} from '../../utils'
+import {Context} from 'koa'
+import User from '../../data/entity/User'
+import * as redis from '../../utils/redis'
+import {jwtExp} from '../config'
+import Resource from '../../data/entity/Resource'
+
+
+async function getAuth(ctx: Context) {
+  const userId = ctx.state.session.user.id
+  // 更新重新查询一下用户的权限，为了解决用户权限变化后一定要重新登录才能生效的问题
+  const user: User = await Dao.User.findOne({id: userId})
+  const auth = await Dao.User.findUserAuth(userId)
+  await redis.set(user.id, {user, auth}, jwtExp)
+  let userResources = auth.resources
+  let resources: any = []
+  if (typeof userResources !== 'string') {
+    resources = (userResources as Resource[]).map((res) => res.method + '-' + res.url)
+  } else {
+    resources = userResources
+  }
+  ctx.body = createBody({user, auth: {resources, menus: auth.menus}})
+}
 
 // 用户
 async function searchUser(ctx) {
@@ -158,6 +180,8 @@ async function sortMenu(ctx) {
 }
 
 export default (routes, prefix) => {
+  // 获取权限
+  routes.get(prefix + '/system/auth', getAuth)
   // 用户
   routes.get(prefix + '/system/user', searchUser)
   routes.put(prefix + '/system/user', saveUser)

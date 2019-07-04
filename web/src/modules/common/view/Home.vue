@@ -26,16 +26,17 @@
 </template>
 
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
 import VueGridLayout from 'vue-grid-layout'
 import DashboardItem from '../fragment/DashboardItem.vue'
 import { Action, State } from 'vuex-class'
 import DashboardSelector from '../fragment/DashboardSelector.vue'
+import { TabMixin } from '../../../assets/utils/mixins'
 
 Component.registerHooks(['beforeRouteLeave'])
 
 export default @Component({ components: { GridLayout: VueGridLayout.GridLayout, GridItem: VueGridLayout.GridItem, DashboardItem } })
-class Home extends Vue {
+class Home extends Mixins(TabMixin) {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menuExpand) menuExpand

@@ -52,7 +52,7 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin, Ta
     this.loading = false
     if (data) {
       this.total = data.total
-      this.rows = data.rows
+      this.rows = data.rows || data.records
     }
   }
   onAdd () {
@@ -71,7 +71,6 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin, Ta
     } else {
       this.$tab.open('/baseData/createCrud?code=' + this.currentRow.code, `修改${this.currentRow.name}`)
     }
-    // this.$router.push({name: 'createCrud', query: {id: this.currentRow.pageCode}})
   }
   async onDel () {
     if (!this.currentRow) {
@@ -81,7 +80,7 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin, Ta
     const re = await this.$utils.confirm('确定要删除这条数据吗？')
     if (re) {
       this.loading = true
-      const { error } = await this.requestUrl({ url: 'baseData/page/' + this.currentRow.id, method: 'delete' })
+      const { error } = await this.$store.dispatch('delPage', this.currentRow.id)
       this.loading = false
       if (!error) {
         this.$utils.message('删除成功')

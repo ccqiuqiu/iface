@@ -17,7 +17,10 @@ const actions = {
   //
   savePage (context, page) {
     return api.savePage(page)
-  }
+  },
+  delPage (context, id) {
+    return api.delPage(id)
+  },
 }
 
 export default {state, mutations, actions}

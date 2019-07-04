@@ -44,10 +44,10 @@ axiosInstance.interceptors.response.use((response) => {
     document.body.removeChild(link)
     return
   }
-  if (response.data.success) {
+  if (response.data.success || response.data.code === 200) {
     return Promise.resolve(response.data.data)
   } else {
-    if (response.data.error.code === 401) {
+    if (response.data.error.code === 401 || response.data.code === 401) {
       sessionStorage.removeItem('token')
       store.commit('hideDialog')
       store.commit('clearStore')

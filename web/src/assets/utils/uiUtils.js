@@ -84,8 +84,8 @@ class UiUtils extends Utils {
   }
   // 资源权限验证
   hasAuth (binding) {
-    const resources = store.state.common.resources
-    if (resources === 'all') {
+    const resources = store.state.common.resources || []
+    if (resources.includes('all')) {
       return true
     } else {
       return resources.includes(binding.value)
