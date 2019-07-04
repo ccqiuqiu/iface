@@ -44,7 +44,7 @@ export default @Component({ mixins: [BaseMixin] }) class CcCrudTree extends Vue 
   treeProps = { children: 'children', label: 'name' }
   /* vue-compute */
   get draggable () {
-    return this.params['p1'] === 'menu'
+    return this.$route.params['code'] === 'menu'
   }
   get editForm () {
     if (this.data.editForm) {
