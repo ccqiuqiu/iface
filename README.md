@@ -23,3 +23,20 @@
 - web -  iFace前端项目
 - service - 配套的node.js后端
 - iFace并不限制后端的语言，只需要按照文档约定开发后端就可以了。
+
+## 使用说明
+### 后端
+- 以下命令要在/service目录下运行
+- 需要mysql数据库，数据库配置文件在  /service/data/db.ts
+- 需要redis数据库，配置文件在 /service/utils/redis.ts
+- 项目初次运行，执行 npm i 安装依赖
+- 可以全局安装pm2依赖用于生产模式启动，执行：npm i pm2 -g
+- 使用npm run dev命令用开发模式启动， 关闭cmd窗口即停止
+- 使用npm start用生产模式启动（必须先），执行npm stop停止服务
+
+### 前端
+- 以下命令要在/web目录下运行
+- 项目初次运行，执行 npm i 安装依赖
+- 使用npm run dev启动开发模式
+- 使用npm run build编译前端项目
+- /dist目录是编译生成的文件，放到任意web服务器上就可以运行
