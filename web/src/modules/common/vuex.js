@@ -40,7 +40,6 @@ const getters = {
 }
 const mutations = {
   openTab (state, params) {
-    debugger
     const title = params.url === '/' ? '首页' : (params.title || params.menu.name)
     const id = params.url === '/' ? '0' : params.id
     // 先查看是否已经打开

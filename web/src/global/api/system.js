@@ -15,7 +15,7 @@ export default {
   // 查询表单options,类型为dialog的
   getPageOptions: (code, config = {}) => request('get', '/v1/base/pageOptions/' + code, {}, config),
   // 传url直接请求接口
-  requestUrl: (method = 'get', url, params, config = {}) => request(method, url.startsWith('/') ? url : formBaseUrl + url, params, config),
+  requestUrl: (method = 'get', url, params, config = {}) => request(method, url.startsWith('/') || url.startsWith('http') ? url : formBaseUrl + url, params, config),
   // 登录
   login: (params = {}, config = {}) => request('post', '/v1/public/login', params, config),
   // ticket登录

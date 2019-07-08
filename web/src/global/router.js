@@ -41,7 +41,7 @@ export const components = [
 Vue.prototype.$tab = {
   getTabId (url, ignoreQuery = false) {
     if (ignoreQuery) {
-      url = url.replace(/(.*)?\?.*/, '$1')
+      url = url.replace(/(.*)?\?.*/, '$1') + '?' // 加?是为了和本身就不带参数的url区分开
     }
     return Base64.encode(url)
   },

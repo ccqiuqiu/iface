@@ -1,48 +1,58 @@
 <!--Created by 熊超超 on 2019-07-04.-->
 <template>
-  <div>
-    <el-upload v-if="!disabled" action
-               :before-upload="beforeUpload"
-               :on-preview="onPreview"
-               :file-list="fileList"
-               :on-success="onSuccess"
-               :on-remove="onRemove"
-               :on-error="onError"
-               :http-request="upload">
-      <el-button v-if="!disabled" size="small" type="primary" :loading="loading">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">{{uploadTip}}</div>
-    </el-upload>
-    <div v-else>
-      <div :key="index" v-for="(item, index) in fileList">
-        <a target="_blank" :download="item.attachName" :href="item.attachUrl">{{item.attachName}}</a>
-      </div>
+  <el-upload ref="upload" :action="action"
+             :data="upLoadData"
+             :limit="limit"
+             :disabled="disabled"
+             :before-upload="beforeUpload"
+             :on-preview="onPreview"
+             :file-list="fileList"
+             :on-success="onSuccess"
+             :on-remove="onRemove"
+             :on-error="onError">
+    <el-button v-if="!disabled" size="small" type="primary" :loading="loading">点击上传</el-button>
+    <div slot="tip" class="el-upload__tip">
+      <span v-for="(item, index) in mUploadTip" :key="index">{{item}}</span>
     </div>
-  </div>
+  </el-upload>
 </template>
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import OSS from 'ali-oss'
-const ssoClient = new OSS({
-  accessKeyId: 'LTAIMtYRSTaAQ70n',
-  accessKeySecret: 'xLjQ9j8jsTtefwKdsFpEWikzAncZEc',
-  bucket: 'oppcio-gcgl-test',
-  region: 'oss-cn-shenzhen',
-})
+
+const ssoSignUrl = '/api/oss/getTemporarySign'
+
 export default @Component class CcUpload extends Vue {
   /* vue-props */
   @Prop({required: true, default: () => []}) value
+  @Prop({required: true}) dir
   @Prop() uploadTip
   @Prop(Boolean) disabled
-  @Prop(Boolean) loading
+  @Prop(Number) limit
   @Prop({type: Number, default: 100}) maxSize
   @Prop({type: Array, default: () => []}) fileType
   @Prop({type: Array, default: () => ['exe', 'reg', 'bat', 'msi']}) blackList
   /* vue-vuex */
   /* vue-data */
+  action = ''
+  expire = 0
+  signObj = {}
+  updateData = {}
+  loading = false
   /* vue-compute */
   get fileList () {
-    return this.value// .map(item => ({...item, name: item.name || item.attrName}))
+    return this.value.map(item => ({ ...item, name: item.name || item.attachName }))
+  }
+  get mUploadTip () {
+    const re = []
+    if (this.fileType.length) {
+      re.push(`只能上传 ${this.fileType.join('、')} 格式的文件`)
+    }
+    re.push(`每个文件大小不超过 ${this.maxSize} MB`)
+    if (this.limit) {
+      re.push(`最多可以上传 ${this.maxSize} 个文件`)
+    }
+    return re
   }
   /* vue-watch */
   /* vue-lifecycle */
@@ -51,65 +61,82 @@ export default @Component class CcUpload extends Vue {
     const extName = file.name.substr(file.name.lastIndexOf('.') + 1)
     // 黑名单检查
     if (this.blackList.includes(extName)) {
-      this.$message.error('上传失败，您上传的文件格式不允许！')
+      this.$message.error('上传失败，您上传的文件可能存在安全隐患，系统禁止上传')
+      return false
+    }
+    // 文件个数检查
+    if (this.limit && this.fileList.length >= this.limit) {
+      this.$message.error(`上传失败，您最多可以上传 ${this.maxSize} 个文件`)
       return false
     }
     // 文件类型检查
     if (this.fileType.length && !this.fileType.includes(extName)) {
-      this.$message.error(`上传失败，只能上传${this.fileType.join('、')}格式的文件`)
+      this.$message.error(`上传失败，您只能上传${this.fileType.join('、')}格式的文件`)
       return false
     }
     // 文件大小检查
     if (file.size / 1024 / 1024 > this.maxSize) {
-      this.$message.error(`上传文件大小不能超过 ${this.maxSize} MB!`)
+      this.$message.error(`上传失败，您上传的文件大小不能超过 ${this.maxSize} MB!`)
       return false
     }
-    return true
+    this.loading = true
+    return this.getSign(file)
   }
   onPreview (file) {
     if (file.attachUrl) {
-      this.$utils.toLink(file.attachUrl)
+      this.$utils.toLink(file.attachUrl, { download: file.name })
     }
   }
-  onSuccess (file) {
-    console.log('success')
-    this.fileList.push(file)
-    this.$emit('input', this.fileList)
+  onSuccess (res, file) {
+    this.loading = false
+    if (typeof res === 'object' && res.status === 200) {
+      file = { ...file, ...res.data }
+      this.fileList.push({ name: file.name, ...res.data })
+      this.$emit('input', this.fileList)
+    } else {
+      // 上传失败，删除fileList
+      this.$refs['upload'].clearFiles()
+      this.$emit('input', this.fileList)
+      const msg = typeof res === 'string' ? '服务器异常，请稍候重试' : res.desc
+      this.$message.error('上传失败：' + msg)
+    }
   }
   onRemove (file) {
     const index = this.fileList.findIndex(item => item.attachId && item.attachId === file.attachId)
     this.fileList.splice(index, 1)
+    this.$emit('input', this.fileList)
   }
   onError (err) {
-    console.log(err)
+    this.loading = false
+    this.$message.error('上传失败：' + err.message)
   }
-  async upload (config) {
-    console.log(config)
-    let file = config.file
-    const extName = file.name.substr(file.name.lastIndexOf('.'))
-    let fileNames = this.$utils.getUUID() + extName
-    let encodeFileName = encodeURIComponent(file.name)
-    // 上传到oss
-    let re = await ssoClient.multipartUpload('order/' + fileNames, file, {
-      headers: {'Content-Disposition': 'attachment;filename=' + encodeFileName},
-      progress: async function (p) {
-        let e = {}
-        e.percent = p * 100
-        config.onProgress(e)
-      },
-    })
-    if (re.res.status === 200) {
-      // todo 保存到服务器
-      //
-      let fileObj = {
-        attachName: file.name,
-        name: file.name,
-        attachUrl: re.name,
-        attachId: this.$utils.getUUID() // 此处应该是接口返回
+  async getSign (file) {
+    // 签名过期才重新签名，+3秒作为缓冲，抵消网络请求的延时
+    const now = new Date().getTime() / 1000 + 3
+    if (now > this.expire) {
+      const data = await this.$store.dispatch('requestUrl',
+        {
+          method: 'get',
+          url: ssoSignUrl,
+          params: { dir: this.dir + '/' }
+        })
+      if (data) {
+        this.expire = data.expire
+        this.action = data.host
+        const extName = file.name.substr(file.name.lastIndexOf('.'))
+        this.upLoadData = {
+          'key': data.dir + this.$utils.getUUID() + extName,
+          'policy': data.policy,
+          'OSSAccessKeyId': data.accessid,
+          'success_action_status': '200',
+          'callback': data.callback,
+          'x:origin_name': file.name, // 自定义参数必须是x:开头且必须为小写
+          'signature': data.signature,
+        }
+        return Promise.resolve()
+      } else {
+        return Promise.reject(new Error('上传失败'))
       }
-      config.onSuccess(fileObj)
-    } else {
-      config.onError()
     }
   }
 }
