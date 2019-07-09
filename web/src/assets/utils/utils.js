@@ -86,5 +86,18 @@ export default class Utils {
       return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
     })
   }
+  shadeColor (color, shade) {
+    color = color.replace('#', '')
+    let red = parseInt(color.slice(0, 2), 16)
+    let green = parseInt(color.slice(2, 4), 16)
+    let blue = parseInt(color.slice(4, 6), 16)
+    red = Math.round((1 - shade) * red)
+    green = Math.round((1 - shade) * green)
+    blue = Math.round((1 - shade) * blue)
+    red = red.toString(16).length === 1 ? '0' + red.toString(16) : red.toString(16)
+    green = green.toString(16).length === 1 ? '0' + green.toString(16) : green.toString(16)
+    blue = blue.toString(16).length === 1 ? '0' + blue.toString(16) : blue.toString(16)
+    return `#${red}${green}${blue}`
+  }
 }
 export const utils = new Utils()

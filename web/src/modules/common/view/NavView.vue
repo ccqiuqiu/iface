@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2018/4/25.-->
 <template>
-  <div data-flex="cross:center box:justify" class="nav p-h-10">
+  <div data-flex="cross:center box:justify" class="nav p-h-10" :style="bg">
     <cc-icon name="menu" :rotate="menuExpand? 0 : 90" @click="toggleMenu" class="cp"/>
     <el-breadcrumb separator="/" class="m-l-10">
       <el-breadcrumb-item v-for="menu in nav" :key="menu.id">{{menu.name}}</el-breadcrumb-item>
@@ -11,7 +11,7 @@
       <span class="m-h-5">|</span>
       <span>{{user.roleString}}</span>
       <cc-icon name="logout" size="18" class="m-l-16 cp" @click="onLogout"/>
-<!--      <cc-theme-picker></cc-theme-picker>-->
+      <cc-theme-picker class="m-l-10"></cc-theme-picker>
     </div>
   </div>
 </template>
@@ -19,19 +19,25 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import { State, Mutation, Getter } from 'vuex-class'
-// import CcThemePicker from '../../../baseComponent/CcThemePicker'
+import CcThemePicker from '../../../baseComponent/CcThemePicker'
 
-export default @Component(/* {components: {CcThemePicker}} */) class NavView extends Vue {
+export default @Component({components: {CcThemePicker}}) class NavView extends Vue {
   /* vue-props */
   /* vue-vuex */
   @State((state) => state.common.menuExpand) menuExpand
   @State((state) => state.common.menuTabs) menuTabs
   @State((state) => state.common.selectedTab) selectedTab
   @State((state) => state.common.user) user
+  @State((state) => state.pColor) pColor
   @Getter nav
   @Mutation toggleMenu
   /* vue-data */
   /* vue-compute */
+  get bg () {
+    return {
+      'background-color': this.pColor
+    }
+  }
   /* vue-watch */
   /* vue-lifecycle */
   /* vue-method */
@@ -57,7 +63,6 @@ export default @Component(/* {components: {CcThemePicker}} */) class NavView ext
 <style lang="scss" scoped>
   @import "../../../assets/css/vars";
   .nav{
-    background-color: $color-primary;
     height: 50px;
     color: $color-white;
 

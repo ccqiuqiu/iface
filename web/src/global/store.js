@@ -5,6 +5,7 @@ import publicM from '../modules/public/vuex'
 import system from '../modules/system/vuex'
 import baseData from '../modules/baseData/vuex'
 import createPersistedState from 'vuex-persistedstate'
+import {colorPrimary} from '../assets/css/vars.scss'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const state = {
   common: {},
   publicM: {},
   system: {},
-  loading: false
+  loading: false,
+  pColor: localStorage.getItem('pColor') || colorPrimary
 }
 const mutations = {
   // 显示loading
@@ -22,9 +24,12 @@ const mutations = {
   // 隐藏loading
   hideLoading (state) {
     state.loading = true
+  },
+  updatePColor (state, color) {
+    localStorage.setItem('pColor', color)
+    state.pColor = color
   }
 }
-
 const actions = {
 }
 

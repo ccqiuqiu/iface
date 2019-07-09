@@ -36,8 +36,7 @@ export default @Component class CcUpload extends Vue {
   /* vue-data */
   action = ''
   expire = 0
-  signObj = {}
-  updateData = {}
+  upLoadData = {}
   loading = false
   /* vue-compute */
   get fileList () {
@@ -111,6 +110,7 @@ export default @Component class CcUpload extends Vue {
     this.$message.error('上传失败：' + err.message)
   }
   async getSign (file) {
+    const extName = file.name.substr(file.name.lastIndexOf('.'))
     // 签名过期才重新签名，+3秒作为缓冲，抵消网络请求的延时
     const now = new Date().getTime() / 1000 + 3
     if (now > this.expire) {
@@ -123,14 +123,11 @@ export default @Component class CcUpload extends Vue {
       if (data) {
         this.expire = data.expire
         this.action = data.host
-        const extName = file.name.substr(file.name.lastIndexOf('.'))
         this.upLoadData = {
-          'key': data.dir + this.$utils.getUUID() + extName,
           'policy': data.policy,
           'OSSAccessKeyId': data.accessid,
           'success_action_status': '200',
           'callback': data.callback,
-          'x:origin_name': file.name, // 自定义参数必须是x:开头且必须为小写
           'signature': data.signature,
         }
         return Promise.resolve()
@@ -138,6 +135,9 @@ export default @Component class CcUpload extends Vue {
         return Promise.reject(new Error('上传失败'))
       }
     }
+    this.upLoadData['key'] = this.dir + '/' + this.$utils.getUUID() + extName
+    this.upLoadData['x:origin_name'] = file.name // 自定义参数必须是x:开头且必须为小写
+    return Promise.resolve()
   }
 }
 </script>

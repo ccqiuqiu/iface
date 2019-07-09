@@ -8,14 +8,14 @@
       <cc-button v-auth="'GET-' + (this.page.getUrl || data.name) + '/*'" icon="view" text="查看" @click="onView"/>
       <cc-button v-auth="'DELETE-' + (this.page.delUrl || data.name) + '/*'" icon="delete" text="删除" @click="onDel"/>
     </div>
-    <cc-table class="bb p" ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
+    <cc-table ref="table" v-bind="data.table.props" :rows="data.table.rows" :columns="columns" v-loading="loading"
               :row-key="rowKey"
               :multiSelect="multi"
               @single-click="$emit('rowClick')"
               :selected-rows.sync="selectedRows"
               :current-row.sync="currentRow">
     </cc-table>
-    <el-pagination class="m-t-16 a-c p-b-10" background
+    <el-pagination class="m-t-16 a-c m-b-10" background
                    @current-change="pageNumChange" @size-change="pageSizeChange"
                    :layout='layout' :total="total">
     </el-pagination>

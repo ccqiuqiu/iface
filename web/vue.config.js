@@ -65,13 +65,13 @@ module.exports = {
     //   .set('@common', resolve('src/modules/common/view'))
     //   .set('@utils', resolve('src/assets/utils'))
   },
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `$aaa: #FF0000;`
-      }
-    }
-  },
+  // css: {
+  //   loaderOptions: {
+  //     sass: {
+  //       data: `$aaa: #FF0000;`
+  //     }
+  //   }
+  // },
   devServer: {
     port: 9088,
     proxy: {

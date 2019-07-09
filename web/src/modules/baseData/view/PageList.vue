@@ -7,7 +7,7 @@
       <cc-button v-auth="'delPage'" icon="delete" text="删除" @click="onDel"/>
       <cc-button v-auth="'savePage'" icon="add" text="通过编辑器添加" @click="onAddEditor"/>
     </div>
-    <cc-table class="bb p" ref="table" :rows="rows" :columns="columns" v-loading="loading"
+    <cc-table ref="table" :rows="rows" :columns="columns" v-loading="loading"
               @single-click="$emit('rowClick')"
               :selected-rows.sync="selectedRows"
               :current-row.sync="currentRow">
