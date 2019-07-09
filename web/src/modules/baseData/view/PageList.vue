@@ -12,7 +12,7 @@
               :selected-rows.sync="selectedRows"
               :current-row.sync="currentRow">
     </cc-table>
-    <el-pagination class="m-t-16 a-c p-b-10" background :layout="layout"
+    <el-pagination class="m-t-16 a-c m-b-10" background :layout="layout"
                    @current-change="pageNumChange" @size-change="pageSizeChange"
                    :page-size="pageSize" :total="total">
     </el-pagination>
