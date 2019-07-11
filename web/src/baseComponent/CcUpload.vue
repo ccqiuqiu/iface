@@ -90,6 +90,8 @@ export default @Component class CcUpload extends Vue {
     }
   }
   async onSuccess (res, file) {
+    // callback为true，oss服务器会调用应用服务器接口保存图片，并将响应数据返回给前端
+    // 为false则由前端请求应用服务器保存附件
     if (this.callback) {
       this.loading = false
       if (typeof res === 'object' && res.status === 200) {
