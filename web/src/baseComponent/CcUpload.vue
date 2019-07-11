@@ -22,6 +22,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Base64 } from 'js-base64'
 
 const ssoSignUrl = '/api/oss/getTemporarySign'
+const saveUrl = '/api/attach/save'
 
 export default @Component class CcUpload extends Vue {
   /* vue-props */
@@ -30,6 +31,7 @@ export default @Component class CcUpload extends Vue {
   @Prop() uploadTip
   @Prop(Boolean) disabled
   @Prop(Number) limit
+  @Prop({type: Boolean, default: false}) callback
   @Prop({type: Number, default: 100}) maxSize
   @Prop({type: Array, default: () => []}) fileType
   @Prop({type: Array, default: () => ['exe', 'reg', 'bat', 'msi']}) blackList
@@ -87,35 +89,56 @@ export default @Component class CcUpload extends Vue {
       this.$utils.toLink(file.attachUrl, { download: file.name })
     }
   }
-  onSuccess (res, file) {
-    this.loading = false
-    if (typeof res === 'object' && res.status === 200) {
-      file = { ...file, ...res.data }
-      this.fileList.push({ name: file.name, ...res.data })
-      this.$emit('input', this.fileList)
+  async onSuccess (res, file) {
+    if (this.callback) {
+      this.loading = false
+      if (typeof res === 'object' && res.status === 200) {
+        file = { ...file, ...res.data }
+        this.fileList.push({ name: file.name, ...res.data })
+        this.$emit('input', this.fileList)
+      } else {
+        // 上传失败，删除fileList
+        this.$refs['upload'].clearFiles()
+        this.$emit('input', this.fileList)
+        const msg = typeof res === 'string' ? '服务器异常，请稍候重试' : res.desc
+        this.$message.error('上传失败：' + msg)
+      }
     } else {
-      // 上传失败，删除fileList
-      this.$refs['upload'].clearFiles()
-      this.$emit('input', this.fileList)
-      const msg = typeof res === 'string' ? '服务器异常，请稍候重试' : res.desc
-      this.$message.error('上传失败：' + msg)
+      const { data, error } = await this.$store.dispatch('requestUrl',
+        {
+          method: 'post',
+          url: saveUrl,
+          params: {attachName: file.name, attachPath: this.upLoadData['key']}
+        })
+      this.loading = false
+      if (data) {
+        file = { ...file, ...data }
+        this.fileList.push({ name: file.name, ...data })
+        this.$emit('input', this.fileList)
+      } else {
+        // 上传失败，删除fileList
+        this.$refs['upload'].clearFiles()
+        this.$emit('input', this.fileList)
+        const msg = typeof res === 'string' ? '服务器异常，请稍候重试' : error.message
+        this.$message.error('上传失败：' + msg)
+      }
     }
+  }
+  onError (err) {
+    this.loading = false
+    this.$message.error('上传失败：' + typeof err === 'object' ? err.message : '')
   }
   onRemove (file) {
     const index = this.fileList.findIndex(item => item.attachId && item.attachId === file.attachId)
     this.fileList.splice(index, 1)
     this.$emit('input', this.fileList)
   }
-  onError (err) {
-    this.loading = false
-    this.$message.error('上传失败：' + err.message)
-  }
   async getSign (file) {
     const extName = file.name.substr(file.name.lastIndexOf('.'))
     // 签名过期才重新签名，+3秒作为缓冲，抵消网络请求的延时
     const now = new Date().getTime() / 1000 + 3
     if (now > this.expire) {
-      const data = await this.$store.dispatch('requestUrl',
+      const {data} = await this.$store.dispatch('requestUrl',
         {
           method: 'get',
           url: ssoSignUrl,
@@ -128,7 +151,7 @@ export default @Component class CcUpload extends Vue {
           'policy': data.policy,
           'OSSAccessKeyId': data.accessid,
           'success_action_status': '200',
-          'callback': data.callback,
+          'callback': this.callback ? data.callback : '',
           'signature': data.signature,
         }
       } else {
@@ -136,7 +159,9 @@ export default @Component class CcUpload extends Vue {
       }
     }
     this.upLoadData['key'] = this.dir + '/' + this.$utils.getUUID() + extName
-    this.upLoadData['x:origin_name'] = Base64.encode(file.name) // 自定义参数必须是x:开头且必须为小写
+    if (this.callback) {
+      this.upLoadData['x:origin_name'] = Base64.encode(file.name) // 自定义参数必须是x:开头且必须为小写
+    }
     return Promise.resolve()
   }
 }
