@@ -1,6 +1,6 @@
 <!--Created by 熊超超 on 2019-07-04.-->
 <template>
-  <el-upload ref="upload" :action="action"
+  <el-upload ref="upload" :class="{disabled: disabled}" :action="action"
              :data="upLoadData"
              :limit="limit"
              :disabled="disabled"
@@ -19,6 +19,7 @@
 
 <script>
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Base64 } from 'js-base64'
 
 const ssoSignUrl = '/api/oss/getTemporarySign'
 
@@ -130,17 +131,29 @@ export default @Component class CcUpload extends Vue {
           'callback': data.callback,
           'signature': data.signature,
         }
-        return Promise.resolve()
       } else {
         return Promise.reject(new Error('上传失败'))
       }
     }
     this.upLoadData['key'] = this.dir + '/' + this.$utils.getUUID() + extName
-    this.upLoadData['x:origin_name'] = file.name // 自定义参数必须是x:开头且必须为小写
+    this.upLoadData['x:origin_name'] = Base64.encode(file.name) // 自定义参数必须是x:开头且必须为小写
     return Promise.resolve()
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  .el-upload__tip{
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+  }
+  .disabled/deep/ {
+    .el-upload--text, .el-upload__tip{
+      display: none;
+    }
+    .el-upload-list__item:first-child{
+      margin-top: 4px;
+    }
+  }
 </style>
