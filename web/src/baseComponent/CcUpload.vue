@@ -86,7 +86,7 @@ export default @Component class CcUpload extends Vue {
   }
   onPreview (file) {
     if (file.attachUrl) {
-      this.$utils.toLink(file.attachUrl, { download: file.name })
+      this.$utils.toLink(file.attachUrl)
     }
   }
   async onSuccess (res, file) {
@@ -161,6 +161,7 @@ export default @Component class CcUpload extends Vue {
       }
     }
     this.upLoadData['key'] = this.dir + '/' + this.$utils.getUUID() + extName
+    this.upLoadData['Content-Disposition'] = 'attachment;filename=' + file.name // 设置下载的时候的文件名
     if (this.callback) {
       this.upLoadData['x:origin_name'] = Base64.encode(file.name) // 自定义参数必须是x:开头且必须为小写
     }
