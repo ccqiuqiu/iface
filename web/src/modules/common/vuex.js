@@ -40,8 +40,8 @@ const getters = {
 }
 const mutations = {
   openTab (state, params) {
-    const title = params.url === '/' ? '首页' : (params.title || params.menu.name)
     const id = params.url === '/' ? '0' : params.id
+    const title = params.url === '/' ? '首页' : (params.title || params.menu.name)
     // 先查看是否已经打开
     const isOpen = state.menuTabs.some(t => t.id === id)
     !isOpen && state.menuTabs.push({

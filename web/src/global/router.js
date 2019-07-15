@@ -45,15 +45,41 @@ Vue.prototype.$tab = {
     }
     return Base64.encode(url)
   },
+  findRoute (name) {
+    return components.find(c => {
+      // path里面包含*号的用正则匹配
+      if (c.path.indexOf('*') >= 0) {
+        return new RegExp(c.path).test(name)
+      }
+      return c.path === name
+    })
+  },
   getComponent (tab) {
     const name = tab.components[tab.components.length - 1]
-    const r = components.find(c => c.path === name || c.path !== '/' && new RegExp(c.path).test(name))
-    return r ? r.component : null
+    const route = this.findRoute(name)
+    return route ? route.component : null
+  },
+  getTitle (route, url) {
+    if (route.meta && route.meta.title) {
+      if (Array.isArray(route.meta.title)) {
+        if (route.path.startsWith(url)) {
+          return route.meta.title[0]
+        } else {
+          return route.meta.title[1]
+        }
+      }
+      return route.meta.title
+    }
+    return ''
   },
   // 打开新的 tab 页
   open (url, title, ignoreQuery) {
     const id = this.getTabId(url, ignoreQuery)
-    const menu = store.getters.flatMenu.find(m => m.url === url)
+    const menu = store.getters.flatMenu.find(m => m.url === url) || {}
+    if (!menu.name && !title) {
+      const route = this.findRoute(url)
+      title = this.getTitle(route, url)
+    }
     store.commit('openTab', {url, title, menu, id})
     // 如果忽略query，需要发送刷新事件通知目标页面。
     if (ignoreQuery) {

@@ -91,7 +91,7 @@ class UiUtils extends Utils {
       return resources.includes(binding.value)
     }
   }
-  toLink (url, attr, target = '_self') {
+  toLink (url, attr, target = '_blank') {
     const link = document.createElement('a')
     link.style.display = 'none'
     link.href = url
