@@ -48,7 +48,7 @@ Vue.prototype.$tab = {
   findRoute (name) {
     return components.find(c => {
       // path里面包含*号的用正则匹配
-      if (c.path.indexOf('*') >= 0) {
+      if (c.path.indexOf('*') >= 0 || c.path.indexOf('?') >= 0) {
         return new RegExp(c.path).test(name)
       }
       return c.path === name

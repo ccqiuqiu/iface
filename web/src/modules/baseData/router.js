@@ -15,7 +15,7 @@ export default [
     component: PageList
   },
   {
-    path: '/baseData/createCrud',
+    path: '/baseData/createCrud?',
     name: 'createCrud',
     component: CreateCrud
   },
