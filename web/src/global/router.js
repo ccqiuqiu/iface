@@ -40,6 +40,7 @@ export const components = [
  */
 Vue.prototype.$tab = {
   getTabId (url, ignoreQuery = false) {
+    if (url === '/') return '0'
     if (ignoreQuery) {
       url = url.replace(/(.*)?\?.*/, '$1') + '?' // 加?是为了和本身就不带参数的url区分开
     }

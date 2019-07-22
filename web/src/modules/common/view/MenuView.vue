@@ -5,7 +5,7 @@
       <span v-if="menuExpand" class="f-24">iFace-Admin</span>
       <span v-else class="f-18">iFace</span>
     </div>
-    <el-menu ref="menu" :default-active="selectedTab"
+    <el-menu ref="menu" :default-active="activeMenu"
          :collapse="!menuExpand" :background-color="menuBg"
          @select="selectMenu" data-flex-box="1">
       <el-menu-item :index="'0'" key="0" v-show="false">
@@ -20,7 +20,7 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import { State, Action, Mutation, Getter } from 'vuex-class'
+import { State, Action, Getter } from 'vuex-class'
 import MyMenu from '../fragment/MyMenu'
 
 export default @Component({components: {MyMenu}}) class MenuView extends Vue {
@@ -28,11 +28,10 @@ export default @Component({components: {MyMenu}}) class MenuView extends Vue {
   /* vue-vuex */
   @State((state) => state.common.menus) menus
   @State((state) => state.common.menuExpand) menuExpand
-  @State((state) => state.common.selectedTab) selectedTab
   @State((state) => state.pColor) pColor
+  @Getter activeMenu
   @Getter flatMenu
   @Action getMenu
-  @Mutation updateSelectedTab
   /* vue-data */
   /* vue-compute */
   get logoBg () {

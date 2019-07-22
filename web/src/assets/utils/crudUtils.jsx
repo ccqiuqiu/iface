@@ -11,29 +11,29 @@ import store from '../../global/store'
 const CrudUtils = {
   sexFormat: {
     label: '格式化-性别',
-    format: (row, column, cellValue) => {
-      return constant.SexK[cellValue]
+    format: ({value}) => {
+      return constant.SexK[value]
     }
   },
   statusFormat: {
     label: '格式化-状态',
-    format: (row, column, cellValue) => {
-      return constant.StatusK[cellValue]
+    format: ({value}) => {
+      return constant.StatusK[value]
     }
   },
   dashboardTypeFormat: {
     label: '格式化-Dashboard类型',
-    format: (row, column, cellValue) => {
-      return constant.DashboardTypeK[cellValue]
+    format: ({value}) => {
+      return constant.DashboardTypeK[value]
     }
   },
   statusRender: {
     label: 'JSX-状态',
-    format: (h, val) => <el-tag size='small' type={val === constant.StatusV.禁用 ? 'info' : ''}>{constant.StatusK[val]}</el-tag>
+    format: (h, {value}) => <el-tag size='small' type={value === constant.StatusV.禁用 ? 'info' : ''}>{constant.StatusK[value]}</el-tag>
   },
   colorRender: {
     label: 'JSX-颜色',
-    format: (h, val) => <div style={{ width: '24px', height: '24px', backgroundColor: val }}></div>
+    format: (h, {value}) => <div style={{ width: '24px', height: '24px', backgroundColor: value }}></div>
   }
 }
 

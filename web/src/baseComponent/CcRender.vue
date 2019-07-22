@@ -16,7 +16,7 @@ class CcRender extends Vue {
       if (this.column.renderCell) {
         if (scope) {
           return this.column.renderCell(h, {
-            prop: scope.row[scope.column['property']],
+            value: scope.row[scope.column['property']],
             row: scope.row,
             index: scope.$index,
             column: scope.column,

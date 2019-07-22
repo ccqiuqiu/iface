@@ -3,6 +3,7 @@ import router from '../../global/router'
 import api from '../../global/api'
 import store from '../../global/store'
 import Vue from 'vue'
+import {Base64} from 'js-base64'
 
 const defaultTabs = [{id: '0', title: '首页', components: ['/'], noClose: true}]
 const state = {
@@ -10,7 +11,7 @@ const state = {
   resources: [], // 资源权限
   menuExpand: true, // 左侧菜单是否展开
   menuTabs: [...defaultTabs], // tabs
-  selectedTab: '0', // 当前激活的tab
+  selectedTab: '', // 当前激活的tab
   outsideDialog: {}, // 外部dialog弹窗
   insideDialog: {}, // 内部dialog弹窗
   user: {},
@@ -32,6 +33,16 @@ const getters = {
       }
     }
     return menus
+  },
+  activeMenu (state) {
+    if (!state.selectedTab || state.selectedTab === '0') {
+      return ''
+    }
+    const menu = store.getters.flatMenu.find(m => m.url === Base64.decode(state.selectedTab))
+    if (menu) {
+      return menu.id
+    }
+    return ''
   },
   // dialog弹窗
   dialog: (state) => (inside) => {
