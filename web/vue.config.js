@@ -9,10 +9,10 @@ function resolve (dir) {
 module.exports = {
   runtimeCompiler: true, // 包含编译器
   publicPath: process.env.BASE_URL || '/',
-  // lintOnSave: false,
+  lintOnSave: true,
   productionSourceMap: false,
   transpileDependencies: [
-    'element-ui-verify/dist'
+    'element-ui-verify/dist', 'element-ui/packages/upload/src'
   ],
   configureWebpack: config => {
     // 配置代码压缩

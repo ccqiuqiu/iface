@@ -32,6 +32,7 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin, Ta
   /* vue-data */
   columns = [
     { prop: 'name', label: '名称', width: '120px' },
+    { prop: 'code', label: '编号', width: '120px' },
     { prop: 'resource', label: '资源路径', width: '200px' },
     { prop: 'type',
       label: '类型',

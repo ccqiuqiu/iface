@@ -74,7 +74,7 @@
     <cc-upload v-else-if="mItem.type === 'upload'" v-model="model[mItem.prop]" v-bind="mItem.props"></cc-upload>
     <div v-else-if="mItem.type === 'view'">
       <template v-if="item.formatter">
-        {{item.formatter(model, mItem.prop, model[mItem.prop])}}
+        {{item.formatter({model, prop: mItem.prop, value: model[mItem.prop]})}}
       </template>
       <template v-else-if="item.renderCell">
         <cc-render :renderFun="item.renderCell"></cc-render>

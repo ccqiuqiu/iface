@@ -128,7 +128,7 @@ export default @Component class CcUpload extends Vue {
   }
   onError (err) {
     this.loading = false
-    this.$message.error('上传失败：' + typeof err === 'object' ? err.message : '')
+    this.$message.error('上传失败：' + (typeof err === 'string' ? err : (err.message || '服务器异常')))
   }
   onRemove (file) {
     const index = this.fileList.findIndex(item => item.attachId && item.attachId === file.attachId)
