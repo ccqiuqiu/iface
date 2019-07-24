@@ -4,10 +4,13 @@ iFace旨在开发一套针对PC端管理后台的通用解决方案，包含管�
 ## 主要功能
 - 基础组件
 - 权限管理图表组件
+- 多tab页
+- 主题切换
 - 动态表单
 - dashboard
 - 接口录制和mock功能
 - 动态表单和CRUD
+- 常用工具类
 
 ## 贡献
 - 本项目代码地址 [iFace](https://github.com/ccqiuqiu/iface)

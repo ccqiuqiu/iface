@@ -39,7 +39,7 @@ export default @Component class PageList extends Mixins(BaseMixin, PageMixin, Ta
       width: '80px',
       formatter: (row, column, cellValue) => {
         return this.$c.PageTypeK[cellValue]
-      }
+      },
     },
     { prop: 'remark', label: '描述' }
   ]

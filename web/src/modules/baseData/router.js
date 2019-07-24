@@ -15,7 +15,7 @@ export default [
     component: PageList
   },
   {
-    path: '/baseData/createCrud?',
+    path: '/baseData/createCrud*',
     name: 'createCrud',
     component: CreateCrud
   },
@@ -30,7 +30,7 @@ export default [
     component: Page
   },
   {
-    path: '/baseData/iframe',
+    path: '/baseData/iframe*',
     name: 'iframePage',
     component: IframePage
   }

@@ -134,4 +134,5 @@ class Constant {
   }
 }
 const constant = new Constant()
+console.log(constant)
 export default constant

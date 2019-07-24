@@ -5,7 +5,7 @@
       <cc-icon :name="menu.icon || 'ring'" :size="iconSize"></cc-icon>
       <span slot="title" class="m-l-5">{{menu.name}}</span>
     </template>
-    <template v-for="subMenu in menu.children">
+    <template v-for="subMenu in menu.children.slice(0, 5)">
       <my-menu :menu="subMenu" :key="subMenu.id" :level="level + 1"></my-menu>
     </template>
   </el-submenu>

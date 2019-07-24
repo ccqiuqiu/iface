@@ -134,7 +134,6 @@ input::-moz-focus-inner {
     transition: all 0.3s;
   }
 }
-
 @for $i from 1 through 100 {
   .m-#{$i} {
     margin: #{$i}px;
