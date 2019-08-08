@@ -34,7 +34,7 @@ export default @Component class CcUpload extends Vue {
   @Prop({type: Boolean, default: false}) callback
   @Prop({type: Number, default: 100}) maxSize
   @Prop({type: Array, default: () => []}) fileType
-  @Prop({type: Array, default: () => ['exe', 'reg', 'bat', 'msi']}) blackList
+  @Prop({type: Array, default: () => ['exe', 'reg', 'bat', 'msi', 'dmg']}) blackList
   /* vue-vuex */
   /* vue-data */
   action = ''
@@ -136,7 +136,6 @@ export default @Component class CcUpload extends Vue {
     this.$emit('input', this.fileList)
   }
   async getSign (file) {
-    const extName = file.name.substr(file.name.lastIndexOf('.'))
     // 签名过期才重新签名，+3秒作为缓冲，抵消网络请求的延时
     const now = new Date().getTime() / 1000 + 3
     if (now > this.expire) {
@@ -160,6 +159,7 @@ export default @Component class CcUpload extends Vue {
         return Promise.reject(new Error('上传失败'))
       }
     }
+    const extName = file.name.substr(file.name.lastIndexOf('.'))
     this.upLoadData['key'] = this.dir + '/' + this.$utils.getUUID() + extName
     this.upLoadData['Content-Disposition'] = 'attachment;filename=' + file.name // 设置下载的时候的文件名
     if (this.callback) {
