@@ -17,7 +17,7 @@ import VueProgressBar from 'vue-progressbar'
 // import VeMap from 'v-charts/lib/map'
 // import VeChart from 'v-charts/lib/chart'
 import VCharts from 'v-charts'
-import CcChart from '../baseComponent/CcChart.vue'
+import CcChart from '@/baseComponent/CcChart'
 
 export default {
   install (Vue) {

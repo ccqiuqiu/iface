@@ -20,7 +20,7 @@ export default [
     component: CreateCrud
   },
   {
-    path: '/baseData/pageEditor',
+    path: '/baseData/pageEditor*',
     name: 'pageEditor',
     component: PageEditor
   },

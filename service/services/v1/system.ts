@@ -197,6 +197,7 @@ export default (routes, prefix) => {
   // 资源
   routes.get(prefix + '/system/resource', searchResource)
   routes.put(prefix + '/system/resource', saveResource)
+  routes.post(prefix + '/system/resource', saveResource)
   routes.delete(prefix + '/system/resource/:id', delResource)
   routes.get(prefix + '/system/resource/:id', getResource)
   // Dashboard

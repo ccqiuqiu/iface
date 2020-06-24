@@ -69,6 +69,10 @@ module.exports = {
   //   loaderOptions: {
   //     sass: {
   //       data: `$aaa: #FF0000;`
+  //     },
+  //     less: {
+  //       modifyVars: modifyVarsTheme,  // module.exports = {}
+  //       javascriptEnabled: true,
   //     }
   //   }
   // },

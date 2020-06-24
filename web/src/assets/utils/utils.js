@@ -1,7 +1,7 @@
 /**
  * Created by 熊超超 on 2018/4/28.
  */
-
+import clone from './clone'
 export default class Utils {
   /**
    * 通过传入的children字段名，将多层级的对象打平为一个数组
@@ -98,6 +98,9 @@ export default class Utils {
     green = green.toString(16).length === 1 ? '0' + green.toString(16) : green.toString(16)
     blue = blue.toString(16).length === 1 ? '0' + blue.toString(16) : blue.toString(16)
     return `#${red}${green}${blue}`
+  }
+  deepClone (obj) {
+    return clone(obj)
   }
 }
 export const utils = new Utils()
