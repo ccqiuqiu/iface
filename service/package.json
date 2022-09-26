@@ -25,7 +25,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",
     "koa-favicon": "^2.0.1",
-    "koa-log4": "^2.3.0",
+    "koa-log4": "^2.3.2",
     "koa-response-time": "^2.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
